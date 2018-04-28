@@ -5,6 +5,38 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP", "KMP\KMP.csproj", "{720A63BE-024C-44D1-8E07-5E21BEC791A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{291B88F6-E070-49DD-9A92-DDEF351EA354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infranstructure", "Infranstructure\Infranstructure.csproj", "{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modeling", "Modeling", "{32789191-9DE5-4C96-8605-33406E4B6047}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{0FA5DAD4-2114-4D88-B39B-9AEBE0B3F394}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{8CAC1142-9829-4B6C-9CBF-C028B0672B84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTester", "UnitTester", "{857C1205-5F19-4C3A-9123-76C9A1084A52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{E1B7A100-2FC2-4F3D-85BE-49BD2A7DB18D}"
+	ProjectSection(SolutionItems) = preProject
+		..\libs\prism4\Microsoft.Practices.Prism.dll = ..\libs\prism4\Microsoft.Practices.Prism.dll
+		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll
+		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.pdb = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.pdb
+		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.XML = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.XML
+		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll
+		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.pdb = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.pdb
+		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.XML = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.XML
+		..\libs\prism4\Microsoft.Practices.Prism.pdb = ..\libs\prism4\Microsoft.Practices.Prism.pdb
+		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.dll = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.dll
+		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.pdb = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.pdb
+		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.xml = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.xml
+		..\libs\prism4\Microsoft.Practices.Prism.XML = ..\libs\prism4\Microsoft.Practices.Prism.XML
+		..\libs\prism4\Microsoft.Practices.ServiceLocation.dll = ..\libs\prism4\Microsoft.Practices.ServiceLocation.dll
+		..\libs\prism4\Microsoft.Practices.ServiceLocation.XML = ..\libs\prism4\Microsoft.Practices.ServiceLocation.XML
+		..\libs\prism4\Microsoft.Practices.Unity.dll = ..\libs\prism4\Microsoft.Practices.Unity.dll
+		..\libs\prism4\Microsoft.Practices.Unity.xml = ..\libs\prism4\Microsoft.Practices.Unity.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +47,15 @@ Global
 		{720A63BE-024C-44D1-8E07-5E21BEC791A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720A63BE-024C-44D1-8E07-5E21BEC791A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720A63BE-024C-44D1-8E07-5E21BEC791A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C} = {291B88F6-E070-49DD-9A92-DDEF351EA354}
 	EndGlobalSection
 EndGlobal
