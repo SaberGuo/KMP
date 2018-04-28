@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -13,15 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KMP
+namespace KMP.Reporter
 {
-    [Export]
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// UserControl1.xaml 的交互逻辑
     /// </summary>
-    public partial class Shell : Window
+    public partial class UserControl1 : UserControl
     {
-        public Shell()
+        public UserControl1()
         {
             InitializeComponent();
         }

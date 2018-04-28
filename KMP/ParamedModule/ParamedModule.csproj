@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}</ProjectGuid>
+    <ProjectGuid>594c6d71-14aa-4240-be04-d0ffebcd31a4</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infranstructure</RootNamespace>
-    <AssemblyName>Infranstructure</AssemblyName>
+    <RootNamespace>ParamedModule</RootNamespace>
+    <AssemblyName>ParamedModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,31 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System"/>
+    
+    <Reference Include="System.Core"/>
+    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    
+    
+    <Reference Include="Microsoft.CSharp"/>
+    
+    <Reference Include="System.Data"/>
+    
+    <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\AutoPopulateExportedViewsBehavior.cs" />
-    <Compile Include="Behaviors\IViewRegionRegistration.cs" />
-    <Compile Include="Behaviors\ViewExportAttribute.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -65,4 +55,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-</Project>
+
+ </Project>

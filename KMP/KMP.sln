@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP", "KMP\KMP.csproj", "{720A63BE-024C-44D1-8E07-5E21BEC791A9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{291B88F6-E070-49DD-9A92-DDEF351EA354}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{291B88F6-E070-49DD-9A92-DDEF351EA354}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infranstructure", "Infranstructure\Infranstructure.csproj", "{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}"
 EndProject
@@ -37,6 +37,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{E1B7A100-2
 		..\libs\prism4\Microsoft.Practices.Unity.xml = ..\libs\prism4\Microsoft.Practices.Unity.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Interface", "KMP.Interface\KMP.Interface.csproj", "{DD1A63EB-AADE-470B-8517-275F62C3FE3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{8A76C90A-F2E8-4790-BD41-DD7491024A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParamedModule", "ParamedModule\ParamedModule.csproj", "{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.StatusBar", "KMP.StatusBar\KMP.StatusBar.csproj", "{180C6D97-9ABF-440D-B49D-1A7DCAD441A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Parameterization", "KMP.Parameterization\KMP.Parameterization.csproj", "{CB6C4641-F90E-4E67-B5C8-89952AE628DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Reporter", "KMP.Reporter\KMP.Reporter.csproj", "{73D5AFF7-376D-4828-BCB4-CF6C038FCE86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Anlysis", "KMP.Anlysis\KMP.Anlysis.csproj", "{062C114B-1F2E-422F-AF6B-D7F7B438CB31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,11 +65,44 @@ Global
 		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD1A63EB-AADE-470B-8517-275F62C3FE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD1A63EB-AADE-470B-8517-275F62C3FE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD1A63EB-AADE-470B-8517-275F62C3FE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD1A63EB-AADE-470B-8517-275F62C3FE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{180C6D97-9ABF-440D-B49D-1A7DCAD441A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180C6D97-9ABF-440D-B49D-1A7DCAD441A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180C6D97-9ABF-440D-B49D-1A7DCAD441A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180C6D97-9ABF-440D-B49D-1A7DCAD441A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB6C4641-F90E-4E67-B5C8-89952AE628DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB6C4641-F90E-4E67-B5C8-89952AE628DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB6C4641-F90E-4E67-B5C8-89952AE628DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB6C4641-F90E-4E67-B5C8-89952AE628DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C} = {291B88F6-E070-49DD-9A92-DDEF351EA354}
+		{DD1A63EB-AADE-470B-8517-275F62C3FE3F} = {0FA5DAD4-2114-4D88-B39B-9AEBE0B3F394}
+		{594C6D71-14AA-4240-BE04-D0FFEBCD31A4} = {32789191-9DE5-4C96-8605-33406E4B6047}
+		{180C6D97-9ABF-440D-B49D-1A7DCAD441A8} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
+		{CB6C4641-F90E-4E67-B5C8-89952AE628DA} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
+		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
+		{062C114B-1F2E-422F-AF6B-D7F7B438CB31} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

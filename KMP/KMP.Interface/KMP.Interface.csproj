@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DAB973AE-BBF4-432A-A0BE-79EB7B966F2C}</ProjectGuid>
+    <ProjectGuid>{DD1A63EB-AADE-470B-8517-275F62C3FE3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infranstructure</RootNamespace>
-    <AssemblyName>Infranstructure</AssemblyName>
+    <RootNamespace>KMP.Interface</RootNamespace>
+    <AssemblyName>KMP.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,20 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\libs\prism4\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\AutoPopulateExportedViewsBehavior.cs" />
-    <Compile Include="Behaviors\IViewRegionRegistration.cs" />
-    <Compile Include="Behaviors\ViewExportAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
