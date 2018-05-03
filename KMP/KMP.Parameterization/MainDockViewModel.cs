@@ -4,6 +4,7 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace KMP.Parameterization
     {
         IInvMonitorController _invMonitorController;
         IEventAggregator _eventAggregator;
+
+        
         [ImportingConstructor]
         public MainDockViewModel(IEventAggregator eventAggregator,IInvMonitorController invMonitorController)
         {
@@ -29,6 +32,12 @@ namespace KMP.Parameterization
             this._invMonitorController.UpdateInvModel(filePath);
         }
 
+        public ObservableCollection<IInvMonitorViewModel> Documents {
+            get
+            {
+                return this._invMonitorController.Documents;
+            }
+        }
 
     }
 }

@@ -18,11 +18,18 @@ namespace KMP.Parameterization.InventorMonitor
     /// <summary>
     /// InvMonitorView.xaml 的交互逻辑
     /// </summary>
-    public partial class InvMonitorView : LayoutDocument
+    public partial class InvMonitorView : UserControl
     {
         public InvMonitorView()
         {
             InitializeComponent();
+            
+        }
+        public override void OnApplyTemplate()
+        {
+            this._viewModel = (IInvMonitorViewModel)this.DataContext;
+            InitAppComponet();
+            base.OnApplyTemplate();
         }
         private void InitAppComponet()
         {
@@ -31,26 +38,23 @@ namespace KMP.Parameterization.InventorMonitor
             this.holder.MouseUp += this._viewModel.OnMouseUp;
             this.holder.MouseDoubleClick += this._viewModel.OnMouseDoubleClick;
 
-            this.holder.SizeChanged += this._viewModel.OnSizeChanged;
-
+            //this.holder.SizeChanged += this._viewModel.OnSizeChanged;
+            this.holder.Paint += Holder_Paint;
+    
             this._viewModel.HWnd = this.holder.Handle.ToInt32();
-            
+
+            this._viewModel.InitVM();
+
+
         }
 
+        private void Holder_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            this._viewModel.OnSizeChanged(sender, e);
+        }
 
         private IInvMonitorViewModel _viewModel;
-        public IInvMonitorViewModel ViewModel
-        {
-            get
-            {
-                return this._viewModel;
-            }
-            set
-            {
-                this._viewModel = value;
-                InitAppComponet();
-            }
-        }
+        
 
     }
 }

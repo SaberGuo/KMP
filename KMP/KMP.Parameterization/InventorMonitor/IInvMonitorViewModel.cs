@@ -7,6 +7,8 @@ namespace KMP.Parameterization.InventorMonitor
 {
     public interface IInvMonitorViewModel
     {
+
+        void InitVM();
         /// <summary>
         /// 
         /// </summary>

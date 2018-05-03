@@ -6,18 +6,25 @@
              xmlns:local="clr-namespace:KMP.Parameterization"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:invMonitor="clr-namespace:KMP.Parameterization.InventorMonitor"
              mc:Ignorable="d">
     <xcad:DockingManager AllowMixedOrientation="True"
                          BorderBrush="Black"
-                         BorderThickness="1">
+                         BorderThickness="1"
+                         DocumentsSource="{Binding Documents}">
+        <xcad:DockingManager.Resources>
+            <DataTemplate DataType="{x:Type invMonitor:InvMonitorViewModel}">
+                <invMonitor:InvMonitorView DataContext="{Binding}"/> 
+            </DataTemplate>
+        </xcad:DockingManager.Resources>
         <xcad:DockingManager.Theme>
             <xcad:AeroTheme/>
         </xcad:DockingManager.Theme>
         <xcad:DockingManager.DocumentHeaderTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
-                    <TextBlock Text="{Binding Title}" />
+                    
+                    <TextBlock Text="{Binding FileName}" />
                 </StackPanel>
             </DataTemplate>
         </xcad:DockingManager.DocumentHeaderTemplate>
