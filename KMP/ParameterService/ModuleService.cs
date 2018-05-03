@@ -12,16 +12,29 @@ namespace ParameterService
     [PartCreationPolicy(CreationPolicy.Shared)]
   public  class ModuleService:IModuleService
     {
-        IParamedModule _paramedModule;
+        List<IParamedModule> list;
         [ImportingConstructor]
         public ModuleService()
         {
-            _paramedModule = ServiceLocator.Current.GetInstance<IParamedModule>();
+            list = ServiceLocator.Current.GetAllInstances<IParamedModule>().ToList();
          
         }
         public void Create()
         {
-            _paramedModule.CreateModule(new ParCylinder());
+            foreach (var item in list)
+            {
+                switch (item.Parameter.GetType().Name)
+                {
+                    case "ParCylinder":
+                        item.CreateModule(new ParCylinder());
+                        break;
+                    case "ParCylinderDoor":
+                        item.CreateModule(new ParCylinderDoor());
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

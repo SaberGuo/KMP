@@ -81,6 +81,7 @@
     <Compile Include="IParamedModule.cs" />
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\ParCylinder.cs" />
+    <Compile Include="Model\ParCylinderDoor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 namespace ParamedModule
 {
     [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
   public  class Cylinder:ParamedModuleBase
     {
         ParCylinder parCylinder=new ParCylinder();
