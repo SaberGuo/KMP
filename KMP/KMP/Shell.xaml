@@ -3,11 +3,80 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.codeplex.com/CompositeWPF"
+        xmlns:inf="clr-namespace:Infranstructure.Behaviors;assembly=Infranstructure"
+        xmlns:cmd="clr-namespace:Infranstructure.Commands;assembly=Infranstructure"
         xmlns:local="clr-namespace:KMP"
         xmlns:view="clr-namespace:KMP.Parameterization.InventorMonitor;assembly=KMP.Parameterization"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <view:InvMonitorView></view:InvMonitorView>
+        Title="KMP" Height="350" Width="525">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}"/>
+    </Window.InputBindings>
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/background.png"  Stretch="UniformToFill"/>
+    </Window.Background>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!--menu-->
+        <ContentControl x:Name="MainMenu"
+                        Margin="0,0,10,0"
+                        Grid.Row="0"
+                        RenderTransformOrigin="0.5,0.5"
+                        cal:RegionManager.RegionName="{x:Static inf:RegionNames.MainMenuRegion}">
+            <ContentControl.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ContentControl.RenderTransform>
+        </ContentControl>
+        <!--Main-->
+        <Grid x:Name="ContentGrid" 
+                  VerticalAlignment="Stretch"
+                  Margin="0,0,10,0"
+                  Grid.Row="1"
+                  Height="Auto"
+                  RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <ContentControl x:Name="MainContent" 
+                                VerticalAlignment="Stretch"
+                                cal:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}">
+                <ContentControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ContentControl.RenderTransform>
+            </ContentControl>
+        </Grid>
+        <!--statusBar-->
+        <Grid x:Name="StatusGrid" VerticalAlignment="Bottom" Margin="0,0,10,0" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+            <ContentControl cal:RegionManager.RegionName="{x:Static inf:RegionNames.StatusBarRegion}">
+                <ContentControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ContentControl.RenderTransform>
+            </ContentControl>
+        </Grid>
     </Grid>
 </Window>

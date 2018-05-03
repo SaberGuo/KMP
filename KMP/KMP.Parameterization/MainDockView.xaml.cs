@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,27 +11,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Infranstructure.Behaviors;
+using System.ComponentModel.Composition;
 
-namespace KMP
+namespace KMP.Parameterization
 {
-    [Export]
+    [ViewExport(RegionName = RegionNames.MainRegion)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// MainDockView.xaml 的交互逻辑
     /// </summary>
-    public partial class Shell : Window
+    public partial class MainDockView : UserControl
     {
-        public Shell()
+        public MainDockView()
         {
             InitializeComponent();
         }
 
         [Import]
-        ShellViewModel _viewModel
+        MainDockViewModel _viewModel
         {
-            set
-            {
-                this.DataContext = value;
-            }
+            set { this.DataContext = value; }
         }
     }
 }

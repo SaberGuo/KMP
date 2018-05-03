@@ -82,7 +82,30 @@ namespace KMP
 
         public void Log(string message, Category category, Priority priority)
         {
-            //throw new NotImplementedException();
+            switch (category)
+            {
+                case Category.Debug:
+                    {
+                        this.Debug(message);
+                        break;
+                    }
+                case Category.Exception:
+                    {
+                        this.Fatal(message);
+                        break;
+                    }
+                case Category.Info:
+                    {
+                        this.Info(message);
+                        break;
+                    }
+                case Category.Warn:
+                    {
+                        this.Warn(message);
+                        break;
+                    }
+                    
+            }
         }
     }
 
