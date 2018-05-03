@@ -23,7 +23,7 @@ namespace KMP.Parameterization.InventorMonitor
     /// </summary>
     public partial class InvMonitorView : UserControl
     {
-        IModuleService _moduleService;
+        //IModuleService _moduleService;
         public InvMonitorView()
         {
             InitializeComponent();

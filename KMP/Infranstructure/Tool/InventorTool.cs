@@ -90,7 +90,7 @@ namespace Infranstructure.Tool
                 {
                     inventor = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application") as Inventor.Application;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new ArgumentException("inventor 没有打开");
 
