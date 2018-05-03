@@ -11,7 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Microsoft.Practices.ServiceLocation;
+using KMP.Interface;
+using System.ComponentModel.Composition;
 namespace KMP.Parameterization.InventorMonitor
 {
     /// <summary>
@@ -19,9 +21,16 @@ namespace KMP.Parameterization.InventorMonitor
     /// </summary>
     public partial class InvMonitorView : UserControl
     {
+        IModuleService _moduleService;
         public InvMonitorView()
         {
             InitializeComponent();
+            _moduleService = ServiceLocator.Current.GetInstance<IModuleService>();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            _moduleService.Create();
         }
     }
 }

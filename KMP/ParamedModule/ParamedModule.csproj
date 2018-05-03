@@ -40,6 +40,7 @@
       <HintPath>..\..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infranstructure\Infranstructure.csproj">
+      <Project>{dab973ae-bbf4-432a-a0be-79eb7b966f2c}</Project>
+      <Name>Infranstructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KMP.Interface\KMP.Interface.csproj">
       <Project>{dd1a63eb-aade-470b-8517-275f62c3fe3f}</Project>
       <Name>KMP.Interface</Name>
@@ -79,6 +84,9 @@
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Services\" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

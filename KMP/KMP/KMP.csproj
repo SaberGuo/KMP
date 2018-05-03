@@ -137,6 +137,10 @@
       <Project>{dd1a63eb-aade-470b-8517-275f62c3fe3f}</Project>
       <Name>KMP.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KMP.Parameterization\KMP.Parameterization.csproj">
+      <Project>{cb6c4641-f90e-4e67-b5c8-89952ae628da}</Project>
+      <Name>KMP.Parameterization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resource\" />

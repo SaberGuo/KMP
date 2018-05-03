@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Reporter", "KMP.Reporte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Anlysis", "KMP.Anlysis\KMP.Anlysis.csproj", "{062C114B-1F2E-422F-AF6B-D7F7B438CB31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParameterService", "ParameterService\ParameterService.csproj", "{57113611-B1A9-4D06-887A-3F9E7F3D134D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{062C114B-1F2E-422F-AF6B-D7F7B438CB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57113611-B1A9-4D06-887A-3F9E7F3D134D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57113611-B1A9-4D06-887A-3F9E7F3D134D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57113611-B1A9-4D06-887A-3F9E7F3D134D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57113611-B1A9-4D06-887A-3F9E7F3D134D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{CB6C4641-F90E-4E67-B5C8-89952AE628DA} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
 		{73D5AFF7-376D-4828-BCB4-CF6C038FCE86} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
 		{062C114B-1F2E-422F-AF6B-D7F7B438CB31} = {8A76C90A-F2E8-4790-BD41-DD7491024A91}
+		{57113611-B1A9-4D06-887A-3F9E7F3D134D} = {8CAC1142-9829-4B6C-9CBF-C028B0672B84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35

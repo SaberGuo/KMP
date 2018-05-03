@@ -82,7 +82,7 @@ namespace KMP
 
         public void Log(string message, Category category, Priority priority)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 

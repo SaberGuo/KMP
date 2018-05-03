@@ -16,10 +16,15 @@ namespace KMP.Interface.Model
         double thickness;
         double length;
         double capRadius;
-        double ribThickness;
         double ribWidth;
         double ribNumber;
-
+        double ribHeight;
+        double ribFirstDistance;
+        double ribBraceWidth;
+        double ribBraceHeight;
+        /// <summary>
+        /// 罐内半径
+        /// </summary>
         public double InRadius
         {
             get
@@ -30,9 +35,12 @@ namespace KMP.Interface.Model
             set
             {
                 inRadius = value;
-                this.RaisePropertyChanged(() => this.inRadius);
+                this.RaisePropertyChanged(() => this.InRadius);
             }
         }
+        /// <summary>
+        /// 罐厚度
+        /// </summary>
 
         public double Thickness
         {
@@ -44,9 +52,12 @@ namespace KMP.Interface.Model
             set
             {
                 thickness = value;
-                this.RaisePropertyChanged(() => this.thickness);
+                this.RaisePropertyChanged(() => this.Thickness);
             }
         }
+        /// <summary>
+        /// 罐长度
+        /// </summary>
 
         public double Length
         {
@@ -58,10 +69,12 @@ namespace KMP.Interface.Model
             set
             {
                 length = value;
-                this.RaisePropertyChanged(() => this.length);
+                this.RaisePropertyChanged(() => this.Length);
             }
         }
-
+        /// <summary>
+        /// 罐封头长度内半径
+        /// </summary>
         public double CapRadius
         {
             get
@@ -72,24 +85,13 @@ namespace KMP.Interface.Model
             set
             {
                 capRadius = value;
-                this.RaisePropertyChanged(() => this.capRadius);
+                this.RaisePropertyChanged(() => this.CapRadius);
             }
         }
-
-        public double RibThickness
-        {
-            get
-            {
-                return ribThickness;
-            }
-
-            set
-            {
-                ribThickness = value;
-                this.RaisePropertyChanged(() => this.ribThickness);
-            }
-        }
-
+     
+        /// <summary>
+        /// 加强筋的宽度
+        /// </summary>
         public double RibWidth
         {
             get
@@ -100,9 +102,12 @@ namespace KMP.Interface.Model
             set
             {
                 ribWidth = value;
-                this.RaisePropertyChanged(() => this.ribWidth);
+                this.RaisePropertyChanged(() => this.RibWidth);
             }
         }
+        /// <summary>
+        ///加强筋数量
+        /// </summary>
 
         public double RibNumber
         {
@@ -114,7 +119,71 @@ namespace KMP.Interface.Model
             set
             {
                 ribNumber = value;
-                this.RaisePropertyChanged(() => this.ribNumber);
+                this.RaisePropertyChanged(() => this.RibNumber);
+            }
+        }
+        /// <summary>
+        /// 加强筋的高度
+        /// </summary>
+        public double RibHeight
+        {
+            get
+            {
+                return ribHeight;
+            }
+
+            set
+            {
+                ribHeight = value;
+                this.RaisePropertyChanged(() => this.RibHeight);
+            }
+        }
+        /// <summary>
+        /// 第一个加强筋距离罐口的距离
+        /// </summary>
+        public double RibFirstDistance
+        {
+            get
+            {
+                return ribFirstDistance;
+            }
+
+            set
+            {
+                ribFirstDistance = value;
+                this.RaisePropertyChanged(() => this.RibFirstDistance);
+            }
+        }
+        /// <summary>
+        /// 加强筋支柱的宽度
+        /// </summary>
+        public double RibBraceWidth
+        {
+            get
+            {
+                return ribBraceWidth;
+            }
+
+            set
+            {
+                ribBraceWidth = value;
+                this.RaisePropertyChanged(() => this.RibBraceWidth);
+            }
+        }
+        /// <summary>
+        /// 加强筋支柱的高度
+        /// </summary>
+        public double RibBraceHeight
+        {
+            get
+            {
+                return ribBraceHeight;
+            }
+
+            set
+            {
+                ribBraceHeight = value;
+                this.RaisePropertyChanged(() => this.RibBraceHeight);
             }
         }
     }

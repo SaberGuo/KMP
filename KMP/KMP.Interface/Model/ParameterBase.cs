@@ -22,5 +22,21 @@ namespace KMP.Interface.Model
                 this.RaisePropertyChanged(() => this.name);
             }
         }
+
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
+
+            set
+            {
+                path = value;
+                this.RaisePropertyChanged(()=>this.path);
+            }
+        }
+
+        string path;
     }
 }
