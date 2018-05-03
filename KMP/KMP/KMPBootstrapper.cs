@@ -43,10 +43,10 @@ namespace KMP
             DirectoryCatalog catalog = new DirectoryCatalog("Common");
             this.AggregateCatalog.Catalogs.Add(catalog);
             // 添加Modules 模块
-            catalog = new DirectoryCatalog("Modules");
+            catalog = new DirectoryCatalog("Module");
             this.AggregateCatalog.Catalogs.Add(catalog);
             // 添加Services 模块
-            catalog = new DirectoryCatalog("Services");
+            catalog = new DirectoryCatalog("Service");
             this.AggregateCatalog.Catalogs.Add(catalog);
         }
 

@@ -11,15 +11,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Infranstructure.Behaviors;
+using System.ComponentModel.Composition;
 
-namespace KMP.Parameterization
+namespace KMP.StatusBar
 {
+    [ViewExport(RegionName = RegionNames.StatusBarRegion)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     /// <summary>
-    /// UserControl1.xaml 的交互逻辑
+    /// StatusBarView.xaml 的交互逻辑
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class StatusBarView : UserControl
     {
-        public UserControl1()
+        public StatusBarView()
         {
             InitializeComponent();
         }

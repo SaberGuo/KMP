@@ -17,26 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{8CAC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTester", "UnitTester", "{857C1205-5F19-4C3A-9123-76C9A1084A52}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{E1B7A100-2FC2-4F3D-85BE-49BD2A7DB18D}"
-	ProjectSection(SolutionItems) = preProject
-		..\libs\prism4\Microsoft.Practices.Prism.dll = ..\libs\prism4\Microsoft.Practices.Prism.dll
-		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.dll
-		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.pdb = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.pdb
-		..\libs\prism4\Microsoft.Practices.Prism.Interactivity.XML = ..\libs\prism4\Microsoft.Practices.Prism.Interactivity.XML
-		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.dll
-		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.pdb = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.pdb
-		..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.XML = ..\libs\prism4\Microsoft.Practices.Prism.MefExtensions.XML
-		..\libs\prism4\Microsoft.Practices.Prism.pdb = ..\libs\prism4\Microsoft.Practices.Prism.pdb
-		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.dll = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.dll
-		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.pdb = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.pdb
-		..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.xml = ..\libs\prism4\Microsoft.Practices.Prism.UnityExtensions.xml
-		..\libs\prism4\Microsoft.Practices.Prism.XML = ..\libs\prism4\Microsoft.Practices.Prism.XML
-		..\libs\prism4\Microsoft.Practices.ServiceLocation.dll = ..\libs\prism4\Microsoft.Practices.ServiceLocation.dll
-		..\libs\prism4\Microsoft.Practices.ServiceLocation.XML = ..\libs\prism4\Microsoft.Practices.ServiceLocation.XML
-		..\libs\prism4\Microsoft.Practices.Unity.dll = ..\libs\prism4\Microsoft.Practices.Unity.dll
-		..\libs\prism4\Microsoft.Practices.Unity.xml = ..\libs\prism4\Microsoft.Practices.Unity.xml
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Interface", "KMP.Interface\KMP.Interface.csproj", "{DD1A63EB-AADE-470B-8517-275F62C3FE3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{8A76C90A-F2E8-4790-BD41-DD7491024A91}"
