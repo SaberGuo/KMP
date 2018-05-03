@@ -26,10 +26,13 @@ namespace ParameterService
                 switch (item.Parameter.GetType().Name)
                 {
                     case "ParCylinder":
-                        item.CreateModule(new ParCylinder());
+                       // item.CreateModule(new ParCylinder());
                         break;
                     case "ParCylinderDoor":
-                        item.CreateModule(new ParCylinderDoor());
+                       // item.CreateModule(new ParCylinderDoor());
+                        break;
+                    case "ParPedestal":
+                        item.CreateModule(new ParPedestal());
                         break;
                     default:
                         break;
