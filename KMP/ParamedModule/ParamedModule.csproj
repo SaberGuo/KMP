@@ -52,6 +52,7 @@
     <Compile Include="Cylinder.cs" />
     <Compile Include="CylinderDoor.cs" />
     <Compile Include="ParamedModuleBase.cs" />
+    <Compile Include="Pedestal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

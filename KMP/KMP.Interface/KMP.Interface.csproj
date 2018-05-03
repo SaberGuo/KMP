@@ -82,6 +82,8 @@
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\ParCylinder.cs" />
     <Compile Include="Model\ParCylinderDoor.cs" />
+    <Compile Include="Model\ParCylinderHole.cs" />
+    <Compile Include="Model\ParPedestal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
