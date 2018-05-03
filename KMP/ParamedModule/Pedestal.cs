@@ -43,7 +43,13 @@ namespace ParamedModule
                Math.PI *1.5 - parPedestal.UnderBoardingAngle / 360*Math.PI, parPedestal.UnderBoardingAngle / 180 * Math.PI);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)inCircle, (SketchEntity)outArc);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)inCircle, (SketchEntity)underBoardArc);
-            osketch.DimensionConstraints.AddTangentDistance((SketchEntity)inCircle, (SketchEntity)outArc, inCircle., outArc.EndSketchPoint.Geometry, outArc.EndSketchPoint.Geometry, true);
+            osketch.DimensionConstraints.AddTangentDistance((SketchEntity)inCircle, (SketchEntity)outArc,GetCycleDouble(outArc.EndSketchPoint.Geometry,inCircle.CenterSketchPoint.Geometry,outArc.Radius,inCircle.Radius), outArc.EndSketchPoint.Geometry, outArc.EndSketchPoint.Geometry, true);
+        }
+        Point2d GetCycleDouble(Point2d p,Point2d orgin,double r1,double r2)
+        {
+            double x=(p.X - orgin.X) / r1 * r2;
+            double y = (p.Y - orgin.Y) / r1 * r2;
+            return InventorTool.TranGeo.CreatePoint2d(x, y);
         }
     }
 }
