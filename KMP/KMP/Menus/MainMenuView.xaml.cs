@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infranstructure.Behaviors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -13,21 +14,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KMP
+namespace KMP.Menus
 {
-    [Export]
+    [ViewExport(RegionName = RegionNames.MainMenuRegion)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// MainMenuView.xaml 的交互逻辑
     /// </summary>
-    public partial class Shell : Window
+    public partial class MainMenuView : UserControl
     {
-        public Shell()
+        public MainMenuView()
         {
             InitializeComponent();
         }
 
         [Import]
-        ShellViewModel _viewModel
+        MainMenuViewModel _viewModel
         {
             set
             {

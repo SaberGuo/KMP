@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="KMP.Menus.MainMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cmd="clr-namespace:Infranstructure.Commands;assembly=Infranstructure"
+             xmlns:local="clr-namespace:KMP.Menus"
+             mc:Ignorable="d" 
+             >
+    <Menu Grid.Row="0">
+        <MenuItem Header="文件(_File)">
+            <MenuItem Header="新建(_New)">
+                <MenuItem Header="装配体(_Assembly)"/>
+                <MenuItem Header="容器(_Vessel)"/>
+                <MenuItem Header="热沉(_Heater)"/>
+                <MenuItem Header="测控(_Controler)"/>
+            </MenuItem>
+            <MenuItem x:Name="Open" Header="打开(_Load)..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
+
+            </MenuItem>
+            <MenuItem Header=">保存(_Save)" InputGestureText="Ctrl+S">
+            </MenuItem>
+            <MenuItem Header="另存为(Save _As)"/>
+            <Separator />
+            <MenuItem Header="退出(_Exit)" InputGestureText="Ctrl+X">
+            </MenuItem>
+        </MenuItem>
+        <MenuItem Header="视图(_View)">
+
+        </MenuItem>
+
+        <MenuItem Header="分析(_Analysis)">
+            <MenuItem Header="计算(_Caculate)..."/>
+            <MenuItem Header="报告(_Report)"/>
+        </MenuItem>
+        <MenuItem Header="工具(_Tool)"/>
+
+        <MenuItem Header="关于(A_bout)">
+            <MenuItem Header="帮助(_Help)"/>
+            <MenuItem Header="软件(_Soft)..."/>
+        </MenuItem>
+    </Menu>
+</UserControl>

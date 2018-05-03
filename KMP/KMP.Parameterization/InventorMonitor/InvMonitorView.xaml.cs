@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using Microsoft.Practices.ServiceLocation;
 using KMP.Interface;
 using System.ComponentModel.Composition;
+using Xceed.Wpf.AvalonDock.Layout;
+
 namespace KMP.Parameterization.InventorMonitor
 {
     /// <summary>
@@ -21,16 +23,42 @@ namespace KMP.Parameterization.InventorMonitor
     /// </summary>
     public partial class InvMonitorView : UserControl
     {
-        IModuleService _moduleService;
+        //IModuleService _moduleService;
         public InvMonitorView()
         {
             InitializeComponent();
-            _moduleService = ServiceLocator.Current.GetInstance<IModuleService>();
+            
+        }
+        public override void OnApplyTemplate()
+        {
+            this._viewModel = (IInvMonitorViewModel)this.DataContext;
+            InitAppComponet();
+            base.OnApplyTemplate();
+        }
+        private void InitAppComponet()
+        {
+            this.holder.MouseDown += this._viewModel.OnMouseDown;
+            this.holder.MouseMove += this._viewModel.OnMouseMove;
+            this.holder.MouseUp += this._viewModel.OnMouseUp;
+            this.holder.MouseDoubleClick += this._viewModel.OnMouseDoubleClick;
+
+            //this.holder.SizeChanged += this._viewModel.OnSizeChanged;
+            this.holder.Paint += Holder_Paint;
+    
+            this._viewModel.HWnd = this.holder.Handle.ToInt32();
+
+            this._viewModel.InitVM();
+
+
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void Holder_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            _moduleService.Create();
+            this._viewModel.OnSizeChanged(sender, e);
         }
+
+        private IInvMonitorViewModel _viewModel;
+        
+
     }
 }
