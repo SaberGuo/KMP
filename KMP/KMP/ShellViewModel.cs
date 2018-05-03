@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace KMP
 {
+
     [Export]
     class ShellViewModel: NotificationObject
     {
