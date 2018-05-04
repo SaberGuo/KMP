@@ -11,27 +11,30 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Infranstructure.Behaviors;
+using KMP.Interface;
+using Microsoft.Practices.ServiceLocation;
 using System.ComponentModel.Composition;
-
+using Infranstructure.Behaviors;
 namespace KMP.Parameterization
 {
-    //[ViewExport(RegionName = RegionNames.MainRegion)]
-    //[PartCreationPolicy(CreationPolicy.NonShared)]
     /// <summary>
-    /// MainDockView.xaml 的交互逻辑
+    /// Test.xaml 的交互逻辑
     /// </summary>
-    public partial class MainDockView : UserControl
+    [ViewExport(RegionName = "Test")]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public partial class Test : UserControl
     {
-        public MainDockView()
+        IModuleService _moduleService;
+        
+        public Test()
         {
             InitializeComponent();
+            _moduleService = ServiceLocator.Current.GetInstance<IModuleService>();
         }
 
-        [Import]
-        MainDockViewModel _viewModel
+        private void button_Click(object sender, RoutedEventArgs e)
         {
-            set { this.DataContext = value; }
+            _moduleService.Create();
         }
     }
 }

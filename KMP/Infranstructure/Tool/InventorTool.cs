@@ -90,10 +90,17 @@ namespace Infranstructure.Tool
                 {
                     inventor = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application") as Inventor.Application;
                 }
-                catch (Exception)
+                catch 
                 {
-                    throw new ArgumentException("inventor 没有打开");
+                   
 
+                }
+                if (inventor == null)
+                {
+                    Type inventorAppType = System.Type.GetTypeFromProgID("Inventor.Application");
+                    inventor = System.Activator.CreateInstance(inventorAppType) as Inventor.Application;
+
+                   
                 }
                 return inventor;
             }
@@ -144,7 +151,117 @@ namespace Infranstructure.Tool
             }
             return result;
         }
+        /// <summary>
+        /// 注释约束，添加两条线间角度约束
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="line1"></param>
+        /// <param name="line2"></param>
+       public static void AddTwoLineAngle(PlanarSketch osketch,SketchLine line1,SketchLine line2)
+        {
+            Point2d p1 = line1.StartSketchPoint.Geometry;
+            Point2d p2 = line1.EndSketchPoint.Geometry;
+            Point2d p3 = line2.StartSketchPoint.Geometry;
+            Point2d p4 = line2.EndSketchPoint.Geometry;
+            XY p5 = new XY((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2);
+            XY p6 = new XY((p3.X + p4.X) / 2, (p3.Y + p4.Y) / 2);
+            Point2d p7 = TranGeo.CreatePoint2d((p5.X + p6.X) / 2, (p5.Y + p6.Y) / 2);
+            osketch.DimensionConstraints.AddTwoLineAngle(line1, line2, p7);
+
+        }
+        /// <summary>
+        /// 注释约束，添加两点间距离约束
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="line1"></param>
+        /// <param name="line2"></param>
+        public static TwoPointDistanceDimConstraint AddTwoPointDistance(PlanarSketch osketch, SketchPoint point1, SketchPoint point2,bool direction,DimensionOrientationEnum orientation)
+        {
+            Point2d p;
+            if (direction)
+            {
+                p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 + 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 + 1);
+            }
+            else
+            {
+                p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 - 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 - 1);
+            }
        
-     
+            return osketch.DimensionConstraints.AddTwoPointDistance(point1, point2,DimensionOrientationEnum.kAlignedDim, p);
+
+        }
+        /// <summary>
+        /// 创建两条线定点相交约束
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="line1"></param>
+        /// <param name="line2"></param>
+        public static void CreateTwoPointCoinCident(PlanarSketch osketch, SketchLine line1, SketchLine line2)
+        {
+            if (line1.StartSketchPoint.Geometry.X == line2.StartSketchPoint.Geometry.X && line1.StartSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
+            }
+            else if (line1.EndSketchPoint.Geometry.X == line2.StartSketchPoint.Geometry.X && line1.EndSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
+            }
+            else if (line1.StartSketchPoint.Geometry.X == line2.EndSketchPoint.Geometry.X && line1.StartSketchPoint.Geometry.Y == line2.EndSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
+            }
+            else
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
+            }
+
+
+        }
+        /// <summary>
+        /// 创建弧线段和线段顶点关联
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="line1">开始点</param>
+        /// <param name="line2">结束点</param>
+       public static void CreateTwoPointCoinCident(PlanarSketch osketch, SketchArc line1, SketchLine line2)
+        {
+            if (line1.StartSketchPoint.Geometry.X == line2.StartSketchPoint.Geometry.X && line1.StartSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
+            }
+            else if (line1.EndSketchPoint.Geometry.X == line2.StartSketchPoint.Geometry.X && line1.EndSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
+            }
+            else if (line1.StartSketchPoint.Geometry.X == line2.EndSketchPoint.Geometry.X && line1.StartSketchPoint.Geometry.Y == line2.EndSketchPoint.Geometry.Y)
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
+            }
+            else
+            {
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
+            }
+
+
+        }
+        
+    }
+    public struct XY
+    {
+      public  double X;
+       public double Y;
+        public XY(double x,double y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }
