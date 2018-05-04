@@ -100,7 +100,7 @@ namespace KMP.Interface.Model
             }
         }
         /// <summary>
-        /// 
+        /// 垫板宽度
         /// </summary>
         public double UnderBoardWidth
         {

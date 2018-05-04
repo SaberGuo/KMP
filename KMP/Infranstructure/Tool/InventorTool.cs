@@ -175,19 +175,24 @@ namespace Infranstructure.Tool
         /// <param name="osketch"></param>
         /// <param name="line1"></param>
         /// <param name="line2"></param>
-        public static TwoPointDistanceDimConstraint AddTwoPointDistance(PlanarSketch osketch, SketchPoint point1, SketchPoint point2,bool direction,DimensionOrientationEnum orientation)
+        public static TwoPointDistanceDimConstraint AddTwoPointDistance(PlanarSketch osketch, SketchPoint point1, SketchPoint point2,int direction,DimensionOrientationEnum orientation)
         {
             Point2d p;
-            if (direction)
+            switch (direction)
             {
-                p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 + 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 + 1);
+                case 1:
+                    p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 + 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 + 1);
+                    break;
+                case -1:
+                    p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 - 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 - 1);
+                    break;
+                default:
+                    p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2, (point1.Geometry.Y + point2.Geometry.Y) / 2);
+                    break;
             }
-            else
-            {
-                p = TranGeo.CreatePoint2d((point1.Geometry.X + point2.Geometry.X) / 2 - 1, (point1.Geometry.Y + point2.Geometry.Y) / 2 - 1);
-            }
+          
        
-            return osketch.DimensionConstraints.AddTwoPointDistance(point1, point2,DimensionOrientationEnum.kAlignedDim, p);
+            return osketch.DimensionConstraints.AddTwoPointDistance(point1, point2,orientation, p);
 
         }
         /// <summary>
