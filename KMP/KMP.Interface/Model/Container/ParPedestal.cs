@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KMP.Interface.Model
+namespace KMP.Interface.Model.Container
 {
   public  class ParPedestal:ParameterBase
     {

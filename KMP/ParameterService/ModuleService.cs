@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KMP.Interface;
+using KMP.Interface.Model.Container;
 using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
-using KMP.Interface.Model;
+
 namespace ParameterService
 {
     [Export(typeof(IModuleService))]
@@ -26,10 +27,10 @@ namespace ParameterService
                 switch (item.Parameter.GetType().Name)
                 {
                     case "ParCylinder":
-                       // item.CreateModule(new ParCylinder());
+                        item.CreateModule(new ParCylinder());
                         break;
                     case "ParCylinderDoor":
-                       // item.CreateModule(new ParCylinderDoor());
+                        item.CreateModule(new ParCylinderDoor());
                         break;
                     case "ParPedestal":
                         item.CreateModule(new ParPedestal());

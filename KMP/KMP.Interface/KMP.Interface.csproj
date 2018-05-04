@@ -79,11 +79,12 @@
   <ItemGroup>
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
+    <Compile Include="Model\Container\ParRail.cs" />
     <Compile Include="Model\ParameterBase.cs" />
-    <Compile Include="Model\ParCylinder.cs" />
-    <Compile Include="Model\ParCylinderDoor.cs" />
-    <Compile Include="Model\ParCylinderHole.cs" />
-    <Compile Include="Model\ParPedestal.cs" />
+    <Compile Include="Model\Container\ParCylinder.cs" />
+    <Compile Include="Model\Container\ParCylinderDoor.cs" />
+    <Compile Include="Model\Container\ParCylinderHole.cs" />
+    <Compile Include="Model\Container\ParPedestal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +110,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Common\" /Y</PostBuildEvent>

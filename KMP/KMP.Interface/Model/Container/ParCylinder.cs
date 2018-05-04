@@ -8,7 +8,7 @@ using Microsoft.Practices.Prism.Interactivity;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.EnterpriseLibrary.Common;
 using Microsoft.Practices.Prism.ViewModel;
-namespace KMP.Interface.Model
+namespace KMP.Interface.Model.Container
 {
   public  class ParCylinder:ParameterBase
     {

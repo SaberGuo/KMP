@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KMP.Interface.Model;
+using KMP.Interface.Model.Container;
 using Inventor;
 using Infranstructure.Tool;
 using KMP.Interface;
 using System.ComponentModel.Composition;
-namespace ParamedModule
+namespace ParamedModule.Container
 {
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]

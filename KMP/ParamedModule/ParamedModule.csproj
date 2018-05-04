@@ -49,10 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cylinder.cs" />
-    <Compile Include="CylinderDoor.cs" />
+    <Compile Include="Container\Cylinder.cs" />
+    <Compile Include="Container\CylinderDoor.cs" />
+    <Compile Include="Container\Rail.cs" />
     <Compile Include="ParamedModuleBase.cs" />
-    <Compile Include="Pedestal.cs" />
+    <Compile Include="Container\Pedestal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
