@@ -5,6 +5,9 @@ using System.Text;
 using Microsoft.Practices.Prism.ViewModel;
 namespace KMP.Interface.Model.Container
 {
+    /// <summary>
+    /// 导轨参数
+    /// </summary>
    public class ParRail:ParameterBase
     {
         double upBridgeHeight;
@@ -25,6 +28,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 upBridgeHeight = value;
+                this.RaisePropertyChanged(() => this.UpBridgeHeight);
             }
         }
 
@@ -38,6 +42,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 downBridgeHeight = value;
+                this.RaisePropertyChanged(() => this.DownBridgeHeight);
             }
         }
 
@@ -51,6 +56,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 braceHeight = value;
+                this.RaisePropertyChanged(() => this.BraceHeight);
             }
         }
 
@@ -64,6 +70,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 upBridgeWidth = value;
+                this.RaisePropertyChanged(() => this.UpBridgeWidth);
             }
         }
 
@@ -77,6 +84,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 downBridgeWidth = value;
+                this.RaisePropertyChanged(() => this.DownBridgeWidth);
             }
         }
 
@@ -90,6 +98,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 braceWidth = value;
+                this.RaisePropertyChanged(() => this.BraceWidth);
             }
         }
 
@@ -103,6 +112,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 railLength = value;
+                this.RaisePropertyChanged(() => this.RailLength);
             }
         }
     }

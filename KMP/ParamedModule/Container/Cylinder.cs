@@ -19,6 +19,7 @@ namespace ParamedModule.Container
         public Cylinder():base()
         {
             this.Parameter = parCylinder;
+            init();
         }
         private void init()
         {
@@ -36,10 +37,6 @@ namespace ParamedModule.Container
         }
         public override void CreateModule(ParameterBase Parameter)
         {
-            parCylinder = Parameter as ParCylinder;
-            if (parCylinder == null) return;
-            init();
-
 
             PartDocument part = InventorTool.CreatePart();
             PartComponentDefinition partDef = part.ComponentDefinition;

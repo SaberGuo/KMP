@@ -126,6 +126,12 @@ namespace Infranstructure.Tool
             string TemplatePath = Inventor.FileManager.GetTemplateFile(DocumentTypeEnum.kPartDocumentObject,SystemOfMeasureEnum.kMetricSystemOfMeasure);
             return (PartDocument)(Inventor.Documents.Add(DocumentTypeEnum.kPartDocumentObject, TemplatePath));
         }
+        public static AssemblyDocument CreateAssembly()
+        {
+
+            string TemplatePath = Inventor.FileManager.GetTemplateFile(DocumentTypeEnum.kAssemblyDocumentObject, SystemOfMeasureEnum.kMetricSystemOfMeasure);
+            return (AssemblyDocument)(Inventor.Documents.Add(DocumentTypeEnum.kAssemblyDocumentObject, TemplatePath));
+        }
         public static T GetFirstFromIEnumerator<T>(System.Collections.IEnumerator Source)
         {
             while(Source.MoveNext())
