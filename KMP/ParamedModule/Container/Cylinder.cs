@@ -12,7 +12,7 @@ namespace ParamedModule.Container
 {
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-  public  class Cylinder:ParamedModuleBase
+  public  class Cylinder: PartModulebase
     {
         ParCylinder parCylinder=new ParCylinder();
         [ImportingConstructor]
@@ -39,7 +39,7 @@ namespace ParamedModule.Container
         {
 
             PartDocument part = InventorTool.CreatePart();
-            PartComponentDefinition partDef = part.ComponentDefinition;
+             partDef = part.ComponentDefinition;
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             SketchEllipticalArc Arc1, Arc2;
             SketchLine Line1, Line2;

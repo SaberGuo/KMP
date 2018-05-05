@@ -30,7 +30,7 @@ namespace ParamedModule.Container
         public override void CreateModule(ParameterBase Parameter)
         {
             AssemblyDocument assembly = InventorTool.CreateAssembly();
-            AssemblyComponentDefinition assemblyDef = assembly.ComponentDefinition;
+            assemblyDef = assembly.ComponentDefinition;
         }
     }
 }

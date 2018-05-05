@@ -15,13 +15,20 @@ namespace ParamedModule.Container
     /// </summary>
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-  public  class RailSupportSidePlate : ParamedModuleBase
+  public  class RailSupportSidePlate : PartModulebase
     {
+        ParRailSupportSidePlate parSidePlate = new ParRailSupportSidePlate();
         public RailSupportSidePlate():base()
         {
-
+            this.Parameter = parSidePlate;
+            init();
         }
-
+        void init()
+        {
+            parSidePlate.Width = 100;
+            parSidePlate.Thickness = 10;
+            parSidePlate.Length = 80;
+        }
         public override bool CheckParamete()
         {
             throw new NotImplementedException();

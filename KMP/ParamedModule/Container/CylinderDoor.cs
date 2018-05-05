@@ -12,7 +12,7 @@ namespace ParamedModule.Container
 {
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class CylinderDoor : ParamedModuleBase
+    public class CylinderDoor : PartModulebase
     {
         ParCylinderDoor parCylineDoor = new ParCylinderDoor();
         [ImportingConstructor]
@@ -32,7 +32,7 @@ namespace ParamedModule.Container
             if (parCylineDoor == null) return;
             init();
             PartDocument part = InventorTool.CreatePart();
-            PartComponentDefinition partDef = part.ComponentDefinition;
+             partDef = part.ComponentDefinition;
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             SketchEllipticalArc Arc1 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius, parCylineDoor.InRadius,  0, Math.PI / 2);
             SketchEllipticalArc Arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius + parCylineDoor.Thickness, parCylineDoor.InRadius+parCylineDoor.Thickness,  0, Math.PI / 2);

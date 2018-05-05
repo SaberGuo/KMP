@@ -41,7 +41,11 @@ namespace ParameterService
                        // item.CreateModule(new ParRail());
                         break;
                     case "ParRailSupportBrace":
-                        item.CreateModule(new ParRailSupportBrace());
+                       // item.CreateModule(new ParRailSupportBrace());
+                        break;
+                    case "ParRailSupportTopBoard":
+                        item.CreateModule(new ParRailSupportTopBoard());
+                        bool isaa= item.CheckParamete();
                         break;
                     default:
                         break;

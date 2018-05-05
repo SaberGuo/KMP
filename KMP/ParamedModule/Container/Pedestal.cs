@@ -12,7 +12,7 @@ namespace ParamedModule.Container
 {
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class Pedestal : ParamedModuleBase
+    public class Pedestal : PartModulebase
     {
         ParPedestal parPedestal = new ParPedestal();
         [ImportingConstructor]
@@ -36,7 +36,7 @@ namespace ParamedModule.Container
             parPedestal.BackBoardMoveDistance = 3;
         }
         PartDocument part;
-        PartComponentDefinition partDef;
+      
         public override void CreateModule(ParameterBase Parameter)
         {
             parPedestal = Parameter as ParPedestal;

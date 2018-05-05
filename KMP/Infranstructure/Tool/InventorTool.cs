@@ -263,7 +263,23 @@ namespace Infranstructure.Tool
 
 
         }
-        
+        public static List<SketchLine> CreateRangle(PlanarSketch osketch, double length, double width)
+        {
+            SketchEntitiesEnumerator entities = osketch.SketchLines.AddAsTwoPointRectangle(InventorTool.Origin, InventorTool.TranGeo.CreatePoint2d(2, 2));
+            List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
+            InventorTool.AddTwoPointDistance(osketch, lines[0].StartSketchPoint, lines[0].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = length;
+            InventorTool.AddTwoPointDistance(osketch, lines[1].StartSketchPoint, lines[1].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = width;
+            return lines;
+        }
+        public static ExtrudeFeature CreateBox(PartComponentDefinition partDef,PlanarSketch osketch, double length, double width,double height)
+        {
+            CreateRangle(osketch, length, width);
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition extrudedef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
+            extrudedef.SetDistanceExtent(height, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            return partDef.Features.ExtrudeFeatures.Add(extrudedef);
+
+        }
     }
     public struct XY
     {

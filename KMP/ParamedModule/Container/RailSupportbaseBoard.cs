@@ -16,7 +16,7 @@ namespace ParamedModule.Container
     /// </summary>
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
- public  class RailSupportbaseBoard : ParamedModuleBase
+ public  class RailSupportbaseBoard : PartModulebase
     {
         public RailSupportbaseBoard():base()
         {

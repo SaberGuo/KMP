@@ -78,6 +78,7 @@
     <Compile Include="Commands\FileCommands.cs" />
     <Compile Include="Events\UpdateModelEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tool\CommonTool.cs" />
     <Compile Include="Tool\InventorTool.cs" />
   </ItemGroup>
   <ItemGroup>

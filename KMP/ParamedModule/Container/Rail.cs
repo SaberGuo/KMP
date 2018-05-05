@@ -12,7 +12,7 @@ namespace ParamedModule.Container
 {
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public  class Rail:ParamedModuleBase
+    public  class Rail: PartModulebase
     {
         ParRail parRail = new ParRail();
         [ImportingConstructor]
@@ -38,7 +38,7 @@ namespace ParamedModule.Container
 
 
             PartDocument part = InventorTool.CreatePart();
-            PartComponentDefinition partDef = part.ComponentDefinition;
+             partDef = part.ComponentDefinition;
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();

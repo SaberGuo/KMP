@@ -16,7 +16,7 @@ namespace ParamedModule.Container
     /// </summary>
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-  public  class RailSupportBrace : ParamedModuleBase
+  public  class RailSupportBrace : PartModulebase
     {
         ParRailSupportBrace parBrace = new ParRailSupportBrace();
         [ImportingConstructor]
@@ -35,7 +35,7 @@ namespace ParamedModule.Container
         public override void CreateModule(ParameterBase Parameter)
         {
             PartDocument part = InventorTool.CreatePart();
-            PartComponentDefinition partDef = part.ComponentDefinition;
+             partDef = part.ComponentDefinition;
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
            SketchCircle cir1= osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, parBrace.InRadius);
            SketchCircle cir2= osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, parBrace.InRadius + parBrace.Thickness);
