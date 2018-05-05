@@ -37,8 +37,7 @@ namespace ParamedModule.Container
             init();
 
 
-            PartDocument part = InventorTool.CreatePart();
-             partDef = part.ComponentDefinition;
+            CreateDoc();
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();

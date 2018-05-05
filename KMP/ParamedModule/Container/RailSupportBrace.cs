@@ -27,23 +27,28 @@ namespace ParamedModule.Container
         }
         void init()
         {
-            parBrace.Height = 1000;
-            parBrace.InRadius = 50;
-            parBrace.Thickness = 2;
+            parBrace.Height = 245;
+            parBrace.InRadius = 35;
+            parBrace.Thickness = 15;
         }
 
         public override void CreateModule(ParameterBase Parameter)
         {
-            PartDocument part = InventorTool.CreatePart();
-             partDef = part.ComponentDefinition;
+            CreateDoc();
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
-           SketchCircle cir1= osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, parBrace.InRadius);
-           SketchCircle cir2= osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, parBrace.InRadius + parBrace.Thickness);
+            CreateCyling(osketch,parBrace.InRadius/10,parBrace.Thickness/10,parBrace.Height);
+            SaveDoc();
+        }
+
+        private void CreateCyling(PlanarSketch osketch,double inRadius,double thickness,double height)
+        {
+            SketchCircle cir1 = osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, inRadius);
+            SketchCircle cir2 = osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, inRadius + thickness);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)cir1, (SketchEntity)cir2);
             Profile pro = osketch.Profiles.AddForSolid();
             foreach (ProfilePath item in pro)
             {
-                if(item.Count==1)
+                if (item.Count == 1)
                 {
                     item.AddsMaterial = false;
                 }
@@ -52,16 +57,15 @@ namespace ParamedModule.Container
                     item.AddsMaterial = true;
                 }
             }
-           ExtrudeDefinition extrudedef= partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
-            extrudedef.SetDistanceExtent(parBrace.Height + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-           ExtrudeFeature cylinder= partDef.Features.ExtrudeFeatures.Add(extrudedef);
+            ExtrudeDefinition extrudedef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
+            extrudedef.SetDistanceExtent(height + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ExtrudeFeature cylinder = partDef.Features.ExtrudeFeatures.Add(extrudedef);
             PlanarSketch holeSketch = partDef.Sketches.Add(partDef.WorkPlanes[2]);
-            holeSketch.SketchCircles.AddByCenterRadius(InventorTool.TranGeo.CreatePoint2d(0, parBrace.Height / 20), 8);
+            holeSketch.SketchCircles.AddByCenterRadius(InventorTool.TranGeo.CreatePoint2d(0, height / 20), 0.8);
             Profile holePro = holeSketch.Profiles.AddForSolid();
-           ExtrudeDefinition holeDef= partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(holePro, PartFeatureOperationEnum.kCutOperation);
+            ExtrudeDefinition holeDef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(holePro, PartFeatureOperationEnum.kCutOperation);
             holeDef.SetThroughAllExtent(PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             partDef.Features.ExtrudeFeatures.Add(holeDef);
-            
         }
 
         public override bool CheckParamete()

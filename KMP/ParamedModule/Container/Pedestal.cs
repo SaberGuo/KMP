@@ -35,15 +35,14 @@ namespace ParamedModule.Container
             parPedestal.UnderBoardWidth = 10;
             parPedestal.BackBoardMoveDistance = 3;
         }
-        PartDocument part;
+     
       
         public override void CreateModule(ParameterBase Parameter)
         {
             parPedestal = Parameter as ParPedestal;
             if (parPedestal == null) return;
             init();
-            part = InventorTool.CreatePart();
-            partDef = part.ComponentDefinition;
+            CreateDoc();
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             osketch.Visible = false;
             #region 创建圆

@@ -18,19 +18,30 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
  public  class RailSupportbaseBoard : PartModulebase
     {
+        ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
+        [ImportingConstructor]
         public RailSupportbaseBoard():base()
         {
-
+            this.Parameter = par;
         }
-
+        void init()
+        {
+            par.Length = 260;
+            par.Width = 220;
+            par.Thickness = 15;
+        }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override void CreateModule(ParameterBase Parameter)
         {
-            throw new NotImplementedException();
+            init();
+            CreateDoc();
+            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            InventorTool.CreateBox(partDef, osketch, par.Length/10, par.Width/10, par.Thickness);
+            SaveDoc();
         }
     }
 }

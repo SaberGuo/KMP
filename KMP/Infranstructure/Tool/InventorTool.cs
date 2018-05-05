@@ -263,6 +263,13 @@ namespace Infranstructure.Tool
 
 
         }
+        /// <summary>
+        /// 创建一个长方形示意图
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="length"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
         public static List<SketchLine> CreateRangle(PlanarSketch osketch, double length, double width)
         {
             SketchEntitiesEnumerator entities = osketch.SketchLines.AddAsTwoPointRectangle(InventorTool.Origin, InventorTool.TranGeo.CreatePoint2d(2, 2));
@@ -271,14 +278,115 @@ namespace Infranstructure.Tool
             InventorTool.AddTwoPointDistance(osketch, lines[1].StartSketchPoint, lines[1].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = width;
             return lines;
         }
+        /// <summary>
+        /// 创建一个长方体
+        /// </summary>
+        /// <param name="partDef"></param>
+        /// <param name="osketch"></param>
+        /// <param name="length"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public static ExtrudeFeature CreateBox(PartComponentDefinition partDef,PlanarSketch osketch, double length, double width,double height)
         {
             CreateRangle(osketch, length, width);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition extrudedef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
-            extrudedef.SetDistanceExtent(height, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            extrudedef.SetDistanceExtent(height+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             return partDef.Features.ExtrudeFeatures.Add(extrudedef);
 
+        }
+        /// <summary>
+        /// 创建一个带有槽型孔的长方体
+        /// </summary>
+        /// <param name="partDef"></param>
+        /// <param name="osketch"></param>
+        /// <param name="width"></param>
+        /// <param name="lenght"></param>
+        /// <param name="height"></param>
+        /// <param name="holeCenterDistance">孔两个圆心距离</param>
+        /// <param name="holeTopEdgeDistance">孔圆心到长方体边的最短距离</param>
+        /// <param name="holeSideEdgeDistance">孔圆心到长方体边的最短距离</param>
+        /// <param name="holeRadius">半圆半径</param>
+        public static void CreateBoxWithHole(PartComponentDefinition partDef,PlanarSketch osketch, double width, double lenght, double height,
+        double holeCenterDistance, double holeTopEdgeDistance, double holeSideEdgeDistance, double holeRadius)
+        {
+            ExtrudeFeature block = InventorTool.CreateBox(partDef, osketch, lenght, width, height);
+            Face FacePlane = InventorTool.GetFirstFromIEnumerator<Face>(block.StartFaces.GetEnumerator());
+            List<Face> SideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(block.SideFaces.GetEnumerator());
+            List<Edge> lines = InventorTool.GetCollectionFromIEnumerator<Edge>(FacePlane.Edges.GetEnumerator());
+            // PlanarSketch holeSketch= partDef.Sketches.AddWithOrientation(FacePlane,lines[0],false,true,lines[0].StartVertex,true);
+            PlanarSketch holeSketch = partDef.Sketches.Add(FacePlane);
+            ExtrudeFeature hole = CreateHole(partDef, holeSketch, lines, holeCenterDistance, holeTopEdgeDistance, holeSideEdgeDistance, holeRadius);
+            WorkPlane plane = partDef.WorkPlanes.AddByTwoPlanes(SideFaces[0], SideFaces[2]);
+            WorkPlane plane1 = partDef.WorkPlanes.AddByTwoPlanes(SideFaces[1], SideFaces[3]);
+            plane.Visible = false;
+            plane1.Visible = false;
+            ObjectCollection objects = InventorTool.Inventor.TransientObjects.CreateObjectCollection();
+            objects.Add(hole);
+            MirrorFeatureDefinition mirrorDef = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane);
+            MirrorFeature mirror = partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef);
+            objects.Add(mirror);
+            MirrorFeatureDefinition mirrorDef2 = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane1);
+            partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);
+        }
+        /// <summary>
+        /// 创建一个槽型孔
+        /// </summary>
+        /// <param name="partDef"></param>
+        /// <param name="osketch"></param>
+        /// <param name="Edges"></param>
+        /// <param name="holeCenterDistance">草型孔两个圆心距离</param>
+        /// <param name="holeTopEdgeDistance">槽型孔的圆心到边距离</param>
+        /// <param name="holeSideEdgeDistance">槽型孔的圆心到侧边距离</param>
+        /// <param name="holeRadius">孔半圆半径</param>
+        /// <returns></returns>
+       public static ExtrudeFeature CreateHole(PartComponentDefinition partDef, PlanarSketch osketch, List<Edge> Edges, double holeCenterDistance,
+            double holeTopEdgeDistance, double holeSideEdgeDistance, double holeRadius)
+        {
+            List<SketchLine> lines = new List<SketchLine>();
+            foreach (var item in Edges)
+            {
+                SketchLine line = osketch.AddByProjectingEntity(item) as SketchLine;
+                lines.Add(line);
+            }
+
+
+            SketchArc arc1 = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.TranGeo.CreatePoint2d(-60, 50), 5, Math.PI / 2, Math.PI);
+            SketchArc arc2 = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.TranGeo.CreatePoint2d(-50, 50), 5, -Math.PI / 2, Math.PI);
+            SketchLine line1 = osketch.SketchLines.AddByTwoPoints(arc1.StartSketchPoint, arc2.EndSketchPoint);
+            SketchLine line2 = osketch.SketchLines.AddByTwoPoints(arc1.EndSketchPoint, arc2.StartSketchPoint);
+            //osketch.GeometricConstraints.AddEqualLength(line1, line2);
+            osketch.GeometricConstraints.AddEqualRadius((SketchEntity)arc1, (SketchEntity)arc2);
+            osketch.GeometricConstraints.AddParallel((SketchEntity)line1, (SketchEntity)line2);
+            osketch.GeometricConstraints.AddTangent((SketchEntity)line1, (SketchEntity)arc2);
+            osketch.GeometricConstraints.AddTangent((SketchEntity)line1, (SketchEntity)arc1);
+            osketch.GeometricConstraints.AddTangent((SketchEntity)arc1, (SketchEntity)line2);
+            osketch.DimensionConstraints.AddRadius((SketchEntity)arc2, arc2.StartSketchPoint.Geometry).Parameter.Value = holeRadius;
+            InventorTool.AddTwoPointDistance(osketch, arc1.CenterSketchPoint, arc2.CenterSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = holeCenterDistance;
+
+            InventorTool.AddTwoPointDistance(osketch, arc2.CenterSketchPoint, lines[0].StartSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = holeTopEdgeDistance;
+            InventorTool.AddTwoPointDistance(osketch, arc2.CenterSketchPoint, lines[0].StartSketchPoint, 0, DimensionOrientationEnum.kVerticalDim).Parameter.Value = holeSideEdgeDistance;
+            osketch.UpdateProfiles();
+            Profile pro = osketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro)
+            {
+                List<ProfileEntity> list = InventorTool.GetCollectionFromIEnumerator<ProfileEntity>(item.GetEnumerator());
+                int count = list.Where(a => a.SketchEntity == arc1).Count();
+                if (count > 0)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.Delete();
+                }
+
+            }
+            ExtrudeDefinition ex = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetThroughAllExtent(PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+
+            return partDef.Features.ExtrudeFeatures.Add(ex);
         }
     }
     public struct XY

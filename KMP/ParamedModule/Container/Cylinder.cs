@@ -37,9 +37,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule(ParameterBase Parameter)
         {
-
-            PartDocument part = InventorTool.CreatePart();
-             partDef = part.ComponentDefinition;
+            CreateDoc();
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             SketchEllipticalArc Arc1, Arc2;
             SketchLine Line1, Line2;

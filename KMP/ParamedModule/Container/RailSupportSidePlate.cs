@@ -17,17 +17,17 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
   public  class RailSupportSidePlate : PartModulebase
     {
-        ParRailSupportSidePlate parSidePlate = new ParRailSupportSidePlate();
+        ParRailSupportSidePlate par = new ParRailSupportSidePlate();
         public RailSupportSidePlate():base()
         {
-            this.Parameter = parSidePlate;
+            this.Parameter = par;
             init();
         }
         void init()
         {
-            parSidePlate.Width = 100;
-            parSidePlate.Thickness = 10;
-            parSidePlate.Length = 80;
+            par.Width = 40;
+            par.Thickness = 20;
+            par.Length = 240;
         }
         public override bool CheckParamete()
         {
@@ -36,7 +36,11 @@ namespace ParamedModule.Container
 
         public override void CreateModule(ParameterBase Parameter)
         {
-            throw new NotImplementedException();
+            init();
+            CreateDoc();
+            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            InventorTool.CreateBox(partDef, osketch, par.Length/10, par.Width/10, par.Thickness);
+            SaveDoc();
         }
     }
 }

@@ -12,8 +12,11 @@ namespace KMP.Interface.Model.Container
     {
         double thickness;
         double width;
-        double length;
 
+        double holeRadius;
+        double holeCenterDistance;
+        double holeSideEdgeDistance;
+        double holeTopEdgeDistance;
         public double Thickness
         {
             get
@@ -42,17 +45,59 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        public double Length
+        public double HoleRadius
         {
             get
             {
-                return length;
+                return holeRadius;
             }
 
             set
             {
-                length = value;
-                this.RaisePropertyChanged(() => this.Length);
+                holeRadius = value;
+                this.RaisePropertyChanged(() => this.HoleRadius);
+            }
+        }
+
+        public double HoleCenterDistance
+        {
+            get
+            {
+                return holeCenterDistance;
+            }
+
+            set
+            {
+                holeCenterDistance = value;
+                this.RaisePropertyChanged(() => this.HoleCenterDistance);
+            }
+        }
+
+        public double HoleSideEdgeDistance
+        {
+            get
+            {
+                return holeSideEdgeDistance;
+            }
+
+            set
+            {
+                holeSideEdgeDistance = value;
+                this.RaisePropertyChanged(() => this.HoleSideEdgeDistance);
+            }
+        }
+
+        public double HoleTopEdgeDistance
+        {
+            get
+            {
+                return holeTopEdgeDistance;
+            }
+
+            set
+            {
+                holeTopEdgeDistance = value;
+                this.RaisePropertyChanged(() => this.HoleTopEdgeDistance);
             }
         }
     }

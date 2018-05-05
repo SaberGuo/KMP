@@ -12,6 +12,7 @@ namespace KMP.Interface
     {
         ParameterBase Parameter { get; set; }
         string ModelPath { get; set; }
+        string Name { get; set; }
         ComponentOccurrence Occurrence { get; set; }
         ObservableCollection<IParamedModule> SubParameModules { get; set; }
         void CreateModule(ParameterBase Parameter);

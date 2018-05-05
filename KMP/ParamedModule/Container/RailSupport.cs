@@ -15,11 +15,25 @@ namespace ParamedModule.Container
     /// </summary>
     [Export(typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-   public class RailSupport : ParamedModuleBase
+   public class RailSupport : AssembleModuleBase
     {
+        RailSupportTopBoard topBoard;
+        RailSupportSidePlate sidePlate;
+        RailSupportCenterBoard centerBoad;
+        RailSupportBrace brace;
+        RailSupportbaseBoard baseBoard;
         public RailSupport():base()
         {
-
+            topBoard = new RailSupportTopBoard();
+            sidePlate = new RailSupportSidePlate();
+            centerBoad = new RailSupportCenterBoard();
+            brace = new RailSupportBrace();
+            baseBoard = new RailSupportbaseBoard();
+            SubParameModules.Add(topBoard);
+            SubParameModules.Add(sidePlate);
+            SubParameModules.Add(centerBoad);
+            SubParameModules.Add(brace);
+            SubParameModules.Add(baseBoard);
         }
 
         public override bool CheckParamete()
@@ -29,8 +43,8 @@ namespace ParamedModule.Container
 
         public override void CreateModule(ParameterBase Parameter)
         {
-            AssemblyDocument assembly = InventorTool.CreateAssembly();
-            assemblyDef = assembly.ComponentDefinition;
+          //  ComponentOccurrence CObaseBoard = assemblyDef.Occurrences.Add(baseBoard.ModelPath, oPos);
+
         }
     }
 }

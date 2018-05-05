@@ -31,8 +31,7 @@ namespace ParamedModule.Container
             parCylineDoor = Parameter as ParCylinderDoor;
             if (parCylineDoor == null) return;
             init();
-            PartDocument part = InventorTool.CreatePart();
-             partDef = part.ComponentDefinition;
+            CreateDoc();
             PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
             SketchEllipticalArc Arc1 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius, parCylineDoor.InRadius,  0, Math.PI / 2);
             SketchEllipticalArc Arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius + parCylineDoor.Thickness, parCylineDoor.InRadius+parCylineDoor.Thickness,  0, Math.PI / 2);

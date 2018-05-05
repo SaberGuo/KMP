@@ -14,7 +14,7 @@ namespace ParamedModule
         ParameterBase parameter;
         ObservableCollection<IParamedModule> subParameModules;
         string modelPath;
-        
+        string name;
 
         public ComponentOccurrence Occurrence
         {
@@ -68,6 +68,20 @@ namespace ParamedModule
             {
                 subParameModules = value;
                 this.RaisePropertyChanged(() => this.SubParameModules);
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+                this.RaisePropertyChanged(() => this.Name);
             }
         }
 
