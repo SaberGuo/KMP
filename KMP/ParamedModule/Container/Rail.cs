@@ -115,5 +115,10 @@ namespace ParamedModule.Container
             InventorTool.AddTwoPointDistance(osketch, L5.StartSketchPoint, L5.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.DownBridgeHeight;
             InventorTool.AddTwoPointDistance(osketch, L6.StartSketchPoint, L6.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.DownBridgeWidth;
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

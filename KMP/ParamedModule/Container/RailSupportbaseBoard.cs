@@ -23,6 +23,11 @@ namespace ParamedModule.Container
 
         }
 
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void CreateModule(ParameterBase Parameter)
         {
             throw new NotImplementedException();

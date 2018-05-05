@@ -72,6 +72,6 @@ namespace ParamedModule
         }
 
         public abstract void CreateModule(ParameterBase Parameter);
-     
+        public abstract bool CheckParamete();
     }
 }

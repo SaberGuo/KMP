@@ -409,5 +409,10 @@ Math.PI * 1.5 - parPedestal.UnderBoardingAngle / 360 * Math.PI, parPedestal.Unde
            return InventorTool.GetCollectionFromIEnumerator<SketchLine>(collection);
 
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

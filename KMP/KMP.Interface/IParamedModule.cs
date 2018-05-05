@@ -15,5 +15,6 @@ namespace KMP.Interface
         ComponentOccurrence Occurrence { get; set; }
         ObservableCollection<IParamedModule> SubParameModules { get; set; }
         void CreateModule(ParameterBase Parameter);
+        bool CheckParamete();
     }
 }

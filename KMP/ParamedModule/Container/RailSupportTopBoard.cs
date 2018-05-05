@@ -44,5 +44,10 @@ namespace ParamedModule.Container
            PlanarSketch holeSketch= partDef.Sketches.Add(InventorTool.GetFirstFromIEnumerator<Face>(block.EndFaces.GetEnumerator()));
            
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

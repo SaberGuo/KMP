@@ -52,5 +52,10 @@ namespace ParamedModule.Container
             Profile profile = osketch.Profiles.AddForSolid();
             RevolveFeature revolve = partDef.Features.RevolveFeatures.AddFull(profile, Line1, PartFeatureOperationEnum.kNewBodyOperation);
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

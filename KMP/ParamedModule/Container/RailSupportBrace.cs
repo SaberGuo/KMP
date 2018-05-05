@@ -63,5 +63,10 @@ namespace ParamedModule.Container
             partDef.Features.ExtrudeFeatures.Add(holeDef);
             
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -22,6 +22,11 @@ namespace ParamedModule.Container
 
         }
 
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void CreateModule(ParameterBase Parameter)
         {
             AssemblyDocument assembly = InventorTool.CreateAssembly();

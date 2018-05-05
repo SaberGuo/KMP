@@ -214,6 +214,11 @@ namespace ParamedModule.Container
             TwoPointDistanceDimConstraint Constraint1 = osketch.DimensionConstraints.AddTwoPointDistance(p1, p2, DimensionOrientationEnum.kAlignedDim, p);
             Constraint1.Parameter.Value = value;
         }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
         ///// <summary>
         ///// 创建两条线关联
         ///// </summary>
@@ -242,8 +247,8 @@ namespace ParamedModule.Container
         //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
         //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
         //    }
-           
-           
+
+
         //}
     }
 }
