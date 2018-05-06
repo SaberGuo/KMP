@@ -20,6 +20,7 @@ namespace ParameterService
             list = ServiceLocator.Current.GetAllInstances<IParamedModule>().ToList();
          
         }
+        IParamedModule assemsly;
         public void Create()
         {
 
@@ -40,25 +41,30 @@ namespace ParameterService
                     case "ParRail":
                        // item.CreateModule(new ParRail());
                         break;
-                    case "ParRailSupportBrace":
-                        item.CreateModule(new ParRailSupportBrace());
-                        break;
-                    case "ParRailSupportTopBoard":
-                        item.CreateModule(new ParRailSupportTopBoard());
-                        break;
-                    case "ParRailSupportCenterBoard":
-                        item.CreateModule(new ParRailSupportCenterBoard());
-                        break;
-                    case "ParRailSupportSidePlate":
-                        item.CreateModule(new ParRailSupportSidePlate()); 
-                        break;
-                    case "ParRailSupportbaseBoard":
-                        item.CreateModule(new ParRailSupportbaseBoard()); 
+                    //case "ParRailSupportBrace":
+                    //    item.CreateModule(new ParRailSupportBrace());
+                    //    break;
+                    //case "ParRailSupportTopBoard":
+                    //    item.CreateModule(new ParRailSupportTopBoard());
+                    //    break;
+                    //case "ParRailSupportCenterBoard":
+                    //    item.CreateModule(new ParRailSupportCenterBoard());
+                    //    break;
+                    //case "ParRailSupportSidePlate":
+                    //    item.CreateModule(new ParRailSupportSidePlate());
+                    //    break;
+                    //case "ParRailSupportbaseBoard":
+                    //    item.CreateModule(new ParRailSupportbaseBoard());
+                    //    break;
+                    case "ParRailSupport":
+                      assemsly=  item;
                         break;
                     default:
                         break;
                 }
+               
             }
+            assemsly.CreateModule(new ParRailSupport());
         }
     }
 }

@@ -32,7 +32,7 @@ namespace ParamedModule.Container
             if (parCylineDoor == null) return;
             init();
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             SketchEllipticalArc Arc1 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius, parCylineDoor.InRadius,  0, Math.PI / 2);
             SketchEllipticalArc Arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, parCylineDoor.DoorRadius + parCylineDoor.Thickness, parCylineDoor.InRadius+parCylineDoor.Thickness,  0, Math.PI / 2);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)Arc1, (SketchEntity)Arc2);
@@ -49,7 +49,7 @@ namespace ParamedModule.Container
             Point2d p = InventorTool.TranGeo.CreatePoint2d((Line1.StartSketchPoint.Geometry.X + Line1.EndSketchPoint.Geometry.X) / 2 + 1, (Line1.StartSketchPoint.Geometry.Y + Line1.EndSketchPoint.Geometry.Y) / 2+1);
             osketch.DimensionConstraints.AddTwoPointDistance(Line1.StartSketchPoint, Line1.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
             Profile profile = osketch.Profiles.AddForSolid();
-            RevolveFeature revolve = partDef.Features.RevolveFeatures.AddFull(profile, Line1, PartFeatureOperationEnum.kNewBodyOperation);
+            RevolveFeature revolve = Definition.Features.RevolveFeatures.AddFull(profile, Line1, PartFeatureOperationEnum.kNewBodyOperation);
         }
 
         public override bool CheckParamete()

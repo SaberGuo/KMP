@@ -43,7 +43,7 @@ namespace ParamedModule.Container
             if (parPedestal == null) return;
             init();
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.Visible = false;
             #region 创建圆
             SketchArc outArc, underBoardArc;
@@ -85,7 +85,7 @@ namespace ParamedModule.Container
         {
             List<SketchEntity> leftEntitys = new List<SketchEntity>();
             List<SketchEntity> rightEntitys = new List<SketchEntity>();
-            PlanarSketch osketch=  partDef.Sketches.Add(InventorTool.GetFirstFromIEnumerator<Face>(footboard.EndFaces.GetEnumerator()));
+            PlanarSketch osketch=  Definition.Sketches.Add(InventorTool.GetFirstFromIEnumerator<Face>(footboard.EndFaces.GetEnumerator()));
             for(int i=0; i<leftLines.Count-1;i++)
             {
               SketchEntity entity=  osketch.AddByProjectingEntity(leftLines[i]);
@@ -137,9 +137,9 @@ namespace ParamedModule.Container
                 }
                // item.AddsMaterial = false;
             }
-            ExtrudeDefinition ex = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(parPedestal.FootBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            partDef.Features.ExtrudeFeatures.Add(ex);
+            Definition.Features.ExtrudeFeatures.Add(ex);
         }
         /// <summary>
         /// 判断草图路径中是否含有草图实体
@@ -160,17 +160,17 @@ namespace ParamedModule.Container
         /// <param name="line3"></param>
         private ExtrudeFeature CreateBackBoard(SketchArc arc,SketchLine line1,SketchLine line2,SketchLine line3)
         {
-          WorkPlane pp=  partDef.WorkPlanes.AddByPlaneAndOffset(partDef.WorkPlanes[3], parPedestal.BackBoardMoveDistance + "mm");
-            PlanarSketch osketch = partDef.Sketches.Add(pp);
+          WorkPlane pp=  Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], parPedestal.BackBoardMoveDistance + "mm");
+            PlanarSketch osketch = Definition.Sketches.Add(pp);
             pp.Visible = false;
             osketch.AddByProjectingEntity(arc);
             osketch.AddByProjectingEntity(line3);
             osketch.AddByProjectingEntity(line1);
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
-            ExtrudeDefinition ex = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(parPedestal.PanelThickness, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-           return  partDef.Features.ExtrudeFeatures.Add(ex);
+           return  Definition.Features.ExtrudeFeatures.Add(ex);
         }
         /// <summary>
         /// 创建垫板
@@ -181,15 +181,15 @@ namespace ParamedModule.Container
         /// <param name="line2"></param>
         private void CreateunderBoard(SketchArc inArc,SketchArc outArc,SketchLine line1,SketchLine line2)
         {
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.AddByProjectingEntity(inArc);
             osketch.AddByProjectingEntity(outArc);
             osketch.AddByProjectingEntity(line1);
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
-            ExtrudeDefinition ex = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(parPedestal.UnderBoardWidth,PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            partDef.Features.ExtrudeFeatures.Add(ex);
+            Definition.Features.ExtrudeFeatures.Add(ex);
         }
 
         /// <summary>
@@ -198,15 +198,15 @@ namespace ParamedModule.Container
         /// <param name="list"></param>
         private void CreatePedestalBoard(List<SketchLine> list)
         {
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             foreach (var item in list)
             {
                 osketch.AddByProjectingEntity(item);
             }
             Profile profile = osketch.Profiles.AddForSolid();
-            ExtrudeDefinition ex = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(parPedestal.UnderBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            partDef.Features.ExtrudeFeatures.Add(ex);
+            Definition.Features.ExtrudeFeatures.Add(ex);
         }
 
 

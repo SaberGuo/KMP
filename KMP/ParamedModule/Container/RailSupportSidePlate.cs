@@ -17,7 +17,7 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
   public  class RailSupportSidePlate : PartModulebase
     {
-        ParRailSupportSidePlate par = new ParRailSupportSidePlate();
+        internal ParRailSupportSidePlate par = new ParRailSupportSidePlate();
         public RailSupportSidePlate():base()
         {
             this.Parameter = par;
@@ -38,8 +38,15 @@ namespace ParamedModule.Container
         {
             init();
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
-            InventorTool.CreateBox(partDef, osketch, par.Length/10, par.Width/10, par.Thickness);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+           ExtrudeFeature box= InventorTool.CreateBox(Definition, osketch, par.Length/10, par.Width/10, par.Thickness);
+            Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
+            box.Name = "RailSidePlate";
+            List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
+            MateiMateDefinition mateA = Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0);
+            mateA.Name = "mateA";
+           // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushA";
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name="flushB";
             SaveDoc();
         }
     }

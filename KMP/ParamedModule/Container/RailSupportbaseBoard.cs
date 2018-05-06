@@ -18,7 +18,7 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
  public  class RailSupportbaseBoard : PartModulebase
     {
-        ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
+        internal ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
         [ImportingConstructor]
         public RailSupportbaseBoard():base()
         {
@@ -39,8 +39,24 @@ namespace ParamedModule.Container
         {
             init();
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
-            InventorTool.CreateBox(partDef, osketch, par.Length/10, par.Width/10, par.Thickness);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, par.Length/10, par.Width/10, par.Thickness);
+            List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
+            box.Name = "RailBaseBoard";
+          
+            Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
+            Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
+            List<Edge> startEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(startFace.Edges.GetEnumerator());
+            List<Edge> endEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(endFace.Edges.GetEnumerator());
+            MateiMateDefinition mateA = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
+            mateA.Name = "mateA";
+            MateiMateDefinition mateB = Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0);
+            mateB.Name = "mateB";
+           // partDef.iMateDefinitions.AddAngleiMateDefinition(sideFaces[0], false, Math.PI/2);
+            //Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0 ).Name= "flushA";
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name="flushB";
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[3], 0).Name="flushC";
+           // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushD";
             SaveDoc();
         }
     }

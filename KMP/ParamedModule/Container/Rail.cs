@@ -38,12 +38,12 @@ namespace ParamedModule.Container
 
 
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();
-            ExtrudeDefinition ex= partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex= Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(parRail.RailLength + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            partDef.Features.ExtrudeFeatures.Add(ex);
+            Definition.Features.ExtrudeFeatures.Add(ex);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RailSupportTopBoard : PartModulebase
     {
-        ParRailSupportTopBoard par = new ParRailSupportTopBoard();
+      internal  ParRailSupportTopBoard par = new ParRailSupportTopBoard();
         public RailSupportTopBoard():base()
         {
             this.Parameter = par;
@@ -37,9 +37,13 @@ namespace ParamedModule.Container
         public override void CreateModule(ParameterBase Parameter)
         {
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
-           InventorTool.CreateBoxWithHole(partDef,osketch,par.Width/10,par.Width / 10, par.Thickness,
+           PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition,osketch,par.Width/10,par.Width / 10, par.Thickness,
                 par.HoleCenterDistance / 10, par.HoleTopEdgeDistance / 10, par.HoleSideEdgeDistance / 10, par.HoleRadius / 10);
+            Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
+            box.Name = "TopBoard";
+            MateiMateDefinition mateD = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
+            mateD.Name = "mateD";
             SaveDoc();
         }
 

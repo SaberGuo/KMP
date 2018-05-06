@@ -8,26 +8,25 @@ namespace ParamedModule
 {
   public abstract  class PartModulebase:ParamedModuleBase
     {
-      protected  PartComponentDefinition partDef;
-        PartDocument part;
+      internal  PartComponentDefinition Definition;
+      internal  PartDocument Doc;
         public PartModulebase():base()
         {
-
+            this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name + ".ipt";
         }
        protected void CreateDoc()
         {
-             part = InventorTool.CreatePart();
-            partDef = part.ComponentDefinition;
+             Doc = InventorTool.CreatePart();
+            Definition = Doc.ComponentDefinition;
         }
       
         protected void SaveDoc()
         {
-
-            part.FullFileName = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name+ ".ipt";
-            part.Save();
-            part.Close();
-            part = null;
-            partDef = null;
+           
+            Doc.FullFileName = ModelPath;
+            Doc.Save();
+          //  Doc.Close();
+          
         }
     }
 }

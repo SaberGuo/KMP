@@ -38,7 +38,7 @@ namespace ParamedModule.Container
         public override void CreateModule(ParameterBase Parameter)
         {
             CreateDoc();
-            PlanarSketch osketch = partDef.Sketches.Add(partDef.WorkPlanes[3]);
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             SketchEllipticalArc Arc1, Arc2;
             SketchLine Line1, Line2;
             CreateLines(osketch,out Arc1,out Line1,parCylinder.CapRadius,parCylinder.InRadius,parCylinder.Length);
@@ -77,7 +77,7 @@ namespace ParamedModule.Container
 
             CreateRibs(osketch, Line2);
             Profile profile = osketch.Profiles.AddForSolid();
-            RevolveFeature revolve = partDef.Features.RevolveFeatures.AddFull(profile, Line3,PartFeatureOperationEnum.kNewBodyOperation);
+            RevolveFeature revolve = Definition.Features.RevolveFeatures.AddFull(profile, Line3,PartFeatureOperationEnum.kNewBodyOperation);
 
         }
         /// <summary>

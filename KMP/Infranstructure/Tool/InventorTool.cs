@@ -119,7 +119,10 @@ namespace Infranstructure.Tool
         }
 
       
-
+        public static ObjectCollection CreateObjectCollection()
+        {
+            return Inventor.TransientObjects.CreateObjectCollection();
+        }
         public static PartDocument CreatePart()
         {
             
@@ -308,7 +311,7 @@ namespace Infranstructure.Tool
         /// <param name="holeTopEdgeDistance">孔圆心到长方体边的最短距离</param>
         /// <param name="holeSideEdgeDistance">孔圆心到长方体边的最短距离</param>
         /// <param name="holeRadius">半圆半径</param>
-        public static void CreateBoxWithHole(PartComponentDefinition partDef,PlanarSketch osketch, double width, double lenght, double height,
+        public static ExtrudeFeature  CreateBoxWithHole(PartComponentDefinition partDef,PlanarSketch osketch, double width, double lenght, double height,
         double holeCenterDistance, double holeTopEdgeDistance, double holeSideEdgeDistance, double holeRadius)
         {
             ExtrudeFeature block = InventorTool.CreateBox(partDef, osketch, lenght, width, height);
@@ -329,6 +332,7 @@ namespace Infranstructure.Tool
             objects.Add(mirror);
             MirrorFeatureDefinition mirrorDef2 = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane1);
             partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);
+            return block;
         }
         /// <summary>
         /// 创建一个槽型孔
@@ -388,6 +392,8 @@ namespace Infranstructure.Tool
 
             return partDef.Features.ExtrudeFeatures.Add(ex);
         }
+     
+       
     }
     public struct XY
     {

@@ -12,7 +12,7 @@ namespace ParamedModule
     public abstract class ParamedModuleBase :NotificationObject, IParamedModule
     {
         ParameterBase parameter;
-        ObservableCollection<IParamedModule> subParameModules;
+        ObservableCollection<IParamedModule> subParameModules=new ObservableCollection<IParamedModule>();
         string modelPath;
         string name;
 
