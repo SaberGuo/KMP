@@ -75,7 +75,6 @@ namespace KMP.Parameterization.InventorMonitor
 
             }
         }
-
         #region Apprentice
         private ApprenticeServerComponent _oserver;
         private ApprenticeServerDocument _odocument;

@@ -18,6 +18,7 @@ namespace ParamedModule
         public Cylinder():base()
         {
             this.Parameter = parCylinder;
+            this.ModelName = "Cylinder";
         }
         private void init()
         {

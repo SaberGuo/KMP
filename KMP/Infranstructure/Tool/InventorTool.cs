@@ -92,7 +92,13 @@ namespace Infranstructure.Tool
                 }
                 catch (Exception)
                 {
-                    throw new ArgumentException("inventor 没有打开");
+                    //throw new ArgumentException("inventor 没有打开");
+
+                }
+                if (inventor == null)
+                {
+                    Type inventorAppType = System.Type.GetTypeFromProgID("Inventor.Application");
+                    inventor = System.Activator.CreateInstance(inventorAppType) as Inventor.Application;
 
                 }
                 return inventor;

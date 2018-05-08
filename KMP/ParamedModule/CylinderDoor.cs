@@ -18,6 +18,7 @@ namespace ParamedModule
         public CylinderDoor():base()
         {
             this.Parameter = parCylineDoor;
+            this.ModelName = "CylinderDoor";
         }
         private void init()
         {

@@ -1,4 +1,6 @@
 ﻿using Infranstructure.Events;
+using KMP.Interface;
+using KMP.Interface.Model;
 using KMP.Parameterization.InventorMonitor;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
@@ -29,9 +31,11 @@ namespace KMP.Parameterization
 
         private void OnUpdateModel(string filePath)
         {
-            this._invMonitorController.UpdateInvModel(filePath);
+            OnParamedModuleDisplayTest();
+            //this._invMonitorController.UpdateInvModel(filePath);
         }
 
+        
         public ObservableCollection<IInvMonitorViewModel> Documents {
             get
             {
@@ -39,5 +43,19 @@ namespace KMP.Parameterization
             }
         }
 
+        #region test
+        public ParameterBase SelectedModule { get; set; }
+        public List<IParamedModule> Modules { get; set; }
+        private void OnParamedModuleDisplayTest()
+        {
+            Modules = new List<IParamedModule>();
+            IParamedModule rootModule = new ParamedModule.Cylinder();
+            Modules.Add(rootModule);
+
+            rootModule.SubParamModules.Add(new ParamedModule.CylinderDoor());
+            rootModule.SubParamModules.Add(new ParamedModule.Pedestal());
+            RaisePropertyChanged("Modules");
+        }
+        #endregion
     }
 }

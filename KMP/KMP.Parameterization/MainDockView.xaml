@@ -7,6 +7,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:invMonitor="clr-namespace:KMP.Parameterization.InventorMonitor"
+             xmlns:model ="clr-namespace:KMP.Interface;assembly=KMP.Interface"
              mc:Ignorable="d">
     <xcad:DockingManager AllowMixedOrientation="True"
                          BorderBrush="Black"
@@ -34,8 +35,14 @@
                     <xcad:LayoutAnchorable ContentId="properties" Title="参数" CanHide="False" CanClose="False"
                                             AutoHideWidth="240"
                                          IconSource="./Resources/Image/property-blue.png">
-                        <xctk:PropertyGrid NameColumnWidth="110"
-                        SelectedObject="{Binding ElementName=_layoutRoot, Path=LastFocusedDocument.Content}"/>
+                        <StackPanel Orientation="Vertical">
+                            <ToolBar>
+                                <Button Content="更新"/>
+                            </ToolBar>
+                            <xctk:PropertyGrid NameColumnWidth="110"
+                        SelectedObject="{Binding ElementName=_moduleTree, Path=SelectedItem.Parameter}"/>
+                        </StackPanel>
+                        
                     </xcad:LayoutAnchorable>
                 </xcad:LayoutAnchorablePane>
                 <xcad:LayoutDocumentPaneGroup>
@@ -47,7 +54,15 @@
                     <xcad:LayoutAnchorablePane>
                       
                         <xcad:LayoutAnchorable ContentId="journal" Title="结构" >
-
+                            <TreeView ItemsSource="{Binding Modules}" x:Name="_moduleTree">
+                                <TreeView.ItemTemplate>
+                                    <HierarchicalDataTemplate DataType="{x:Type model:IParamedModule}" ItemsSource="{Binding SubParamModules,UpdateSourceTrigger=PropertyChanged}">
+                                        <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                            <TextBlock Text="{Binding Path =ModelName }"></TextBlock>
+                                        </StackPanel>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.ItemTemplate>
+                            </TreeView>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutAnchorablePaneGroup>

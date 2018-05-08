@@ -13,6 +13,7 @@ namespace ParamedModule
         public Pedestal():base()
         {
             this.Parameter = this.parPedestal;
+            this.ModelName = "Pedestal";
         }
         void init()
         {
