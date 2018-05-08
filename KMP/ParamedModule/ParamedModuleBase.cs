@@ -13,36 +13,13 @@ namespace ParamedModule
     {
 
         ParameterBase parameter;
-        ObservableCollection<IParamedModule> subParameModules=new ObservableCollection<IParamedModule>();
+        ObservableCollection<IParamedModule> subParamedModules=new ObservableCollection<IParamedModule>();
         string modelPath;
         string name;
 
-        public ComponentOccurrence Occurrence
-        {
-            get
-            {
-             throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }*/
+    
         public ComponentOccurrence Occurrence { get; set; }
 
-        public string ModelName
-        {
-            get
-            {
-                return this.modelName;
-            }
-            set
-            {
-                this.modelName = value;
-                RaisePropertyChanged(() => this.ModelName);
-            }
-        }
         public ParameterBase Parameter
         {
             get
@@ -71,17 +48,17 @@ namespace ParamedModule
             }
         }
 
-       public ObservableCollection<IParamedModule> SubParameModules
+       public ObservableCollection<IParamedModule> SubParamedModules
         {
             get
             {
-                return subParameModules;
+                return subParamedModules;
             }
 
             set
             {
-                subParameModules = value;
-                this.RaisePropertyChanged(() => this.SubParameModules);
+                subParamedModules = value;
+                this.RaisePropertyChanged(() => this.SubParamedModules);
             }
         }
 

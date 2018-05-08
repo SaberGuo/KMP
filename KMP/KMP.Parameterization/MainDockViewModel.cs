@@ -49,11 +49,11 @@ namespace KMP.Parameterization
         private void OnParamedModuleDisplayTest()
         {
             Modules = new List<IParamedModule>();
-            IParamedModule rootModule = new ParamedModule.Cylinder();
+            IParamedModule rootModule = new ParamedModule.Container.Cylinder();
             Modules.Add(rootModule);
 
-            rootModule.SubParamModules.Add(new ParamedModule.CylinderDoor());
-            rootModule.SubParamModules.Add(new ParamedModule.Pedestal());
+            rootModule.SubParamedModules.Add(new ParamedModule.Container.CylinderDoor());
+            rootModule.SubParamedModules.Add(new ParamedModule.Container.Pedestal());
             RaisePropertyChanged("Modules");
         }
         #endregion

@@ -327,11 +327,11 @@ namespace Infranstructure.Tool
             plane1.Visible = false;
             ObjectCollection objects = InventorTool.Inventor.TransientObjects.CreateObjectCollection();
             objects.Add(hole);
-            MirrorFeatureDefinition mirrorDef = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane);
+            /*MirrorFeatureDefinition mirrorDef = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane);
             MirrorFeature mirror = partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef);
             objects.Add(mirror);
             MirrorFeatureDefinition mirrorDef2 = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane1);
-            partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);
+            partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);*/
             return block;
         }
         /// <summary>
