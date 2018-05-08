@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using KMP.Interface.Model;
+using KMP.Interface.Model.Container;
+using Infranstructure.Tool;
+using KMP.Interface;
+using System.ComponentModel.Composition;
+using Inventor;
+namespace ParamedModule.Container
+{
+    [Export(typeof(IParamedModule))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class CylinderDoor : PartModulebase
+    {
+        ParCylinderDoor par = new ParCylinderDoor();
+        [ImportingConstructor]
+        public CylinderDoor():base()
+        {
+            this.Parameter = par;
+        }
+        private void init()
+        {
+            par.InRadius = 100;
+            par.DoorRadius = 70;
+            par.Thickness = 2;
+            par.FlanchWidth = 4;
+        }
+        public override void CreateModule()
+        {
+            par = Parameter as ParCylinderDoor;
+            if (par == null) return;
+            init();
+            CreateDoc();
+            RevolveFeature revolve = CreateDoor();
+            List<Face> sideFace = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.SideFaces.GetEnumerator());
+            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFace[4]);
+            Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
+            Definition.iMateDefinitions.AddMateiMateDefinition(sideFace[3], 0).Name = "mateK";
+        }
+
+        private RevolveFeature CreateDoor()
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+            SketchEllipticalArc Arc1 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, par.DoorRadius, par.InRadius, 0, Math.PI / 2);
+            SketchEllipticalArc Arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.Origin, InventorTool.Left, par.DoorRadius + par.Thickness, par.InRadius + par.Thickness, 0, Math.PI / 2);
+            osketch.GeometricConstraints.AddConcentric((SketchEntity)Arc1, (SketchEntity)Arc2);
+            SketchLine Line1 = osketch.SketchLines.AddByTwoPoints(Arc1.StartSketchPoint, Arc2.StartSketchPoint);
+            SketchLine Line2 = osketch.SketchLines.AddByTwoPoints(Arc1.EndSketchPoint, Arc2.EndSketchPoint);
+
+            osketch.GeometricConstraints.AddHorizontalAlign(Arc1.StartSketchPoint, Arc1.CenterSketchPoint);
+            osketch.GeometricConstraints.AddVerticalAlign(Arc1.EndSketchPoint, Arc1.CenterSketchPoint);
+            osketch.GeometricConstraints.AddHorizontal((SketchEntity)Line1);
+            osketch.GeometricConstraints.AddVertical((SketchEntity)Line2);
+            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, true, InventorTool.TranGeo.CreatePoint2d(-par.DoorRadius / 2, 0));
+            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, false, InventorTool.TranGeo.CreatePoint2d(0, -par.InRadius / 2));
+            Point2d p = InventorTool.TranGeo.CreatePoint2d((Line1.StartSketchPoint.Geometry.X + Line1.EndSketchPoint.Geometry.X) / 2 + 1, (Line1.StartSketchPoint.Geometry.Y + Line1.EndSketchPoint.Geometry.Y) / 2 + 1);
+            osketch.DimensionConstraints.AddTwoPointDistance(Line1.StartSketchPoint, Line1.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
+
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, par.Thickness, par.Thickness);
+            SketchEntitiesEnumerator entities1 = InventorTool.CreateRangle(osketch, par.Thickness, par.FlanchWidth);
+            List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
+            List<SketchLine> flanchLines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities1.GetEnumerator());
+
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            ObjectCollection flanchObjc = InventorTool.CreateObjectCollection();
+            lines.ForEach(a => objc.Add(a));
+            osketch.MoveSketchObjects(objc, lines[3].EndSketchPoint.Geometry.VectorTo(Line2.EndSketchPoint.Geometry));
+            flanchLines.ForEach(a => flanchObjc.Add(a));
+            osketch.MoveSketchObjects(flanchObjc, flanchLines[3].StartSketchPoint.Geometry.VectorTo(lines[2].StartSketchPoint.Geometry));
+            Profile profile = osketch.Profiles.AddForSolid();
+            RevolveFeature revolve = Definition.Features.RevolveFeatures.AddFull(profile, Line1, PartFeatureOperationEnum.kNewBodyOperation);
+            return revolve;
+        }
+
+        public override bool CheckParamete()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KMP.Interface.Model
+namespace KMP.Interface.Model.Container
 {
   public  class ParPedestal:ParameterBase
     {
@@ -17,6 +17,8 @@ namespace KMP.Interface.Model
         double footBoardBetween;
         double backBoardMoveDistance;
         double footBoardWidth;
+        double pedestalLength;
+        double footBoardNum;
         /// <summary>
         /// 罐体内半径
         /// </summary>
@@ -98,7 +100,7 @@ namespace KMP.Interface.Model
             }
         }
         /// <summary>
-        /// 
+        /// 垫板宽度
         /// </summary>
         public double UnderBoardWidth
         {
@@ -175,6 +177,38 @@ namespace KMP.Interface.Model
             {
                 footBoardWidth = value;
                 this.RaisePropertyChanged(() => this.FootBoardWidth);
+            }
+        }
+       /// <summary>
+       /// 竖板数量
+       /// </summary>
+        public double FootBoardNum
+        {
+            get
+            {
+                return footBoardNum;
+            }
+
+            set
+            {
+                footBoardNum = value;
+                this.RaisePropertyChanged(() => this.FootBoardNum);
+            }
+        }
+        /// <summary>
+        /// 底板长度
+        /// </summary>
+        public double PedestalLength
+        {
+            get
+            {
+                return pedestalLength;
+            }
+
+            set
+            {
+                pedestalLength = value;
+                this.RaisePropertyChanged(() => this.PedestalLength);
             }
         }
     }

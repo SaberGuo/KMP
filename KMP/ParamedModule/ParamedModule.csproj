@@ -49,10 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cylinder.cs" />
-    <Compile Include="CylinderDoor.cs" />
+    <Compile Include="AssembleModuleBase.cs" />
+    <Compile Include="Container\ContainerSystem.cs" />
+    <Compile Include="Container\Cylinder.cs" />
+    <Compile Include="Container\CylinderDoor.cs" />
+    <Compile Include="Container\Rail.cs" />
+    <Compile Include="Container\RailSupport.cs" />
+    <Compile Include="Container\RailSupportbaseBoard.cs" />
+    <Compile Include="Container\RailSupportBrace.cs" />
+    <Compile Include="Container\RailSupportCenterBoard.cs" />
+    <Compile Include="Container\RailSupportSidePlate.cs" />
+    <Compile Include="Container\RailSupportTopBoard.cs" />
     <Compile Include="ParamedModuleBase.cs" />
-    <Compile Include="Pedestal.cs" />
+    <Compile Include="Container\Pedestal.cs" />
+    <Compile Include="PartModulebase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

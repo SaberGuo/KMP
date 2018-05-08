@@ -5,8 +5,10 @@ using System.Text;
 using Microsoft.Practices.Prism.ViewModel;
 namespace KMP.Interface.Model
 {
- public abstract class ParameterBase:NotificationObject
+ public abstract  class ParameterBase:NotificationObject
     {
-        
+       
+
+    
     }
 }

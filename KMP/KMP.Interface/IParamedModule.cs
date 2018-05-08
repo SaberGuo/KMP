@@ -12,10 +12,10 @@ namespace KMP.Interface
     {
         ParameterBase Parameter { get; set; }
         string ModelPath { get; set; }
-
-        string ModelName { get; set; }
-        ObservableCollection<IParamedModule> SubParamModules { get; set; }
+        string Name { get; set; }
         ComponentOccurrence Occurrence { get; set; }
-        void CreateModule(ParameterBase Parameter);
+        ObservableCollection<IParamedModule> SubParameModules { get; set; }
+        void CreateModule();
+        bool CheckParamete();
     }
 }

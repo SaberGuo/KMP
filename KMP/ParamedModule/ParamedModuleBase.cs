@@ -7,21 +7,21 @@ using KMP.Interface;
 using KMP.Interface.Model;
 using Microsoft.Practices.Prism.ViewModel;
 using System.Collections.ObjectModel;
-
 namespace ParamedModule
 {
     public abstract class ParamedModuleBase :NotificationObject, IParamedModule
     {
 
         ParameterBase parameter;
+        ObservableCollection<IParamedModule> subParameModules=new ObservableCollection<IParamedModule>();
         string modelPath;
-        string modelName;
-        ObservableCollection<IParamedModule> subParamModules = new ObservableCollection<IParamedModule>();
-        /*public ComponentOccurrence Occurrence
+        string name;
+
+        public ComponentOccurrence Occurrence
         {
             get
             {
-                throw new NotImplementedException();
+             throw new NotImplementedException();
             }
 
             set
@@ -53,31 +53,53 @@ namespace ParamedModule
             set
             {
                 parameter = value;
+                this.RaisePropertyChanged(() => this.Parameter);
             }
         }
 
-        public string ModelPath {
-            get {
-                return this.modelPath;
+        public string ModelPath
+        {
+            get
+            {
+                return modelPath;
             }
-            set {
-                this.modelPath = value;
-                RaisePropertyChanged(() => this.ModelPath);
 
+            set
+            {
+                modelPath = value;
+                this.RaisePropertyChanged(() => this.ModelPath);
             }
         }
 
-        public ObservableCollection<IParamedModule> SubParamModules {
-            get {
-                return this.subParamModules;
+       public ObservableCollection<IParamedModule> SubParameModules
+        {
+            get
+            {
+                return subParameModules;
             }
-            set {
-                this.subParamModules = value;
-                RaisePropertyChanged(() => this.SubParamModules);
+
+            set
+            {
+                subParameModules = value;
+                this.RaisePropertyChanged(() => this.SubParameModules);
             }
         }
 
-        public abstract void CreateModule(ParameterBase Parameter);
-     
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+                this.RaisePropertyChanged(() => this.Name);
+            }
+        }
+
+        public abstract void CreateModule();
+        public abstract bool CheckParamete();
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.Practices.Prism.Interactivity;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.EnterpriseLibrary.Common;
 using Microsoft.Practices.Prism.ViewModel;
-namespace KMP.Interface.Model
+namespace KMP.Interface.Model.Container
 {
   public  class ParCylinder:ParameterBase
     {
@@ -22,6 +22,7 @@ namespace KMP.Interface.Model
         double ribFirstDistance;
         double ribBraceWidth;
         double ribBraceHeight;
+        double flanchWidth;
         /// <summary>
         /// 罐内半径
         /// </summary>
@@ -184,6 +185,20 @@ namespace KMP.Interface.Model
             {
                 ribBraceHeight = value;
                 this.RaisePropertyChanged(() => this.RibBraceHeight);
+            }
+        }
+
+        public double FlanchWidth
+        {
+            get
+            {
+                return flanchWidth;
+            }
+
+            set
+            {
+                flanchWidth = value;
+                this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
     }
