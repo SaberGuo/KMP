@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssembleModuleBase.cs" />
+    <Compile Include="Container\ContainerSystem.cs" />
     <Compile Include="Container\Cylinder.cs" />
     <Compile Include="Container\CylinderDoor.cs" />
     <Compile Include="Container\Rail.cs" />

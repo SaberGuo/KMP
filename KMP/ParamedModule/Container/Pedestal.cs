@@ -10,8 +10,7 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+  
     public class Pedestal : PartModulebase
     {
         ParPedestal parPedestal = new ParPedestal();
@@ -37,7 +36,7 @@ namespace ParamedModule.Container
         }
      
       
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             parPedestal = Parameter as ParPedestal;
             if (parPedestal == null) return;
@@ -179,7 +178,7 @@ namespace ParamedModule.Container
         /// <param name="outArc"></param>
         /// <param name="line1"></param>
         /// <param name="line2"></param>
-        private void CreateunderBoard(SketchArc inArc,SketchArc outArc,SketchLine line1,SketchLine line2)
+        private void CreateunderBoard(SketchArc inArc, SketchArc outArc, SketchLine line1, SketchLine line2)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.AddByProjectingEntity(inArc);
@@ -188,8 +187,17 @@ namespace ParamedModule.Container
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parPedestal.UnderBoardWidth,PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            Definition.Features.ExtrudeFeatures.Add(ex);
+            ex.SetDistanceExtent(parPedestal.UnderBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ExtrudeFeature underBoard = Definition.Features.ExtrudeFeatures.Add(ex);
+            underBoard.Name = "UnderBoard";
+            List<Face> sidefaces = InventorTool.GetCollectionFromIEnumerator<Face>(underBoard.SideFaces.GetEnumerator());
+            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sidefaces[1]);
+            Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name="mateM";
+          
+            //Definition.iMateDefinitions.AddMateiMateDefinition(faces[0], 0).Name = "matey";
+            //Definition.iMateDefinitions.AddMateiMateDefinition(faces[1], 0).Name = "matew";
+            //Definition.iMateDefinitions.AddMateiMateDefinition(faces[2], 0).Name = "matez";
+            //Definition.iMateDefinitions.AddMateiMateDefinition(faces[3], 0).Name = "mateu";
         }
 
         /// <summary>

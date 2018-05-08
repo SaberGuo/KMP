@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
+    <Compile Include="Model\Container\ParContainerSystem.cs" />
     <Compile Include="Model\Container\ParRail.cs" />
     <Compile Include="Model\Container\ParRailSupport.cs" />
     <Compile Include="Model\Container\ParRailSupportbaseBoard.cs" />

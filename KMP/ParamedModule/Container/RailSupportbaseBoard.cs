@@ -14,8 +14,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架底板
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+
  public  class RailSupportbaseBoard : PartModulebase
     {
         internal ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
@@ -35,7 +34,7 @@ namespace ParamedModule.Container
             return true;
         }
 
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             init();
             CreateDoc();

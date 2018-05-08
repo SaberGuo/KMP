@@ -22,6 +22,7 @@ namespace KMP.Interface.Model.Container
         double ribFirstDistance;
         double ribBraceWidth;
         double ribBraceHeight;
+        double flanchWidth;
         /// <summary>
         /// 罐内半径
         /// </summary>
@@ -184,6 +185,20 @@ namespace KMP.Interface.Model.Container
             {
                 ribBraceHeight = value;
                 this.RaisePropertyChanged(() => this.RibBraceHeight);
+            }
+        }
+
+        public double FlanchWidth
+        {
+            get
+            {
+                return flanchWidth;
+            }
+
+            set
+            {
+                flanchWidth = value;
+                this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
     }

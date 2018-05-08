@@ -10,8 +10,7 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+   
     public  class Rail: PartModulebase
     {
         ParRail parRail = new ParRail();
@@ -30,7 +29,7 @@ namespace ParamedModule.Container
             parRail.DownBridgeWidth = 120;
             parRail.RailLength = 2950;
         }
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             parRail = Parameter as ParRail;
             if (parRail == null) return;

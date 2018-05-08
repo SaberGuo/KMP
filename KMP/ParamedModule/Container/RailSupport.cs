@@ -13,8 +13,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+ 
    public class RailSupport : AssembleModuleBase
     {
         ParRailSupport par = new ParRailSupport();
@@ -44,13 +43,13 @@ namespace ParamedModule.Container
             throw new NotImplementedException();
         }
 
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
-            centerBoard.CreateModule(new ParRailSupportCenterBoard());
-            baseBoard.CreateModule(new ParRailSupportbaseBoard());
-            sidePlate.CreateModule(new ParRailSupportSidePlate());
-            brace.CreateModule(new ParRailSupportBrace());
-            topBoard.CreateModule(new ParRailSupportTopBoard());
+            centerBoard.CreateModule();
+            baseBoard.CreateModule();
+            sidePlate.CreateModule();
+            brace.CreateModule();
+            topBoard.CreateModule();
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
           ComponentOccurrence CObaseBoad = LoadOccurrence((ComponentDefinition)baseBoard.Doc.ComponentDefinition);
@@ -58,10 +57,10 @@ namespace ParamedModule.Container
             ComponentOccurrence COsidePlate = LoadOccurrence((ComponentDefinition)sidePlate.Doc.ComponentDefinition);
             ComponentOccurrence CObrace = LoadOccurrence((ComponentDefinition)brace.Doc.ComponentDefinition);
             ComponentOccurrence COtopBoard = LoadOccurrence((ComponentDefinition)topBoard.Doc.ComponentDefinition);
-            List<Face> baseBoardSideFaces = GetSideFaces("RailBaseBoard");
-            List<Face> sidePlateSideFaces = GetSideFaces("RailSidePlate");
-            List<Face> centerBoardSF = GetSideFaces("CenterBoard");
-            List<Face> topBoardSF = GetSideFaces("TopBoard");
+            List<Face> baseBoardSideFaces = GetSideFaces(CObaseBoad,"RailBaseBoard");
+            List<Face> sidePlateSideFaces = GetSideFaces(COsidePlate,"RailSidePlate");
+            List<Face> centerBoardSF = GetSideFaces(COcenterBoad,"CenterBoard");
+            List<Face> topBoardSF = GetSideFaces(COtopBoard,"TopBoard");
              List<WorkAxis> braceAxises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)CObrace.Definition).WorkAxes.GetEnumerator());
             WorkAxis braceAxis = braceAxises.Where(a => a.Name == "BraceAxis").FirstOrDefault();
             SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE", -centerBoard.par.Width / 2);
@@ -76,9 +75,6 @@ namespace ParamedModule.Container
             SetiMateResult(CObrace);
             SetiMateResult(COtopBoard);
         }
-        private List<Face> GetSideFaces(string name)
-        {
-          return  InventorTool.GetCollectionFromIEnumerator<Face>(((ExtrudeFeature)partFeatures[name]).SideFaces.GetEnumerator());
-        }
+      
     }
 }

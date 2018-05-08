@@ -13,8 +13,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架立柱下钣金
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+
    public class RailSupportCenterBoard : PartModulebase
     {
         internal ParRailSupportCenterBoard par = new ParRailSupportCenterBoard();
@@ -32,7 +31,7 @@ namespace ParamedModule.Container
             par.HoleTopEdgeDistance = 25;
         }
 
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             init();
             CreateDoc();

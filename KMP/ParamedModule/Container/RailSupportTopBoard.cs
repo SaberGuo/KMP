@@ -14,8 +14,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架顶板
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+   
     public class RailSupportTopBoard : PartModulebase
     {
       internal  ParRailSupportTopBoard par = new ParRailSupportTopBoard();
@@ -34,7 +33,7 @@ namespace ParamedModule.Container
             par.HoleTopEdgeDistance = 15;
         }
       
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             CreateDoc();
            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);

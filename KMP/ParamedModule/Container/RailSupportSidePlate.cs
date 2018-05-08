@@ -13,8 +13,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架侧板
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+
   public  class RailSupportSidePlate : PartModulebase
     {
         internal ParRailSupportSidePlate par = new ParRailSupportSidePlate();
@@ -34,7 +33,7 @@ namespace ParamedModule.Container
             throw new NotImplementedException();
         }
 
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             init();
             CreateDoc();

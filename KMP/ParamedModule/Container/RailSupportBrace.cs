@@ -14,8 +14,7 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架支撑
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+
   public  class RailSupportBrace : PartModulebase
     {
         internal ParRailSupportBrace parBrace = new ParRailSupportBrace();
@@ -32,7 +31,7 @@ namespace ParamedModule.Container
             parBrace.Thickness = 15;
         }
 
-        public override void CreateModule(ParameterBase Parameter)
+        public override void CreateModule()
         {
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);

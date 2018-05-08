@@ -273,13 +273,13 @@ namespace Infranstructure.Tool
         /// <param name="length"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public static List<SketchLine> CreateRangle(PlanarSketch osketch, double length, double width)
+        public static SketchEntitiesEnumerator CreateRangle(PlanarSketch osketch, double length, double width)
         {
             SketchEntitiesEnumerator entities = osketch.SketchLines.AddAsTwoPointRectangle(InventorTool.Origin, InventorTool.TranGeo.CreatePoint2d(2, 2));
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             InventorTool.AddTwoPointDistance(osketch, lines[0].StartSketchPoint, lines[0].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = length;
             InventorTool.AddTwoPointDistance(osketch, lines[1].StartSketchPoint, lines[1].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = width;
-            return lines;
+            return entities;
         }
         /// <summary>
         /// 创建一个长方体
