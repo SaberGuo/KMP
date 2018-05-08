@@ -56,8 +56,12 @@ namespace ParamedModule
                 this.RaisePropertyChanged(() => this.ModelPath);
             }
         }
+        public double UsMM(double value)
+        {
+            return value / 10;
+        }
 
-       public ObservableCollection<IParamedModule> SubParameModules
+       public ObservableCollection<IParamedModule> SubParamedModules
         {
             get
             {
@@ -67,7 +71,7 @@ namespace ParamedModule
             set
             {
                 subParameModules = value;
-                this.RaisePropertyChanged(() => this.SubParameModules);
+                this.RaisePropertyChanged(() => this.SubParamedModules);
             }
         }
 

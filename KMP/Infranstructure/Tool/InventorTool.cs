@@ -392,7 +392,10 @@ namespace Infranstructure.Tool
 
             return partDef.Features.ExtrudeFeatures.Add(ex);
         }
-     
+       public static Point2d CreatePoint2d(double x,double y)
+        {
+          return  TranGeo.CreatePoint2d(x, y);
+        }
        
     }
     public struct XY

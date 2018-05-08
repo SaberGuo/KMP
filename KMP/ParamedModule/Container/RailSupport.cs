@@ -31,11 +31,11 @@ namespace ParamedModule.Container
             centerBoard = new RailSupportCenterBoard();
             brace = new RailSupportBrace();
             baseBoard = new RailSupportbaseBoard();
-            SubParameModules.Add(topBoard);
-            SubParameModules.Add(sidePlate);
-            SubParameModules.Add(centerBoard);
-            SubParameModules.Add(brace);
-            SubParameModules.Add(baseBoard);
+            SubParamedModules.Add(topBoard);
+            SubParamedModules.Add(sidePlate);
+            SubParamedModules.Add(centerBoard);
+            SubParamedModules.Add(brace);
+            SubParamedModules.Add(baseBoard);
         }
 
         public override bool CheckParamete()

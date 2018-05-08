@@ -30,7 +30,7 @@ namespace ParameterService
                 switch (item.Parameter.GetType().Name)
                 {
                     case "ParCylinder":
-                       // item.CreateModule();
+                        item.CreateModule();
                         break;
                     case "ParCylinderDoor":
                        // item.CreateModule();
@@ -60,7 +60,7 @@ namespace ParameterService
                       assemsly=  item;
                         break;
                     case "ParContainerSystem":
-                        item.CreateModule();
+                       // item.CreateModule();
                         break;
                     default:
                         break;
