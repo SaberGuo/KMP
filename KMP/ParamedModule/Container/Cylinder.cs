@@ -24,56 +24,73 @@ namespace ParamedModule.Container
         }
         private void init()
         {
-            par.InRadius = 100;
-            par.CapRadius = 70;
-            par.Thickness = 2;
-            par.Length = 500;
-            par.RibWidth = 2;
-            par.RibHeight = 2;
-            par.RibBraceHeight = 1;
-            par.RibBraceWidth = 1;
+            par.InRadius = 1400;
+            par.CapRadius = 700;
+            par.Thickness = 24;
+            par.Length = 5000;
+            par.RibWidth = 4;
+            par.RibHeight = 4;
+            par.RibBraceHeight = 2;
+            par.RibBraceWidth = 2;
             par.RibNumber = 3;
-            par.RibFirstDistance = 50;
-            par.FlanchWidth = 4;
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=150,PositionAngle=50,PositionDistance=100,PipeLenght=30,HoleRadius=5};
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -250, PositionAngle = 140, PositionDistance = 200, PipeLenght = 30, HoleRadius = 5 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = -350, PositionAngle = 230, PositionDistance = 300, PipeLenght = 30, HoleRadius = 5 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = -450, PositionAngle = 320, PositionDistance = 400, PipeLenght = 30, HoleRadius = 5 };
+            par.RibFirstDistance = 1000;
+            par.FlanchWidth = 40;
+            ParFlanch parflanch1 = new ParFlanch() { H = 2 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=0,PositionAngle=80,PositionDistance=500,PipeLenght=30,HoleRadius=50};
+            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-1300, PositionAngle = 160, PositionDistance = 500, PipeLenght = 600, HoleRadius = 50 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = -100, PositionAngle = 250, PositionDistance = 1000, PipeLenght = 60, HoleRadius = 200 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = -900, PositionAngle = 300, PositionDistance = 2000, PipeLenght = 60, HoleRadius = 150 };
+            hole.ParFlanch = parflanch1;
+            hole1.ParFlanch = parflanch1;
+            hole2.ParFlanch = parflanch1;
+            hole3.ParFlanch = parflanch1;
             par.ParHoles.Add(hole);
             par.ParHoles.Add(hole1);
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
+            
         }
         public override void CreateModule()
         {
+            if (!CheckParamete()) return;
             CreateDoc();
-          RevolveFeature cyling= CreateCyling();
+          RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius), UsMM(par.Length ), UsMM(par.Thickness ), UsMM(par.RibFirstDistance ));
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
-            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0]);
-            Axis.Visible = false;
+            List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
+            
+            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0],true); //外侧面的轴
+          
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
-            Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";
+            Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";//罐口面
         
-            CreatePlanes(sideFaces);
-            foreach (var item in par.ParHoles)
+            CreatePlanes(sideFaces); //创建孔平面
+            foreach (var item in par.ParHoles)  //创建孔
             {
                 WorkPlane plane = _planes[item.PositionAngle];
                 if (plane == null) continue;
           
-                CreateHole(plane, sideFaces[4], Axis,item,sideFaces[3]);
+                CreateHole(plane, sideFaces[4], Axis,item, outFaceEdges[0]); 
             }
         }
-
-        private RevolveFeature CreateCyling()
+        /// <summary>
+        /// 创建罐本体和加强筋
+        /// </summary>
+        /// <param name="capRadius">封闭门深度</param>
+        /// <param name="inRadius">罐内半径</param>
+        /// <param name="length">罐体长度</param>
+        /// <param name="thickness">罐体厚度</param>
+        /// <param name="RibFirstDistance">加强筋第一个距离罐口位置</param>
+        /// <returns></returns>
+        private RevolveFeature CreateCyling(double capRadius,double inRadius,double length,double thickness,double RibFirstDistance)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             SketchEllipticalArc Arc1, Arc2;
             SketchLine Line1, Line2;
-            CreateLines(osketch, out Arc1, out Line1, par.CapRadius, par.InRadius, par.Length);
+            CreateLines(osketch, out Arc1, out Line1, capRadius, inRadius, length);
 
        
-            CreateLines(osketch, out Arc2, out Line2, par.CapRadius + par.Thickness, par.InRadius + par.Thickness, par.Length);
+            CreateLines(osketch, out Arc2, out Line2, capRadius + thickness, inRadius + thickness, length);
             SketchLine Line3 = osketch.SketchLines.AddByTwoPoints(Arc1.StartSketchPoint, Arc2.StartSketchPoint);
             SketchLine Line4 = osketch.SketchLines.AddByTwoPoints(Line1.EndSketchPoint, Line2.EndSketchPoint);
 
@@ -84,15 +101,15 @@ namespace ParamedModule.Container
             osketch.GeometricConstraints.AddEqualLength(Line3, Line4);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)Arc1, (SketchEntity)Arc2);
             // osketch.GeometricConstraints.AddCoincident((SketchEntity)InventorTool.Origin, (SketchEntity)Arc1.CenterSketchPoint);
-            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, true, InventorTool.TranGeo.CreatePoint2d(-par.CapRadius / 2, 0));
-            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, false, InventorTool.TranGeo.CreatePoint2d(0, -par.InRadius / 2));
+            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, true, InventorTool.TranGeo.CreatePoint2d(-capRadius / 2, 0));
+            osketch.DimensionConstraints.AddEllipseRadius((SketchEntity)Arc1, false, InventorTool.TranGeo.CreatePoint2d(0, -inRadius / 2));
             Point2d p = InventorTool.TranGeo.CreatePoint2d((Line1.StartSketchPoint.Geometry.X + Line1.EndSketchPoint.Geometry.X) / 2, (Line1.StartSketchPoint.Geometry.Y + Line1.EndSketchPoint.Geometry.Y) / 2 + 1);
             osketch.DimensionConstraints.AddTwoPointDistance(Line1.StartSketchPoint, Line1.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
             p = InventorTool.TranGeo.CreatePoint2d((Line4.StartSketchPoint.Geometry.X + Line4.EndSketchPoint.Geometry.X) / 2 + 1, (Line4.StartSketchPoint.Geometry.Y + Line4.EndSketchPoint.Geometry.Y) / 2);
             osketch.DimensionConstraints.AddTwoPointDistance(Line4.StartSketchPoint, Line4.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
-            //CreateRibs(osketch, Line2);
-            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, par.Thickness, par.FlanchWidth);
+         //   CreateRibs(osketch, Line2,length, RibFirstDistance);  //创建加强筋
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, par.FlanchWidth/10);
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             osketch.GeometricConstraints.AddCollinear((SketchEntity)lines[3], (SketchEntity)Line4);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
@@ -103,9 +120,11 @@ namespace ParamedModule.Container
             {
                 foreach (ProfileEntity sub in item)
                 {
-                    if (sub.SketchEntity == Arc1||sub.SketchEntity==lines[2] || sub.SketchEntity == lines[1])
+                    ObjectTypeEnum enum1 = sub.Type;
+                    if (sub.SketchEntity == Arc1 || sub.SketchEntity == Arc2||sub.SketchEntity==lines[2] || sub.SketchEntity == lines[1])
                     {
                         item.AddsMaterial = false;
+                        break;
                     }
                     else
                     {
@@ -172,15 +191,15 @@ namespace ParamedModule.Container
         /// </summary>
         /// <param name="osketch"></param>
         /// <param name="line"></param>
-        private void CreateRibs(PlanarSketch osketch,SketchLine line)
+        private void CreateRibs(PlanarSketch osketch,SketchLine line,double length,double RibFirstDistance)
         {
-            double distance = (par.Length - par.RibFirstDistance) / par.RibNumber ;
+            double distance = (length - RibFirstDistance) / par.RibNumber ;
             for (int i = 0; i < par.RibNumber; i++)
             {
                 SketchLine L;
                 CreateRib(osketch,out L);
                 osketch.GeometricConstraints.AddCollinear((SketchEntity)line, (SketchEntity)L);
-                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance*i+par.RibFirstDistance);
+                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance*i+ RibFirstDistance);
               
             }
         }
@@ -245,10 +264,10 @@ namespace ParamedModule.Container
             osketch.GeometricConstraints.AddEqualLength(L2, L8);
             osketch.GeometricConstraints.AddEqualLength(L1, L11);
 
-            CreateTwoPointDistanceConstraint(osketch, L6.StartSketchPoint, L6.EndSketchPoint, par.RibWidth);
-            CreateTwoPointDistanceConstraint(osketch, L6.EndSketchPoint, L11.EndSketchPoint, par.RibHeight);
-            CreateTwoPointDistanceConstraint(osketch, L3.StartSketchPoint, L3.EndSketchPoint, par.RibBraceHeight);
-            CreateTwoPointDistanceConstraint(osketch, L2.EndSketchPoint, L10.StartSketchPoint, par.RibBraceWidth);
+            CreateTwoPointDistanceConstraint(osketch, L6.StartSketchPoint, L6.EndSketchPoint, UsMM(par.RibWidth));
+            CreateTwoPointDistanceConstraint(osketch, L6.EndSketchPoint, L11.EndSketchPoint, UsMM(par.RibHeight));
+            CreateTwoPointDistanceConstraint(osketch, L3.StartSketchPoint, L3.EndSketchPoint, UsMM(par.RibBraceHeight));
+            CreateTwoPointDistanceConstraint(osketch, L2.EndSketchPoint, L10.StartSketchPoint, UsMM(par.RibBraceWidth));
         }
         /// <summary>
         /// 创建两点间距离约束
@@ -291,8 +310,16 @@ namespace ParamedModule.Container
            
  
         }
-        private void CreateHole(WorkPlane plane,Face DistanceFace,WorkAxis axis,ParCylinderHole parHole,Face holeEndFace)
+        /// <summary>
+        /// 开孔
+        /// </summary>
+        /// <param name="plane">开孔的平面</param>
+        /// <param name="DistanceFace">罐口面</param>
+        /// <param name="axis">罐中心轴</param>
+        /// <param name="cyliderSideFace">罐外侧面</param>
+        private void CreateHole(WorkPlane plane,Face DistanceFace,WorkAxis axis,ParCylinderHole parHole,Edge outFaceEdge)
         {
+            #region 创建孔
             double x, y;
           if(parHole.PositionAngle >= 0 && parHole.PositionAngle < 180)
             {
@@ -312,7 +339,7 @@ namespace ParamedModule.Container
                     y = 1;
                 }
             }
-       
+
          
             PlanarSketch osketch= Definition.Sketches.Add(plane);
             Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(DistanceFace.Edges.GetEnumerator());
@@ -320,7 +347,7 @@ namespace ParamedModule.Container
             line.Construction = true;
             SketchLine centerLine =(SketchLine) osketch.AddByProjectingEntity(axis);
             centerLine.Construction = true;
-            SketchPoint origin = osketch.SketchPoints.Add(InventorTool.Origin);
+            SketchPoint origin = osketch.SketchPoints.Add(InventorTool.Origin); //边缘中心点 辅助点
             osketch.GeometricConstraints.AddCoincident((SketchEntity)line,(SketchEntity)origin);
             osketch.GeometricConstraints.AddCoincident((SketchEntity)centerLine, (SketchEntity)origin);
             SketchPoint holeCenter = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(x,y));
@@ -331,17 +358,136 @@ namespace ParamedModule.Container
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace= Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
-            Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 +"mm", par.InRadius + par.Thickness +"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-           // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
+           HoleFeature hole=  Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 +"mm", par.InRadius + par.Thickness +"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
+            #endregion
+            Face holeSideFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.SideFaces.GetEnumerator());
+            WorkAxis holeAxis = Definition.WorkAxes.AddByRevolvedFace(holeSideFace,true);
+           
+          RevolveFeature pipe=  CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.HoleRadius), UsMM(parHole.ParFlanch.H), UsMM(parHole.HoleOffset),parHole.PositionAngle,holeAxis);
+            
+            CreateFlance(pipe);
+        }
+        /// <summary>
+        /// 创建短管
+        /// </summary>
+        /// <param name="face1">罐界面</param>
+        /// <param name="outFaceEdge">罐外圆侧面边</param>
+        /// <param name="centerPoint">孔草图中心点</param>
+        /// <param name="pipeLength">管长度</param>
+        /// <param name="holeRadius">孔半径</param>
+        /// <param name="offset">偏移</param>
+        /// /// <param name="pipeThickness">管厚度</param>
+        private RevolveFeature CreatePipe(Face face1, Edge outFaceEdge, SketchPoint centerPoint, double pipeLength, double holeRadius, double pipeThickness, double offset, double Angle, WorkAxis Axis)
+        {
+            WorkPlane plane = Definition.WorkPlanes.AddByPlaneAndPoint(face1, centerPoint, true);
+            PlanarSketch osketch = Definition.Sketches.AddWithOrientation(plane, Axis, true, true, centerPoint);
+            // List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(face2.Edges.GetEnumerator());
+            SketchCircle circle = (SketchCircle)osketch.AddByProjectingEntity(outFaceEdge);
+            double x = circle.CenterSketchPoint.Geometry.X;
+            double y = circle.CenterSketchPoint.Geometry.Y;
+            circle.Construction = true;
+            SketchPoint point = (SketchPoint)osketch.AddByProjectingEntity(centerPoint);
+            SketchLine AidedLine = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(-10, -10), point);
+            osketch.GeometricConstraints.AddHorizontal((SketchEntity)AidedLine);
+            SketchPoint AidedPoint = osketch.SketchPoints.Add(InventorTool.Origin);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)AidedPoint, (SketchEntity)AidedLine);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)AidedPoint, (SketchEntity)circle);
+            AidedLine.Construction = true;
+            //SketchEntitiesEnumerator entitys= osketch.SketchLines.AddAsTwoPointRectangle(InventorTool.CreatePoint2d(1, 1), InventorTool.CreatePoint2d(2, 2));
+            // List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entitys.GetEnumerator());
+            // osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[0].StartSketchPoint, (SketchEntity)circle);
+            // osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[0].EndSketchPoint, (SketchEntity)circle);
+            // osketch.GeometricConstraints.AddParallel((SketchEntity)lines[1], (SketchEntity)AidedLine);
+            // osketch.GeometricConstraints.AddParallel((SketchEntity)lines[3], (SketchEntity)AidedLine);
 
+            // InventorTool.AddTwoPointDistance(osketch, lines[0].StartSketchPoint, lines[0].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = pipeThickness;
+            // InventorTool.AddTwoPointDistance(osketch, lines[2].EndSketchPoint, point, 0, DimensionOrientationEnum.kVerticalDim).Parameter.Value = holeRadius;
+            // InventorTool.AddTwoPointDistance(osketch, lines[2].EndSketchPoint, circle.CenterSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = circle.Radius + pipeLength;
+            SketchLine line1, line2, line3;
+            if (offset > 0)
+            {
+                line1 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(1000, 1000), InventorTool.CreatePoint2d(20000, 1000));
+                line2 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(20000, 1000), InventorTool.CreatePoint2d(20000, 20000));
+                line3 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(1000, 20000), InventorTool.CreatePoint2d(20000, 20000));
+            }
+            else
+            {
+                line1 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(10, -20000), InventorTool.CreatePoint2d(20000, -20000));
+                line2 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(20000, -20000), InventorTool.CreatePoint2d(20000, -1000));
+                line3 = osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(10, -1000), InventorTool.CreatePoint2d(20000, -1000));
+            }
+
+            InventorTool.CreateTwoPointCoinCident(osketch, line1, line1.EndSketchPoint, line2, line2.StartSketchPoint);
+            InventorTool.CreateTwoPointCoinCident(osketch, line3, line3.EndSketchPoint, line2, line2.EndSketchPoint);
+            InventorTool.AddTwoPointDistance(osketch, line2.StartSketchPoint, line2.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = pipeThickness;
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)line3.StartSketchPoint, (SketchEntity)circle);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)circle);
+            osketch.GeometricConstraints.AddPerpendicular((SketchEntity)line2, (SketchEntity)AidedLine);
+            osketch.GeometricConstraints.AddParallel((SketchEntity)line1, (SketchEntity)AidedLine);
+            osketch.GeometricConstraints.AddParallel((SketchEntity)line3, (SketchEntity)AidedLine);
+
+            // InventorTool.AddTwoPointDistance(osketch, line2.StartSketchPoint, line2.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = pipeThickness;
+            if (offset > 0)
+            {
+                InventorTool.AddTwoPointDistance(osketch, line1.EndSketchPoint, point, 0, DimensionOrientationEnum.kVerticalDim).Parameter.Value = holeRadius;
+            }
+            else
+            {
+                InventorTool.AddTwoPointDistance(osketch, line3.EndSketchPoint, point, 0, DimensionOrientationEnum.kVerticalDim).Parameter.Value = holeRadius;
+            }
+          
+            InventorTool.AddTwoPointDistance(osketch, line3.EndSketchPoint, AidedPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = pipeLength;
+            SketchArc arc = osketch.SketchArcs.AddByCenterStartEndPoint(circle.CenterSketchPoint, line3.StartSketchPoint, line1.StartSketchPoint,false);
+            osketch.UpdateProfiles();
+            Profile pro=  osketch.Profiles.AddForSolid();
+
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 2)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+
+            }
+          return  Definition.Features.RevolveFeatures.AddFull(pro, AidedLine, PartFeatureOperationEnum.kJoinOperation);
+        }
+        private void CreateFlance(RevolveFeature pipe)
+        {
+          
+            List<Face> pipeSideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(pipe.Faces.GetEnumerator());
+            PlanarSketch osketch;
+            foreach (var item in pipeSideFaces)
+            {
+                if (item.Edges.Count != 2) continue;
+                try
+                {
+                    osketch = Definition.Sketches.Add(item);
+                    return;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+           
+            
         }
         public override bool CheckParamete()
         {
+            if (par.FlanchWidth < par.Thickness) return false;
+            if (par.RibWidth <= par.RibBraceWidth) return false;
+            if (par.RibHeight <= par.RibBraceHeight) return false;
             foreach (var item in par.ParHoles)
             {
                 if (item.HoleOffset > par.InRadius - item.HoleRadius) return false;
                 if (item.PositionDistance > par.Length - item.HoleRadius) return false;
                 if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
+               
             }
             return true;
         }
@@ -373,7 +519,7 @@ namespace ParamedModule.Container
         //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
         //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
         //    }
-
+        
 
         //}
     }

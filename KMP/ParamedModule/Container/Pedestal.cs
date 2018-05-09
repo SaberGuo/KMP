@@ -10,44 +10,47 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-  
+    [Export(typeof(IParamedModule))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Pedestal : PartModulebase
     {
-        ParPedestal parPedestal = new ParPedestal();
+        ParPedestal par = new ParPedestal();
         [ImportingConstructor]
         public Pedestal():base()
         {
-            this.Parameter = this.parPedestal;
+            this.Parameter = this.par;
+            init();
         }
         void init()
         {
-            parPedestal.InRadius = 100;
-            parPedestal.Thickness = 2;
-            parPedestal.PanelThickness = 3;
-            parPedestal.UnderBoardingAngle = 120;
-            parPedestal.PedestalLength = 200;
-            parPedestal.PedestalCenterDistance = 150;
-            parPedestal.FootBoardBetween=30;
-            parPedestal.FootBoardNum = 5;
-            parPedestal.FootBoardThickness = 3;
-            parPedestal.FootBoardWidth = 5;
-            parPedestal.UnderBoardWidth = 10;
-            parPedestal.BackBoardMoveDistance = 3;
+            par.InRadius = 1400;
+            par.Thickness = 24;
+            par.PanelThickness = 12;
+            par.UnderBoardingAngle = 120;
+            par.PedestalLength = 2530;
+            par.PedestalCenterDistance = 1692;
+            par.FootBoardBetween=500;
+            par.FootBoardNum = 5;
+            par.FootBoardThickness = 30;
+            par.FootBoardWidth = 260;
+            par.UnderBoardWidth = 340;
+            par.BackBoardMoveDistance = 30;
         }
      
       
         public override void CreateModule()
         {
-            parPedestal = Parameter as ParPedestal;
-            if (parPedestal == null) return;
-            init();
+            if (!CheckParamete()) return ;
+            par = Parameter as ParPedestal;
+            if (par == null) return;
+           
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.Visible = false;
             #region 创建圆
             SketchArc outArc, underBoardArc;
             SketchLine sublineCenter;
-            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter);
+            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter,UsMM( par.InRadius), UsMM(par.Thickness), UsMM(par.PanelThickness));
             #endregion
             #region 垫板堵头
             SketchLine line1 = osketch.SketchLines.AddByTwoPoints(underBoardArc.StartSketchPoint, GetCyclePoint(
@@ -60,22 +63,22 @@ namespace ParamedModule.Container
             #region 底板
             List<SketchLine> pedestalLines = CreateRectangle(osketch, InventorTool.Origin, InventorTool.TranGeo.CreatePoint2d(2, -2));
             TwoPointDistanceDimConstraint TwoPointDim1 = InventorTool.AddTwoPointDistance(osketch, pedestalLines[0].StartSketchPoint, pedestalLines[0].EndSketchPoint, -1, DimensionOrientationEnum.kAlignedDim);
-            TwoPointDim1.Parameter.Value = parPedestal.PedestalLength;
+            TwoPointDim1.Parameter.Value = UsMM(par.PedestalLength);
             TwoPointDistanceDimConstraint TwoPointDim2 = InventorTool.AddTwoPointDistance(osketch, pedestalLines[1].StartSketchPoint, pedestalLines[1].EndSketchPoint, 1, DimensionOrientationEnum.kAlignedDim);
-            TwoPointDim2.Parameter.Value = parPedestal.PanelThickness;
+            TwoPointDim2.Parameter.Value = UsMM(par.PanelThickness);
             //osketch.GeometricConstraints.AddHorizontal((SketchEntity)lines[0]);
             osketch.DimensionConstraints.AddTwoPointDistance(sublineCenter.StartSketchPoint, pedestalLines[0].StartSketchPoint, DimensionOrientationEnum.kHorizontalDim, pedestalLines[0].StartSketchPoint.Geometry).Parameter.Value = TwoPointDim1.Parameter.Value / 2;
-            osketch.DimensionConstraints.AddTwoPointDistance(underBoardArc.CenterSketchPoint, pedestalLines[2].StartSketchPoint, DimensionOrientationEnum.kVerticalDim, underBoardArc.CenterSketchPoint.Geometry).Parameter.Value = parPedestal.PedestalCenterDistance;
+            osketch.DimensionConstraints.AddTwoPointDistance(underBoardArc.CenterSketchPoint, pedestalLines[2].StartSketchPoint, DimensionOrientationEnum.kVerticalDim, underBoardArc.CenterSketchPoint.Geometry).Parameter.Value = UsMM(par.PedestalCenterDistance);
             #endregion
             List<SketchLine> leftLines, rightLines;
-          DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc,out leftLines,out rightLines);
+          DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc,out leftLines,out rightLines,UsMM(par.FootBoardThickness), UsMM(par.FootBoardBetween));
             CreateunderBoard(outArc, underBoardArc, line1, line2);
             CreatePedestalBoard(pedestalLines);
            ExtrudeFeature footboad=  CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
             CreateFootBoard(footboad, leftLines, rightLines, pedestalLines[0], underBoardArc);
         }
         /// <summary>
-        /// 创建竖版
+        /// 创建竖版实体
         /// </summary>
         /// <param name="lines">竖板线段</param>
         /// <param name="line">底线</param>
@@ -137,7 +140,7 @@ namespace ParamedModule.Container
                // item.AddsMaterial = false;
             }
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parPedestal.FootBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(par.FootBoardWidth+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             Definition.Features.ExtrudeFeatures.Add(ex);
         }
         /// <summary>
@@ -151,7 +154,7 @@ namespace ParamedModule.Container
             return profileEntitys.Where(a => a.SketchEntity == entity).Count() > 0;
         }
         /// <summary>
-        /// 创建背板
+        /// 创建背板实体
         /// </summary>
         /// <param name="arc"></param>
         /// <param name="line1"></param>
@@ -159,7 +162,7 @@ namespace ParamedModule.Container
         /// <param name="line3"></param>
         private ExtrudeFeature CreateBackBoard(SketchArc arc,SketchLine line1,SketchLine line2,SketchLine line3)
         {
-          WorkPlane pp=  Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], parPedestal.BackBoardMoveDistance + "mm");
+          WorkPlane pp=  Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], par.BackBoardMoveDistance + "mm");
             PlanarSketch osketch = Definition.Sketches.Add(pp);
             pp.Visible = false;
             osketch.AddByProjectingEntity(arc);
@@ -168,11 +171,11 @@ namespace ParamedModule.Container
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parPedestal.PanelThickness, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(par.PanelThickness+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
            return  Definition.Features.ExtrudeFeatures.Add(ex);
         }
         /// <summary>
-        /// 创建垫板
+        /// 创建垫板实体
         /// </summary>
         /// <param name="inArc"></param>
         /// <param name="outArc"></param>
@@ -187,7 +190,7 @@ namespace ParamedModule.Container
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parPedestal.UnderBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(par.UnderBoardWidth+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             ExtrudeFeature underBoard = Definition.Features.ExtrudeFeatures.Add(ex);
             underBoard.Name = "UnderBoard";
             List<Face> sidefaces = InventorTool.GetCollectionFromIEnumerator<Face>(underBoard.SideFaces.GetEnumerator());
@@ -201,7 +204,7 @@ namespace ParamedModule.Container
         }
 
         /// <summary>
-        /// 创建底板
+        /// 创建底板实体
         /// </summary>
         /// <param name="list"></param>
         private void CreatePedestalBoard(List<SketchLine> list)
@@ -213,7 +216,7 @@ namespace ParamedModule.Container
             }
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parPedestal.UnderBoardWidth, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(par.UnderBoardWidth+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             Definition.Features.ExtrudeFeatures.Add(ex);
         }
 
@@ -225,23 +228,24 @@ namespace ParamedModule.Container
         /// <param name="outArc">垫板内圆弧</param>
         /// <param name="underBoardArc">垫板外圆弧</param>
         /// <param name="sublineCenter">中心辅助线</param>
-        private void CreateCycle(PlanarSketch osketch, out SketchArc outArc, out SketchArc underBoardArc, out SketchLine sublineCenter)
+        private void CreateCycle(PlanarSketch osketch, out SketchArc outArc, out SketchArc underBoardArc, out SketchLine sublineCenter,
+            double inRadius,double thickness,double PanelThickness)
         {
-            SketchCircle inCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, parPedestal.InRadius);
-            outArc = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.Origin, parPedestal.InRadius + parPedestal.Thickness,
+            SketchCircle inCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, inRadius);
+            outArc = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.Origin, inRadius + thickness,
                   Math.PI, Math.PI);
-            underBoardArc = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.Origin, parPedestal.InRadius + parPedestal.Thickness + parPedestal.PanelThickness,
-Math.PI * 1.5 - parPedestal.UnderBoardingAngle / 360 * Math.PI, parPedestal.UnderBoardingAngle / 180 * Math.PI);
+            underBoardArc = osketch.SketchArcs.AddByCenterStartSweepAngle(InventorTool.Origin, inRadius + thickness + PanelThickness,
+Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle / 180 * Math.PI);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)inCircle, (SketchEntity)outArc);
             osketch.GeometricConstraints.AddConcentric((SketchEntity)inCircle, (SketchEntity)underBoardArc);
             TangentDistanceDimConstraint inCircleTangentDim = osketch.DimensionConstraints.AddTangentDistance((SketchEntity)inCircle, (SketchEntity)outArc, GetCyclePoint(outArc.EndSketchPoint.Geometry,
                   inCircle.CenterSketchPoint.Geometry, outArc.Radius, inCircle.Radius), outArc.EndSketchPoint.Geometry, outArc.EndSketchPoint.Geometry, true);
-            inCircleTangentDim.Parameter.Value = parPedestal.Thickness;
+            inCircleTangentDim.Parameter.Value = thickness;
             TangentDistanceDimConstraint outArcTangentDim = osketch.DimensionConstraints.AddTangentDistance((SketchEntity)underBoardArc, (SketchEntity)outArc, GetCyclePoint(underBoardArc.EndSketchPoint.Geometry,
                 outArc.CenterSketchPoint.Geometry, underBoardArc.Radius, outArc.Radius), underBoardArc.EndSketchPoint.Geometry, underBoardArc.EndSketchPoint.Geometry, true);
-            outArcTangentDim.Parameter.Value = parPedestal.PanelThickness;
+            outArcTangentDim.Parameter.Value = PanelThickness;
             RadiusDimConstraint inCircleRadiusDim = osketch.DimensionConstraints.AddRadius((SketchEntity)inCircle, GetCircleNotePoint(inCircle.Radius, Math.PI / 3));
-            inCircleRadiusDim.Parameter.Value = parPedestal.InRadius;
+            inCircleRadiusDim.Parameter.Value = inRadius;
             sublineCenter = osketch.SketchLines.AddByTwoPoints(InventorTool.Origin, InventorTool.TranGeo.CreatePoint2d(0, -200));
             SketchLine subline1 = osketch.SketchLines.AddByTwoPoints(InventorTool.Origin, underBoardArc.StartSketchPoint);
             SketchLine subline2 = osketch.SketchLines.AddByTwoPoints(InventorTool.Origin, underBoardArc.EndSketchPoint);
@@ -267,56 +271,63 @@ Math.PI * 1.5 - parPedestal.UnderBoardingAngle / 360 * Math.PI, parPedestal.Unde
         /// <param name="subline">中心辅助线</param>
         /// <param name="line">底线</param>
         /// <param name="Arc1">垫板底圆弧</param>
-        private void  DrawingFootLine(PlanarSketch osketch,SketchLine subline,SketchLine line,SketchArc Arc1,out List<SketchLine> leftLines,out List<SketchLine> rightLines)
+        private void  DrawingFootLine(PlanarSketch osketch,SketchLine subline,SketchLine line,SketchArc Arc1,out List<SketchLine> leftLines,out List<SketchLine> rightLines,
+            double FootBoardThickness,double FootBoardBetween)
         {
             rightLines = new List<SketchLine>();
             Point2d p1 = InventorTool.TranGeo.CreatePoint2d(1, -1);
             Point2d p2 = InventorTool.TranGeo.CreatePoint2d(1, -2);
-            for (int i=0;i<parPedestal.FootBoardNum+1; i++)
+            for (int i=0;i<par.FootBoardNum+1; i++)
             {
 
                 SketchLine L= osketch.SketchLines.AddByTwoPoints(p1,p2);
-                osketch.GeometricConstraints.AddPerpendicular((SketchEntity)L, (SketchEntity)line);
+                osketch.GeometricConstraints.AddVertical((SketchEntity)L);
+               // osketch.GeometricConstraints.AddPerpendicular((SketchEntity)L, (SketchEntity)line);
                 osketch.GeometricConstraints.AddCoincident((SketchEntity)L.StartSketchPoint, (SketchEntity)Arc1);
                 osketch.GeometricConstraints.AddCoincident((SketchEntity)L.EndSketchPoint, (SketchEntity)line);
-                if (parPedestal.FootBoardNum % 2 != 0)
+                if (par.FootBoardNum % 2 != 0)
                 {
                     if(i==0)//第一个竖板
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint,0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value=parPedestal.FootBoardThickness/2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint,0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value=UsMM(par.FootBoardThickness)/2;
                     }
-                    else if(i==parPedestal.FootBoardNum)
+                    else if(i==par.FootBoardNum)
                     {
                         osketch.GeometricConstraints.AddCoincident((SketchEntity)Arc1.EndSketchPoint, (SketchEntity)L);
                      
                     }
                     else if(i%2!=0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = (i + 1) / 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) - parPedestal.FootBoardThickness / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = (i + 1) / 2 * (FootBoardBetween + FootBoardThickness) - FootBoardThickness / 2;
                     }
                     else
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = i/ 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) + parPedestal.FootBoardThickness / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = i/ 2 * (FootBoardBetween + FootBoardThickness) + FootBoardThickness / 2;
                     }
                 }
                 else
                 {
                     if (i == 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = parPedestal.FootBoardBetween/ 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = FootBoardBetween / 2;
                     }
-                    else if (i == parPedestal.FootBoardNum)
+                    else if (i == par.FootBoardNum)
                     {
                         osketch.GeometricConstraints.AddCoincident((SketchEntity)Arc1.EndSketchPoint, (SketchEntity)L);
 
                     }
                     else if (i % 2 != 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = (i - 1)/2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) + parPedestal.FootBoardBetween / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = (i - 1)/2 * (FootBoardBetween + FootBoardThickness) + FootBoardBetween / 2;
                     }
                     else
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = i/2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) - parPedestal.FootBoardBetween / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = i/2 * (FootBoardBetween + FootBoardThickness) - FootBoardBetween / 2;
                     }
                 }
                 rightLines.Add(L);
@@ -326,51 +337,57 @@ Math.PI * 1.5 - parPedestal.UnderBoardingAngle / 360 * Math.PI, parPedestal.Unde
             leftLines = new List<SketchLine>();
             Point2d p3 = InventorTool.TranGeo.CreatePoint2d(-1, -1);
             Point2d p4 = InventorTool.TranGeo.CreatePoint2d(-1, -2);
-            for (int i = 0; i < parPedestal.FootBoardNum + 1; i++)
+            for (int i = 0; i < par.FootBoardNum + 1; i++)
             {
 
                 SketchLine L = osketch.SketchLines.AddByTwoPoints(p3, p4);
                 osketch.GeometricConstraints.AddPerpendicular((SketchEntity)L, (SketchEntity)line);
                 osketch.GeometricConstraints.AddCoincident((SketchEntity)L.StartSketchPoint, (SketchEntity)Arc1);
                 osketch.GeometricConstraints.AddCoincident((SketchEntity)L.EndSketchPoint, (SketchEntity)line);
-                if (parPedestal.FootBoardNum % 2 != 0)
+                if (par.FootBoardNum % 2 != 0)
                 {
                     if (i == 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = parPedestal.FootBoardThickness / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = FootBoardThickness / 2;
                     }
-                    else if (i == parPedestal.FootBoardNum)
+                    else if (i == par.FootBoardNum)
                     {
                         osketch.GeometricConstraints.AddCoincident((SketchEntity)Arc1.StartSketchPoint, (SketchEntity)L);
 
                     }
                     else if (i % 2 != 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = (i + 1) / 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) - parPedestal.FootBoardThickness / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = (i + 1) / 2 * (FootBoardBetween + FootBoardThickness) - FootBoardThickness / 2;
                     }
                     else
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = i / 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) + parPedestal.FootBoardThickness / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = i / 2 * (FootBoardBetween + FootBoardThickness) + FootBoardThickness / 2;
                     }
                 }
                 else
                 {
                     if (i == 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = parPedestal.FootBoardBetween / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = FootBoardBetween / 2;
                     }
-                    else if (i == parPedestal.FootBoardNum)
+                    else if (i == par.FootBoardNum)
                     {
                         osketch.GeometricConstraints.AddCoincident((SketchEntity)Arc1.StartSketchPoint, (SketchEntity)L);
 
                     }
                     else if (i % 2 != 0)
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = (i - 1) / 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) + parPedestal.FootBoardBetween / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = (i - 1) / 2 * (FootBoardBetween + FootBoardThickness) + FootBoardBetween / 2;
                     }
                     else
                     {
-                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = i / 2 * (parPedestal.FootBoardBetween + parPedestal.FootBoardThickness) - parPedestal.FootBoardBetween / 2;
+                        InventorTool.AddTwoPointDistance(osketch, L.EndSketchPoint, subline.EndSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim)
+                            .Parameter.Value = i / 2 * (FootBoardBetween + FootBoardThickness) - FootBoardBetween / 2;
                     }
                 }
                 leftLines.Add(L);
@@ -419,7 +436,15 @@ Math.PI * 1.5 - parPedestal.UnderBoardingAngle / 360 * Math.PI, parPedestal.Unde
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            double r = par.InRadius + par.Thickness + par.PanelThickness;
+            double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
+            double length = r * temp * 2;//垫板平行长度
+            if (par.UnderBoardingAngle > 140) return false;
+            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length ) return false;
+            if (par.PedestalCenterDistance <= r + 10) return false;
+            if (par.PedestalLength < length) return false;
+            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth) return false;
+            return true;
         }
     }
 }

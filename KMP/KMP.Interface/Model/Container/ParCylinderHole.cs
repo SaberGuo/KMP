@@ -12,6 +12,7 @@ namespace KMP.Interface.Model.Container
         double holeRadius;
         double pipeLenght;
         double holeOffset;
+        ParFlanch parFlanch=new ParFlanch();
         /// <summary>
         /// 定位角度
         /// </summary>
@@ -93,6 +94,20 @@ namespace KMP.Interface.Model.Container
             {
                 holeOffset = value;
                 this.RaisePropertyChanged(() => this.HoleOffset);
+            }
+        }
+
+        public ParFlanch ParFlanch
+        {
+            get
+            {
+                return parFlanch;
+            }
+
+            set
+            {
+                parFlanch = value;
+                this.RaisePropertyChanged(() => this.ParFlanch);
             }
         }
     }

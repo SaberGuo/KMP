@@ -63,8 +63,8 @@ namespace ParamedModule.Container
 
                 PartFeature feature = features.Where(d => d.Name == "UnderBoard").FirstOrDefault();
                 Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(((ExtrudeFeature)feature).StartFaces.GetEnumerator());
-                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderSF[4], -i * distance - distance).Name = "mateG" + i;
-                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, -i * distance - distance).Name="mateG"+i;
+                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderSF[4],( -i * distance - distance)+"mm").Name = "mateG" + i;
+                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace,( -i * distance - distance)+"mm").Name="mateG"+i;
             
                 Definition.iMateResults.AddByTwoiMates(Getimate(COcylinder, "mateG" + i), Getimate(COpedestal, "mateG" + i));
                 #endregion

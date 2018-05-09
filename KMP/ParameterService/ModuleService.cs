@@ -36,7 +36,7 @@ namespace ParameterService
                        // item.CreateModule();
                         break;
                     case "ParPedestal":
-                      //  item.CreateModule(new ParPedestal());
+                        //item.CreateModule();
                         break;
                     case "ParRail":
                        // item.CreateModule(new ParRail());

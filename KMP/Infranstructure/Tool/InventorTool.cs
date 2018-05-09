@@ -266,6 +266,11 @@ namespace Infranstructure.Tool
 
 
         }
+        public static void CreateTwoPointCoinCident(PlanarSketch osketch,SketchLine line1,SketchPoint p1,SketchLine line2,SketchPoint p2)
+        {
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)p2);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)p1, (SketchEntity)line2);
+        }
         /// <summary>
         /// 创建一个长方形示意图
         /// </summary>
@@ -396,7 +401,10 @@ namespace Infranstructure.Tool
         {
           return  TranGeo.CreatePoint2d(x, y);
         }
-       
+       public static SketchLine CreateSketchLine(PlanarSketch osketch)
+        {
+            return osketch.SketchLines.AddByTwoPoints(Origin, CreatePoint2d(0, 1));
+        }
     }
     public struct XY
     {
