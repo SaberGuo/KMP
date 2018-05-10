@@ -35,11 +35,11 @@ namespace ParamedModule.Container
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
-            ParFlanch parflanch1 = new ParFlanch() { H = 2 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=0,PositionAngle=80,PositionDistance=500,PipeLenght=30,HoleRadius=50};
+            ParFlanch parflanch1 = new ParFlanch() { H = 2,D1=500,D2=450,D=12,D0=480,N=6 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=0,PositionAngle=80,PositionDistance=500,PipeLenght=300,HoleRadius=50};
             ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-1300, PositionAngle = 160, PositionDistance = 500, PipeLenght = 600, HoleRadius = 50 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = -100, PositionAngle = 250, PositionDistance = 1000, PipeLenght = 60, HoleRadius = 200 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = -900, PositionAngle = 300, PositionDistance = 2000, PipeLenght = 60, HoleRadius = 150 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = -100, PositionAngle = 250, PositionDistance = 1000, PipeLenght = 600, HoleRadius = 200 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = -900, PositionAngle = 300, PositionDistance = 2000, PipeLenght = 200, HoleRadius = 150 };
             hole.ParFlanch = parflanch1;
             hole1.ParFlanch = parflanch1;
             hole2.ParFlanch = parflanch1;
@@ -58,20 +58,21 @@ namespace ParamedModule.Container
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
-            
+            //0 外侧面，4.罐口面
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0],true); //外侧面的轴
           
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";//罐口面
         
             CreatePlanes(sideFaces); //创建孔平面
-            foreach (var item in par.ParHoles)  //创建孔
+            foreach (var item in par.ParHoles)  //创建孔、短管、法兰
             {
                 WorkPlane plane = _planes[item.PositionAngle];
                 if (plane == null) continue;
           
                 CreateHole(plane, sideFaces[4], Axis,item, outFaceEdges[0]); 
             }
+            ClearResidue(sideFaces[4], sideFaces[5], UsMM(par.Length));
         }
         /// <summary>
         /// 创建罐本体和加强筋
@@ -108,7 +109,7 @@ namespace ParamedModule.Container
             p = InventorTool.TranGeo.CreatePoint2d((Line4.StartSketchPoint.Geometry.X + Line4.EndSketchPoint.Geometry.X) / 2 + 1, (Line4.StartSketchPoint.Geometry.Y + Line4.EndSketchPoint.Geometry.Y) / 2);
             osketch.DimensionConstraints.AddTwoPointDistance(Line4.StartSketchPoint, Line4.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
-         //   CreateRibs(osketch, Line2,length, RibFirstDistance);  //创建加强筋
+            CreateRibs(osketch, Line2,length, RibFirstDistance);  //创建加强筋
             SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, par.FlanchWidth/10);
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             osketch.GeometricConstraints.AddCollinear((SketchEntity)lines[3], (SketchEntity)Line4);
@@ -365,8 +366,12 @@ namespace ParamedModule.Container
             WorkAxis holeAxis = Definition.WorkAxes.AddByRevolvedFace(holeSideFace,true);
            
           RevolveFeature pipe=  CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.HoleRadius), UsMM(parHole.ParFlanch.H), UsMM(parHole.HoleOffset),parHole.PositionAngle,holeAxis);
-            
-            CreateFlance(pipe);
+            SketchCircle flanchInCircle;
+          ExtrudeFeature flanch=  CreateFlance(pipe,UsMM(parHole.ParFlanch.D1/2),UsMM(parHole.ParFlanch.H),out flanchInCircle);
+            if (flanch == null) return;
+            Face flanchEndFace = InventorTool.GetFirstFromIEnumerator<Face>(flanch.EndFaces.GetEnumerator());
+            CreateFlanceGroove(flanchEndFace,flanchInCircle,UsMM(parHole.ParFlanch.D2/2));
+            CreateFlanceScrew(flanchEndFace,flanchInCircle,parHole.ParFlanch.N,UsMM(parHole.ParFlanch.D/2),UsMM(parHole.ParFlanch.D0/2),UsMM(parHole.ParFlanch.H));
         }
         /// <summary>
         /// 创建短管
@@ -456,26 +461,131 @@ namespace ParamedModule.Container
             }
           return  Definition.Features.RevolveFeatures.AddFull(pro, AidedLine, PartFeatureOperationEnum.kJoinOperation);
         }
-        private void CreateFlance(RevolveFeature pipe)
+        /// <summary>
+        /// 创建法兰本体
+        /// </summary>
+        /// <param name="pipe"></param>
+        private ExtrudeFeature CreateFlance(RevolveFeature pipe,double flachOutRadius,double flachThickness,out SketchCircle inCircle)
         {
           
             List<Face> pipeSideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(pipe.Faces.GetEnumerator());
-            PlanarSketch osketch;
+            inCircle = null;
+            List<Edge> edges=null;
+            PlanarSketch osketch=null;
             foreach (var item in pipeSideFaces)
             {
                 if (item.Edges.Count != 2) continue;
                 try
                 {
                     osketch = Definition.Sketches.Add(item);
-                    return;
+                    edges = InventorTool.GetCollectionFromIEnumerator<Edge>(item.Edges.GetEnumerator());
+                    break;
                 }
                 catch (Exception)
                 {
 
                 }
             }
-           
-            
+            if (osketch == null||edges==null) return null;
+            SketchCircle  circle1, circle2;
+          circle1= (SketchCircle) osketch.AddByProjectingEntity(edges[0]);
+          circle2= (SketchCircle)osketch.AddByProjectingEntity(edges[1]);
+            if(circle1.Radius>circle2.Radius)
+            {
+                inCircle = circle2;
+                circle1.Delete();
+            }
+            else
+            {
+                inCircle = circle1;
+                circle2.Delete();
+            }
+            SketchCircle outCircle = osketch.SketchCircles.AddByCenterRadius(inCircle.CenterSketchPoint, flachOutRadius);
+            Profile pro = osketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro)
+            {
+                if(item.Count>1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
+            ex.SetDistanceExtent(flachThickness, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            return Definition.Features.ExtrudeFeatures.Add(ex);
+
+        }
+        /// <summary>
+        /// 创建法兰凹面
+        /// </summary>
+        private void CreateFlanceGroove(Face plane,SketchCircle sketchInCircle,double outRadius)
+        {
+          PlanarSketch osketch=  Definition.Sketches.Add(plane);
+            SketchCircle inCircle = (SketchCircle)osketch.AddByProjectingEntity(sketchInCircle);
+          SketchCircle outCircle=  osketch.SketchCircles.AddByCenterRadius(inCircle.CenterSketchPoint, outRadius);
+            Profile pro = osketch.Profiles.AddForSolid();
+            //foreach (ProfilePath item in pro)
+            //{
+            //    foreach (var sub in item)
+            //    {
+            //        if(sub==outCircle)
+            //        {
+            //            item.AddsMaterial = true;
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            item.AddsMaterial = false;
+            //        }
+            //    }
+            //}
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetDistanceExtent(1 + "mm", PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+            Definition.Features.ExtrudeFeatures.Add(ex);
+            // List<SketchCircle> circles = new List<SketchCircle>();
+            // foreach (Edge item in plane.Edges)
+            // {
+            //     circles.Add((SketchCircle)osketch.AddByProjectingEntity(item));
+            // }
+            //SketchCircle circles
+        }
+        /// <summary>
+        /// 创建法兰螺丝孔
+        /// </summary>
+        /// <param name="plane">定位面</param>
+        /// <param name="inCircle">中心点定位圆</param>
+        /// <param name="screwNumber">螺丝数量</param>
+        /// <param name="ScrewRadius">孔半径</param>
+        /// <param name="arrangeRadius">排版半径</param>
+        private void CreateFlanceScrew(Face plane,SketchCircle inCircle,double screwNumber,double ScrewRadius,double arrangeRadius,double flanchThickness)
+        {
+            double angle = 360 / screwNumber/180*Math.PI;
+            PlanarSketch osketch = Definition.Sketches.Add(plane);
+            SketchCircle flanceInCircle = (SketchCircle)osketch.AddByProjectingEntity(inCircle);
+            SketchCircle screwCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0,arrangeRadius), ScrewRadius);
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            objc.Add(screwCircle);
+            for(int i=1;i<screwNumber;i++)
+            {
+                osketch.RotateSketchObjects(objc, flanceInCircle.CenterSketchPoint.Geometry, angle*i,true);
+            }
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetDistanceExtent( flanchThickness, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+            Definition.Features.ExtrudeFeatures.Add(ex);
+        }
+        private void ClearResidue(Face plance ,Face circle,double length)
+        {
+            Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(plance.Edges.GetEnumerator());
+            PlanarSketch osketch = Definition.Sketches.Add(plance);
+            osketch.AddByProjectingEntity(edge);
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetDistanceExtent(length, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+            Definition.Features.ExtrudeFeatures.Add(ex);
         }
         public override bool CheckParamete()
         {
@@ -488,6 +598,7 @@ namespace ParamedModule.Container
                 if (item.PositionDistance > par.Length - item.HoleRadius) return false;
                 if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
                
+                
             }
             return true;
         }
