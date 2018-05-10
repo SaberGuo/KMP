@@ -64,6 +64,7 @@
     <Compile Include="Container\Pedestal.cs" />
     <Compile Include="PartModulebase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Container\RailSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infranstructure\Infranstructure.csproj">

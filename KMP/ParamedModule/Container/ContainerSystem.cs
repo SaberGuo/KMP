@@ -17,6 +17,7 @@ namespace ParamedModule.Container
         Cylinder cylinder;
         CylinderDoor cylinderDoor;
         Pedestal pedestal;
+        RailSupport railSupport;
         [ImportingConstructor]
         public ContainerSystem():base()
         {
@@ -24,6 +25,7 @@ namespace ParamedModule.Container
             cylinder = new Cylinder();
             cylinderDoor = new CylinderDoor();
             pedestal = new Pedestal();
+            railSupport = new RailSupport();
             init();
         }
         void init()
@@ -42,6 +44,7 @@ namespace ParamedModule.Container
             cylinder.CreateModule();
             cylinderDoor.CreateModule();
             pedestal.CreateModule();
+            railSupport.CreateModule();
             ComponentOccurrence COcylinder = LoadOccurrence((ComponentDefinition)cylinder.Doc.ComponentDefinition);
             ComponentOccurrence COcylinderDoor = LoadOccurrence((ComponentDefinition)cylinderDoor.Doc.ComponentDefinition);
             SetiMateResult(COcylinder);
@@ -72,29 +75,9 @@ namespace ParamedModule.Container
                 #endregion
             }
 
-
+            ComponentOccurrence COrailSupport = LoadOccurrence((ComponentDefinition)railSupport.Doc.ComponentDefinition);
 
         }
-        iMateDefinition Getimate(ComponentOccurrence occ,string name)
-        {
-          List<iMateDefinition> list=InventorTool.GetCollectionFromIEnumerator<iMateDefinition>( occ.iMateDefinitions.GetEnumerator());
-            return list.Where(a => a.Name == name).FirstOrDefault();
-        }
-        ComponentOccurrence GetFeature(ComponentOccurrence occ,string name)
-        {
-            if(occ.Name==name)
-            {
-                return occ;
-            }
-            else
-            {
-
-                foreach (ComponentOccurrence item in occ.SubOccurrences)
-                {
-                    return GetFeature(item, name);
-                }
-                return null;
-            }
-        }
+    
     }
 }

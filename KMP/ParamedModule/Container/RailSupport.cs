@@ -16,12 +16,12 @@ namespace ParamedModule.Container
  
    public class RailSupport : AssembleModuleBase
     {
-        ParRailSupport par = new ParRailSupport();
-        RailSupportTopBoard topBoard;
-        RailSupportSidePlate sidePlate;
-        RailSupportCenterBoard centerBoard;
-        RailSupportBrace brace;
-        RailSupportbaseBoard baseBoard;
+      internal  ParRailSupport par = new ParRailSupport();
+        internal RailSupportTopBoard topBoard;
+        internal RailSupportSidePlate sidePlate;
+        internal RailSupportCenterBoard centerBoard;
+        internal RailSupportBrace brace;
+        internal RailSupportbaseBoard baseBoard;
         [ImportingConstructor]
         public RailSupport():base()
         {
@@ -45,6 +45,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            #region 当前部件需要
             centerBoard.CreateModule();
             baseBoard.CreateModule();
             sidePlate.CreateModule();
@@ -74,7 +75,14 @@ namespace ParamedModule.Container
             SetiMateResult(COsidePlate);
             SetiMateResult(CObrace);
             SetiMateResult(COtopBoard);
+            //object obj1, obj2;
+            //CObaseBoad.CreateGeometryProxy(baseBoardSideFaces[0], out obj1);
+            //COsidePlate.CreateGeometryProxy(sidePlateSideFaces[0], out obj2);
+            //Definition.Constraints.AddFlushConstraint(obj1, obj2, 0);
+            #endregion
+
+
         }
-      
+
     }
 }

@@ -39,14 +39,14 @@ namespace ParameterService
                         //item.CreateModule();
                         break;
                     case "ParRail":
-                       // item.CreateModule(new ParRail());
+                       // item.CreateModule();
                         break;
                     //case "ParRailSupportBrace":
                     //    item.CreateModule(new ParRailSupportBrace());
                     //    break;
-                    //case "ParRailSupportTopBoard":
-                    //    item.CreateModule(new ParRailSupportTopBoard());
-                    //    break;
+                    case "ParRailSupportTopBoard":
+                      // item.CreateModule();
+                        break;
                     //case "ParRailSupportCenterBoard":
                     //    item.CreateModule(new ParRailSupportCenterBoard());
                     //    break;
@@ -60,7 +60,10 @@ namespace ParameterService
                       assemsly=  item;
                         break;
                     case "ParContainerSystem":
-                        item.CreateModule();
+                       // item.CreateModule();
+                        break;
+                    case "ParRailSystem":
+                         item.CreateModule();
                         break;
                     default:
                         break;

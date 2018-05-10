@@ -300,7 +300,7 @@ namespace Infranstructure.Tool
             CreateRangle(osketch, length, width);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition extrudedef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
-            extrudedef.SetDistanceExtent(height+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            extrudedef.SetDistanceExtent(height, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             return partDef.Features.ExtrudeFeatures.Add(extrudedef);
 
         }

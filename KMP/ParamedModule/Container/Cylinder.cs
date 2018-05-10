@@ -36,10 +36,10 @@ namespace ParamedModule.Container
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
             ParFlanch parflanch1 = new ParFlanch() { H = 2,D1=500,D2=450,D=12,D0=480,N=6 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=0,PositionAngle=80,PositionDistance=500,PipeLenght=300,HoleRadius=50};
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-1300, PositionAngle = 160, PositionDistance = 500, PipeLenght = 600, HoleRadius = 50 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = -100, PositionAngle = 250, PositionDistance = 1000, PipeLenght = 600, HoleRadius = 200 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = -900, PositionAngle = 300, PositionDistance = 2000, PipeLenght = 200, HoleRadius = 150 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=300,PositionAngle=90,PositionDistance=500,PipeLenght=300,HoleRadius=100};
+            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150 };
             hole.ParFlanch = parflanch1;
             hole1.ParFlanch = parflanch1;
             hole2.ParFlanch = parflanch1;
@@ -592,12 +592,22 @@ namespace ParamedModule.Container
             if (par.FlanchWidth < par.Thickness) return false;
             if (par.RibWidth <= par.RibBraceWidth) return false;
             if (par.RibHeight <= par.RibBraceHeight) return false;
-            foreach (var item in par.ParHoles)
+            for(int i=0;i<par.ParHoles.Count;i++)
             {
+                var item = par.ParHoles[i];
                 if (item.HoleOffset > par.InRadius - item.HoleRadius) return false;
                 if (item.PositionDistance > par.Length - item.HoleRadius) return false;
                 if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
-               
+               for(int j=i+1;j<par.ParHoles.Count;j++)
+                {
+                     if(item.HoleRadius==par.ParHoles[j].HoleRadius)
+                    {
+                        if(item.HoleOffset==par.ParHoles[j].HoleOffset&&item.PositionDistance==par.ParHoles[j].PositionDistance)
+                        {
+                            return false;
+                        }
+                    }
+                }
                 
             }
             return true;

@@ -39,7 +39,7 @@ namespace ParamedModule.Container
             init();
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, par.Length/10, par.Width/10, par.Thickness);
+          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             box.Name = "RailBaseBoard";
           

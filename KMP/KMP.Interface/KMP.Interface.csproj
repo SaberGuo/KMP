@@ -88,6 +88,7 @@
     <Compile Include="Model\Container\ParRailSupportCenterBoard.cs" />
     <Compile Include="Model\Container\ParRailSupportSidePlate.cs" />
     <Compile Include="Model\Container\ParRailSupportTopBoard.cs" />
+    <Compile Include="Model\Container\ParRailSystem.cs" />
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\Container\ParCylinder.cs" />
     <Compile Include="Model\Container\ParCylinderDoor.cs" />
