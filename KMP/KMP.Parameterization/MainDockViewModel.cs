@@ -48,13 +48,7 @@ namespace KMP.Parameterization
         public List<IParamedModule> Modules { get; set; }
         private void OnParamedModuleDisplayTest()
         {
-            Modules = new List<IParamedModule>();
-            IParamedModule rootModule = new ParamedModule.Cylinder();
-            Modules.Add(rootModule);
-
-            rootModule.SubParamModules.Add(new ParamedModule.CylinderDoor());
-            rootModule.SubParamModules.Add(new ParamedModule.Pedestal());
-            RaisePropertyChanged("Modules");
+            
         }
         #endregion
     }

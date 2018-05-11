@@ -17,7 +17,7 @@ namespace ParamedModule
         string modelPath;
         string name;
 
-        public ComponentOccurrence Occurrence
+        /*public ComponentOccurrence Occurrence
         {
             get
             {
@@ -31,16 +31,16 @@ namespace ParamedModule
         }*/
         public ComponentOccurrence Occurrence { get; set; }
 
-        public string ModelName
+        public string Name
         {
             get
             {
-                return this.modelName;
+                return this.name;
             }
             set
             {
-                this.modelName = value;
-                RaisePropertyChanged(() => this.ModelName);
+                this.name = value;
+                RaisePropertyChanged(() => this.Name);
             }
         }
         public ParameterBase Parameter
@@ -89,20 +89,7 @@ namespace ParamedModule
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-
-            set
-            {
-                name = value;
-                this.RaisePropertyChanged(() => this.Name);
-            }
-        }
-
+    
         public abstract void CreateModule();
         public abstract bool CheckParamete();
     }
