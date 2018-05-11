@@ -30,10 +30,10 @@ namespace ParameterService
                 switch (item.Parameter.GetType().Name)
                 {
                     case "ParCylinder":
-                       // item.CreateModule();
+                        //item.CreateModule();
                         break;
                     case "ParCylinderDoor":
-                       // item.CreateModule();
+                        //item.CreateModule();
                         break;
                     case "ParPedestal":
                       //  item.CreateModule(new ParPedestal());
@@ -56,10 +56,13 @@ namespace ParameterService
                     //case "ParRailSupportbaseBoard":
                     //    item.CreateModule(new ParRailSupportbaseBoard());
                     //    break;
-                    case "ParRailSupport":
-                      assemsly=  item;
-                        break;
-                    case "ParContainerSystem":
+                    //case "ParRailSupport":
+                    //  assemsly=  item;
+                    //    break;
+                    //case "ParContainerSystem":
+                    //    item.CreateModule();
+                    //    break;
+                    case "ParHeaterCylinder":
                         item.CreateModule();
                         break;
                     default:

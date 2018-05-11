@@ -60,6 +60,10 @@
     <Compile Include="Container\RailSupportCenterBoard.cs" />
     <Compile Include="Container\RailSupportSidePlate.cs" />
     <Compile Include="Container\RailSupportTopBoard.cs" />
+    <Compile Include="Heater\HeaterBack.cs" />
+    <Compile Include="Heater\HeaterCylinder.cs" />
+    <Compile Include="Heater\HeaterDoor.cs" />
+    <Compile Include="Heater\HeaterSystem.cs" />
     <Compile Include="ParamedModuleBase.cs" />
     <Compile Include="Container\Pedestal.cs" />
     <Compile Include="PartModulebase.cs" />

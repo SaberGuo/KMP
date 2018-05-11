@@ -87,6 +87,10 @@
     <Compile Include="Model\Container\ParRailSupportCenterBoard.cs" />
     <Compile Include="Model\Container\ParRailSupportSidePlate.cs" />
     <Compile Include="Model\Container\ParRailSupportTopBoard.cs" />
+    <Compile Include="Model\Heater\ParHeaterCylinder.cs" />
+    <Compile Include="Model\Heater\ParHeaterBack.cs" />
+    <Compile Include="Model\Heater\ParHeaterDoor.cs" />
+    <Compile Include="Model\Heater\ParHeaterSystem.cs" />
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\Container\ParCylinder.cs" />
     <Compile Include="Model\Container\ParCylinderDoor.cs" />
