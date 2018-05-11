@@ -14,7 +14,8 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架顶板
     /// </summary>
-   
+    [Export(typeof(IParamedModule))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RailSupportTopBoard : PartModulebase
     {
       internal  ParRailSupportTopBoard par = new ParRailSupportTopBoard();
@@ -37,20 +38,33 @@ namespace ParamedModule.Container
         {
             CreateDoc();
            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition,osketch,par.Width/10,par.Width / 10, par.Thickness,
-                par.HoleCenterDistance / 10, par.HoleTopEdgeDistance / 10, par.HoleSideEdgeDistance / 10, par.HoleRadius / 10);
+            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition,osketch, UsMM(par.Width), UsMM(par.Width ), UsMM(par.Thickness),
+                UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleRadius ));
+
+            #region 支架装配
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
             box.Name = "TopBoard";
             MateiMateDefinition mateD = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
             mateD.Name = "mateD";
-            SaveDoc();
+         
+            #endregion
+            #region  导轨装配
+            List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
+            Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
+            Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0).Name = "mateR1";//顶面
+            //侧面顺序 0，2 是导轨长度方向
+           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[0], 0).Name = "mateR3";
+           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[1], 0).Name = "mateR2";
+          
+            #endregion
+             SaveDoc();
         }
 
-    
+
 
         public override bool CheckParamete()
         {
-         
+            if (!CommonTool.CheckParameterValue(par)) return false;
             if (!CommonTool.CheckParameterValue(this.Parameter)) return false;
             if (par.HoleTopEdgeDistance <= par.HoleRadius) return false;
             if (par.HoleSideEdgeDistance <= par.HoleRadius) return false;

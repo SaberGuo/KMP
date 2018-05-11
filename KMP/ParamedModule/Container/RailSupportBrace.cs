@@ -17,25 +17,25 @@ namespace ParamedModule.Container
 
   public  class RailSupportBrace : PartModulebase
     {
-        internal ParRailSupportBrace parBrace = new ParRailSupportBrace();
+        internal ParRailSupportBrace par = new ParRailSupportBrace();
         [ImportingConstructor]
         public RailSupportBrace():base()
         {
-            this.Parameter = parBrace;
+            this.Parameter = par;
             init();
         }
         void init()
         {
-            parBrace.Height = 245;
-            parBrace.InRadius = 35;
-            parBrace.Thickness = 15;
+            par.Height = 245;
+            par.InRadius = 35;
+            par.Thickness = 15;
         }
 
         public override void CreateModule()
         {
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature cyling=  CreateCyling(osketch,parBrace.InRadius/10,parBrace.Thickness/10,parBrace.Height);
+          ExtrudeFeature cyling=  CreateCyling(osketch, UsMM(par.InRadius), UsMM(par.Thickness), UsMM(par.Height));
             cyling.Name = "Brace";
             Face sideface = InventorTool.GetFirstFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(sideface);
@@ -72,10 +72,10 @@ namespace ParamedModule.Container
                 }
             }
             ExtrudeDefinition extrudedef = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
-            extrudedef.SetDistanceExtent(height + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            extrudedef.SetDistanceExtent(height , PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             ExtrudeFeature cylinder = Definition.Features.ExtrudeFeatures.Add(extrudedef);
             PlanarSketch holeSketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
-            holeSketch.SketchCircles.AddByCenterRadius(InventorTool.TranGeo.CreatePoint2d(0, height / 20), 0.8);
+            holeSketch.SketchCircles.AddByCenterRadius(InventorTool.TranGeo.CreatePoint2d(0, height / 2), 0.8);
             Profile holePro = holeSketch.Profiles.AddForSolid();
             ExtrudeDefinition holeDef = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(holePro, PartFeatureOperationEnum.kCutOperation);
             holeDef.SetThroughAllExtent(PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
@@ -95,7 +95,7 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+          return   CommonTool.CheckParameterValue(par);
         }
     }
 }

@@ -13,7 +13,9 @@ namespace KMP.Interface.Model.Container
         double thickness;
         double width;
         double length;
-
+        /// <summary>
+        /// 板材厚度
+        /// </summary>
         public double Thickness
         {
             get
@@ -27,7 +29,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-
+        /// <summary>
+        /// 板材宽度
+        /// </summary>
         public double Width
         {
             get
@@ -41,6 +45,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Width);
             }
         }
+        /// <summary>
+        /// 板材长度
+        /// </summary>
 
         public double Length
         {

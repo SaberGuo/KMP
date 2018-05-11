@@ -21,6 +21,7 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public RailSupportbaseBoard():base()
         {
+            init();
             this.Parameter = par;
         }
         void init()
@@ -31,15 +32,16 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            return true;
+          return  CommonTool.CheckParameterValue(par);
+            
         }
 
         public override void CreateModule()
         {
-            init();
+          
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, par.Length/10, par.Width/10, par.Thickness);
+          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             box.Name = "RailBaseBoard";
           

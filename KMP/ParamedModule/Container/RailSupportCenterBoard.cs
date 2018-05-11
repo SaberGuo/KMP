@@ -20,6 +20,7 @@ namespace ParamedModule.Container
         public RailSupportCenterBoard():base()
         {
             this.Parameter = par;
+            init();
         }
         void init()
         {
@@ -33,12 +34,14 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
-            init();
+           
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature box=  InventorTool.CreateBoxWithHole(Definition, osketch, par.Width / 10, par.Width / 10, par.Thickness,
-                 par.HoleCenterDistance / 10, par.HoleTopEdgeDistance / 10, par.HoleSideEdgeDistance / 10, par.HoleRadius / 10);
+          ExtrudeFeature box=  InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width ), UsMM(par.Width ), UsMM(par.Thickness),
+                 UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleRadius ));
             box.Name = "CenterBoard";
+
+
             List<Face> sideFaces= InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
@@ -55,7 +58,11 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if (par.HoleRadius >= par.Width / 4) return false;
+            if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
+            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false; 
+            return CommonTool.CheckParameterValue(par);
+
         }
     }
 }

@@ -266,6 +266,11 @@ namespace Infranstructure.Tool
 
 
         }
+        public static void CreateTwoPointCoinCident(PlanarSketch osketch,SketchLine line1,SketchPoint p1,SketchLine line2,SketchPoint p2)
+        {
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)p2);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)p1, (SketchEntity)line2);
+        }
         /// <summary>
         /// 创建一个长方形示意图
         /// </summary>
@@ -295,7 +300,7 @@ namespace Infranstructure.Tool
             CreateRangle(osketch, length, width);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition extrudedef = partDef.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
-            extrudedef.SetDistanceExtent(height+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            extrudedef.SetDistanceExtent(height, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             return partDef.Features.ExtrudeFeatures.Add(extrudedef);
 
         }
@@ -392,8 +397,14 @@ namespace Infranstructure.Tool
 
             return partDef.Features.ExtrudeFeatures.Add(ex);
         }
-     
-       
+       public static Point2d CreatePoint2d(double x,double y)
+        {
+          return  TranGeo.CreatePoint2d(x, y);
+        }
+       public static SketchLine CreateSketchLine(PlanarSketch osketch)
+        {
+            return osketch.SketchLines.AddByTwoPoints(Origin, CreatePoint2d(0, 1));
+        }
     }
     public struct XY
     {

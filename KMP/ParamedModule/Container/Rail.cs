@@ -13,36 +13,44 @@ namespace ParamedModule.Container
    
     public  class Rail: PartModulebase
     {
-        ParRail parRail = new ParRail();
+       internal ParRail par = new ParRail();
         [ImportingConstructor]
         public Rail():base()
         {
-            this.Parameter = parRail;
+            init();
+            this.Parameter = par;
         }
         void init()
         {
-            parRail.UpBridgeWidth = 80;
-            parRail.UpBridgeHeight = 30;
-            parRail.BraceWidth = 30;
-            parRail.BraceHeight = 100;
-            parRail.DownBridgeHeight = 20;
-            parRail.DownBridgeWidth = 120;
-            parRail.RailLength = 2950;
+            par.UpBridgeWidth = 80;
+            par.UpBridgeHeight = 30;
+            par.BraceWidth = 30;
+            par.BraceHeight = 100;
+            par.DownBridgeHeight = 20;
+            par.DownBridgeWidth = 120;
+            par.RailLength = 5000;
         }
         public override void CreateModule()
         {
-            parRail = Parameter as ParRail;
-            if (parRail == null) return;
-            init();
-
-
+   
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex= Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(parRail.RailLength + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-            Definition.Features.ExtrudeFeatures.Add(ex);
+            ex.SetDistanceExtent(par.RailLength + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+          ExtrudeFeature box=  Definition.Features.ExtrudeFeatures.Add(ex);
+            box.Name = "Rail";
+            List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
+            Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
+            ///顶层是侧面11，底层面是侧面5，依次顺序排列
+           // Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0).Name = "mateR1"; //导轨截面
+
+           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4], 0).Name = "mateR2"; //导轨底梁侧面
+           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[5], 0).Name = "mateR1"; //导轨底面
+            SaveDoc();
+
+
         }
 
         /// <summary>
@@ -106,17 +114,25 @@ namespace ParamedModule.Container
             //osketch.GeometricConstraints.AddEqualLength(L5, L7);
             
 
-           InventorTool.AddTwoPointDistance(osketch, L.StartSketchPoint, L.EndSketchPoint,0,DimensionOrientationEnum.kAlignedDim).Parameter.Value=parRail.UpBridgeWidth;
-            InventorTool.AddTwoPointDistance(osketch, L1.StartSketchPoint, L1.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.UpBridgeHeight;
-            InventorTool.AddTwoPointDistance(osketch, L2.EndSketchPoint, L10.StartSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.BraceWidth;
-            InventorTool.AddTwoPointDistance(osketch, L3.StartSketchPoint, L3.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.BraceHeight;
-            InventorTool.AddTwoPointDistance(osketch, L5.StartSketchPoint, L5.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.DownBridgeHeight;
-            InventorTool.AddTwoPointDistance(osketch, L6.StartSketchPoint, L6.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = parRail.DownBridgeWidth;
+           InventorTool.AddTwoPointDistance(osketch, L.StartSketchPoint, L.EndSketchPoint,0,DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value=UsMM(par.UpBridgeWidth);
+            InventorTool.AddTwoPointDistance(osketch, L1.StartSketchPoint, L1.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value = UsMM(par.UpBridgeHeight);
+            InventorTool.AddTwoPointDistance(osketch, L2.EndSketchPoint, L10.StartSketchPoint, 0, DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value = UsMM(par.BraceWidth);
+            InventorTool.AddTwoPointDistance(osketch, L3.StartSketchPoint, L3.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value = UsMM(par.BraceHeight);
+            InventorTool.AddTwoPointDistance(osketch, L5.StartSketchPoint, L5.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value = UsMM(par.DownBridgeHeight);
+            InventorTool.AddTwoPointDistance(osketch, L6.StartSketchPoint, L6.EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim)
+                .Parameter.Value = UsMM(par.DownBridgeWidth);
         }
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+           
+            if (par.BraceWidth >= par.DownBridgeWidth || par.BraceWidth >= par.UpBridgeWidth) return false;
+            return CommonTool.CheckParameterValue(par);
         }
     }
 }

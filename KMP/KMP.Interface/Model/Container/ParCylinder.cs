@@ -8,12 +8,14 @@ using Microsoft.Practices.Prism.Interactivity;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.EnterpriseLibrary.Common;
 using Microsoft.Practices.Prism.ViewModel;
+using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.Container
 {
   public  class ParCylinder:ParameterBase
     {
-        double inRadius;
-        double thickness;
+
+        PassedParameter inRadius;
+        PassedParameter thickness;
         double length;
         double capRadius;
         double ribWidth;
@@ -23,10 +25,11 @@ namespace KMP.Interface.Model.Container
         double ribBraceWidth;
         double ribBraceHeight;
         double flanchWidth;
+        ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
         /// <summary>
         /// 罐内半径
         /// </summary>
-        public double InRadius
+        public PassedParameter InRadius
         {
             get
             {
@@ -43,7 +46,7 @@ namespace KMP.Interface.Model.Container
         /// 罐厚度
         /// </summary>
 
-        public double Thickness
+        public PassedParameter Thickness
         {
             get
             {
@@ -187,7 +190,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibBraceHeight);
             }
         }
-
+        /// <summary>
+        /// 罐体法兰宽度
+        /// </summary>
         public double FlanchWidth
         {
             get
@@ -199,6 +204,20 @@ namespace KMP.Interface.Model.Container
             {
                 flanchWidth = value;
                 this.RaisePropertyChanged(() => this.FlanchWidth);
+            }
+        }
+
+        public ObservableCollection<ParCylinderHole> ParHoles
+        {
+            get
+            {
+                return parHoles;
+            }
+
+            set
+            {
+                parHoles = value;
+                this.RaisePropertyChanged(() => this.ParHoles);
             }
         }
     }

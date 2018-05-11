@@ -80,6 +80,7 @@
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />
+    <Compile Include="Model\Container\ParFlanch.cs" />
     <Compile Include="Model\Container\ParRail.cs" />
     <Compile Include="Model\Container\ParRailSupport.cs" />
     <Compile Include="Model\Container\ParRailSupportbaseBoard.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="Model\Container\ParRailSupportCenterBoard.cs" />
     <Compile Include="Model\Container\ParRailSupportSidePlate.cs" />
     <Compile Include="Model\Container\ParRailSupportTopBoard.cs" />
+    <Compile Include="Model\Container\ParRailSystem.cs" />
+    <Compile Include="Model\Container\PassedParameter.cs" />
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\Container\ParCylinder.cs" />
     <Compile Include="Model\Container\ParCylinderDoor.cs" />

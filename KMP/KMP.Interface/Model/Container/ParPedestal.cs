@@ -7,8 +7,8 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParPedestal:ParameterBase
     {
-        double inRadius;
-        double thickness;
+        PassedParameter inRadius;
+        PassedParameter thickness;
         double panelThickness;
         double footBoardThickness;
         double underBoardingAngle;
@@ -22,7 +22,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐体内半径
         /// </summary>
-        public double InRadius
+        public PassedParameter InRadius
         {
             get
             {
@@ -38,7 +38,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐体厚度
         /// </summary>
-        public double Thickness
+        public PassedParameter Thickness
         {
             get
             {

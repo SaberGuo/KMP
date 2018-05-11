@@ -18,7 +18,7 @@ namespace ParamedModule
        // internal Dictionary<string, PartFeature> partFeatures = new Dictionary<string, PartFeature>();
         public AssembleModuleBase():base()
         {
-
+            this.ModelPath= AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name + ".iam";
         }
         /// <summary>
         /// 创建装配文档
@@ -69,7 +69,7 @@ namespace ParamedModule
         //    }
         //}
         /// <summary>
-        /// 设置装配
+        /// 设置装配 
         /// </summary>
         /// <param name="occ"></param>
         protected  void SetiMateResult(ComponentOccurrence occ)
@@ -103,14 +103,49 @@ namespace ParamedModule
                 }
             }
         }
+        /// <summary>
+        /// 设置对齐配对
+        /// </summary>
+        /// <param name="co1">零件1</param>
+        /// <param name="entity1">依赖特性1</param>
+        /// <param name="co2">零件2</param>
+        /// <param name="entity2">依赖特性2</param>
+        /// <param name="name">配对名称</param>
+        /// <param name="offset">偏移量</param>
         protected static void SetFlushiMate(ComponentOccurrence co1,object entity1, ComponentOccurrence co2, object entity2,string name,double offset)
         {
-            FlushiMateDefinition flush1 = ((PartComponentDefinition)co1.Definition).iMateDefinitions.AddFlushiMateDefinition(entity1, offset + "mm");
-            FlushiMateDefinition flush2 = ((PartComponentDefinition)co2.Definition).iMateDefinitions.AddFlushiMateDefinition(entity2, offset + "mm");
+            FlushiMateDefinition flush1, flush2;
+            if (co1.DefinitionDocumentType==DocumentTypeEnum.kAssemblyDocumentObject)
+            {
+                flush1 = ((AssemblyComponentDefinition)co1.Definition).iMateDefinitions.AddFlushiMateDefinition(entity1, offset + "mm");
+            }
+            else
+            {
+                flush1 = ((PartComponentDefinition)co1.Definition).iMateDefinitions.AddFlushiMateDefinition(entity1, offset + "mm");
+            }
+            if(co2.DefinitionDocumentType==DocumentTypeEnum.kAssemblyDocumentObject)
+            {
+                flush2 = ((AssemblyComponentDefinition)co2.Definition).iMateDefinitions.AddFlushiMateDefinition(entity2, offset + "mm");
+            }
+            else
+            {
+                flush2 = ((PartComponentDefinition)co2.Definition).iMateDefinitions.AddFlushiMateDefinition(entity2, offset + "mm");
+            }
+            //FlushiMateDefinition flush1 = ((PartComponentDefinition)co1.Definition).iMateDefinitions.AddFlushiMateDefinition(entity1, offset + "mm");
+            //FlushiMateDefinition flush2 = ((PartComponentDefinition)co2.Definition).iMateDefinitions.AddFlushiMateDefinition(entity2, offset + "mm");
             flush1.Name = name;
             flush2.Name = name;
 
         }
+        /// <summary>
+        /// 设置耦合配对
+        /// </summary>
+        /// <param name="co1"></param>
+        /// <param name="entity1"></param>
+        /// <param name="co2"></param>
+        /// <param name="entity2"></param>
+        /// <param name="name"></param>
+        /// <param name="offset"></param>
         protected static void SetMateiMate(ComponentOccurrence co1, object entity1, ComponentOccurrence co2, object entity2, string name, double offset)
         {
             MateiMateDefinition flush1 = ((PartComponentDefinition)co1.Definition).iMateDefinitions.AddMateiMateDefinition(entity1, offset + "mm");
@@ -119,23 +154,174 @@ namespace ParamedModule
             flush2.Name = name;
 
         }
+        /// <summary>
+        /// 根据特性名称获取侧边面
+        /// </summary>
+        /// <param name="occ">零件</param>
+        /// <param name="name">特性名称</param>
+        /// <returns></returns>
         protected static  List<Face> GetSideFaces(ComponentOccurrence occ,string name)
         {
-            List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
-            PartFeature feature = features.Where(a => a.Name == name).FirstOrDefault();
-            if(feature.Type==ObjectTypeEnum.kExtrudeFeatureObject)
+            if(occ.DefinitionDocumentType==DocumentTypeEnum.kPartDocumentObject)
             {
-                return InventorTool.GetCollectionFromIEnumerator<Face>(((ExtrudeFeature)feature).SideFaces.GetEnumerator());
+                List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
+                PartFeature feature = features.Where(a => a.Name == name).FirstOrDefault();
+                if (feature == null) return null;
+                if (feature.Type == ObjectTypeEnum.kExtrudeFeatureObject)
+                {
+                    return InventorTool.GetCollectionFromIEnumerator<Face>(((ExtrudeFeature)feature).SideFaces.GetEnumerator());
+                }
+                else
+                {
+                    return InventorTool.GetCollectionFromIEnumerator<Face>(feature.Faces.GetEnumerator());
+                }
             }
             else
             {
-                return InventorTool.GetCollectionFromIEnumerator<Face>(feature.Faces.GetEnumerator());
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    List<Face> faces = GetSideFaces(item, name);
+                    if(faces!=null&&faces.Count>0)
+                    {
+                        return faces;
+                    }
+                    
+                }
+                return null;
+            }
+     
+           
+        }
+        protected static List<Face> GetSideFacesproxy(ComponentOccurrence occ, string name)
+        {
+            if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
+            {
+                List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
+                PartFeature feature = features.Where(a => a.Name == name).FirstOrDefault();
+                if (feature == null) return null;
+                List<Face> results=new List<Face>(),faces;
+                if (feature.Type == ObjectTypeEnum.kExtrudeFeatureObject)
+                {
+                    faces= InventorTool.GetCollectionFromIEnumerator<Face>(((ExtrudeFeature)feature).SideFaces.GetEnumerator());
+                }
+                else
+                {
+                    faces =  InventorTool.GetCollectionFromIEnumerator<Face>(feature.Faces.GetEnumerator());
+                }
+                foreach (var sub in faces)
+                {
+                    object obj;
+                    occ.CreateGeometryProxy(sub, out obj);
+                    results.Add((Face)obj);
+                }
+                return results;
+            }
+            else
+            {
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    List<Face> faces = GetSideFaces(item, name);
+                    if (faces != null && faces.Count > 0)
+                    {
+                        List<Face> results = new List<Face>();
+                        foreach (var sub in faces)
+                        {
+                            object obj;
+                            item.CreateGeometryProxy(sub, out obj);
+                            results.Add((Face)obj);
+                        }
+                       // occurrence = item;
+                        return results;
+                    }
+
+                }
+                return null;
+            }
+
+
+        }
+        /// <summary>
+        /// 根据名称获取配对
+        /// </summary>
+        /// <param name="occ"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected static iMateDefinition Getimate(ComponentOccurrence occ, string name)
+        {
+            if(occ.DefinitionDocumentType==DocumentTypeEnum.kPartDocumentObject)
+            {
+                List<iMateDefinition> list = InventorTool.GetCollectionFromIEnumerator<iMateDefinition>(occ.iMateDefinitions.GetEnumerator());
+                return list.Where(a => a.Name == name).FirstOrDefault();
+            }
+            else
+            {
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    iMateDefinition mate = Getimate(item, name);
+                    if(mate!=null)
+                    {
+                        return mate;
+                    }
+                }
+                return null;
             }
            
         }
+        /// <summary>
+        /// 根据名称获取特性
+        /// </summary>
+        /// <param name="occ"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+       protected static T GetFeature<T>(ComponentOccurrence occ, string name,ObjectTypeEnum Type)
+        {
+            if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
+            {
+              List<PartFeature> features= InventorTool.GetCollectionFromIEnumerator<PartFeature> (((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
+              PartFeature feature= features.Where(a => a.Name == name&&a.Type==Type).FirstOrDefault();
+                if (feature != null) return (T)feature;
+                return default(T);
+            }
+            else
+            {
+
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    T result = GetFeature<T>(item, name, Type);
+                    if (result != null) return result;
+                }
+                return default(T);
+            }
+        }
+        protected static T GetFeatureproxy<T>(ComponentOccurrence occ, string name, ObjectTypeEnum Type)
+        {
+            if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
+            {
+                List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
+                PartFeature feature = features.Where(a => a.Name == name && a.Type == Type).FirstOrDefault();
+                if (feature != null)
+                {
+                    object result;
+                    occ.CreateGeometryProxy(feature, out result);
+                    return (T)result;
+                }
+                return default(T);
+            }
+            else
+            {
+
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    T result= GetFeatureproxy<T>(item, name, Type);
+                    if (result != null) return result;
+                }
+                return default(T);
+            }
+        }
         protected void SaveDoc()
         {
-
+            Doc.FullFileName = ModelPath;
+            Doc.Save2();
         }
     }
 }
