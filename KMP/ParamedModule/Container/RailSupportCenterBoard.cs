@@ -20,6 +20,7 @@ namespace ParamedModule.Container
         public RailSupportCenterBoard():base()
         {
             this.Parameter = par;
+            init();
         }
         void init()
         {
@@ -33,7 +34,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
-            init();
+           
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
           ExtrudeFeature box=  InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width ), UsMM(par.Width ), UsMM(par.Thickness),
@@ -57,7 +58,11 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if (par.HoleRadius >= par.Width / 4) return false;
+            if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
+            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false; 
+            return CommonTool.CheckParameterValue(par);
+
         }
     }
 }

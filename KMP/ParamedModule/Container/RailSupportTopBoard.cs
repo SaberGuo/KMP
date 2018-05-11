@@ -46,7 +46,7 @@ namespace ParamedModule.Container
             box.Name = "TopBoard";
             MateiMateDefinition mateD = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
             mateD.Name = "mateD";
-            SaveDoc();
+         
             #endregion
             #region  导轨装配
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
@@ -57,13 +57,14 @@ namespace ParamedModule.Container
            // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[1], 0).Name = "mateR2";
           
             #endregion
+             SaveDoc();
         }
 
 
 
         public override bool CheckParamete()
         {
-         
+            if (!CommonTool.CheckParameterValue(par)) return false;
             if (!CommonTool.CheckParameterValue(this.Parameter)) return false;
             if (par.HoleTopEdgeDistance <= par.HoleRadius) return false;
             if (par.HoleSideEdgeDistance <= par.HoleRadius) return false;

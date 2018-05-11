@@ -36,13 +36,11 @@ namespace ParamedModule.Container
             par.UnderBoardWidth = 340;
             par.BackBoardMoveDistance = 30;
         }
-     
-      
+
+        #region 创建模型 
         public override void CreateModule()
         {
-            if (!CheckParamete()) return ;
-            par = Parameter as ParPedestal;
-            if (par == null) return;
+  
            
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
@@ -76,6 +74,8 @@ namespace ParamedModule.Container
             CreatePedestalBoard(pedestalLines);
            ExtrudeFeature footboad=  CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
             CreateFootBoard(footboad, leftLines, rightLines, pedestalLines[0], underBoardArc);
+            SaveDoc();
+
         }
         /// <summary>
         /// 创建竖版实体
@@ -433,9 +433,10 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
            return InventorTool.GetCollectionFromIEnumerator<SketchLine>(collection);
 
         }
-
+        #endregion
         public override bool CheckParamete()
         {
+            if (!CommonTool.CheckParameterValue(par)) return false;
             double r = par.InRadius + par.Thickness + par.PanelThickness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度

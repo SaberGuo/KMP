@@ -30,12 +30,12 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            return CommonTool.CheckParameterValue(par);
         }
 
         public override void CreateModule()
         {
-            init();
+           
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
            ExtrudeFeature box= InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));

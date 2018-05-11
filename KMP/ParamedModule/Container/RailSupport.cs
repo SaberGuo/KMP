@@ -22,7 +22,7 @@ namespace ParamedModule.Container
         internal RailSupportCenterBoard centerBoard;
         internal RailSupportBrace brace;
         internal RailSupportbaseBoard baseBoard;
-        [ImportingConstructor]
+    
         public RailSupport():base()
         {
             this.Parameter = par;
@@ -40,7 +40,10 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if ((!topBoard.CheckParamete()) || (!sidePlate.CheckParamete()) ||
+                (!centerBoard.CheckParamete()) || (!brace.CheckParamete()) || (!baseBoard.CheckParamete())) return false;
+            if (!CommonTool.CheckParameterValue(par)) return false;
+            return true;
         }
 
         public override void CreateModule()
@@ -81,7 +84,7 @@ namespace ParamedModule.Container
             //Definition.Constraints.AddFlushConstraint(obj1, obj2, 0);
             #endregion
 
-
+            SaveDoc();
         }
 
     }

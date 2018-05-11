@@ -18,6 +18,7 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public CylinderDoor():base()
         {
+            init();
             this.Parameter = par;
         }
         private void init()
@@ -29,15 +30,15 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-            par = Parameter as ParCylinderDoor;
-            if (par == null) return;
-            init();
+        
+           
             CreateDoc();
             RevolveFeature revolve = CreateDoor(UsMM(par.Thickness),UsMM(par.InRadius),UsMM(par.DoorRadius));
             List<Face> sideFace = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.SideFaces.GetEnumerator());
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFace[4]);
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFace[3], 0).Name = "mateK";
+            SaveDoc();
         }
 
         private RevolveFeature CreateDoor(double thickness,double inRadius,double doorRadius)
@@ -65,8 +66,8 @@ namespace ParamedModule.Container
 
             osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[3].EndSketchPoint, (SketchEntity)Line2);
             osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[0], (SketchEntity)Line2.EndSketchPoint);
-            osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[1].StartSketchPoint, (SketchEntity)flanchLines[3]);
-            osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[0], (SketchEntity)flanchLines[3].StartSketchPoint);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[1].EndSketchPoint, (SketchEntity)flanchLines[3]);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)lines[2], (SketchEntity)flanchLines[3].StartSketchPoint);
             //ObjectCollection objc = InventorTool.CreateObjectCollection();
             // ObjectCollection flanchObjc = InventorTool.CreateObjectCollection();
             //lines.ForEach(a => objc.Add(a));
@@ -80,7 +81,8 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if (!CommonTool.CheckParameterValue(par)) return false;
+            return true;
         }
     }
 }

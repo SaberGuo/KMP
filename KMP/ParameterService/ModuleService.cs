@@ -60,10 +60,10 @@ namespace ParameterService
                       assemsly=  item;
                         break;
                     case "ParContainerSystem":
-                       // item.CreateModule();
+                        item.CreateModule();
                         break;
                     case "ParRailSystem":
-                         item.CreateModule();
+                         //item.CreateModule();
                         break;
                     default:
                         break;

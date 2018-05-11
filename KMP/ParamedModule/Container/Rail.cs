@@ -10,14 +10,14 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+   
     public  class Rail: PartModulebase
     {
        internal ParRail par = new ParRail();
         [ImportingConstructor]
         public Rail():base()
         {
+            init();
             this.Parameter = par;
         }
         void init()
@@ -32,11 +32,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-            par = Parameter as ParRail;
-            if (par == null) return;
-            init();
-
-
+   
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             CreateRib(osketch);
@@ -52,8 +48,9 @@ namespace ParamedModule.Container
 
            // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4], 0).Name = "mateR2"; //导轨底梁侧面
            // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[5], 0).Name = "mateR1"; //导轨底面
-       
-      
+            SaveDoc();
+
+
         }
 
         /// <summary>
@@ -133,7 +130,9 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+           
+            if (par.BraceWidth >= par.DownBridgeWidth || par.BraceWidth >= par.UpBridgeWidth) return false;
+            return CommonTool.CheckParameterValue(par);
         }
     }
 }

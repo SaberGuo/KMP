@@ -17,6 +17,9 @@ namespace KMP.Interface.Model.Container
         double holeCenterDistance;
         double holeSideEdgeDistance;
         double holeTopEdgeDistance;
+        /// <summary>
+        /// 厚度
+        /// </summary>
         public double Thickness
         {
             get
@@ -30,7 +33,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-
+        /// <summary>
+        /// 宽度
+        /// </summary>
         public double Width
         {
             get
@@ -44,7 +49,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Width);
             }
         }
-
+        /// <summary>
+        /// 螺丝孔半径
+        /// </summary>
         public double HoleRadius
         {
             get
@@ -58,7 +65,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.HoleRadius);
             }
         }
-
+        /// <summary>
+        /// 螺丝孔中心之间距离
+        /// </summary>
         public double HoleCenterDistance
         {
             get
@@ -72,7 +81,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.HoleCenterDistance);
             }
         }
-
+        /// <summary>
+        /// 螺丝孔中心到钣金侧边距离
+        /// </summary>
         public double HoleSideEdgeDistance
         {
             get
@@ -86,7 +97,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.HoleSideEdgeDistance);
             }
         }
-
+        /// <summary>
+        /// 螺丝孔中心到钣金顶边距离
+        /// </summary>
         public double HoleTopEdgeDistance
         {
             get

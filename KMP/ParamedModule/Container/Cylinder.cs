@@ -52,7 +52,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-            if (!CheckParamete()) return;
+           // if (!CheckParamete()) return;
             CreateDoc();
           RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius), UsMM(par.Length ), UsMM(par.Thickness ), UsMM(par.RibFirstDistance ));
             cyling.Name = "Cylinder";
@@ -60,7 +60,7 @@ namespace ParamedModule.Container
             List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
             //0 外侧面，4.罐口面
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0],true); //外侧面的轴
-          
+            Axis.Name = "CylinderAxis";
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";//罐口面
         
@@ -73,6 +73,7 @@ namespace ParamedModule.Container
                 CreateHole(plane, sideFaces[4], Axis,item, outFaceEdges[0]); 
             }
             ClearResidue(sideFaces[4], sideFaces[5], UsMM(par.Length));
+            SaveDoc();
         }
         /// <summary>
         /// 创建罐本体和加强筋
@@ -589,6 +590,7 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
+            if (!CommonTool.CheckParameterValue(par)) return false;
             if (par.FlanchWidth < par.Thickness) return false;
             if (par.RibWidth <= par.RibBraceWidth) return false;
             if (par.RibHeight <= par.RibBraceHeight) return false;

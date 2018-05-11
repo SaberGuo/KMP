@@ -9,35 +9,69 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+ 
     public class RailSystem : AssembleModuleBase
     {
-        ParRailSystem par = new ParRailSystem();
-        Rail rail = new Rail();
-        RailSupport support;
+      internal  ParRailSystem par = new ParRailSystem();
+        internal Rail rail = new Rail();
+        internal RailSupport support;
         public RailSystem():base()
         {
             rail = new Rail();
             support = new RailSupport();
+            SubParamedModules.Add(rail);
+            SubParamedModules.Add(support);
+       
             this.Parameter = par;
             init();
-        }
-        public override bool CheckParamete()
-        {
-            return true;
         }
         void init()
         {
             par.SupportNum = 3;
+            par.CylinderInRadius = 1400;
+            par.Offset = 400;
+            par.RailTotalHeight = 555;
+            par.HeightOffset = 1;
         }
+        public override bool CheckParamete()
+        {
+            if (!CommonTool.CheckParameterValue(par)) return false;
+            if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
+            if (par.Offset >= par.CylinderInRadius) return false;
+            double h0 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(par.Offset, 2), 0.5);//偏移后圆上点到圆心的垂直高度
+            par.HeightOffset = h0 - par.RailTotalHeight; //偏移后导轨中心线定点到圆心的垂直高度
+            if (par.HeightOffset < 0) return false;
+            double railHeight = rail.par.BraceHeight + rail.par.UpBridgeHeight + rail.par.DownBridgeHeight;//导轨高度
+            //高度=总高度+导轨高度+顶板厚度+支撑高度+中间板厚度+底板厚度
+            double h1 =  railHeight + support.topBoard.par.Thickness + support.brace.par.Height+support.centerBoard.par.Thickness + support.baseBoard.par.Thickness;
+            //中心线底板到大圆线垂直距离
+            double h2 = par.RailTotalHeight - h1;
+            if (h2 <= 0) return false;
+            //大圆到底板和旁板交接线距离
+            double w1 = support.baseBoard.par.Width - support.sidePlate.par.Width;
+            if (w1 <= 0) return false;
+            double h22 = par.HeightOffset + h1;
+            double w22 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(h22, 2), 0.5);
+            double w2 = w22 - w1; //旁板与圆接触面到圆心的水平距离
+            double h3 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(w2, 2), 0.5); //旁板与圆接触面圆上点到圆心的垂直距离
+            support.sidePlate.par.Thickness = h3 - par.HeightOffset - h1;
+            if (support.sidePlate.par.Thickness <= 0)
+            {
+                return false;
+            }
+
+            return true;
+                
+        }
+        
         public override void CreateModule()
         {
+           // if (!CheckParamete()) return;
             CreateDoc();
             rail.CreateModule();
             support.CreateModule();
             ComponentOccurrence CORail = LoadOccurrence((ComponentDefinition)rail.Doc.ComponentDefinition);
-            iMateDefinition railMate = Getimate(CORail, "mateR1");
+           // iMateDefinition railMate = Getimate(CORail, "mateR1");
             List<Face> railSideFaces = GetSideFacesproxy(CORail, "Rail");
             ExtrudeFeature railFeature = GetFeature<ExtrudeFeature>(CORail, "Rail",ObjectTypeEnum.kExtrudeFeatureObject);
             Face railEndFace = InventorTool.GetFirstFromIEnumerator<Face>(railFeature.EndFaces.GetEnumerator());
@@ -67,9 +101,9 @@ namespace ParamedModule.Container
                 //supportSF[0].
 
             }
-           
 
 
+            SaveDoc();
         }
     }
 }
