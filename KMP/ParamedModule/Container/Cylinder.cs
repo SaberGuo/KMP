@@ -10,23 +10,24 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+  
     public  class Cylinder: PartModulebase
     {
        internal ParCylinder par=new ParCylinder();
         Dictionary<double,WorkPlane> _planes = new Dictionary<double, WorkPlane>();
-        [ImportingConstructor]
-        public Cylinder():base()
+        
+        public Cylinder(PassedParameter InRadius,PassedParameter Thickness) :base()
         {
             this.Parameter = par;
             init();
+            this.par.InRadius = InRadius;
+            this.par.Thickness = Thickness;
         }
         private void init()
         {
-            par.InRadius = 1400;
+           // par.InRadius.Value = 1400;
             par.CapRadius = 700;
-            par.Thickness = 24;
+            
             par.Length = 5000;
             par.RibWidth = 4;
             par.RibHeight = 4;
@@ -54,13 +55,14 @@ namespace ParamedModule.Container
         {
            // if (!CheckParamete()) return;
             CreateDoc();
-          RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius), UsMM(par.Length ), UsMM(par.Thickness ), UsMM(par.RibFirstDistance ));
+          RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length ), UsMM(par.Thickness.Value ), UsMM(par.RibFirstDistance ));
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
             //0 外侧面，4.罐口面
-            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0],true); //外侧面的轴
+            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0]); //外侧面的轴
             Axis.Name = "CylinderAxis";
+            Axis.Visible = false;
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";//罐口面
         
@@ -291,6 +293,7 @@ namespace ParamedModule.Container
         private void CreatePlanes(List<Face> sideFaces)
         {
             PlanarSketch osketch = Definition.Sketches.Add(sideFaces[4]);
+            osketch.Visible = false;
             List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
            SketchCircle cycle= (SketchCircle) osketch.AddByProjectingEntity(edges[0]);
             SketchLine line = osketch.SketchLines.AddByTwoPoints(cycle.CenterSketchPoint, InventorTool.TranGeo.CreatePoint2d(10,0));
@@ -360,7 +363,7 @@ namespace ParamedModule.Container
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace= Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
-           HoleFeature hole=  Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 +"mm", par.InRadius + par.Thickness +"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+           HoleFeature hole=  Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 +"mm", par.InRadius.Value + par.Thickness.Value +"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
             #endregion
             Face holeSideFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.SideFaces.GetEnumerator());
@@ -591,13 +594,13 @@ namespace ParamedModule.Container
         public override bool CheckParamete()
         {
             if (!CommonTool.CheckParameterValue(par)) return false;
-            if (par.FlanchWidth < par.Thickness) return false;
+            if (par.FlanchWidth < par.Thickness.Value) return false;
             if (par.RibWidth <= par.RibBraceWidth) return false;
             if (par.RibHeight <= par.RibBraceHeight) return false;
             for(int i=0;i<par.ParHoles.Count;i++)
             {
                 var item = par.ParHoles[i];
-                if (item.HoleOffset > par.InRadius - item.HoleRadius) return false;
+                if (item.HoleOffset > par.InRadius.Value - item.HoleRadius) return false;
                 if (item.PositionDistance > par.Length - item.HoleRadius) return false;
                 if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
                for(int j=i+1;j<par.ParHoles.Count;j++)

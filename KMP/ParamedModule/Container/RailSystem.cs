@@ -15,7 +15,7 @@ namespace ParamedModule.Container
       internal  ParRailSystem par = new ParRailSystem();
         internal Rail rail = new Rail();
         internal RailSupport support;
-        public RailSystem():base()
+        public RailSystem(PassedParameter InRadius) :base()
         {
             rail = new Rail();
             support = new RailSupport();
@@ -24,11 +24,12 @@ namespace ParamedModule.Container
        
             this.Parameter = par;
             init();
+            par.CylinderInRadius = InRadius;
         }
         void init()
         {
             par.SupportNum = 3;
-            par.CylinderInRadius = 1400;
+           
             par.Offset = 400;
             par.RailTotalHeight = 555;
             par.HeightOffset = 1;
@@ -37,8 +38,8 @@ namespace ParamedModule.Container
         {
             if (!CommonTool.CheckParameterValue(par)) return false;
             if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
-            if (par.Offset >= par.CylinderInRadius) return false;
-            double h0 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(par.Offset, 2), 0.5);//偏移后圆上点到圆心的垂直高度
+            if (par.Offset >= par.CylinderInRadius.Value) return false;
+            double h0 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(par.Offset, 2), 0.5);//偏移后圆上点到圆心的垂直高度
             par.HeightOffset = h0 - par.RailTotalHeight; //偏移后导轨中心线定点到圆心的垂直高度
             if (par.HeightOffset < 0) return false;
             double railHeight = rail.par.BraceHeight + rail.par.UpBridgeHeight + rail.par.DownBridgeHeight;//导轨高度
@@ -51,9 +52,9 @@ namespace ParamedModule.Container
             double w1 = support.baseBoard.par.Width - support.sidePlate.par.Width;
             if (w1 <= 0) return false;
             double h22 = par.HeightOffset + h1;
-            double w22 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(h22, 2), 0.5);
+            double w22 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(h22, 2), 0.5);
             double w2 = w22 - w1; //旁板与圆接触面到圆心的水平距离
-            double h3 = Math.Pow(Math.Pow(par.CylinderInRadius, 2) - Math.Pow(w2, 2), 0.5); //旁板与圆接触面圆上点到圆心的垂直距离
+            double h3 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(w2, 2), 0.5); //旁板与圆接触面圆上点到圆心的垂直距离
             support.sidePlate.par.Thickness = h3 - par.HeightOffset - h1;
             if (support.sidePlate.par.Thickness <= 0)
             {

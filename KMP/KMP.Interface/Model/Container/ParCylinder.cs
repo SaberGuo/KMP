@@ -13,9 +13,9 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParCylinder:ParameterBase
     {
-       
-        double inRadius;
-        double thickness;
+
+        PassedParameter inRadius;
+        PassedParameter thickness;
         double length;
         double capRadius;
         double ribWidth;
@@ -29,7 +29,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐内半径
         /// </summary>
-        public double InRadius
+        public PassedParameter InRadius
         {
             get
             {
@@ -46,7 +46,7 @@ namespace KMP.Interface.Model.Container
         /// 罐厚度
         /// </summary>
 
-        public double Thickness
+        public PassedParameter Thickness
         {
             get
             {

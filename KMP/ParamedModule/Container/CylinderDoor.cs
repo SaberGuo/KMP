@@ -16,26 +16,29 @@ namespace ParamedModule.Container
     {
         ParCylinderDoor par = new ParCylinderDoor();
         [ImportingConstructor]
-        public CylinderDoor():base()
+        public CylinderDoor(PassedParameter InRadius,PassedParameter Thickness):base()
         {
             init();
             this.Parameter = par;
+            par.InRadius = InRadius;
+            par.Thickness = Thickness;
         }
         private void init()
         {
-            par.InRadius = 1400;
+           
             par.DoorRadius = 700;
-            par.Thickness = 2;
-            par.FlanchWidth = 4;
+           
+            par.FlanchWidth = 40;
         }
         public override void CreateModule()
         {
         
            
             CreateDoc();
-            RevolveFeature revolve = CreateDoor(UsMM(par.Thickness),UsMM(par.InRadius),UsMM(par.DoorRadius));
+            RevolveFeature revolve = CreateDoor(UsMM(par.Thickness.Value),UsMM(par.InRadius.Value),UsMM(par.DoorRadius));
             List<Face> sideFace = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.SideFaces.GetEnumerator());
-            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFace[4]);
+            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFace[4],true);
+           
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFace[3], 0).Name = "mateK";
             SaveDoc();
@@ -82,6 +85,7 @@ namespace ParamedModule.Container
         public override bool CheckParamete()
         {
             if (!CommonTool.CheckParameterValue(par)) return false;
+            if (par.FlanchWidth < par.Thickness.Value) return false;
             return true;
         }
     }

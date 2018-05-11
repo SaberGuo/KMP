@@ -22,10 +22,10 @@ namespace ParamedModule.Container
         public ContainerSystem():base()
         {
             this.Parameter = par;
-            _cylinder = new Cylinder();
-            _cylinderDoor = new CylinderDoor();
-            _pedestal = new Pedestal();
-            _railSystem = new RailSystem();
+            _cylinder = new Cylinder(par.InRadius,par.Thickness);
+            _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);
+            _pedestal = new Pedestal(par.InRadius,par.Thickness);
+            _railSystem = new RailSystem(par.InRadius);
             SubParamedModules.Add(_cylinder);
             SubParamedModules.Add(_cylinderDoor);
             SubParamedModules.Add(_pedestal);
@@ -35,6 +35,8 @@ namespace ParamedModule.Container
         void init()
         {
             par.PedestalNumber = 3;
+            par.InRadius.Value = 1400;
+            par.Thickness.Value = 24;
         }
         public override bool CheckParamete()
         {
@@ -47,6 +49,7 @@ namespace ParamedModule.Container
         public override void CreateModule()
         {
             if (!CheckParamete()) return;
+          
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
             _cylinder.CreateModule();

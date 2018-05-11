@@ -7,14 +7,14 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParCylinderDoor:ParameterBase
     {
-        double inRadius;
-        double thickness;
+        PassedParameter inRadius;
+        PassedParameter thickness;
         double doorRadius;
         double flanchWidth;
         /// <summary>
-        /// 容器内半径
+        /// 容器内半径 不显示
         /// </summary>
-        public double InRadius
+        public PassedParameter InRadius
         {
             get
             {
@@ -28,9 +28,9 @@ namespace KMP.Interface.Model.Container
             }
         }
         /// <summary>
-        /// 容器门厚度
+        /// 容器门厚度 不显示
         /// </summary>
-        public double Thickness
+        public PassedParameter Thickness
         {
             get
             {
@@ -59,7 +59,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.DoorRadius);
             }
         }
-
+        /// <summary>
+        /// 法兰宽度
+        /// </summary>
         public double FlanchWidth
         {
             get

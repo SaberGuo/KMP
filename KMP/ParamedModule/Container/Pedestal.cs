@@ -16,15 +16,16 @@ namespace ParamedModule.Container
     {
         ParPedestal par = new ParPedestal();
         [ImportingConstructor]
-        public Pedestal():base()
+        public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
             this.Parameter = this.par;
             init();
+            par.InRadius = InRadiius;
+            par.Thickness = Thickness;
         }
         void init()
         {
-            par.InRadius = 1400;
-            par.Thickness = 24;
+         
             par.PanelThickness = 12;
             par.UnderBoardingAngle = 120;
             par.PedestalLength = 2530;
@@ -48,7 +49,7 @@ namespace ParamedModule.Container
             #region 创建圆
             SketchArc outArc, underBoardArc;
             SketchLine sublineCenter;
-            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter,UsMM( par.InRadius), UsMM(par.Thickness), UsMM(par.PanelThickness));
+            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter,UsMM( par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
             #endregion
             #region 垫板堵头
             SketchLine line1 = osketch.SketchLines.AddByTwoPoints(underBoardArc.StartSketchPoint, GetCyclePoint(
@@ -437,7 +438,7 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
         public override bool CheckParamete()
         {
             if (!CommonTool.CheckParameterValue(par)) return false;
-            double r = par.InRadius + par.Thickness + par.PanelThickness;
+            double r = par.InRadius.Value + par.Thickness.Value + par.PanelThickness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度
             if (par.UnderBoardingAngle > 140) return false;

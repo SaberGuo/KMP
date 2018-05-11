@@ -9,7 +9,7 @@ namespace KMP.Interface.Model.Container
     {
         double supportNum;
         double railTotalHeight;
-        double cylinderInRadius;
+        PassedParameter cylinderInRadius;
         double offset;
         double heightOffset;
         /// <summary>
@@ -45,7 +45,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐体半径
         /// </summary>
-        public double CylinderInRadius
+        public PassedParameter CylinderInRadius
         {
             get
             {
