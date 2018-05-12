@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Inventor;
 using Infranstructure.Tool;
+using System.IO;
 namespace ParamedModule
 {
   public abstract  class PartModulebase:ParamedModuleBase
@@ -24,7 +25,11 @@ namespace ParamedModule
         {
            
             Doc.FullFileName = ModelPath;
-            Doc.Save();
+            if(System.IO.File.Exists(ModelPath))
+            {
+                System.IO.File.Delete(ModelPath);
+            }
+            Doc.Save2();
           //  Doc.Close();
           
         }

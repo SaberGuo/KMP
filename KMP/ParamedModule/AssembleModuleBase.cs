@@ -321,6 +321,10 @@ namespace ParamedModule
         protected void SaveDoc()
         {
             Doc.FullFileName = ModelPath;
+            if (System.IO.File.Exists(ModelPath))
+            {
+                System.IO.File.Delete(ModelPath);
+            }
             Doc.Save2();
         }
     }

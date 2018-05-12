@@ -58,23 +58,23 @@ namespace ParamedModule.Container
           RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length ), UsMM(par.Thickness.Value ), UsMM(par.RibFirstDistance ));
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
-            List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
+            List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[2].Edges.GetEnumerator());
             //0 外侧面，4.罐口面
-            WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(sideFaces[0]); //外侧面的轴
+            WorkAxis Axis = Definition.WorkAxes.AddByLine(cyling.AxisEntity); //外侧面的轴
             Axis.Name = "CylinderAxis";
             Axis.Visible = false;
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4],0).Name = "mateK";//罐口面
-        
+         
             CreatePlanes(sideFaces); //创建孔平面
             foreach (var item in par.ParHoles)  //创建孔、短管、法兰
             {
                 WorkPlane plane = _planes[item.PositionAngle];
                 if (plane == null) continue;
           
-                CreateHole(plane, sideFaces[4], Axis,item, outFaceEdges[0]); 
+                CreateHole(plane, sideFaces[4], Axis,item, outFaceEdges[1]); 
             }
-            ClearResidue(sideFaces[4], sideFaces[5], UsMM(par.Length));
+            ClearResidue(sideFaces[4], sideFaces[0], UsMM(par.Length));
             SaveDoc();
         }
         /// <summary>
@@ -294,8 +294,9 @@ namespace ParamedModule.Container
         {
             PlanarSketch osketch = Definition.Sketches.Add(sideFaces[4]);
             osketch.Visible = false;
-            List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[0].Edges.GetEnumerator());
-           SketchCircle cycle= (SketchCircle) osketch.AddByProjectingEntity(edges[0]);
+            List<Face> cylindFaces = sideFaces.Where(a => a.SurfaceType == SurfaceTypeEnum.kCylinderSurface).ToList();
+            List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[2].Edges.GetEnumerator());
+           SketchCircle cycle= (SketchCircle) osketch.AddByProjectingEntity(edges[1]);
             SketchLine line = osketch.SketchLines.AddByTwoPoints(cycle.CenterSketchPoint, InventorTool.TranGeo.CreatePoint2d(10,0));
             line.Construction = true;
             osketch.GeometricConstraints.AddHorizontal((SketchEntity)line);
@@ -309,7 +310,7 @@ namespace ParamedModule.Container
                 dim.Parameter.Value = item.PositionAngle / 180 * Math.PI;
                 dim.Visible = false;
                 
-                WorkPlane plane = Definition.WorkPlanes.AddByPointAndTangent(p, sideFaces[0]);
+                WorkPlane plane = Definition.WorkPlanes.AddByPointAndTangent(p, cylindFaces[0]);
                 _planes.Add(item.PositionAngle, plane);
             }
            
@@ -583,9 +584,9 @@ namespace ParamedModule.Container
         }
         private void ClearResidue(Face plance ,Face circle,double length)
         {
-            Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(plance.Edges.GetEnumerator());
+           List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(plance.Edges.GetEnumerator());
             PlanarSketch osketch = Definition.Sketches.Add(plance);
-            osketch.AddByProjectingEntity(edge);
+            osketch.AddByProjectingEntity(edges[1]);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
             ex.SetDistanceExtent(length, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
