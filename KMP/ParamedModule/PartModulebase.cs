@@ -13,7 +13,7 @@ namespace ParamedModule
       internal  PartDocument Doc;
         public PartModulebase():base()
         {
-            this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name + ".ipt";
+            
         }
        protected void CreateDoc()
         {
@@ -23,7 +23,7 @@ namespace ParamedModule
       
         protected void SaveDoc()
         {
-           
+            this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.Name + ".ipt";
             Doc.FullFileName = ModelPath;
             if(System.IO.File.Exists(ModelPath))
             {

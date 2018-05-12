@@ -18,6 +18,7 @@ namespace ParamedModule.Container
         
         public Cylinder(PassedParameter InRadius,PassedParameter Thickness) :base()
         {
+            this.Name = "罐体";
             this.Parameter = par;
             init();
             this.par.InRadius = InRadius;
