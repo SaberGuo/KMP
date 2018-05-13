@@ -272,7 +272,7 @@ namespace Infranstructure.Tool
             osketch.GeometricConstraints.AddCoincident((SketchEntity)p1, (SketchEntity)line2);
         }
         /// <summary>
-        /// 创建一个长方形示意图
+        /// 创建一个长方形示意图 下边线：0，右边线：1，逆时针顺序
         /// </summary>
         /// <param name="osketch"></param>
         /// <param name="length"></param>
