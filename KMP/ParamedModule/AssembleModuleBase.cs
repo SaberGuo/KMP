@@ -40,6 +40,12 @@ namespace ParamedModule
            // GetFeatures(item);
             return item;
         }
+        protected ComponentOccurrence LoadOccurrence(ComponentDefinition def,Matrix pos)
+        {
+            ComponentOccurrence item = Definition.Occurrences.AddByComponentDefinition(def, pos);
+            // GetFeatures(item);
+            return item;
+        }
         /// <summary>
         /// 获取需要用到的特征
         /// </summary>
@@ -48,7 +54,7 @@ namespace ParamedModule
         //{
         //    if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
         //    {
-              
+
         //        List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
         //        foreach (var item in features)
         //        {
@@ -293,6 +299,7 @@ namespace ParamedModule
                 return default(T);
             }
         }
+      
         protected static T GetFeatureproxy<T>(ComponentOccurrence occ, string name, ObjectTypeEnum Type)
         {
             if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
@@ -318,6 +325,47 @@ namespace ParamedModule
                 return default(T);
             }
         }
+        protected static List<T> GetFeatureproxys<T>(ComponentOccurrence occ, string name, ObjectTypeEnum Type)
+        {
+            List<T> results = new List<T>();
+            if (occ.DefinitionDocumentType == DocumentTypeEnum.kPartDocumentObject)
+            {
+                List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)occ.Definition).Features.GetEnumerator());
+                PartFeature feature = features.Where(a => a.Name == name && a.Type == Type).FirstOrDefault();
+                if (feature != null)
+                {
+                    object result;
+                    occ.CreateGeometryProxy(feature, out result);
+                   results.Add( (T)result);
+                }
+                return results;
+            }
+            else
+            {
+
+                foreach (ComponentOccurrence item in occ.SubOccurrences)
+                {
+                    List<T> result = GetFeatureproxys<T>(item, name, Type);
+                    if (result != null) results.AddRange(result);
+                }
+                return results;
+            }
+        }
+        protected static OccStruct GetOccStruct(ComponentOccurrence occ, string name,int index)
+        {
+            OccStruct planeStruct = new OccStruct();
+            planeStruct.Occurrence = occ;
+           List< ExtrudeFeature> features = GetFeatureproxys<ExtrudeFeature>(occ, name, ObjectTypeEnum.kExtrudeFeatureObject);
+            ExtrudeFeature feature;
+            if (features.Count > index)
+                feature = features[index];
+            else return planeStruct;
+            planeStruct.SideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(feature.SideFaces.GetEnumerator());
+            planeStruct.EndFace = InventorTool.GetFirstFromIEnumerator<Face>(feature.EndFaces.GetEnumerator());
+            planeStruct.StartFace = InventorTool.GetFirstFromIEnumerator<Face>(feature.StartFaces.GetEnumerator());
+            planeStruct.Part = (PartFeature)feature;
+            return planeStruct;
+        }
         protected void SaveDoc()
         {
             this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.Name + ".iam";
@@ -327,6 +375,16 @@ namespace ParamedModule
                 System.IO.File.Delete(ModelPath);
             }
             Doc.Save2();
+        }
+
+
+        public struct OccStruct
+        {
+            public ComponentOccurrence Occurrence;
+            public List<Face> SideFaces;
+            public Face EndFace;
+            public Face StartFace;
+            public PartFeature Part;
         }
     }
 }

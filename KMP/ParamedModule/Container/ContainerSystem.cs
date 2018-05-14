@@ -18,24 +18,30 @@ namespace ParamedModule.Container
         CylinderDoor _cylinderDoor;
         Pedestal _pedestal;
         RailSystem _railSystem;
+        PlaneSystem _plane;
         [ImportingConstructor]
         public ContainerSystem():base()
         {
+            init();
             this.Name = "容器系统";
             this.Parameter = par;
+            _plane = new PlaneSystem(par.InRadius);
             _cylinder = new Cylinder(par.InRadius,par.Thickness);
             _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);
             _pedestal = new Pedestal(par.InRadius,par.Thickness);
             _railSystem = new RailSystem(par.InRadius);
+          
             SubParamedModules.Add(_cylinder);
             SubParamedModules.Add(_cylinderDoor);
             SubParamedModules.Add(_pedestal);
             SubParamedModules.Add(_railSystem);
+            SubParamedModules.Add(_plane);
             _cylinder.Name = "罐体";
             _cylinderDoor.Name = "罐门";
             _pedestal.Name = "底座";
-            _railSystem.Name = "导轨系统";
-            init();
+            _railSystem.Name = "导轨组件";
+            _plane.Name = "平板组件";
+           
         }
         void init()
         {
@@ -46,7 +52,8 @@ namespace ParamedModule.Container
         public override bool CheckParamete()
         {
          
-            if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()))
+            if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
+                (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()) || (!_plane.CheckParamete()))
                 return false;
             return CommonTool.CheckParameterValue(par);
         }
@@ -57,10 +64,12 @@ namespace ParamedModule.Container
           
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
+            _plane.CreateModule();
             _cylinder.CreateModule();
             _cylinderDoor.CreateModule();
             _pedestal.CreateModule();
             _railSystem.CreateModule();
+           
             #region 容器罐、罐门、底座组装
             ComponentOccurrence COcylinder = LoadOccurrence((ComponentDefinition)_cylinder.Doc.ComponentDefinition);
             ComponentOccurrence COcylinderDoor = LoadOccurrence((ComponentDefinition)_cylinderDoor.Doc.ComponentDefinition);
@@ -101,6 +110,7 @@ namespace ParamedModule.Container
                 #endregion
             }
             #endregion
+            #region 导轨组件组装
             ComponentOccurrence CORai1 = LoadOccurrence((ComponentDefinition)_railSystem.Doc.ComponentDefinition);
             ComponentOccurrence CORai2 = LoadOccurrence((ComponentDefinition)_railSystem.Doc.ComponentDefinition);
            ExtrudeFeature rail1 = GetFeatureproxy<ExtrudeFeature>(CORai1, "Rail",ObjectTypeEnum.kExtrudeFeatureObject);
@@ -110,13 +120,31 @@ namespace ParamedModule.Container
             Face railEndFace1 = InventorTool.GetFirstFromIEnumerator<Face>(rail1.StartFaces.GetEnumerator());
             Face railStartFace2 = InventorTool.GetFirstFromIEnumerator<Face>(rail2.EndFaces.GetEnumerator());
             //  List<Face> railSF2 = GetSideFacesproxy(CORai2, "Rail");
-          
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[11], UsMM(_railSystem.par.HeightOffset));
+            
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[11], UsMM(_railSystem.par.HeightOffset));//导轨顶面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[11], UsMM(_railSystem.par.HeightOffset));
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[0], UsMM(-_railSystem.par.Offset));
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[10], UsMM(_railSystem.par.Offset));
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, 0);
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[0], UsMM(-_railSystem.par.Offset-_railSystem.rail.par.UpBridgeWidth/2));//导轨顶侧面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[10], UsMM(_railSystem.par.Offset- _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, 0); //导轨横截面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, 0);
+            #endregion
+            oPos.SetToRotateTo(InventorTool.TranGeo.CreateVector(0, 0, 1), InventorTool.TranGeo.CreateVector(0, 1, 0));
+          
+            ComponentOccurrence COPlane1 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
+      
+            ComponentOccurrence COPlane2 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
+            
+            OccStruct OccPlane1 = GetOccStruct(COPlane1, "RailSidePlate",_plane.par.PlaneNumber-1);
+            OccStruct OccPlane2 = GetOccStruct(COPlane2, "RailSidePlate",0);
+            Definition.Constraints.AddAngleConstraint(OccPlane1.SideFaces[2], OccPlane2.SideFaces[2], Math.PI);
+            //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane1.EndFace, 0);
+            //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane2.EndFace, 0);
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.EndFace, UsMM(_plane.par.HeightOffset));//导轨顶面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.EndFace, UsMM(_plane.par.HeightOffset));
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.SideFaces[1], UsMM(-_plane._planeSup.par.Offset-_plane._plane.par.Width/2));//导轨顶侧面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.SideFaces[3], UsMM(_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2],0); //导轨横截面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane2.SideFaces[0], 0);
             SaveDoc();
         }
 

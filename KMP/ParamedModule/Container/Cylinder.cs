@@ -113,7 +113,7 @@ namespace ParamedModule.Container
             osketch.DimensionConstraints.AddTwoPointDistance(Line4.StartSketchPoint, Line4.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
             CreateRibs(osketch, Line2,length, RibFirstDistance);  //创建加强筋
-            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, par.FlanchWidth/10);
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, UsMM(par.FlanchWidth));
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             osketch.GeometricConstraints.AddCollinear((SketchEntity)lines[3], (SketchEntity)Line4);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
@@ -357,9 +357,9 @@ namespace ParamedModule.Container
             osketch.GeometricConstraints.AddCoincident((SketchEntity)centerLine, (SketchEntity)origin);
             SketchPoint holeCenter = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(x,y));
           TwoPointDistanceDimConstraint offSetDim=  osketch.DimensionConstraints.AddTwoPointDistance(origin, holeCenter, DimensionOrientationEnum.kVerticalDim, holeCenter.Geometry);
-            offSetDim.Parameter.Value = Math.Abs(parHole.HoleOffset) / 10;
+            offSetDim.Parameter.Value = Math.Abs(UsMM(parHole.HoleOffset)) ;
             TwoPointDistanceDimConstraint distanceDim = osketch.DimensionConstraints.AddTwoPointDistance(origin, holeCenter, DimensionOrientationEnum.kHorizontalDim, holeCenter.Geometry);
-            distanceDim.Parameter.Value = parHole.PositionDistance / 10;
+            distanceDim.Parameter.Value = UsMM(parHole.PositionDistance);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace= Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
