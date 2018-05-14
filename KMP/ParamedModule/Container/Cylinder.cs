@@ -37,10 +37,10 @@ namespace ParamedModule.Container
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
             ParFlanch parflanch1 = new ParFlanch() { H = 2,D1=500,D2=450,D=12,D0=480,N=6 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=300,PositionAngle=90,PositionDistance=500,PipeLenght=300,HoleRadius=100};
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset=300,PositionAngle=90,PositionDistance=500,PipeLenght=300,HoleRadius=100,PipeThickness=2};
+            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100, PipeThickness = 2 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200, PipeThickness = 2 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150, PipeThickness = 2 };
             hole.ParFlanch = parflanch1;
             hole1.ParFlanch = parflanch1;
             hole2.ParFlanch = parflanch1;
@@ -369,7 +369,7 @@ namespace ParamedModule.Container
             Face holeSideFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.SideFaces.GetEnumerator());
             WorkAxis holeAxis = Definition.WorkAxes.AddByRevolvedFace(holeSideFace,true);
            
-          RevolveFeature pipe=  CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.HoleRadius), UsMM(parHole.ParFlanch.H), UsMM(parHole.HoleOffset),parHole.PositionAngle,holeAxis);
+          RevolveFeature pipe=  CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.HoleRadius), UsMM(parHole.PipeThickness), UsMM(parHole.HoleOffset),parHole.PositionAngle,holeAxis);
             SketchCircle flanchInCircle;
           ExtrudeFeature flanch=  CreateFlance(pipe,UsMM(parHole.ParFlanch.D1/2),UsMM(parHole.ParFlanch.H),out flanchInCircle);
             if (flanch == null) return;

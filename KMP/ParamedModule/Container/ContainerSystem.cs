@@ -64,9 +64,10 @@ namespace ParamedModule.Container
           
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
+            _cylinderDoor.CreateModule();
             _plane.CreateModule();
             _cylinder.CreateModule();
-            _cylinderDoor.CreateModule();
+          
             _pedestal.CreateModule();
             _railSystem.CreateModule();
            

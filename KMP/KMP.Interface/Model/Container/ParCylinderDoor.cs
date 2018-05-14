@@ -9,8 +9,11 @@ namespace KMP.Interface.Model.Container
     {
         PassedParameter inRadius;
         PassedParameter thickness;
+      
         double doorRadius;
         double flanchWidth;
+        ParCylinderHole topHole = new ParCylinderHole();
+        ParCylinderHole sideHole = new ParCylinderHole();
         /// <summary>
         /// 容器内半径 不显示
         /// </summary>
@@ -60,7 +63,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         /// <summary>
-        /// 法兰宽度
+        /// 容器门法兰宽度
         /// </summary>
         public double FlanchWidth
         {
@@ -73,6 +76,34 @@ namespace KMP.Interface.Model.Container
             {
                 flanchWidth = value;
                 this.RaisePropertyChanged(() => this.FlanchWidth);
+            }
+        }
+
+        public ParCylinderHole TopHole
+        {
+            get
+            {
+                return topHole;
+            }
+
+            set
+            {
+                topHole = value;
+                this.RaisePropertyChanged(() => this.TopHole);
+            }
+        }
+
+        public ParCylinderHole SideHole
+        {
+            get
+            {
+                return sideHole;
+            }
+
+            set
+            {
+                sideHole = value;
+                this.RaisePropertyChanged(() => this.SideHole);
             }
         }
     }
