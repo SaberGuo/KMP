@@ -24,6 +24,8 @@ namespace ParamedModule.Container
        
             this.Parameter = par;
             init();
+            this.rail.Name = "导轨";
+            this.support.Name = "导轨支架";
             par.CylinderInRadius = InRadius;
         }
         void init()

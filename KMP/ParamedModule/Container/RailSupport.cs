@@ -36,6 +36,11 @@ namespace ParamedModule.Container
             SubParamedModules.Add(centerBoard);
             SubParamedModules.Add(brace);
             SubParamedModules.Add(baseBoard);
+            this.topBoard.Name = "导轨支架顶板";
+            this.sidePlate.Name = "导轨支架侧板";
+            this.centerBoard.Name = "导轨支架中间板";
+            this.brace.Name = "导轨支架支撑";
+            this.baseBoard.Name = "导轨支架底板";
         }
 
         public override bool CheckParamete()

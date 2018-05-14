@@ -18,7 +18,7 @@ namespace ParamedModule
        // internal Dictionary<string, PartFeature> partFeatures = new Dictionary<string, PartFeature>();
         public AssembleModuleBase():base()
         {
-            this.ModelPath= AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name + ".iam";
+           
         }
         /// <summary>
         /// 创建装配文档
@@ -320,7 +320,12 @@ namespace ParamedModule
         }
         protected void SaveDoc()
         {
+            this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.Name + ".iam";
             Doc.FullFileName = ModelPath;
+            if (System.IO.File.Exists(ModelPath))
+            {
+                System.IO.File.Delete(ModelPath);
+            }
             Doc.Save2();
         }
     }
