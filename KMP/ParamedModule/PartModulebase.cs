@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Inventor;
 using Infranstructure.Tool;
+using System.IO;
 namespace ParamedModule
 {
   public abstract  class PartModulebase:ParamedModuleBase
@@ -12,7 +13,7 @@ namespace ParamedModule
       internal  PartDocument Doc;
         public PartModulebase():base()
         {
-            this.ModelPath = AppDomain.CurrentDomain.BaseDirectory + "Project\\" + this.GetType().Name + ".ipt";
+            
         }
        protected void CreateDoc()
         {
@@ -22,9 +23,13 @@ namespace ParamedModule
       
         protected void SaveDoc()
         {
+            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.GetType().Name + ".ipt");
+            if (System.IO.File.Exists(Doc.FullFileName))
+            {
+                System.IO.File.Delete(Doc.FullFileName);
+            }
+            Doc.Save2();
            
-            Doc.FullFileName = System.IO.Path.Combine(ModelPath,this.GetType().Name + ".ipt") ;
-            Doc.Save();
           //  Doc.Close();
           
         }

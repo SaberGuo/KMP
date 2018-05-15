@@ -57,6 +57,8 @@
     <Compile Include="Container\ContainerSystem.cs" />
     <Compile Include="Container\Cylinder.cs" />
     <Compile Include="Container\CylinderDoor.cs" />
+    <Compile Include="Container\PlaneSupport.cs" />
+    <Compile Include="Container\PlaneSystem.cs" />
     <Compile Include="Container\Rail.cs" />
     <Compile Include="Container\RailSupport.cs" />
     <Compile Include="Container\RailSupportbaseBoard.cs" />

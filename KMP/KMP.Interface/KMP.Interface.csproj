@@ -109,6 +109,8 @@
     <Compile Include="IParamedModule.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />
     <Compile Include="Model\Container\ParFlanch.cs" />
+    <Compile Include="Model\Container\ParPlaneSupport.cs" />
+    <Compile Include="Model\Container\ParPlaneSystem.cs" />
     <Compile Include="Model\Container\ParRail.cs" />
     <Compile Include="Model\Container\ParRailSupport.cs" />
     <Compile Include="Model\Container\ParRailSupportbaseBoard.cs" />

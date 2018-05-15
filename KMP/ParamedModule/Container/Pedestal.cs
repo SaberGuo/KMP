@@ -18,6 +18,7 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
+            this.Name = "底座";
             this.Parameter = this.par;
             init();
             par.InRadius = InRadiius;

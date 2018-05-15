@@ -17,6 +17,7 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public Rail():base()
         {
+            
             init();
             this.Parameter = par;
             this.Name = "导轨";

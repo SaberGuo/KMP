@@ -65,6 +65,12 @@ namespace ParameterService
                     case "ParRailSystem":
                          //item.CreateModule();
                         break;
+                    case "ParPlaneSupport":
+                       // item.CreateModule();
+                        break;
+                    case "ParPlaneSystem":
+                       // item.CreateModule();
+                        break;
                     default:
                         break;
                 }

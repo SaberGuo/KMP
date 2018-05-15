@@ -14,10 +14,12 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CylinderDoor : PartModulebase
     {
+
         ParCylinderDoor par = new ParCylinderDoor();
         [ImportingConstructor]
         public CylinderDoor(PassedParameter InRadius,PassedParameter Thickness):base()
         {
+            this.Name = "罐门";
             init();
             this.Parameter = par;
             par.InRadius = InRadius;

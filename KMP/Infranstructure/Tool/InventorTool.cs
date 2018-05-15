@@ -272,7 +272,7 @@ namespace Infranstructure.Tool
             osketch.GeometricConstraints.AddCoincident((SketchEntity)p1, (SketchEntity)line2);
         }
         /// <summary>
-        /// 创建一个长方形示意图
+        /// 创建一个长方形示意图 下边线：0，右边线：1，逆时针顺序
         /// </summary>
         /// <param name="osketch"></param>
         /// <param name="length"></param>
@@ -332,15 +332,14 @@ namespace Infranstructure.Tool
             plane1.Visible = false;
             ObjectCollection objects = InventorTool.Inventor.TransientObjects.CreateObjectCollection();
             objects.Add(hole);
-            MirrorFeature mirrorf = partDef.Features.MirrorFeatures.Add(objects, plane);
-            objects.Add(mirrorf);
-            MirrorFeature mirrorf2 = partDef.Features.MirrorFeatures.Add(objects, plane1);
-            /*MirrorFeatureDefinition mirrorDef = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane);
-            MirrorFeature mirror = partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef);
+            //MirrorFeatureDefinition mirrorDef = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane);
+            //MirrorFeature mirror = partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef);
+            //objects.Add(mirror);
+            //MirrorFeatureDefinition mirrorDef2 = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane1);
+            //partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);
+            MirrorFeature mirror = partDef.Features.MirrorFeatures.Add(objects, plane);
             objects.Add(mirror);
-            MirrorFeatureDefinition mirrorDef2 = partDef.Features.MirrorFeatures.CreateDefinition(objects, plane1);
-            partDef.Features.MirrorFeatures.AddByDefinition(mirrorDef2);*/
-            
+            partDef.Features.MirrorFeatures.Add(objects, plane1);
             return block;
         }
         /// <summary>

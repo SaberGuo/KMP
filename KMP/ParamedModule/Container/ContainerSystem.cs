@@ -21,6 +21,7 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public ContainerSystem():base()
         {
+            this.Name = "容器系统";
             this.Parameter = par;
             _cylinder = new Cylinder(par.InRadius,par.Thickness);
             _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);
