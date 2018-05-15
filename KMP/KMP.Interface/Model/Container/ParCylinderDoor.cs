@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
@@ -14,6 +15,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 容器内半径 不显示
         /// </summary>
+        /// 
+        [Browsable(false)]
         public PassedParameter InRadius
         {
             get
@@ -30,6 +33,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 容器门厚度 不显示
         /// </summary>
+        /// 
+        [Browsable(false)]
         public PassedParameter Thickness
         {
             get
@@ -46,6 +51,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 容器门深度内半径
         /// </summary>
+        /// 
+        [DisplayName("容器门深度内半径")]
         public double DoorRadius
         {
             get
@@ -62,6 +69,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 法兰宽度
         /// </summary>
+        /// 
+        [DisplayName("罐体法兰宽度")]
         public double FlanchWidth
         {
             get

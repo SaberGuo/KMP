@@ -8,5 +8,7 @@ namespace KMP.Interface
    public interface IModuleService
     {
         void Create();
+
+        IParamedModule CreateProject(string projType, string projPath);
     }
 }

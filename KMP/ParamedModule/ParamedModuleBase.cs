@@ -13,7 +13,7 @@ namespace ParamedModule
     {
 
         ParameterBase parameter;
-        ObservableCollection<IParamedModule> subParameModules=new ObservableCollection<IParamedModule>();
+        ModuleCollection subParameModules =new ModuleCollection();
         string modelPath;
         string name;
 
@@ -53,8 +53,14 @@ namespace ParamedModule
             set
             {
                 parameter = value;
+                parameter.PropertyChanged += Parameter_PropertyChanged;
                 this.RaisePropertyChanged(() => this.Parameter);
             }
+        }
+
+        private void Parameter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            this.RaisePropertyChanged(e.PropertyName);
         }
 
         public string ModelPath
@@ -67,6 +73,10 @@ namespace ParamedModule
             set
             {
                 modelPath = value;
+                foreach (var item in subParameModules)
+                {
+                    item.ModelPath = modelPath;
+                }
                 this.RaisePropertyChanged(() => this.ModelPath);
             }
         }
@@ -75,7 +85,7 @@ namespace ParamedModule
             return value / 10;
         }
 
-       public ObservableCollection<IParamedModule> SubParamedModules
+       public ModuleCollection SubParamedModules
         {
             get
             {

@@ -29,6 +29,8 @@ namespace ParamedModule.Container
             par.DoorRadius = 700;
            
             par.FlanchWidth = 40;
+
+            this.Name = "容器大门";
         }
         public override void CreateModule()
         {

@@ -10,9 +10,11 @@ namespace Infranstructure.Commands
     public static class FileCommands
     {
         //TODO: 03 - The application defines a global SaveAll command which invokes the Save command on all registered Orders. It is enabled only when all orders can be saved.
-        public static DelegateCommand _OpenFileCommand;
-        public static DelegateCommand _NewFileCommand;
-        public static CompositeCommand _SaveAllFileCommand = new CompositeCommand();
+        static DelegateCommand _OpenFileCommand;
+        static DelegateCommand _NewFileCommand;
+        static DelegateCommand _SaveAsFileCommand;
+        static DelegateCommand _ExitCommand;
+        static CompositeCommand _SaveAllFileCommand = new CompositeCommand();
 
         public static DelegateCommand OpenFileCommand
         {
@@ -26,10 +28,22 @@ namespace Infranstructure.Commands
             set { _NewFileCommand = value; }
         }
 
+        public static DelegateCommand SaveAsFileCommand
+        {
+            get { return _SaveAsFileCommand; }
+            set { _SaveAsFileCommand = value; }
+        }
         public static CompositeCommand SaveAllFileCommand
         {
             get { return _SaveAllFileCommand; }
         }
+
+        public static DelegateCommand ExitCommand
+        {
+            get { return _ExitCommand; }
+            set { _ExitCommand = value; }
+        }
+
 
     }
 
@@ -37,7 +51,7 @@ namespace Infranstructure.Commands
     /// Provides a class wrapper around the static SaveAll command.
     /// </summary>
     [Export]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class FileCommandProxy
     {
         public virtual DelegateCommand OpenFileCommand
@@ -45,9 +59,27 @@ namespace Infranstructure.Commands
             get { return FileCommands.OpenFileCommand; }
             set { FileCommands.OpenFileCommand = value; }
         }
+
+        public virtual DelegateCommand NewFileCommand
+        {
+            get { return FileCommands.NewFileCommand; }
+            set { FileCommands.NewFileCommand = value; }
+        }
+
+        public virtual DelegateCommand SaveAsFileCommand
+        {
+            get { return FileCommands.SaveAsFileCommand; }
+            set { FileCommands.SaveAsFileCommand = value; }
+        }
         public virtual CompositeCommand SaveAllFileCommand
         {
             get { return FileCommands.SaveAllFileCommand; }
+        }
+
+        public virtual DelegateCommand ExitCommand
+        {
+            get { return FileCommands.ExitCommand; }
+            set { FileCommands.ExitCommand = value; }
         }
     }
 }

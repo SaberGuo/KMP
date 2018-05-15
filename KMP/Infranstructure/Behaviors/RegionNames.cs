@@ -11,5 +11,7 @@ namespace Infranstructure.Behaviors
         public const string MainMenuRegion = "MainMenuRegion";
         public const string MainRegion = "MainRegion";
         public const string StatusBarRegion = "StatusBarRegion";
+        public const string ChildWinRegion = "ChildWinRegion";
+        public const string MainToolBarRegion = "MainToolBarRegion";
     }
 }

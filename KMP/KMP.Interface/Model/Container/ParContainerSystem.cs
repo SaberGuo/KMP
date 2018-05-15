@@ -1,5 +1,7 @@
-﻿using System;
+﻿using KMP.Interface.Tools;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -13,6 +15,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 底座数量
         /// </summary>
+        [DisplayName("底座数量")]
         public double PedestalNumber
         {
             
@@ -27,6 +30,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.PedestalNumber);
             }
         }
+
+        [DisplayName("罐体半径")]
         /// <summary>
         /// 罐体半径
         /// </summary>
@@ -43,6 +48,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.InRadius);
             }
         }
+
+        [DisplayName("罐体厚度")]
         /// <summary>
         /// 罐体厚度
         /// </summary>

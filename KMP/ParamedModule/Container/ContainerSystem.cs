@@ -9,7 +9,7 @@ using KMP.Interface;
 using KMP.Interface.Model.Container;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
+    [Export("ContainerSystem", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ContainerSystem : AssembleModuleBase
     {
@@ -26,10 +26,10 @@ namespace ParamedModule.Container
             _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);
             _pedestal = new Pedestal(par.InRadius,par.Thickness);
             _railSystem = new RailSystem(par.InRadius);
-            SubParamedModules.Add(_cylinder);
-            SubParamedModules.Add(_cylinderDoor);
-            SubParamedModules.Add(_pedestal);
-            SubParamedModules.Add(_railSystem);
+            SubParamedModules.AddModule(_cylinder);
+            SubParamedModules.AddModule(_cylinderDoor);
+            SubParamedModules.AddModule(_pedestal);
+            SubParamedModules.AddModule(_railSystem);
             init();
         }
         void init()
@@ -37,6 +37,7 @@ namespace ParamedModule.Container
             par.PedestalNumber = 3;
             par.InRadius.Value = 1400;
             par.Thickness.Value = 24;
+            this.Name = "容器系统;";
         }
         public override bool CheckParamete()
         {

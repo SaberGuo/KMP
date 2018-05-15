@@ -23,7 +23,7 @@ namespace ParamedModule
         protected void SaveDoc()
         {
            
-            Doc.FullFileName = ModelPath;
+            Doc.FullFileName = System.IO.Path.Combine(ModelPath,this.GetType().Name + ".ipt") ;
             Doc.Save();
           //  Doc.Close();
           

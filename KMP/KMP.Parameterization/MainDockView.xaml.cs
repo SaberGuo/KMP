@@ -16,8 +16,8 @@ using System.ComponentModel.Composition;
 
 namespace KMP.Parameterization
 {
-    //[ViewExport(RegionName = RegionNames.MainRegion)]
-    //[PartCreationPolicy(CreationPolicy.NonShared)]
+    [ViewExport(RegionName = RegionNames.MainRegion)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     /// <summary>
     /// MainDockView.xaml 的交互逻辑
     /// </summary>

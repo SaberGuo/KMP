@@ -19,12 +19,14 @@ namespace ParamedModule.Container
         {
             rail = new Rail();
             support = new RailSupport();
-            SubParamedModules.Add(rail);
-            SubParamedModules.Add(support);
+            SubParamedModules.AddModule(rail);
+            SubParamedModules.AddModule(support);
        
             this.Parameter = par;
             init();
             par.CylinderInRadius = InRadius;
+
+            this.Name = "导轨系统";
         }
         void init()
         {

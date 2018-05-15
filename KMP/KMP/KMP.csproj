@@ -126,6 +126,9 @@
     </Compile>
     <Compile Include="Menus\MainMenuViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="ToolBar\MainToolBarView.xaml.cs">
+      <DependentUpon>MainToolBarView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Menus\MainMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +145,10 @@
       <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ToolBar\MainToolBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -185,7 +192,17 @@
       <Name>KMP.Parameterization</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\edit-undo.png" />
+    <Resource Include="Resources\generate.png" />
+    <Resource Include="Resources\help-browser.png" />
+    <Resource Include="Resources\view_back.png" />
+    <Resource Include="Resources\view_bottom.png" />
+    <Resource Include="Resources\view_front.png" />
+    <Resource Include="Resources\view_left.png" />
+    <Resource Include="Resources\view_right.png" />
+    <Resource Include="Resources\view_top.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\background.png" />
   </ItemGroup>
@@ -193,7 +210,8 @@
   <PropertyGroup>
     <PostBuildEvent>IF NOT EXIST "$(TargetDir)\Module" mkdir "$(TargetDir)\Module";
 IF NOT EXIST "$(TargetDir)\Service" mkdir "$(TargetDir)\Service";
-IF NOT EXIST "$(TargetDir)\Common" mkdir "$(TargetDir)\Common";</PostBuildEvent>
+IF NOT EXIST "$(TargetDir)\Common" mkdir "$(TargetDir)\Common";
+IF NOT EXIST "$(TargetDir)\projects" mkdir "$(TargetDir)\projects";</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

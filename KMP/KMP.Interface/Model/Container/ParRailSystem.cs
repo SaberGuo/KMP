@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
   public  class ParRailSystem:ParameterBase
@@ -15,6 +15,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 导轨支架数量
         /// </summary>
+        /// 
+        [DisplayName("导轨支架数量")]
         public double SupportNum
         {
             get
@@ -30,6 +32,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 导轨系统总高度
         /// </summary>
+        /// 
+        [DisplayName("导轨系统总高度")]
         public double RailTotalHeight
         {
             get
@@ -45,6 +49,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐体半径
         /// </summary>
+        /// 
+        [DisplayName("罐体半径")]
         public PassedParameter CylinderInRadius
         {
             get
@@ -60,6 +66,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 距罐体中心线平移
         /// </summary>
+        /// 
+        [DisplayName("距罐体中心线平移")]
         public double Offset
         {
             get
@@ -75,6 +83,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 高度上平移，不显示
         /// </summary>
+        /// 
+        [Browsable(false)]
         public double HeightOffset
         {
             get

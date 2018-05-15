@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
     /// <summary>
@@ -16,6 +16,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 板材厚度
         /// </summary>
+        /// 
+        [DisplayName("厚度")]
         public double Thickness
         {
             get
@@ -32,6 +34,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 板材宽度
         /// </summary>
+        /// 
+        [DisplayName("宽度")]
         public double Width
         {
             get
@@ -48,7 +52,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 板材长度
         /// </summary>
-
+        [DisplayName("长度")]
         public double Length
         {
             get

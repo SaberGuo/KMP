@@ -19,6 +19,7 @@ namespace ParamedModule.Container
         {
             init();
             this.Parameter = par;
+            this.Name = "导轨";
         }
         void init()
         {

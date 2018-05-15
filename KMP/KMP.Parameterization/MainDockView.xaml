@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KMP.Parameterization"
+             xmlns:popwin="clr-namespace:KMP.Parameterization.PopWindows"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:invMonitor="clr-namespace:KMP.Parameterization.InventorMonitor"
@@ -15,7 +16,7 @@
                          DocumentsSource="{Binding Documents}">
         <xcad:DockingManager.Resources>
             <DataTemplate DataType="{x:Type invMonitor:InvMonitorViewModel}">
-                <invMonitor:InvMonitorView DataContext="{Binding}"/> 
+                <invMonitor:InvMonitorView DataContext="{Binding}"/>
             </DataTemplate>
         </xcad:DockingManager.Resources>
         <xcad:DockingManager.Theme>
@@ -24,63 +25,60 @@
         <xcad:DockingManager.DocumentHeaderTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    
+
                     <TextBlock Text="{Binding FileName}" />
                 </StackPanel>
             </DataTemplate>
         </xcad:DockingManager.DocumentHeaderTemplate>
         <xcad:LayoutRoot x:Name="_layoutRoot">
             <xcad:LayoutPanel Orientation="Horizontal">
-                <xcad:LayoutAnchorablePane DockWidth="200">
-                    <xcad:LayoutAnchorable ContentId="properties" Title="参数" CanHide="False" CanClose="False"
+                <xcad:LayoutAnchorablePaneGroup  DockWidth="300" Orientation="Vertical">
+                    <xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorable ContentId="properties" Title="参数" CanHide="False" CanClose="False"
                                             AutoHideWidth="240"
                                          IconSource="./Resources/Image/property-blue.png">
-                        <StackPanel Orientation="Vertical">
-                            <ToolBar>
-                                <Button Content="更新"/>
-                            </ToolBar>
-                            <xctk:PropertyGrid NameColumnWidth="110"
+                            <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <StackPanel Orientation="Vertical">
+                                    <xctk:PropertyGrid NameColumnWidth="110"
                         SelectedObject="{Binding ElementName=_moduleTree, Path=SelectedItem.Parameter}"/>
-                        </StackPanel>
-                        
-                    </xcad:LayoutAnchorable>
-                </xcad:LayoutAnchorablePane>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
+                       
+                    </xcad:LayoutAnchorablePane>
+                    <xcad:LayoutAnchorablePane FloatingHeight="200">
+                        <xcad:LayoutAnchorable Title="预览图"></xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
+                </xcad:LayoutAnchorablePaneGroup>
+               
+                
                 <xcad:LayoutDocumentPaneGroup>
                     <xcad:LayoutDocumentPane x:Name="DocPane">
-                        
+
                     </xcad:LayoutDocumentPane>
                 </xcad:LayoutDocumentPaneGroup >
-                <xcad:LayoutAnchorablePaneGroup DockWidth="125">
+
+                <xcad:LayoutAnchorablePaneGroup DockWidth="300">
+                    
                     <xcad:LayoutAnchorablePane>
-                      
                         <xcad:LayoutAnchorable ContentId="journal" Title="结构" >
                             <TreeView ItemsSource="{Binding Modules}" x:Name="_moduleTree">
                                 <TreeView.ItemTemplate>
-                                    <HierarchicalDataTemplate DataType="{x:Type model:IParamedModule}" ItemsSource="{Binding SubParamModules,UpdateSourceTrigger=PropertyChanged}">
+                                    <HierarchicalDataTemplate DataType="{x:Type model:IParamedModule}" ItemsSource="{Binding SubParamedModules,UpdateSourceTrigger=PropertyChanged}">
                                         <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
-                                            <TextBlock Text="{Binding Path =ModelName }"></TextBlock>
+                                            <TextBlock Text="{Binding Path =Name }"></TextBlock>
                                         </StackPanel>
                                     </HierarchicalDataTemplate>
                                 </TreeView.ItemTemplate>
                             </TreeView>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
+                    
                 </xcad:LayoutAnchorablePaneGroup>
             </xcad:LayoutPanel>
 
-            <xcad:LayoutRoot.LeftSide>
-                <xcad:LayoutAnchorSide>
-                    <xcad:LayoutAnchorGroup>
-                        <xcad:LayoutAnchorable Title="Agenda" ContentId="agenda" IconSource="./Resources/Image/address-book-open.png">
-                            <TextBlock Text="Agenda Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
-                        </xcad:LayoutAnchorable>
-                        <xcad:LayoutAnchorable Title="Contacts" ContentId="contacts" IconSource="./Resources/Image/address-book--pencil.png" >
-                            <TextBlock Text="Contacts Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
-                        </xcad:LayoutAnchorable>
-                    </xcad:LayoutAnchorGroup>
-                </xcad:LayoutAnchorSide>
-            </xcad:LayoutRoot.LeftSide>
+           
         </xcad:LayoutRoot>
-
     </xcad:DockingManager>
+
 </UserControl>

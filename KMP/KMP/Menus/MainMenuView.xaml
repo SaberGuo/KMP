@@ -4,29 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cmd="clr-namespace:Infranstructure.Commands;assembly=Infranstructure"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:KMP.Menus"
+             xmlns:inf="clr-namespace:Infranstructure;assembly=Infranstructure"
+             xmlns:prism="http://www.codeplex.com/prism"
              mc:Ignorable="d" 
              >
+    
     <Menu Grid.Row="0">
         <MenuItem Header="文件(_File)">
-            <MenuItem Header="新建(_New)">
-                <MenuItem Header="装配体(_Assembly)"/>
-                <MenuItem Header="容器(_Vessel)"/>
-                <MenuItem Header="热沉(_Heater)"/>
-                <MenuItem Header="测控(_Controler)"/>
+            <MenuItem Header="新建(_New)..." InputGestureText="Ctrl+N" Command="{x:Static cmd:FileCommands.NewFileCommand }">
+         
             </MenuItem>
             <MenuItem x:Name="Open" Header="打开(_Load)..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
 
             </MenuItem>
-            <MenuItem Header=">保存(_Save)" InputGestureText="Ctrl+S">
+            <MenuItem Header="保存(_Save)" InputGestureText="Ctrl+S" Command="{x:Static cmd:FileCommands.SaveAllFileCommand}">
             </MenuItem>
-            <MenuItem Header="另存为(Save _As)"/>
+            <MenuItem Header="另存为(Save _As) ..." InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
             <Separator />
-            <MenuItem Header="退出(_Exit)" InputGestureText="Ctrl+X">
+            <MenuItem Header="退出(_Exit)" InputGestureText="Ctrl+X" Command="{x:Static cmd:FileCommands.ExitCommand}">
             </MenuItem>
         </MenuItem>
         <MenuItem Header="视图(_View)">
 
+        </MenuItem>
+        <MenuItem Header="项目(_Project)">
+            <MenuItem Header="生成选中模型"/>
+            <MenuItem Header="生成所有模型"/>
+            <MenuItem Header="添加"/>
         </MenuItem>
 
         <MenuItem Header="分析(_Analysis)">

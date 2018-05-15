@@ -96,9 +96,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChildWinView.xaml.cs">
+      <DependentUpon>ChildWinView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChildWinViewModel.cs" />
+    <Compile Include="Events\ProjectEvent.cs" />
+    <Compile Include="IChildWinViewModel.cs" />
+    <Compile Include="ParamsManager\FlanchEditor.xaml.cs">
+      <DependentUpon>FlanchEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopWindows\NewModelView.xaml.cs">
+      <DependentUpon>NewModelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
+    <Page Include="ChildWinView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InventorMonitor\InvMonitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +141,14 @@
       <DependentUpon>MainDockView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ParamsManager\FlanchEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopWindows\NewModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,7 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ParamsManager\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Image\address-book--pencil.png" />

@@ -5,6 +5,7 @@ using System.Text;
 using KMP.Interface.Model;
 using Inventor;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace KMP.Interface
 {
@@ -14,8 +15,10 @@ namespace KMP.Interface
         string ModelPath { get; set; }
         string Name { get; set; }
         ComponentOccurrence Occurrence { get; set; }
-        ObservableCollection<IParamedModule> SubParamedModules { get; set; }
+        ModuleCollection SubParamedModules { get; set; }
         void CreateModule();
         bool CheckParamete();
+
+        event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Prism.ViewModel;
+using System.ComponentModel;
+
 namespace KMP.Interface.Model.Container
 {
     /// <summary>
@@ -20,6 +22,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 上梁高度
         /// </summary>
+        /// 
+        [DisplayName("上梁高度")]
         public double UpBridgeHeight
         {
             get
@@ -36,6 +40,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 下梁高度
         /// </summary>
+        /// 
+        [DisplayName("下梁高度")]
         public double DownBridgeHeight
         {
             get
@@ -52,6 +58,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 中间支撑高度
         /// </summary>
+        /// 
+        [DisplayName("中间支撑高度")]
         public double BraceHeight
         {
             get
@@ -68,6 +76,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 上梁宽度
         /// </summary>
+        /// 
+        [DisplayName("上梁宽度")]
         public double UpBridgeWidth
         {
             get
@@ -84,6 +94,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 下梁宽度
         /// </summary>
+        /// 
+        [DisplayName("下梁宽度")]
         public double DownBridgeWidth
         {
             get
@@ -100,6 +112,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 中间支撑宽度
         /// </summary>
+        /// 
+        [DisplayName("中间支撑宽度")]
         public double BraceWidth
         {
             get
@@ -116,6 +130,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 导轨长度
         /// </summary>
+        /// 
+        [DisplayName("导轨长度")]
         public double RailLength
         {
             get

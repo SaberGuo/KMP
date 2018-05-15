@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
     /// <summary>
@@ -20,6 +20,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 厚度
         /// </summary>
+        /// 
+        [DisplayName("厚度")]
         public double Thickness
         {
             get
@@ -36,6 +38,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 宽度
         /// </summary>
+        /// 
+        [DisplayName("宽度")]
         public double Width
         {
             get
@@ -52,6 +56,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 螺丝孔半径
         /// </summary>
+        /// 
+        [DisplayName("螺丝孔半径")]
         public double HoleRadius
         {
             get
@@ -68,6 +74,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 螺丝孔中心之间距离
         /// </summary>
+        /// 
+        [DisplayName("螺丝孔中心之间距离")]
         public double HoleCenterDistance
         {
             get
@@ -84,6 +92,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 螺丝孔中心到钣金侧边距离
         /// </summary>
+        /// 
+        [DisplayName("螺丝孔中心到钣金侧边距离")]
         public double HoleSideEdgeDistance
         {
             get

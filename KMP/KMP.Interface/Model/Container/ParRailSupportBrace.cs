@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
     /// <summary>
@@ -13,7 +13,7 @@ namespace KMP.Interface.Model.Container
         double inRadius;
         double thickness;
         double height;
-
+        [DisplayName("半径")]
         public double InRadius
         {
             get
@@ -27,7 +27,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.InRadius);
             }
         }
-
+        [DisplayName("厚度")]
         public double Thickness
         {
             get
@@ -41,7 +41,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-
+        [DisplayName("高度")]
         public double Height
         {
             get

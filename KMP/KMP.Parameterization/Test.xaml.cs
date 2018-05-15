@@ -20,8 +20,8 @@ namespace KMP.Parameterization
     /// <summary>
     /// Test.xaml 的交互逻辑
     /// </summary>
-    [ViewExport(RegionName = "Test")]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[ViewExport(RegionName = "Test")]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class Test : UserControl
     {
         IModuleService _moduleService;

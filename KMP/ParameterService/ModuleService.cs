@@ -72,5 +72,12 @@ namespace ParameterService
             }
            // assemsly.CreateModule();
         }
+
+        public IParamedModule CreateProject(string projType, string projPath)
+        {
+            IParamedModule module = ServiceLocator.Current.GetInstance<IParamedModule>(projType);
+            module.ModelPath = projPath;
+            return module;
+        }
     }
 }

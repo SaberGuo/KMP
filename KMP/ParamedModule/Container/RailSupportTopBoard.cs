@@ -23,6 +23,8 @@ namespace ParamedModule.Container
         {
             this.Parameter = par;
             init();
+
+            this.Name = "导轨支架顶板";
         }
         void init()
         {

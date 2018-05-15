@@ -36,6 +36,8 @@ namespace ParamedModule.Container
             par.FootBoardWidth = 260;
             par.UnderBoardWidth = 340;
             par.BackBoardMoveDistance = 30;
+
+            this.Name = "底座";
         }
 
         #region 创建模型 

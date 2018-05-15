@@ -9,6 +9,8 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.EnterpriseLibrary.Common;
 using Microsoft.Practices.Prism.ViewModel;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+
 namespace KMP.Interface.Model.Container
 {
   public  class ParCylinder:ParameterBase
@@ -26,6 +28,7 @@ namespace KMP.Interface.Model.Container
         double ribBraceHeight;
         double flanchWidth;
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
+        [Browsable(false)]
         /// <summary>
         /// 罐内半径
         /// </summary>
@@ -45,7 +48,7 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐厚度
         /// </summary>
-
+        [Browsable(false)]
         public PassedParameter Thickness
         {
             get
@@ -59,10 +62,12 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
+
         /// <summary>
         /// 罐长度
         /// </summary>
-
+        [Category("罐体")]
+        [DisplayName("长度")]
         public double Length
         {
             get
@@ -76,6 +81,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Length);
             }
         }
+        [Category("罐体")]
+        [DisplayName("封头长度内半径")]
         /// <summary>
         /// 罐封头长度内半径
         /// </summary>
@@ -92,7 +99,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.CapRadius);
             }
         }
-     
+        [Category("加强筋")]
+        [DisplayName("宽度")]
         /// <summary>
         /// 加强筋的宽度
         /// </summary>
@@ -112,7 +120,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         ///加强筋数量
         /// </summary>
-
+        [Category("加强筋")]
+        [DisplayName("数量")]
         public double RibNumber
         {
             get
@@ -126,6 +135,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibNumber);
             }
         }
+        [Category("加强筋")]
+        [DisplayName("高度")]
         /// <summary>
         /// 加强筋的高度
         /// </summary>
@@ -142,6 +153,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibHeight);
             }
         }
+        [Category("加强筋")]
+        [DisplayName("第一个离罐口的距离")]
         /// <summary>
         /// 第一个加强筋距离罐口的距离
         /// </summary>
@@ -158,6 +171,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibFirstDistance);
             }
         }
+        [Category("加强筋支柱")]
+        [DisplayName("宽度")]
         /// <summary>
         /// 加强筋支柱的宽度
         /// </summary>
@@ -174,6 +189,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibBraceWidth);
             }
         }
+        [Category("加强筋支柱")]
+        [DisplayName("高度")]
         /// <summary>
         /// 加强筋支柱的高度
         /// </summary>
@@ -190,6 +207,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibBraceHeight);
             }
         }
+        [Category("罐体")]
+        [DisplayName("法兰宽度")]
         /// <summary>
         /// 罐体法兰宽度
         /// </summary>
@@ -206,7 +225,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
-
+        [Category("罐体")]
+        [DisplayName("开孔")]
         public ObservableCollection<ParCylinderHole> ParHoles
         {
             get

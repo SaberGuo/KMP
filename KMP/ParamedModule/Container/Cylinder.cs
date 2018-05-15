@@ -8,6 +8,8 @@ using Infranstructure.Tool;
 using Inventor;
 using KMP.Interface;
 using System.ComponentModel.Composition;
+using Microsoft.Practices.ServiceLocation;
+
 namespace ParamedModule.Container
 {
   
@@ -19,12 +21,20 @@ namespace ParamedModule.Container
         public Cylinder(PassedParameter InRadius,PassedParameter Thickness) :base()
         {
             this.Parameter = par;
+            
             init();
             this.par.InRadius = InRadius;
             this.par.Thickness = Thickness;
         }
+
+        private void Parameter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void init()
         {
+            this.Name = "容器";
            // par.InRadius.Value = 1400;
             par.CapRadius = 700;
             
@@ -36,15 +46,16 @@ namespace ParamedModule.Container
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
-            ParFlanch parflanch1 = new ParFlanch() { H = 2,D1=500,D2=450,D=12,D0=480,N=6 };
+            
+            
             ParCylinderHole hole = new ParCylinderHole() { HoleOffset=300,PositionAngle=90,PositionDistance=500,PipeLenght=300,HoleRadius=100};
             ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset =-300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100 };
             ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200 };
             ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150 };
-            hole.ParFlanch = parflanch1;
-            hole1.ParFlanch = parflanch1;
-            hole2.ParFlanch = parflanch1;
-            hole3.ParFlanch = parflanch1;
+            hole.FlanchDN = 10;
+            hole1.FlanchDN = 10;
+            hole2.FlanchDN = 10;
+            hole3.FlanchDN = 10;
             par.ParHoles.Add(hole);
             par.ParHoles.Add(hole1);
             par.ParHoles.Add(hole2);

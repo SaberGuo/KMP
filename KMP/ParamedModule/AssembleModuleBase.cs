@@ -320,7 +320,7 @@ namespace ParamedModule
         }
         protected void SaveDoc()
         {
-            Doc.FullFileName = ModelPath;
+            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.GetType().Name + ".iam");
             Doc.Save2();
         }
     }
