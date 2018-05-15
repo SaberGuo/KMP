@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.Container
 {
   public  class ParCylinderDoor:ParameterBase
@@ -13,7 +13,8 @@ namespace KMP.Interface.Model.Container
         double doorRadius;
         double flanchWidth;
         ParCylinderHole topHole = new ParCylinderHole();
-        ParCylinderHole sideHole = new ParCylinderHole();
+        ObservableCollection<ParCylinderHole> sideHoles = new ObservableCollection<Container.ParCylinderHole>();
+
         /// <summary>
         /// 容器内半径 不显示
         /// </summary>
@@ -93,17 +94,16 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        public ParCylinderHole SideHole
+        public ObservableCollection<ParCylinderHole> SideHoles
         {
             get
             {
-                return sideHole;
+                return sideHoles;
             }
 
             set
             {
-                sideHole = value;
-                this.RaisePropertyChanged(() => this.SideHole);
+                sideHoles = value;
             }
         }
     }
