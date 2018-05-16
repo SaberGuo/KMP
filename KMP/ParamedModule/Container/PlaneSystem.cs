@@ -14,8 +14,9 @@ namespace ParamedModule.Container
     public class PlaneSystem : AssembleModuleBase
     {
         internal ParPlaneSystem par = new ParPlaneSystem();
-       internal PlaneSupport _planeSup;
-      internal  RailSupportSidePlate _plane;
+
+        internal PlaneSupport _planeSup;
+        internal  RailSupportSidePlate _plane;
         [ImportingConstructor]
         public PlaneSystem(PassedParameter InRadius) :base()
         {
@@ -24,6 +25,8 @@ namespace ParamedModule.Container
             this.par.CylinderInRadius = InRadius;
             _planeSup = new PlaneSupport(InRadius);
             _plane = new RailSupportSidePlate();
+            this.SubParamedModules.AddModule(_plane);
+            this.SubParamedModules.AddModule(_planeSup);
             _planeSup.Name = "平台支架";
             _plane.Name = "平台";
             init();

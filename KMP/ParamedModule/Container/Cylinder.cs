@@ -59,7 +59,6 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole1);
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
-            #endregion
             #region 堵头顶孔
             ParCylinderHole CapHole = new ParCylinderHole() { HoleRadius = 200, PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };

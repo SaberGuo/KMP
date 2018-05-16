@@ -10,8 +10,6 @@ using System.ComponentModel.Composition;
 using Inventor;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CylinderDoor : PartModulebase
     {
 

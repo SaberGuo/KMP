@@ -34,6 +34,7 @@ namespace ParamedModule.Container
             SubParamedModules.AddModule(_cylinderDoor);
             SubParamedModules.AddModule(_pedestal);
             SubParamedModules.AddModule(_railSystem);
+            SubParamedModules.AddModule(_plane);
             init();
         }
         void init()

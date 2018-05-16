@@ -15,6 +15,7 @@
                          BorderBrush="Black"
                          BorderThickness="1"
                          DocumentsSource="{Binding Documents}"
+                         DocumentClosed="DockingManager_DocumentClosed"
                          >
       
         <xcad:DockingManager.Resources>

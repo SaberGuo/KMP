@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Infranstructure.Behaviors;
 using System.ComponentModel.Composition;
 using KMP.Interface;
+using KMP.Parameterization.InventorMonitor;
 
 namespace KMP.Parameterization
 {
@@ -39,6 +40,11 @@ namespace KMP.Parameterization
         private void _moduleTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             _viewModel.ShowModule(_moduleTree.SelectedItem as IParamedModule);
+        }
+
+        private void DockingManager_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
+        {
+            ((IInvMonitorViewModel)e.Document.Content).CloseDocument();
         }
     }
 }

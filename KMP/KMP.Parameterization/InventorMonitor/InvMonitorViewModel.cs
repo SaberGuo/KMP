@@ -115,7 +115,7 @@ namespace KMP.Parameterization.InventorMonitor
         }
 
 
-        private void CloseDocument()
+        public void CloseDocument()
         {
             if(_odocument != null){
                 _odocument.Close();
@@ -128,7 +128,7 @@ namespace KMP.Parameterization.InventorMonitor
             }
 
         }
-
+      
         private void OpenDocument()
         {
             if (!System.IO.File.Exists(this._filePath))

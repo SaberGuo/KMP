@@ -49,5 +49,7 @@ namespace KMP.Parameterization.InventorMonitor
         void OnMouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e);
 
         void OnSizeChanged(object sender, EventArgs e);
+
+        void CloseDocument();
     }
 }

@@ -19,7 +19,7 @@ namespace ParamedModule
         {
             get
             {
-                return System.IO.Path.Combine(ModelPath, this.GetType().Name + ".ipt");
+                return System.IO.Path.Combine(ModelPath, this.Name + ".ipt");
             }
         }
         protected void CreateDoc()

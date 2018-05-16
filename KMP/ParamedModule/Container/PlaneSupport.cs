@@ -39,6 +39,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
+          
             GeneratorProgress(this, "开始创建容器内平板支撑");
             CreateDoc();
             SketchArc arc;

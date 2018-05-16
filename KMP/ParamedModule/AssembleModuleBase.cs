@@ -24,7 +24,7 @@ namespace ParamedModule
         {
             get
             {
-                return System.IO.Path.Combine(ModelPath, this.GetType().Name + ".iam");
+                return System.IO.Path.Combine(ModelPath, this.Name + ".iam");
             }
         }
         /// <summary>
