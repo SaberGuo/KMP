@@ -377,9 +377,9 @@ namespace ParamedModule
         {
 
             Doc.FullFileName = this.FullPath;
-            if (System.IO.File.Exists(ModelPath))
+            if (System.IO.File.Exists(FullPath))
             {
-                System.IO.File.Delete(ModelPath);
+                System.IO.File.Delete(FullPath);
             }
             
             Doc.Save2();

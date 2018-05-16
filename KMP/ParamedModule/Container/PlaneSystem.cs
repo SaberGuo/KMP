@@ -21,7 +21,7 @@ namespace ParamedModule.Container
         public PlaneSystem(PassedParameter InRadius) :base()
         {
            this.Parameter = par;
-           
+            this.Name = "平台系统";
             this.par.CylinderInRadius = InRadius;
             _planeSup = new PlaneSupport(InRadius);
             _plane = new RailSupportSidePlate();
@@ -90,7 +90,7 @@ namespace ParamedModule.Container
             //  Definition.Constraints.AddMateConstraint(COPlanes[par.PlaneNumber - 1].SideFaces[2], COPlanceSupS[par.PlaneNumber - 1].SideFaces[1], 0);
             ComponentOccurrence COSup = LoadOccurrence((ComponentDefinition)_planeSup.Doc.ComponentDefinition);
 
-           OccStruct OccSub=  GetOccStruct(COSup, "PlaneSupTop",0);
+            OccStruct OccSub=  GetOccStruct(COSup, "PlaneSupTop",0);
             Definition.Constraints.AddMateConstraint(COPlanes[0].StartFace, OccSub.EndFace, 0);
             Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[1], OccSub.SideFaces[3], 0);
             Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[2], OccSub.SideFaces[0], 0);
