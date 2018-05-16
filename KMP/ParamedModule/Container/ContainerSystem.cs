@@ -50,7 +50,9 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            DisPose();
             if (!CheckParamete()) return;
+            InventorTool.Inventor.Documents.CloseAll();
             GeneratorProgress(this, "开始创建容器系统");
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
