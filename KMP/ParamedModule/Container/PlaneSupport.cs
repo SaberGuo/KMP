@@ -9,16 +9,17 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[Export(typeof(IParamedModule))]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSupport : PartModulebase
     {
       internal  ParPlaneSupport par = new ParPlaneSupport();
         [ImportingConstructor]
-        public PlaneSupport():base()
+        public PlaneSupport(PassedParameter InRadius):base()
         {
             this.Parameter = par;
             init();
+            this.par.InRadius = InRadius;
         }
         public override bool CheckParamete()
         {
@@ -27,12 +28,12 @@ namespace ParamedModule.Container
         }
         void init()
         {
-            par.InRadius.Value = 1400;
+          
             par.BrachHeight1 = 100;
             par.BrachHeight2 = 200;
             par.BrachRadius1 = 100;
             par.BrachRadius2 = 50;
-            par.Offset = 100;
+            par.Offset = 800;
             par.TopBoardThickness = 30;
             par.TopBoardWidth = 300;
         }
@@ -48,6 +49,7 @@ namespace ParamedModule.Container
          RevolveFeature UpCyling=   CreateUpCyling(lines2);
             CreateTopBox(UpCyling,UsMM(par.TopBoardWidth),UsMM(par.TopBoardWidth),UsMM(par.TopBoardThickness));
             CreateClear(arc, line1, line2);
+            SaveDoc();
          
         }
         void CreateDownCyling(double inRadius,double braceRadius1,double braceRadius2,double braceLength1,
@@ -89,7 +91,7 @@ namespace ParamedModule.Container
             InventorTool.AddTwoPointDistance(osketch, arc.CenterSketchPoint, lines1[0].EndSketchPoint, 0, DimensionOrientationEnum.kVerticalDim)
                 .Parameter.Value = offset;
 
-            SketchPoint p = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(300,-300));
+            SketchPoint p = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(lines1[0].EndSketchPoint.Geometry.X, lines1[0].EndSketchPoint.Geometry.Y));
             osketch.GeometricConstraints.AddCoincident((SketchEntity)lines1[0], (SketchEntity)p);
             osketch.GeometricConstraints.AddCoincident((SketchEntity)arc, (SketchEntity)p);
             osketch.DimensionConstraints.AddTwoPointDistance(p, lines1[0].StartSketchPoint, DimensionOrientationEnum.kAlignedDim, p.Geometry)
