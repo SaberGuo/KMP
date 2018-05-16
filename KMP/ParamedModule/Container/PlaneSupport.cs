@@ -38,6 +38,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
+            GeneratorProgress(this, "开始创建容器内平板支撑");
             CreateDoc();
             SketchArc arc;
             SketchLine line1, line2;
@@ -48,7 +49,9 @@ namespace ParamedModule.Container
          RevolveFeature UpCyling=   CreateUpCyling(lines2);
             CreateTopBox(UpCyling,UsMM(par.TopBoardWidth),UsMM(par.TopBoardWidth),UsMM(par.TopBoardThickness));
             CreateClear(arc, line1, line2);
-         
+            SaveDoc();
+            GeneratorProgress(this, "完成创建容器内平板支撑");
+
         }
         void CreateDownCyling(double inRadius,double braceRadius1,double braceRadius2,double braceLength1,
             double braceLength2,double offset,out SketchArc arc,out SketchLine line1,out SketchLine line2,

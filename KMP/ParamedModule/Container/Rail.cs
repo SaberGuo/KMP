@@ -34,7 +34,7 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-   
+            GeneratorProgress(this, "开始创建容器内导轨");
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             CreateRib(osketch);
@@ -51,6 +51,7 @@ namespace ParamedModule.Container
            // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4], 0).Name = "mateR2"; //导轨底梁侧面
            // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[5], 0).Name = "mateR1"; //导轨底面
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器内导轨");
 
 
         }

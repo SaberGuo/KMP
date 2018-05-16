@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="KMP.StatusBar.StatusBarView"
+﻿<UserControl x:Class="KMP.Parameterization.PopWindows.GeneratorInfoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KMP.StatusBar"
-             mc:Ignorable="d" >
+             xmlns:local="clr-namespace:KMP.Parameterization.PopWindows"
+             mc:Ignorable="d" 
+             >
     <StackPanel Orientation="Horizontal">
-        <ProgressBar Margin="5,1,5,1" Width="200" Minimum ="0" Maximum="{Binding MaxValue}" Value="{Binding CurrentValue}" ></ProgressBar>
         <TextBlock Text="{Binding Info}"/>
+        <ProgressBar Margin="5,1,5,1" Width="200" Minimum ="0" Maximum="{Binding MaxValue}" Value="{Binding CurrentValue}" ></ProgressBar>
     </StackPanel>
 </UserControl>

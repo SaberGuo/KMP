@@ -40,7 +40,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
-          
+            GeneratorProgress(this, "开始创建容器内导轨支架底板");
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
           ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
@@ -61,6 +61,7 @@ namespace ParamedModule.Container
             Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[3], 0).Name="flushC";
            // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushD";
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器内导轨支架底板");
         }
     }
 }

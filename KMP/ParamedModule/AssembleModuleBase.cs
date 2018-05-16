@@ -20,6 +20,13 @@ namespace ParamedModule
         {
            
         }
+        public override string FullPath
+        {
+            get
+            {
+                return System.IO.Path.Combine(ModelPath, this.GetType().Name + ".iam");
+            }
+        }
         /// <summary>
         /// 创建装配文档
         /// </summary>
@@ -321,7 +328,7 @@ namespace ParamedModule
         protected void SaveDoc()
         {
 
-            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.GetType().Name + ".iam");
+            Doc.FullFileName = this.FullPath;
             if (System.IO.File.Exists(ModelPath))
             {
                 System.IO.File.Delete(ModelPath);

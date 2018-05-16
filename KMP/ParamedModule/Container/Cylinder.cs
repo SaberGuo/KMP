@@ -65,7 +65,8 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-           // if (!CheckParamete()) return;
+            // if (!CheckParamete()) return;
+            GeneratorProgress(this, "开始创建容器");
             CreateDoc();
           RevolveFeature cyling= CreateCyling(UsMM( par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length ), UsMM(par.Thickness.Value ), UsMM(par.RibFirstDistance ));
             cyling.Name = "Cylinder";
@@ -88,6 +89,7 @@ namespace ParamedModule.Container
             }
             ClearResidue(sideFaces[4], sideFaces[0], UsMM(par.Length));
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器");
         }
         /// <summary>
         /// 创建罐本体和加强筋

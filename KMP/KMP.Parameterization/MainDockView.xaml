@@ -11,9 +11,12 @@
              xmlns:model ="clr-namespace:KMP.Interface;assembly=KMP.Interface"
              mc:Ignorable="d">
     <xcad:DockingManager AllowMixedOrientation="True"
+                         
                          BorderBrush="Black"
                          BorderThickness="1"
-                         DocumentsSource="{Binding Documents}">
+                         DocumentsSource="{Binding Documents}"
+                         >
+      
         <xcad:DockingManager.Resources>
             <DataTemplate DataType="{x:Type invMonitor:InvMonitorViewModel}">
                 <invMonitor:InvMonitorView DataContext="{Binding}"/>
@@ -25,8 +28,7 @@
         <xcad:DockingManager.DocumentHeaderTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-
-                    <TextBlock Text="{Binding FileName}" />
+                    <TextBlock Text="{Binding Content.FileName}" />
                 </StackPanel>
             </DataTemplate>
         </xcad:DockingManager.DocumentHeaderTemplate>
@@ -62,7 +64,7 @@
                     
                     <xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorable ContentId="journal" Title="结构" >
-                            <TreeView ItemsSource="{Binding Modules}" x:Name="_moduleTree">
+                            <TreeView ItemsSource="{Binding Modules}" x:Name="_moduleTree" SelectedItemChanged="_moduleTree_SelectedItemChanged">
                                 <TreeView.ItemTemplate>
                                     <HierarchicalDataTemplate DataType="{x:Type model:IParamedModule}" ItemsSource="{Binding SubParamedModules,UpdateSourceTrigger=PropertyChanged}">
                                         <StackPanel Orientation="Horizontal" Margin="0,2,0,2">

@@ -133,14 +133,16 @@ namespace KMP.Parameterization.InventorMonitor
         {
             if (!System.IO.File.Exists(this._filePath))
             {
-                throw new ArgumentNullException("filepath donot exists");
+                return;
+                //throw new ArgumentNullException("filepath donot exists");
             }
             if (_oserver == null)
             {
                 throw new ArgumentNullException("oserver isnot initialized");
             }
             if(_HWnd == 0){
-                throw new ArgumentNullException("hwnd isnot initialized");
+                return;
+                //throw new ArgumentNullException("hwnd isnot initialized");
             }
 
             _odocument = _oserver.Open(this._filePath);
@@ -173,6 +175,12 @@ namespace KMP.Parameterization.InventorMonitor
                 _bmouseDown = true;
                 _previousPoint = _oserver.TransientGeometry.CreatePoint2d(e.X, e.Y);
             }
+            if(e.Button == MouseButtons.Right&& _oserver!= null)
+            {
+                _rmouseDown = true;
+                _previousPoint = _oserver.TransientGeometry.CreatePoint2d(e.X, e.Y);
+
+            }
 
         }
         public void OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -197,6 +205,17 @@ namespace KMP.Parameterization.InventorMonitor
                 _ocamera.Apply();
                 _oview.Update(true);
             }
+
+            if(_rmouseDown == true && _oserver!=null && _oview != null)
+            {
+                _ocamera = _oview.Camera;
+                Point2d opoint = _oserver.TransientGeometry.CreatePoint2d(e.X, e.Y);
+                _ocamera.ComputeWithMouseInput(_previousPoint, opoint, 0, ViewOperationTypeEnum.kZoomViewOperation);
+
+                _previousPoint = opoint;
+                _ocamera.Apply();
+                _oview.Update(true);
+            }
         }
 
         public void OnMouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -213,6 +232,10 @@ namespace KMP.Parameterization.InventorMonitor
 
         public void OnSizeChanged(object sender, EventArgs e)
         {
+            if(_odocument== null)
+            {
+                return;
+            }
             _oview = _odocument.ClientViews[1];
             if (_oserver != null && _oview != null)
             {

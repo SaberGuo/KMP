@@ -106,6 +106,7 @@
     <Compile Include="Behaviors\ViewExportAttribute.cs" />
     <Compile Include="Commands\FileCommands.cs" />
     <Compile Include="Commands\ModelCommands.cs" />
+    <Compile Include="Events\GeneratorEventArgs.cs" />
     <Compile Include="Events\NewModelEvent.cs" />
     <Compile Include="Events\UpdateModelEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

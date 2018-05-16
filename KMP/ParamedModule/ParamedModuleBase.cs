@@ -7,6 +7,8 @@ using KMP.Interface;
 using KMP.Interface.Model;
 using Microsoft.Practices.Prism.ViewModel;
 using System.Collections.ObjectModel;
+using Infranstructure.Events;
+
 namespace ParamedModule
 {
     public abstract class ParamedModuleBase :NotificationObject, IParamedModule
@@ -16,7 +18,10 @@ namespace ParamedModule
         ModuleCollection subParameModules =new ModuleCollection();
         string modelPath;
         string name;
-
+        public ParamedModuleBase()
+        {
+            this.SubParamedModules.Root = this;
+        }
         /*public ComponentOccurrence Occurrence
         {
             get
@@ -63,6 +68,12 @@ namespace ParamedModule
             this.RaisePropertyChanged(e.PropertyName);
         }
 
+        public event EventHandler<GeneratorEventArgs> GeneratorChanged;
+
+        public void GeneratorProgress(object sender, string info)
+        {
+            this.GeneratorChanged(sender, new GeneratorEventArgs { ProgressInfo = info });
+        }
         public string ModelPath
         {
             get
@@ -80,6 +91,7 @@ namespace ParamedModule
                 this.RaisePropertyChanged(() => this.ModelPath);
             }
         }
+        public virtual string FullPath { get; }
         public double UsMM(double value)
         {
             return value / 10;
@@ -99,7 +111,16 @@ namespace ParamedModule
             }
         }
 
-    
+        public int GetGeneratorCount()
+        {
+            int count = 0;
+            foreach (var item in subParameModules)
+            {
+                count +=item.GetGeneratorCount();
+            }
+            count += 1;
+            return count;
+        }
         public abstract void CreateModule();
         public abstract bool CheckParamete();
     }

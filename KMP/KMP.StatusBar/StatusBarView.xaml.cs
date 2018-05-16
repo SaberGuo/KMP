@@ -27,5 +27,14 @@ namespace KMP.StatusBar
         {
             InitializeComponent();
         }
+
+        [Import]
+        StatusBarViewModel ViewModel
+        {
+            set
+            {
+                this.DataContext = value;
+            }
+        }
     }
 }

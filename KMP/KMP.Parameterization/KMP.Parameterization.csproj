@@ -105,6 +105,9 @@
     <Compile Include="ParamsManager\FlanchEditor.xaml.cs">
       <DependentUpon>FlanchEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopWindows\GeneratorInfoView.xaml.cs">
+      <DependentUpon>GeneratorInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopWindows\NewModelView.xaml.cs">
       <DependentUpon>NewModelView.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ParamsManager\FlanchEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopWindows\GeneratorInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

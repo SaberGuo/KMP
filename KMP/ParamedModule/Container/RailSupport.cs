@@ -51,6 +51,7 @@ namespace ParamedModule.Container
         public override void CreateModule()
         {
             #region 当前部件需要
+            GeneratorProgress(this, "开始创建容器内导轨支撑");
             centerBoard.CreateModule();
             baseBoard.CreateModule();
             sidePlate.CreateModule();
@@ -87,6 +88,7 @@ namespace ParamedModule.Container
             #endregion
 
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器内导轨支撑");
         }
 
     }

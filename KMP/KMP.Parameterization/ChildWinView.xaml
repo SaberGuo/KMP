@@ -10,12 +10,19 @@
     <xctk:WindowContainer>
         <xctk:ChildWindow
             Name="_NewModelWin"
-                    Left="75"
-                    Top="50"
+                    Left="400"
+                    Top="400"
             Caption="新建工程"
             IsModal="True"
                     WindowState="{Binding NewModelWinState,Mode=TwoWay}">
             <pws:NewModelView/>
+        </xctk:ChildWindow>
+        <xctk:ChildWindow WindowStyle="None" IsModal="True"
+                          Left="400"
+                    Top="400" Caption="模型生成"
+                          WindowState="{Binding GeneratorWinState,Mode=TwoWay}">
+         
+            <pws:GeneratorInfoView/>
         </xctk:ChildWindow>
     </xctk:WindowContainer>
 </UserControl>

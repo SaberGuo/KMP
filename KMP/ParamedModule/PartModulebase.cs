@@ -15,15 +15,22 @@ namespace ParamedModule
         {
             
         }
-       protected void CreateDoc()
+        public override string FullPath
+        {
+            get
+            {
+                return System.IO.Path.Combine(ModelPath, this.GetType().Name + ".ipt");
+            }
+        }
+        protected void CreateDoc()
         {
              Doc = InventorTool.CreatePart();
             Definition = Doc.ComponentDefinition;
         }
-      
+        
         protected void SaveDoc()
         {
-            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.GetType().Name + ".ipt");
+            Doc.FullFileName = this.FullPath;
             if (System.IO.File.Exists(Doc.FullFileName))
             {
                 System.IO.File.Delete(Doc.FullFileName);

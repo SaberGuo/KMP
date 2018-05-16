@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Infranstructure.Behaviors;
 using System.ComponentModel.Composition;
+using KMP.Interface;
 
 namespace KMP.Parameterization
 {
@@ -32,6 +33,12 @@ namespace KMP.Parameterization
         MainDockViewModel _viewModel
         {
             set { this.DataContext = value; }
+            get { return (MainDockViewModel)DataContext; }
+        }
+
+        private void _moduleTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            _viewModel.ShowModule(_moduleTree.SelectedItem as IParamedModule);
         }
     }
 }

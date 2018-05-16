@@ -39,6 +39,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            GeneratorProgress(this, "开始创建容器内平板系统");
             CreateDoc();
             List<OccStruct> COPlanes = new List<OccStruct>();
             List<OccStruct> COPlanceSupS = new List<OccStruct>();
@@ -77,6 +78,8 @@ namespace ParamedModule.Container
             Definition.Constraints.AddMateConstraint(COPlanes[0].StartFace, OccSub.EndFace, 0);
             Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[1], OccSub.SideFaces[0], 0);
             Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[0], OccSub.SideFaces[3], 0);
+            SaveDoc();
+            GeneratorProgress(this, "完成创建容器内平板系统");
         }
     OccStruct GetOccStruct(ComponentOccurrence occ,string name)
         {

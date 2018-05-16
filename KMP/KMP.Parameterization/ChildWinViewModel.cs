@@ -1,5 +1,7 @@
-﻿using KMP.Parameterization.Events;
+﻿using Infranstructure.Events;
+using KMP.Parameterization.Events;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,13 @@ namespace KMP.Parameterization
 {
     class ChildWinViewModel: NotificationObject, IChildWinViewModel
     {
-        public ChildWinViewModel()
+        private IEventAggregator _eventAggregator;
+        public ChildWinViewModel(IEventAggregator eventAggregator)
         {
             this.InitNewModelWin();
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<GeneratorEvent>().Subscribe(OnGeneratorInfoChanged);
+
         }
         #region NewModel
         public void InitNewModelWin()
@@ -129,6 +135,81 @@ namespace KMP.Parameterization
         }
 
         public event EventHandler<ProjectEventArgs> NewModelHandler;
+        #endregion
+
+        #region GeneratorInfo childwindow
+        private string _generatorWinState = "Closed";
+        public string GeneratorWinState
+        {
+            get { return this._generatorWinState; }
+            set
+            {
+                this._generatorWinState = value;
+                RaisePropertyChanged(() => this.GeneratorWinState);
+            }
+        }
+
+        private int currentValue = 0;
+        public int CurrentValue
+        {
+            get
+            {
+                return this.currentValue;
+            }
+            set
+            {
+                this.currentValue = value;
+                RaisePropertyChanged(() => this.CurrentValue);
+            }
+        }
+        private int maxValue = 100;
+        public int MaxValue
+        {
+            get
+            {
+                return this.maxValue;
+            }
+            set
+            {
+                this.maxValue = value;
+                RaisePropertyChanged(() => this.MaxValue);
+            }
+        }
+        private string info;
+        public string Info
+        {
+            get { return this.info; }
+            set
+            {
+                this.info = value;
+                RaisePropertyChanged(() => Info);
+            }
+        }
+
+        private void OnGeneratorInfoChanged(string info)
+        {
+            if (info.Contains("start_generator"))
+            {
+                MaxValue = int.Parse(info.Split(',')[1]);
+                CurrentValue = 0;
+                this.GeneratorWinState = "Open";
+            }
+
+            if (info.Contains("generating"))
+            {
+                CurrentValue += 1;
+                if (CurrentValue > MaxValue)
+                {
+                    this.CurrentValue = MaxValue;
+                }
+                Info = info.Split(',')[1];
+            }
+            if (info.Contains("end_generator"))
+            {
+                this.CurrentValue = MaxValue;
+                this.GeneratorWinState = "Closed";
+            }
+        }
         #endregion
     }
 }

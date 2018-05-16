@@ -44,8 +44,8 @@ namespace ParamedModule.Container
         #region 创建模型 
         public override void CreateModule()
         {
-  
-           
+
+            GeneratorProgress(this, "开始创建容器底座");
             CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.Visible = false;
@@ -79,6 +79,7 @@ namespace ParamedModule.Container
            ExtrudeFeature footboad=  CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
             CreateFootBoard(footboad, leftLines, rightLines, pedestalLines[0], underBoardArc);
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器底座");
 
         }
         /// <summary>

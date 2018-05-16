@@ -36,8 +36,8 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-        
-           
+
+            GeneratorProgress(this, "开始创建容器大门");
             CreateDoc();
             RevolveFeature revolve = CreateDoor(UsMM(par.Thickness.Value),UsMM(par.InRadius.Value),UsMM(par.DoorRadius));
             List<Face> sideFace = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.SideFaces.GetEnumerator());
@@ -46,6 +46,7 @@ namespace ParamedModule.Container
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFace[3], 0).Name = "mateK";
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器大门");
         }
 
         private RevolveFeature CreateDoor(double thickness,double inRadius,double doorRadius)

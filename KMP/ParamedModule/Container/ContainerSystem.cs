@@ -38,7 +38,7 @@ namespace ParamedModule.Container
             par.PedestalNumber = 3;
             par.InRadius.Value = 1400;
             par.Thickness.Value = 24;
-            this.Name = "容器系统;";
+            this.Name = "容器系统";
         }
         public override bool CheckParamete()
         {
@@ -51,7 +51,7 @@ namespace ParamedModule.Container
         public override void CreateModule()
         {
             if (!CheckParamete()) return;
-          
+            GeneratorProgress(this, "开始创建容器系统");
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
             _cylinder.CreateModule();
@@ -115,6 +115,7 @@ namespace ParamedModule.Container
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, 0);
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, 0);
             SaveDoc();
+            GeneratorProgress(this, "完成创建容器系统");
         }
 
     }

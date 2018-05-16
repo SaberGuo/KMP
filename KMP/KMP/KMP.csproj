@@ -206,6 +206,19 @@
   <ItemGroup>
     <Resource Include="Resources\background.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\open.png" />
+    <Resource Include="Resources\reload.png" />
+    <Resource Include="Resources\remove.png" />
+    <Resource Include="Resources\save.png" />
+    <Resource Include="Resources\save_all.png" />
+    <Resource Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add.png" />
+    <Resource Include="Resources\adduser.png" />
+    <Resource Include="Resources\barchart.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT EXIST "$(TargetDir)\Module" mkdir "$(TargetDir)\Module";

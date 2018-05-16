@@ -15,6 +15,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace KMP.Parameterization
 {
@@ -42,9 +43,10 @@ namespace KMP.Parameterization
             _fileCommandProxy = fileCommandProxy;
             _modelCommandProxy = modelCommandProxy;
             Modules = new ModuleProject();
-            _childWindViewModel = new ChildWinViewModel();
+            _childWindViewModel = new ChildWinViewModel(_eventAggregator);
             InitFileCommands();
             InitModelCommands();
+            //this._eventAggregator.GetEvent<GeneratorEvent>().Subscribe(this.OnGenerateChanged);
 
 
 
@@ -83,6 +85,20 @@ namespace KMP.Parameterization
             get
             {
                 return this._invMonitorController.Documents;
+            }
+        }
+        private IInvMonitorViewModel activeDocument;
+
+        public IInvMonitorViewModel ActiveDocument
+        {
+            get
+            {
+                return activeDocument;
+            }
+            set
+            {
+                this.activeDocument = value;
+                RaisePropertyChanged(() => ActiveDocument);
             }
         }
 
@@ -131,11 +147,17 @@ namespace KMP.Parameterization
             //create model
             IParamedModule module = _moduleService.CreateProject(e.ProjectType, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
             this.Modules.AddModule(module);
-            
+            this.Modules.First().GeneratorChanged += OnGeneratorChanged;
+
+
+
         }
 
         #endregion
-
+        private void OnGeneratorChanged(object sender, GeneratorEventArgs e)
+        {
+            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("generating," + e.ProgressInfo);
+        }
         #region modelcommands
         private void InitModelCommands()
         {
@@ -144,8 +166,49 @@ namespace KMP.Parameterization
 
         private void GenModelExecuted()
         {
+            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator,"+this.Modules.First().GetGeneratorCount().ToString());
+            //GeneratorDelegate gDelegate = new GeneratorDelegate(GenerateModules);
+            //gDelegate.BeginInvoke(GenerateCallback, null);
+            Task generatortask = new Task(GenerateModules);
+            generatortask.ContinueWith((result)=> {
+                _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+                this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+            });
+            generatortask.Start();
+            //generatortask.Start();
+            //this.Modules.Create();
+
+        }
+
+        public void OnGenerateChanged(string info)
+        {
+            if(info == "end_generator")
+            {
+                _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+            }
+        }
+        //public delegate void GeneratorDelegate();
+
+        private void GenerateModules()
+        {
             this.Modules.Create();
         }
+        private void GenerateCallback()
+        {
+            _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+        }
         #endregion
+
+        public void ShowModule(IParamedModule m)
+        {
+            if (System.IO.File.Exists(m.FullPath))
+            {
+                _invMonitorController.UpdateInvModel(m.FullPath);
+            }
+            
+        }
+
+
     }
 }

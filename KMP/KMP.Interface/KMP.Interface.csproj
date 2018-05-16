@@ -153,7 +153,12 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infranstructure\Infranstructure.csproj">
+      <Project>{dab973ae-bbf4-432a-a0be-79eb7b966f2c}</Project>
+      <Name>Infranstructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Common\" /Y</PostBuildEvent>

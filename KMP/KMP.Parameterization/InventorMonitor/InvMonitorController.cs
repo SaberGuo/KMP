@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace KMP.Parameterization.InventorMonitor
 {
@@ -16,7 +17,8 @@ namespace KMP.Parameterization.InventorMonitor
             IInvMonitorViewModel invMonVM = FindInvMonitorVM(filePath);
             if(invMonVM == null) {
                 invMonVM = new InvMonitorViewModel(filePath);
-                _documents.Add(invMonVM);
+                Application.Current.Dispatcher.Invoke(new Action<IInvMonitorViewModel>(OnAddDocument), invMonVM);
+                //_documents.Add(invMonVM);
             }
             else
             {
@@ -25,7 +27,10 @@ namespace KMP.Parameterization.InventorMonitor
             
             
         }
-
+        private void OnAddDocument(IInvMonitorViewModel m)
+        {
+            _documents.Add(m);
+        }
         private IInvMonitorViewModel FindInvMonitorVM(string filePath)
         {
             foreach (var item in this._documents)
