@@ -53,6 +53,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            DisPose();
             #region 当前部件需要
             centerBoard.CreateModule();
             baseBoard.CreateModule();

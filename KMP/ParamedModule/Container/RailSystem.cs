@@ -69,6 +69,7 @@ namespace ParamedModule.Container
         
         public override void CreateModule()
         {
+            DisPose();
            // if (!CheckParamete()) return;
             CreateDoc();
             rail.CreateModule();

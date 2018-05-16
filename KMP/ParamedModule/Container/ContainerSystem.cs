@@ -60,13 +60,15 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            DisPose();
             if (!CheckParamete()) return;
           
             CreateDoc();
             oPos = InventorTool.TranGeo.CreateMatrix();
+            _cylinder.CreateModule();
             _cylinderDoor.CreateModule();
             _plane.CreateModule();
-            _cylinder.CreateModule();
+           
           
             _pedestal.CreateModule();
             _railSystem.CreateModule();

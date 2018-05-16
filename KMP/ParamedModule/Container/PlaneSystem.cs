@@ -38,6 +38,7 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
+
             if ((!_plane.CheckParamete()) || (!_planeSup.CheckParamete())) return false;
             ///平板总高度是平板组件高度之和
             ///平板偏移高度是平板偏移位置的高度/2-平板组件高度
@@ -50,6 +51,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            DisPose();
             CreateDoc();
             List<OccStruct> COPlanes = new List<OccStruct>();
             List<OccStruct> COPlanceSupS = new List<OccStruct>();

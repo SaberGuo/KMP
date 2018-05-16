@@ -376,7 +376,12 @@ namespace ParamedModule
             }
             Doc.Save2();
         }
-
+        public virtual void DisPose()
+        {
+            //Doc = null;
+            //Definition = null;
+            freeiMates.Clear();
+        }
 
         public struct OccStruct
         {

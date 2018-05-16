@@ -33,8 +33,8 @@ namespace ParamedModule.Container
             par.DoorRadius = 700;
             par.FlanchWidth = 40;
             ParCylinderHole hole = new ParCylinderHole() { HoleRadius = 200, PipeLenght = 300, PipeThickness = 4 };
-            ParFlanch flanch = new ParFlanch() { D6 = 400,D1=520,H=20,D2=450,D0=480,D=10,N=6};
-            ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, D = 10, N = 6 };
+            ParFlanch flanch = new ParFlanch() { D6 = 400,D1=520,H=20,D2=450,D0=480,C=10,N=6};
+            ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.TopHole = hole;
             par.TopHole.ParFlanch = flanch;
            // ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300,PipeThickness=10 ,PipeLenght=200};
@@ -58,8 +58,8 @@ namespace ParamedModule.Container
         }
         public override void CreateModule()
         {
-        
-           
+
+            _sidePlanes.Clear();
             CreateDoc();
             SketchEllipticalArc OutArc,InArc;
             RevolveFeature revolve = CreateDoor(UsMM(par.Thickness.Value),UsMM(par.InRadius.Value),UsMM(par.DoorRadius),out InArc,out OutArc);
@@ -78,7 +78,7 @@ namespace ParamedModule.Container
            ExtrudeFeature flach= CreateTopFlance(topHoleEndFace, topInCircle, UsMM(par.TopHole.ParFlanch.D1 / 2), UsMM(par.TopHole.ParFlanch.H));
             Face flachEndFace = InventorTool.GetFirstFromIEnumerator<Face>(flach.EndFaces.GetEnumerator());
             CreateFlanceGroove(flachEndFace, topInCircle, UsMM(par.TopHole.ParFlanch.D2 / 2));
-            CreateFlanceScrew(flachEndFace, topInCircle,par.TopHole.ParFlanch.N, UsMM(par.TopHole.ParFlanch.D / 2), UsMM(par.TopHole.ParFlanch.D0 / 2), UsMM(par.TopHole.ParFlanch.H));
+            CreateFlanceScrew(flachEndFace, topInCircle,par.TopHole.ParFlanch.N, UsMM(par.TopHole.ParFlanch.C / 2), UsMM(par.TopHole.ParFlanch.D0 / 2), UsMM(par.TopHole.ParFlanch.H));
             #endregion
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.Faces.GetEnumerator());
             Face PlaneFace = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
@@ -130,6 +130,14 @@ namespace ParamedModule.Container
         }
         #region 创建孔
         #region 创建顶孔
+        /// <summary>
+        /// 顶部开孔
+        /// </summary>
+        /// <param name="door">罐门</param>
+        /// <param name="holeRadius">孔半径</param>
+        /// <param name="topHolePlane">顶孔面</param>
+        /// <param name="topHoleFace">孔的侧边</param>
+        /// <param name="topSketchCircle">孔草图</param>
         private void CreateTopHole(RevolveFeature door,double holeRadius,out WorkPlane topHolePlane,out Face topHoleFace,out SketchCircle topSketchCircle)
         {
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(door.Faces.GetEnumerator());
@@ -403,7 +411,7 @@ namespace ParamedModule.Container
             if (flachEdges.Count != 2) return;
             CreateFlanceGroove(flachEndFace, circle1, UsMM(parHole.ParFlanch.D2 / 2));
             SurfaceTypeEnum t1 = flachEndFace.SurfaceType;
-            CreateFlanceScrew(flachEndFace, circle1, parHole.ParFlanch.N, UsMM(parHole.ParFlanch.D / 2), UsMM(parHole.ParFlanch.D0 / 2), UsMM(parHole.ParFlanch.H));
+            CreateFlanceScrew(flachEndFace, circle1, parHole.ParFlanch.N, UsMM(parHole.ParFlanch.C / 2), UsMM(parHole.ParFlanch.D0 / 2), UsMM(parHole.ParFlanch.H));
         }
         #endregion
         #endregion
