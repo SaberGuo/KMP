@@ -27,6 +27,8 @@ namespace KMP.Interface.Model.Container
         double ribBraceWidth;
         double ribBraceHeight;
         double flanchWidth;
+        ParCylinderHole capTopHole = new ParCylinderHole();
+        ObservableCollection<ParCylinderHole> capSideHoles = new ObservableCollection<ParCylinderHole>();
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
         [Browsable(false)]
         /// <summary>
@@ -238,6 +240,38 @@ namespace KMP.Interface.Model.Container
             {
                 parHoles = value;
                 this.RaisePropertyChanged(() => this.ParHoles);
+            }
+        }
+        /// <summary>
+        /// 堵头顶孔
+        /// </summary>
+        public ParCylinderHole CapTopHole
+        {
+            get
+            {
+                return capTopHole;
+            }
+
+            set
+            {
+                capTopHole = value;
+                this.RaisePropertyChanged(() => this.CapTopHole);
+            }
+        }
+        /// <summary>
+        /// 堵头侧边孔集合
+        /// </summary>
+        public ObservableCollection<ParCylinderHole> CapSideHoles
+        {
+            get
+            {
+                return capSideHoles;
+            }
+
+            set
+            {
+                capSideHoles = value;
+                this.RaisePropertyChanged(() => this.CapSideHoles);
             }
         }
     }

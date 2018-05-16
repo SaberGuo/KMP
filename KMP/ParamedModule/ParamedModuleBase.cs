@@ -123,5 +123,6 @@ namespace ParamedModule
         }
         public abstract void CreateModule();
         public abstract bool CheckParamete();
+    
     }
 }

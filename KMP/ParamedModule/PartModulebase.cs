@@ -40,5 +40,11 @@ namespace ParamedModule
           //  Doc.Close();
           
         }
+        public virtual void DisPose()
+        {
+            Doc = null;
+            Definition = null;
+        }
+
     }
 }

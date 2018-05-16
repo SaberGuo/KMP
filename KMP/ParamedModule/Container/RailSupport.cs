@@ -50,6 +50,7 @@ namespace ParamedModule.Container
 
         public override void CreateModule()
         {
+            DisPose();
             #region 当前部件需要
             GeneratorProgress(this, "开始创建容器内导轨支撑");
             centerBoard.CreateModule();

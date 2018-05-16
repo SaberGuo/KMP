@@ -17,6 +17,7 @@ namespace KMP.Interface.Model.Container
         double holeRadius;
         double pipeLenght;
         double holeOffset;
+        double pipeThickness;
         ParFlanch parFlanch=new ParFlanch();
         /// <summary>
         /// 定位角度
@@ -134,6 +135,22 @@ namespace KMP.Interface.Model.Container
             {
                 parFlanch = value;
                 this.RaisePropertyChanged(() => this.ParFlanch);
+            }
+        }
+        /// <summary>
+        /// 短管厚度
+        /// </summary>
+        public double PipeThickness
+        {
+            get
+            {
+                return pipeThickness;
+            }
+
+            set
+            {
+                pipeThickness = value;
+                this.RaisePropertyChanged(() => this.PipeThickness);
             }
         }
     }
