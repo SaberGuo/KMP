@@ -10,7 +10,7 @@
              >
     <DockPanel>
         <ToolBar>
-            <xctk:IconButton Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="16" Height="16">
+            <xctk:IconButton Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="32" Height="32">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/reload.png"/>
                 </xctk:IconButton.Icon>
@@ -19,66 +19,66 @@
         </ToolBar>
         <ToolBar>
 
-            <xctk:IconButton Width="16" Height="16" ToolTip="后视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="后视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_back.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="底视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="底视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_bottom.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="正视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="正视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_front.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="左视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="左视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_left.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="右视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="右视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_right.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="顶视图">
+            <xctk:IconButton Width="32" Height="32" ToolTip="顶视图">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/view_top.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
         </ToolBar>
         <ToolBar>
-            <xctk:IconButton Width="16" Height="16" ToolTip="新建">
+            <xctk:IconButton Width="32" Height="32" ToolTip="新建">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/add.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="打开">
+            <xctk:IconButton Width="32" Height="32" ToolTip="打开">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/open.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="保存">
+            <xctk:IconButton Width="32" Height="32" ToolTip="保存">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/save.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="保存所有">
+            <xctk:IconButton Width="32" Height="32" ToolTip="保存所有">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/save_all.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="16" Height="16" ToolTip="帮助">
+            <xctk:IconButton Width="32" Height="32" ToolTip="帮助">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/help-browser.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
         </ToolBar>
         <ToolBar>
-            <xctk:IconButton Width="16" Height="16" ToolTip="分析">
+            <xctk:IconButton Width="32" Height="32" ToolTip="分析">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/barchart.png"/>
                 </xctk:IconButton.Icon>
