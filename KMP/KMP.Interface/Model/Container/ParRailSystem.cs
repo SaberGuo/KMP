@@ -50,7 +50,7 @@ namespace KMP.Interface.Model.Container
         /// 罐体半径
         /// </summary>
         /// 
-        [DisplayName("罐体半径")]
+        [Browsable(false)]
         public PassedParameter CylinderInRadius
         {
             get

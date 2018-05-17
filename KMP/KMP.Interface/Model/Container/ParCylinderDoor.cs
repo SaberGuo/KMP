@@ -89,7 +89,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
-
+        [DisplayName("堵头顶孔")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole TopHole
         {
             get
@@ -103,7 +104,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.TopHole);
             }
         }
-
+        [DisplayName("堵头侧边孔")]
         public ObservableCollection<ParCylinderHole> SideHoles
         {
             get

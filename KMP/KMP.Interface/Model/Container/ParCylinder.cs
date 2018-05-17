@@ -245,6 +245,10 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 堵头顶孔
         /// </summary>
+        /// 
+        [Category("罐体")]
+        [DisplayName("堵头顶孔")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole CapTopHole
         {
             get
@@ -261,6 +265,9 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 堵头侧边孔集合
         /// </summary>
+        /// 
+        [Category("罐体")]
+        [DisplayName("堵头侧边孔")]
         public ObservableCollection<ParCylinderHole> CapSideHoles
         {
             get

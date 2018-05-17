@@ -45,6 +45,7 @@ namespace KMP.Parameterization
         private void DockingManager_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
         {
             ((IInvMonitorViewModel)e.Document.Content).CloseDocument();
+            _viewModel.Documents.Remove((IInvMonitorViewModel)e.Document.Content);
         }
     }
 }

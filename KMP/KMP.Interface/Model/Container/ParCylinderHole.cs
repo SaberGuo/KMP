@@ -140,6 +140,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 短管厚度
         /// </summary>
+        /// 
+        [DisplayName("短管厚度")]
         public double PipeThickness
         {
             get

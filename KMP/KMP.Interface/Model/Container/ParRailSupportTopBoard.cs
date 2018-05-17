@@ -88,7 +88,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.HoleSideEdgeDistance);
             }
         }
-
+        [DisplayName("螺丝孔中心到钣金顶边距离")]
         public double HoleTopEdgeDistance
         {
             get

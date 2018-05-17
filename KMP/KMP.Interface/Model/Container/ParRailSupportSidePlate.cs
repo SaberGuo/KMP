@@ -18,6 +18,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("厚度")]
+        [ReadOnly(true)]
         public double Thickness
         {
             get

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -18,6 +19,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 安装距离罐中心
         /// </summary>
+        /// 
+        [DisplayName("安装距离罐中心")]
         public double Offset
         {
             get
@@ -33,6 +36,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 底部支撑高度
         /// </summary>
+        /// 
+        [DisplayName("底部支撑高度")]
         public double BrachHeight1
         {
             get
@@ -48,6 +53,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 中部支撑高度
         /// </summary>
+        /// 
+        [DisplayName("中部支撑高度")]
         public double BrachHeight2
         {
             get
@@ -63,6 +70,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 底部支撑半径
         /// </summary>
+        /// 
+        [DisplayName("底部支撑半径")]
         public double BrachRadius1
         {
             get
@@ -78,6 +87,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 中部支撑半径
         /// </summary>
+        /// 
+        [DisplayName("中部支撑半径")]
         public double BrachRadius2
         {
             get
@@ -93,6 +104,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 顶部厚度
         /// </summary>
+        /// 
+        [DisplayName("顶部厚度")]
         public double TopBoardThickness
         {
             get
@@ -108,6 +121,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 顶部宽度
         /// </summary>
+        /// 
+        [DisplayName("顶部宽度")]
         public double TopBoardWidth
         {
             get
@@ -120,7 +135,7 @@ namespace KMP.Interface.Model.Container
                 topBoardWidth = value;
             }
         }
-
+        [Browsable(false)]
         public PassedParameter InRadius
         {
             get

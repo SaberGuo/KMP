@@ -102,9 +102,10 @@ namespace KMP.Parameterization
             }
         }
 
-        #region test
+       
 
         public ModuleProject Modules { get; set; }
+        #region test
         private void OnParamedModuleDisplayTest()
         {
             
@@ -166,6 +167,11 @@ namespace KMP.Parameterization
 
         private void GenModelExecuted()
         {
+            if(this.Modules.Count == 0)
+            {
+
+                return;
+            }
             this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator,"+this.Modules.First().GetGeneratorCount().ToString());
             //GeneratorDelegate gDelegate = new GeneratorDelegate(GenerateModules);
             //gDelegate.BeginInvoke(GenerateCallback, null);
@@ -191,12 +197,34 @@ namespace KMP.Parameterization
 
         private void GenerateModules()
         {
-            this.Modules.Create();
+            try
+            {
+                this.Modules.Create();
+            }
+            catch (Exception e)
+            {
+
+                this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
+            }
+            
         }
         private void GenerateCallback()
         {
-            _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
-            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+            if (this.Modules.Count > 0)
+            {
+                try
+                {
+                    _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+                }
+                catch (Exception e)
+                {
+
+                    this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
+                }
+               
+                this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+            }
+            
         }
         #endregion
 

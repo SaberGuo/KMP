@@ -110,6 +110,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 螺丝孔中心到钣金顶边距离
         /// </summary>
+        /// 
+        [DisplayName("螺丝孔中心到钣金顶边距离")]
         public double HoleTopEdgeDistance
         {
             get

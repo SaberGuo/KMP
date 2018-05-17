@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -12,6 +13,8 @@ namespace KMP.Interface.Model.Container
         PassedParameter cylinderInRadius;
         //double offset;
         double heightOffset;
+
+        [DisplayName("平板数量")]
         public int PlaneNumber
         {
             get
@@ -27,6 +30,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 平板系统总高度 不显示
         /// </summary>
+        /// 
+        [DisplayName("平板系统总高度")]
         public double TotalHeight
         {
             get
@@ -42,6 +47,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 罐体半径 不显示
         /// </summary>
+        /// 
+        [Browsable(false)]
         public PassedParameter CylinderInRadius
         {
             get
@@ -72,6 +79,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 高度上平移，不显示
         /// </summary>
+        /// 
+        [DisplayName("高度上平移"), ReadOnly(true)]
         public double HeightOffset
         {
             get

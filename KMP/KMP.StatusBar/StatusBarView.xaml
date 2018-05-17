@@ -5,8 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KMP.StatusBar"
              mc:Ignorable="d" >
-    <StackPanel Orientation="Horizontal">
-        <ProgressBar Margin="5,1,5,1" Width="200" Minimum ="0" Maximum="{Binding MaxValue}" Value="{Binding CurrentValue}" ></ProgressBar>
-        <TextBlock Text="{Binding Info}"/>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="400*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Column="0">
+            <ProgressBar Margin="5,1,5,1" Width="200" Minimum ="0" Maximum="{Binding MaxValue}" Value="{Binding CurrentValue}" ></ProgressBar>
+            <TextBlock Text="{Binding Info}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1">
+            <TextBlock Text="{Binding Path=TimerTick}" Width="150" Margin="2" Height="12"/>
+            <Image Source="{Binding Path=InfoImage}" Margin="2" Height="12"/>
+            <TextBlock Text="{Binding Path=InfoContent}" Margin="2" Height="12"/>
+
+        </StackPanel>
+    </Grid>
+    
 </UserControl>

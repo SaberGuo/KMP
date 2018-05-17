@@ -30,7 +30,11 @@ namespace KMP.Interface
 
         public void Create()
         {
-            this.First().CreateModule();
+            if (this.Count > 0)
+            {
+                this.First().CreateModule();
+            }
+            
         }
     }
 }

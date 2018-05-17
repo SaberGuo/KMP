@@ -18,7 +18,7 @@ namespace KMP.Parameterization
         {
             this.InitNewModelWin();
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<GeneratorEvent>().Subscribe(OnGeneratorInfoChanged);
+            //_eventAggregator.GetEvent<GeneratorEvent>().Subscribe(OnGeneratorInfoChanged);
 
         }
         #region NewModel
