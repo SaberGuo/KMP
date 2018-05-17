@@ -135,7 +135,8 @@ namespace ParamedModule.Container
         {
            
             if (par.BraceWidth >= par.DownBridgeWidth || par.BraceWidth >= par.UpBridgeWidth) return false;
-            return CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
     }
 }

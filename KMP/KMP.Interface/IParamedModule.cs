@@ -24,7 +24,7 @@ namespace KMP.Interface
         event PropertyChangedEventHandler PropertyChanged;
 
         event EventHandler<GeneratorEventArgs> GeneratorChanged;
-
+        event EventHandler<GeneratorEventArgs> ParErrorHappen;
         void GeneratorProgress(object sender, string info);
 
         int GetGeneratorCount();

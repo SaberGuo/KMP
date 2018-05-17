@@ -84,7 +84,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("罐体")]
-        [DisplayName("封头长度内半径")]
+        [DisplayName("封头内半径")]
         /// <summary>
         /// 罐封头长度内半径
         /// </summary>
@@ -102,7 +102,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("宽度")]
+        [DisplayName("上下部分宽度")]
         /// <summary>
         /// 加强筋的宽度
         /// </summary>
@@ -138,7 +138,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("高度")]
+        [DisplayName("总高度")]
         /// <summary>
         /// 加强筋的高度
         /// </summary>
@@ -156,7 +156,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("第一个离罐口的距离")]
+        [DisplayName("首个与罐口的距离")]
         /// <summary>
         /// 第一个加强筋距离罐口的距离
         /// </summary>
@@ -173,8 +173,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibFirstDistance);
             }
         }
-        [Category("加强筋支柱")]
-        [DisplayName("宽度")]
+        [Category("加强筋")]
+        [DisplayName("支柱宽度")]
         /// <summary>
         /// 加强筋支柱的宽度
         /// </summary>
@@ -191,8 +191,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibBraceWidth);
             }
         }
-        [Category("加强筋支柱")]
-        [DisplayName("高度")]
+        [Category("加强筋")]
+        [DisplayName("支柱高度")]
         /// <summary>
         /// 加强筋支柱的高度
         /// </summary>
@@ -227,8 +227,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
-        [Category("罐体")]
-        [DisplayName("开孔")]
+        [Category("开孔")]
+        [DisplayName("罐体孔")]
         public ObservableCollection<ParCylinderHole> ParHoles
         {
             get
@@ -246,7 +246,7 @@ namespace KMP.Interface.Model.Container
         /// 堵头顶孔
         /// </summary>
         /// 
-        [Category("罐体")]
+        [Category("开孔")]
         [DisplayName("堵头顶孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole CapTopHole
@@ -266,7 +266,7 @@ namespace KMP.Interface.Model.Container
         /// 堵头侧边孔集合
         /// </summary>
         /// 
-        [Category("罐体")]
+        [Category("开孔")]
         [DisplayName("堵头侧边孔")]
         public ObservableCollection<ParCylinderHole> CapSideHoles
         {

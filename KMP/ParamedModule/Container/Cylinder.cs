@@ -917,22 +917,48 @@ namespace ParamedModule.Container
         #endregion
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
-            if (par.FlanchWidth < par.Thickness.Value) return false;
-            if (par.RibWidth <= par.RibBraceWidth) return false;
-            if (par.RibHeight <= par.RibBraceHeight) return false;
+            if (!CheckParZero()) return false;
+            if (par.FlanchWidth < par.Thickness.Value)
+            {
+                ParErrorChanged(this, "法兰宽度不能小于罐壁厚度");
+                return false;
+            }
+           
+            if (par.RibWidth <= par.RibBraceWidth)
+            {
+                ParErrorChanged(this, "加强筋上下面宽度必须大于中部支柱宽度");
+                return false;
+            }
+            if (par.RibHeight <= par.RibBraceHeight)
+            {
+                ParErrorChanged(this, "加强筋总高度必须大于中部支柱高度");
+                return false;
+            }
             for (int i = 0; i < par.ParHoles.Count; i++)
             {
                 var item = par.ParHoles[i];
-                if (item.HoleOffset > par.InRadius.Value - item.HoleRadius) return false;
-                if (item.PositionDistance > par.Length - item.HoleRadius) return false;
-                if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
+                if (item.HoleOffset > par.InRadius.Value - item.HoleRadius)
+                {
+                    ParErrorChanged(this, "孔的偏移量和孔的半径大于罐的半径");
+                    return false;
+                }
+                if (item.PositionDistance >= par.Length - item.HoleRadius)
+                {
+                    ParErrorChanged(this, "孔距离罐口值和孔的半径大于罐的长度");
+                    return false;
+                }
+                if (item.PositionAngle < 0 && item.PositionAngle > 360)
+                {
+                    ParErrorChanged(this, "孔的角度位置超出范围");
+                    return false;
+                }
                 for (int j = i + 1; j < par.ParHoles.Count; j++)
                 {
-                    if (item.HoleRadius == par.ParHoles[j].HoleRadius)
+                    if (item.PositionAngle == par.ParHoles[j].PositionAngle)
                     {
                         if (item.HoleOffset == par.ParHoles[j].HoleOffset && item.PositionDistance == par.ParHoles[j].PositionDistance)
                         {
+                            ParErrorChanged(this, "孔的角度位置超出范围");
                             return false;
                         }
                     }

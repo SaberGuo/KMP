@@ -34,8 +34,8 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-          return  CommonTool.CheckParameterValue(par);
-            
+            if (!CheckParZero()) return false;
+            return true;
         }
 
         public override void CreateModule()

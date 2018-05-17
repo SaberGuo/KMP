@@ -44,7 +44,7 @@ namespace ParamedModule.Container
         {
             if ((!topBoard.CheckParamete()) || (!sidePlate.CheckParamete()) ||
                 (!centerBoard.CheckParamete()) || (!brace.CheckParamete()) || (!baseBoard.CheckParamete())) return false;
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             return true;
         }
 

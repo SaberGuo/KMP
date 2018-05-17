@@ -66,8 +66,7 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
-            if (!CommonTool.CheckParameterValue(this.Parameter)) return false;
+            if (!CheckParZero()) return false;
             if (par.HoleTopEdgeDistance <= par.HoleRadius) return false;
             if (par.HoleSideEdgeDistance <= par.HoleRadius) return false;
             if (par.HoleCenterDistance + par.HoleRadius > par.Width / 2) return false;

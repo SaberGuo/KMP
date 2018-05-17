@@ -8,7 +8,7 @@ using KMP.Interface.Model;
 using Microsoft.Practices.Prism.ViewModel;
 using System.Collections.ObjectModel;
 using Infranstructure.Events;
-
+using Infranstructure.Tool;
 namespace ParamedModule
 {
     public abstract class ParamedModuleBase :NotificationObject, IParamedModule
@@ -69,10 +69,14 @@ namespace ParamedModule
         }
 
         public event EventHandler<GeneratorEventArgs> GeneratorChanged;
-
+       public event EventHandler<GeneratorEventArgs> ParErrorHappen;
         public void GeneratorProgress(object sender, string info)
         {
             this.GeneratorChanged(sender, new GeneratorEventArgs { ProgressInfo = info });
+        }
+        public void ParErrorChanged(object sender, string info)
+        {
+            this.ParErrorHappen(sender, new GeneratorEventArgs { ProgressInfo = info });
         }
         public string ModelPath
         {
@@ -123,6 +127,15 @@ namespace ParamedModule
         }
         public abstract void CreateModule();
         public abstract bool CheckParamete();
-    
+        protected bool CheckParZero()
+        {
+            string message;
+            if (!CommonTool.CheckParameterValue(Parameter, out message))
+            {
+                ParErrorChanged(this, message);
+                return false;
+            }
+            return true;
+        }
     }
 }

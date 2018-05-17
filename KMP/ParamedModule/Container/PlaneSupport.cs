@@ -23,7 +23,7 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             return true;
         }
         void init()

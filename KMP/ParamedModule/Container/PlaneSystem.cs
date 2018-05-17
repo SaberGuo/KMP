@@ -49,7 +49,8 @@ namespace ParamedModule.Container
             double offHeight = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(_planeSup.par.Offset, 2), 0.5);
             if (offHeight <= par.TotalHeight) return false;
             par.HeightOffset = offHeight - par.TotalHeight;
-           return CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
 
         public override void CreateModule()

@@ -62,9 +62,9 @@ namespace ParamedModule.Container
         {
             if (par.HoleRadius >= par.Width / 4) return false;
             if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
-            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false; 
-            return CommonTool.CheckParameterValue(par);
-
+            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
+            if (!CheckParZero()) return false;
+            return true;
         }
     }
 }

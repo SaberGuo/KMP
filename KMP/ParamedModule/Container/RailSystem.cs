@@ -40,7 +40,7 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
             if (par.Offset >= par.CylinderInRadius.Value) return false;
             double h0 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(par.Offset, 2), 0.5);//偏移后圆上点到圆心的垂直高度

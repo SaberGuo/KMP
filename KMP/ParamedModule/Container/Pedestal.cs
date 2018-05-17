@@ -441,7 +441,7 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
         #endregion
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             double r = par.InRadius.Value + par.Thickness.Value + par.PanelThickness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度

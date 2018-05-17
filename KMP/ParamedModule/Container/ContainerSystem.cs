@@ -50,7 +50,8 @@ namespace ParamedModule.Container
             if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
                 (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()) || (!_plane.CheckParamete()))
                 return false;
-            return CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
 
         public override void CreateModule()

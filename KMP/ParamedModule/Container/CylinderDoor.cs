@@ -430,7 +430,7 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             if (par.FlanchWidth < par.Thickness.Value) return false;
             return true;
         }
