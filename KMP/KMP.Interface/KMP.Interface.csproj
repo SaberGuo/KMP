@@ -119,7 +119,10 @@
     <Compile Include="Model\Container\ParRailSupportSidePlate.cs" />
     <Compile Include="Model\Container\ParRailSupportTopBoard.cs" />
     <Compile Include="Model\Container\ParRailSystem.cs" />
-    <Compile Include="Model\Container\PassedParameter.cs" />
+    <Compile Include="Model\PassedParameter.cs" />
+    <Compile Include="Model\HeatSinkSystem\ParCap.cs" />
+    <Compile Include="Model\HeatSinkSystem\ParHeatSink.cs" />
+    <Compile Include="Model\HeatSinkSystem\ParNoumenon.cs" />
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\Container\ParCylinder.cs" />
     <Compile Include="Model\Container\ParCylinderDoor.cs" />

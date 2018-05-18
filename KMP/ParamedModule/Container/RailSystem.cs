@@ -6,7 +6,7 @@ using KMP.Interface.Model.Container;
 using Inventor;
 using Infranstructure.Tool;
 using System.ComponentModel.Composition;
-using KMP.Interface;
+using KMP.Interface.Model;
 namespace ParamedModule.Container
 {
  

@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.ViewModel;
 using System.ComponentModel;
 using KMP.Interface.Tools;
 
-namespace KMP.Interface.Model.Container
+namespace KMP.Interface.Model
 {
     [TypeConverterAttribute(typeof(PassedParamConverter)),Description("系统参数")]
     public class PassedParameter : NotificationObject

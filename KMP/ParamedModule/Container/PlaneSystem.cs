@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 using KMP.Interface.Model.Container;
-using KMP.Interface;
+using KMP.Interface.Model;
 using Inventor;
 using Infranstructure.Tool;
 namespace ParamedModule.Container
