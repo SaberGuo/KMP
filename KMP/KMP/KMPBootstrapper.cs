@@ -22,14 +22,14 @@ namespace KMP
 
         protected override DependencyObject CreateShell()
         {
-            return this.Container.GetExportedValue<Shell>();
+            return this.Container.GetExportedValue<TestWindow>();
         }
 
         protected override void InitializeShell()
         {
             base.InitializeShell();
 
-            Application.Current.MainWindow = (Shell)this.Shell;
+            Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
 
 

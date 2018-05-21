@@ -45,6 +45,25 @@ namespace ParamedModule
             Doc = null;
             Definition = null;
         }
+        internal static void AddDiameter(PlanarSketch osketch,SketchEntity entity,double Diameter)
+        {
+            Point2d p;
+            if (entity.Type==ObjectTypeEnum.kSketchCircleObject)
+            {
+                p = ((SketchCircle)entity).CenterSketchPoint.Geometry;
+                p = InventorTool.CreatePoint2d(p.X + Diameter / 2, p.Y);
+            }
+            else if(entity.Type==ObjectTypeEnum.kSketchArcObject)
+            {
+                p = ((SketchArc)entity).CenterSketchPoint.Geometry;
+                p = InventorTool.CreatePoint2d(p.X + Diameter / 2, p.Y);
+            }
+            else
+            {
+                return;
+            }
 
+            osketch.DimensionConstraints.AddDiameter(entity, p).Parameter.Value = Diameter;
+        }
     }
 }
