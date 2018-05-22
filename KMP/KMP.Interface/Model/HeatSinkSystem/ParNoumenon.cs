@@ -8,22 +8,24 @@ namespace KMP.Interface.Model.HeatSinkSystem
   public  class ParNoumenon:ParameterBase
     {
         #region
-        PassedParameter inRadius=new PassedParameter();
+        PassedParameter inDiameter = new PassedParameter();
         PassedParameter thickness=new PassedParameter();
         double length;
-       [DisplayName("热沉罐内半径")]
-        public PassedParameter InRadius
+        [Browsable(false)]
+        [DisplayName("热沉罐内半径")]
+        public PassedParameter InDiameter
         {
             get
             {
-                return inRadius;
+                return inDiameter;
             }
 
             set
             {
-                inRadius = value;
+                inDiameter = value;
             }
         }
+        [Browsable(false)]
         [DisplayName("热沉罐壁厚")]
         public PassedParameter Thickness
         {
@@ -125,6 +127,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         }
         #endregion
         #region 罐内管支撑
+        [Category("内管")]
         [DisplayName("管支撑直径")]
         public double PipeSurDiameter
         {
@@ -138,6 +141,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDiameter = value;
             }
         }
+        [Category("内管")]
         [DisplayName("管支撑厚度")]
         public double PipeSurThickness
         {
@@ -151,6 +155,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurThickness = value;
             }
         }
+        [Category("内管")]
         [DisplayName("管支撑与管口距离")]
         public double PipeSurDistance
         {
@@ -164,6 +169,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDistance = value;
             }
         }
+        [Category("内管")]
         [DisplayName("管支撑水平距离")]
         public double PipeSurLength
         {
@@ -177,6 +183,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurLength = value;
             }
         }
+        [Category("内管")]
         [DisplayName("管支撑弯曲半径")]
         public double PipeSurCurveRadius
         {
@@ -190,6 +197,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurCurveRadius = value;
             }
         }
+        [Category("内管")]
         [DisplayName("管支撑数量")]
         public int PipeSurNum
         {
@@ -203,8 +211,6 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurNum = value;
             }
         }
-
-   
 
         double pipeSurDiameter;
         double pipeSurThickness;
@@ -220,6 +226,9 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double tTopHeight;
         double tHoopOffset;
         int tHoopNumber;
+        double endLongAngle;
+        int endLongNumber;
+        [Category("骨架")]
         [DisplayName("T字钢支撑高度")]
         public double TBrachHeight
         {
@@ -233,6 +242,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tBrachHeight = value;
             }
         }
+        [Category("骨架")]
         [DisplayName("T字钢支撑宽度")]
         public double TBrachWidth
         {
@@ -246,6 +256,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tBrachWidth = value;
             }
         }
+        [Category("骨架")]
         [DisplayName("T字钢顶部宽度")]
         public double TTopWidth
         {
@@ -259,6 +270,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tTopWidth = value;
             }
         }
+        [Category("骨架")]
         [DisplayName("T字钢顶部高度")]
         public double TTopHeight
         {
@@ -272,6 +284,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tTopHeight = value;
             }
         }
+        [Category("骨架")]
         [DisplayName("T字钢与罐口距离")]
         public double THoopOffset
         {
@@ -285,6 +298,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tHoopOffset = value;
             }
         }
+        [Category("骨架")]
         [DisplayName("T字钢箍数量")]
         public int THoopNumber
         {
@@ -298,6 +312,35 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 tHoopNumber = value;
             }
         }
+        [Category("骨架")]
+        [DisplayName("纵梁角度")]
+        public double EndLongAngle
+        {
+            get
+            {
+                return endLongAngle;
+            }
+
+            set
+            {
+                endLongAngle = value;
+            }
+        }
+        [Category("骨架")]
+        [DisplayName("纵梁数量")]
+        public int EndLongNumber
+        {
+            get
+            {
+                return endLongNumber;
+            }
+
+            set
+            {
+                endLongNumber = value;
+            }
+        }
         #endregion
+     
     }
 }

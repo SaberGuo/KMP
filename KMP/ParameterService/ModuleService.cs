@@ -30,6 +30,9 @@ namespace ParameterService
                     case "ParNoumenon":
                         item.CreateModule();
                         break;
+                    case "ParCap":
+                        item.CreateModule();
+                        break;
                     default:
                         break;
                 }

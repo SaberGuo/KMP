@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 namespace ParamedModule.HeatSinkSystem
 {
-    [Export(typeof(IParamedModule))]
+    [Export("Noumenon", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Noumenon : PartModulebase
     {
@@ -21,7 +21,7 @@ namespace ParamedModule.HeatSinkSystem
         }
         void init()
         {
-            par.InRadius.Value = 1000;
+            par.InDiameter.Value =2000;
             par.Thickness.Value = 24;
             par.Length = 4000;
             par.PipeDistance = 200;
@@ -41,6 +41,8 @@ namespace ParamedModule.HeatSinkSystem
             par.TTopWidth = 12;
             par.THoopOffset = 100;
             par.THoopNumber = 5;
+            par.EndLongAngle = 30;
+            par.EndLongNumber = 4;
         }
 
         private void Parameter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -54,8 +56,9 @@ namespace ParamedModule.HeatSinkSystem
 
         public override void CreateModule()
         {
+            CreateDoc(); 
             SketchCircle inCircle, outCircle,pipeOutCircle; ///罐内外草图圆、罐外圆草图
-            ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InRadius.Value),UsMM(par.Thickness.Value),UsMM(par.Length),out inCircle,out outCircle);
+            ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InDiameter.Value/2),UsMM(par.Thickness.Value),UsMM(par.Length),out inCircle,out outCircle);
             Face CStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.StartFaces.GetEnumerator());
             Face CEndFace= InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
             List<Face> CSideFace= InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
@@ -65,12 +68,24 @@ namespace ParamedModule.HeatSinkSystem
             SweepFeature pipeSur = CreatePipeSurp(CSideFace[0],pipeStartFace, inCircle, pipeOutCircle,UsMM( par.PipeSurDistance), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurLength), UsMM(par.PipeSurDiameter/2), UsMM(par.PipeSurThickness));
             CreatePipeSurMid(pipe,pipeSur, axis, UsMM(par.PipeLength), par.PipeSurNum, UsMM(par.PipeSurDistance), Definition.WorkPlanes[3],Definition.WorkPlanes[2]);
 
-            CreateEndLong(CSideFace[1],axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset),par.THoopNumber,UsMM(par.Length));
+           RevolveFeature Hoop=  CreateHoop(CSideFace[1],axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset),par.THoopNumber,UsMM(par.Length));
+            double endloopLength = UsMM(par.Length-par.THoopOffset*2);
+           ExtrudeFeature endLong=  CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight),par.EndLongAngle,UsMM(par.InDiameter.Value/2+par.Thickness.Value),endloopLength);
+            CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber);
         }
-        #region
+        #region 创建罐体和罐内管道
+        /// <summary>
+        /// 创建罐体
+        /// </summary>
+        /// <param name="radius">罐体半径</param>
+        /// <param name="thickness">罐体厚度</param>
+        /// <param name="length">罐体直径</param>
+        /// <param name="inCircle">罐体内圆草图</param>
+        /// <param name="outCircle">罐体外圆草图</param>
+        /// <returns></returns>
         ExtrudeFeature CreateCylinder(double radius,double thickness,double length,out SketchCircle inCircle,out SketchCircle outCircle)
         {
-            CreateDoc();
+        
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[1]);
             inCircle= osketch.SketchCircles.AddByCenterRadius(InventorTool.Origin, radius);
            AddDiameter(osketch, (SketchEntity)inCircle, radius * 2);
@@ -81,6 +96,18 @@ namespace ParamedModule.HeatSinkSystem
             def.SetDistanceExtent(length, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
           return  Definition.Features.ExtrudeFeatures.Add(def);
         }
+        /// <summary>
+        /// 罐内管道
+        /// </summary>
+        /// <param name="CylinderStartFace">罐口面</param>
+        /// <param name="inCircle">罐内圆草图</param>
+        /// <param name="pipeLength">管长度</param>
+        /// <param name="pipeRadius">管半径</param>
+        /// <param name="pipeThickness">管厚度</param>
+        /// <param name="distance">管与罐口距离</param>
+        /// <param name="offset">管心与罐心距离</param>
+        /// <param name="pipeOutCirce">管外圆草图</param>
+        /// <returns></returns>
         ExtrudeFeature CreatePipe(Face CylinderStartFace,SketchCircle inCircle,double pipeLength,double pipeRadius,double pipeThickness,double distance,double offset,out SketchCircle pipeOutCirce)
         {
             WorkPlane plane = Definition.WorkPlanes.AddByPlaneAndOffset(CylinderStartFace, -distance, true);
@@ -114,6 +141,19 @@ namespace ParamedModule.HeatSinkSystem
             def.SetDistanceExtent(pipeLength, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
             return Definition.Features.ExtrudeFeatures.Add(def);
         }
+        /// <summary>
+        /// 创建管支架
+        /// </summary>
+        /// <param name="CSideFace">罐内侧面</param>
+        /// <param name="pipeStartFace">管开始截面</param>
+        /// <param name="cylinderInCircle">罐内圆草图</param>
+        /// <param name="pipeOutCircle">管外圆草图</param>
+        /// <param name="pipeSurHDistance">管支架与管开始截面距离</param>
+        /// <param name="pipeSurHRaidus">管支架歪曲圆半径</param>
+        /// <param name="pipeSurHLength">管长度</param>
+        /// <param name="pipeSurRadius">管半径</param>
+        /// <param name="pipeSurThickness">管厚度</param>
+        /// <returns></returns>
         SweepFeature CreatePipeSurp(Face CSideFace,Face pipeStartFace,SketchCircle cylinderInCircle,SketchCircle pipeOutCircle,double pipeSurHDistance,
             double pipeSurHRaidus,double pipeSurHLength,double pipeSurRadius,double pipeSurThickness)
         {
@@ -151,6 +191,17 @@ namespace ParamedModule.HeatSinkSystem
           SweepDefinition def=  Definition.Features.SweepFeatures.CreateSweepDefinition(SweepTypeEnum.kPathSweepType, pipePro,pPath, PartFeatureOperationEnum.kJoinOperation);
         return    Definition.Features.SweepFeatures.Add(def);
         }
+        /// <summary>
+        /// 创建管和管支架阵列、镜像
+        /// </summary>
+        /// <param name="pipe">管特征</param>
+        /// <param name="pipeSur">管支架特征</param>
+        /// <param name="axis">罐中心轴</param>
+        /// <param name="pipeLength">管长度</param>
+        /// <param name="pipeSurNum">单排管支架数量</param>
+        /// <param name="pipeSurDistance">管支架距离管截面距离</param>
+        /// <param name="pipeSurMirPlane">管支架镜像面</param>
+        /// <param name="pipeMirPlane">管镜像面</param>
         void CreatePipeSurMid(ExtrudeFeature pipe,SweepFeature pipeSur,WorkAxis axis,double pipeLength,int pipeSurNum,double pipeSurDistance,WorkPlane pipeSurMirPlane,WorkPlane pipeMirPlane)
         {
             double temp = (pipeLength - pipeSurDistance * 2) / (pipeSurNum - 1);
@@ -173,7 +224,19 @@ namespace ParamedModule.HeatSinkSystem
             Definition.Features.MirrorFeatures.AddByDefinition(PipeDef);
         }
         #endregion
-        void CreateEndLong(Face COutSF, WorkAxis axis, double braceWidth, double braceHeight, double topWidth, double topHeight,
+        /// <summary>
+        /// 创建罐箍
+        /// </summary>
+        /// <param name="COutSF">罐外侧面</param>
+        /// <param name="axis">罐中心轴</param>
+        /// <param name="braceWidth">T型钢支柱宽度</param>
+        /// <param name="braceHeight">T型钢</param>
+        /// <param name="topWidth">T型钢头部宽度</param>
+        /// <param name="topHeight">T型钢头部高度</param>
+        /// <param name="TOffset">T型钢与罐口距离</param>
+        /// <param name="THoopNum">箍数量</param>
+        /// <param name="CLength">罐长度</param>
+        RevolveFeature CreateHoop(Face COutSF, WorkAxis axis, double braceWidth, double braceHeight, double topWidth, double topHeight,
             double TOffset, int THoopNum, double CLength)
         {
             List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(COutSF.Edges.GetEnumerator());
@@ -196,7 +259,17 @@ namespace ParamedModule.HeatSinkSystem
             RectObjc.Add(T);
           RectangularPatternFeatureDefinition def=  Definition.Features.RectangularPatternFeatures.CreateDefinition(RectObjc, axis, true, THoopNum,(CLength - TOffset * 2) / (THoopNum - 1));
             Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            return T;
         }
+        /// <summary>
+        /// 创建T型钢
+        /// </summary>
+        /// <param name="osketch">T型钢草图</param>
+        /// <param name="braceWidth">T型钢支架宽度</param>
+        /// <param name="braceHeight">T型钢支柱高度</param>
+        /// <param name="topWidth">T型钢截面宽度</param>
+        /// <param name="topHeight">截面高度</param>
+        /// <returns></returns>
         List<SketchLine> CreateTSteel(PlanarSketch osketch,double braceWidth,double braceHeight,double topWidth,double topHeight)
         {
           SketchEntitiesEnumerator entitys1=  InventorTool.CreateRangle(osketch, braceWidth, braceHeight);
@@ -207,6 +280,45 @@ namespace ParamedModule.HeatSinkSystem
             InventorTool.AddTwoPointDistance(osketch, lines1[0].StartSketchPoint, lines2[2].EndSketchPoint,0,DimensionOrientationEnum.kAlignedDim ).Parameter.Value= (topWidth - braceWidth) / 2;
           lines1.AddRange(lines2);
             return lines1;
+        }
+        ExtrudeFeature  CreateEndLong(RevolveFeature Hoop,SketchCircle COutCircle,WorkAxis axis,double braceWidth, double braceHeight, double topWidth, double topHeight,double Angle,double CRadius,double EndLongLength)
+        {
+            List<Face> HoopFaces = InventorTool.GetCollectionFromIEnumerator<Face>(Hoop.SideFaces.GetEnumerator());
+            //for (int i = 0; i < HoopFaces.Count; i++)
+            //{
+            //    Definition.iMateDefinitions.AddMateiMateDefinition(HoopFaces[i], 0).Name="a"+i;
+            //}
+            PlanarSketch osketch = Definition.Sketches.Add(HoopFaces[2]);
+            SketchCircle outCircle = (SketchCircle)osketch.AddByProjectingEntity(COutCircle);
+            outCircle.Construction = true;
+           List<SketchLine> lines= CreateTSteel(osketch, braceWidth, braceHeight, topWidth, topHeight);
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            foreach (var item in lines)
+            {
+                objc.Add(item);
+            }
+            Point2d p1 = InventorTool.CreatePoint2d(topWidth / 2, CRadius);
+            Point2d p2 = lines[4].EndSketchPoint.Geometry;
+           // Vector2d V = InventorTool.TranGeo.CreateVector2d(p1.X - p2.X, p1.Y - p2.Y);
+            // osketch.MoveSketchObjects(objc,V);
+            lines[4].EndSketchPoint.MoveTo(p1);
+             osketch.GeometricConstraints.AddTangent((SketchEntity)outCircle, (SketchEntity)lines[4]);
+            osketch.RotateSketchObjects(objc, outCircle.CenterSketchPoint.Geometry, Angle/180*Math.PI-Math.PI/2);
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
+            def.SetDistanceExtent(EndLongLength, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+          return  Definition.Features.ExtrudeFeatures.Add(def);
+        }
+        void CreateEndLondMirror(ExtrudeFeature EndLong,WorkAxis Axis, double braceWidth,int EndLongNumber,int HoopNumber)
+        {
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            objc.Add(EndLong);
+            RectangularPatternFeatureDefinition def = Definition.Features.RectangularPatternFeatures.CreateDefinition(objc, Axis, true, HoopNumber - 1, braceWidth);
+            RectangularPatternFeature feature = Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            objc.Add(feature);
+          CircularPatternFeatureDefinition CirCularDef=  Definition.Features.CircularPatternFeatures.CreateDefinition(objc, Axis, true, EndLongNumber, Math.PI*2,true);
+            CirCularDef.Angle = Math.PI * 2;
+            Definition.Features.CircularPatternFeatures.AddByDefinition(CirCularDef);
         }
     }
 }
