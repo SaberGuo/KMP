@@ -36,6 +36,9 @@ namespace ParamedModule.HeatSinkSystem
             par.PipeSurDistance = 15;
             par.PipeSurCurveRadius = 20;
             par.PipeSurLength = 20;
+            par.PipeSurDiameter = 10;
+            par.PipeSurThickness = 2;
+            par.PipeSurNum = 5;
         }
         public override bool CheckParamete()
         {
@@ -51,10 +54,11 @@ namespace ParamedModule.HeatSinkSystem
           ExtrudeFeature cap=  CreateCap(UsMM(par.InDiameter.Value/2 + par.Thickness.Value), UsMM(par.CapThickness), out capEndFace, out CapCircle);
           Face  capSideFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(capSideFace);
-            CreateSlots(capEndFace, CapCircle,Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight));
+            CreateSlots( CapCircle,Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight));
         RevolveFeature pipe= CreatePipe(Axis, Definition.WorkPlanes[3], CapCircle, par.PipeAngle , UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),out pipePlane);
-            CreatePipeSup(pipe,Axis, pipePlane,CapCircle, par.PipeSurDistance, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),
-                UsMM(par.PipeSurLength),UsMM(par.PipeSurCurveRadius));
+         SweepFeature pipeSur=   CreatePipeSup(pipe,Axis, pipePlane,CapCircle, par.PipeSurDistance, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),
+                UsMM(par.PipeSurLength),UsMM(par.PipeSurCurveRadius),UsMM(par.PipeSurDiameter/2),UsMM(par.PipeSurThickness),capEndFace);
+            CreatePipeSurMirror(pipe,pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
         }
         #region 创建槽
         ExtrudeFeature CreateCap(double radius,double thickness,out Face EndFace,out SketchCircle circle)
@@ -64,11 +68,11 @@ namespace ParamedModule.HeatSinkSystem
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kNewBodyOperation);
             ExtrudeFeature feature= Definition.Features.ExtrudeFeatures.Add(def);
-            EndFace = InventorTool.GetFirstFromIEnumerator<Face>(feature.EndFaces.GetEnumerator());
+            EndFace = InventorTool.GetFirstFromIEnumerator<Face>(feature.StartFaces.GetEnumerator());
             return feature;
 
         }
-        void CreateSlots(Face capEndFace,SketchCircle capCircle,WorkAxis Axis,double SlotOffset,double slotThickness,double slotWidth,double slotHeight)
+        void CreateSlots(SketchCircle capCircle,WorkAxis Axis,double SlotOffset,double slotThickness,double slotWidth,double slotHeight)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
             SketchLine line = (SketchLine)osketch.AddByProjectingEntity(capCircle);
@@ -186,8 +190,8 @@ namespace ParamedModule.HeatSinkSystem
             Profile pro = osketch.Profiles.AddForSolid();
           return  Definition.Features.RevolveFeatures.AddByAngle(pro, Axis, Angle / 180 * Math.PI, PartFeatureExtentDirectionEnum.kNegativeExtentDirection, PartFeatureOperationEnum.kNewBodyOperation);
         }
-        void CreatePipeSup(RevolveFeature pipe,WorkAxis Axis,WorkPlane pipePlane, SketchCircle circle, double Angle, double radius, double thickness, double pipeXOffset, double pipeYOffset,
-            double pipeSupLength,double pipeSurHRaidus)
+        SweepFeature CreatePipeSup(RevolveFeature pipe,WorkAxis Axis,WorkPlane pipePlane, SketchCircle circle, double Angle, double radius, double thickness, double pipeXOffset, double pipeYOffset,
+            double pipeSupLength,double pipeSurHRaidus,double PipeSurRadius,double pipeSurThickness,Face CapEndFace)
         {
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.EndFaces.GetEnumerator());
             WorkPlane pipeSupPlane = Definition.WorkPlanes.AddByLinePlaneAndAngle(Axis, pipePlane, -Angle/180*Math.PI,true);
@@ -201,6 +205,7 @@ namespace ParamedModule.HeatSinkSystem
           //  Point2d lineStart = InventorTool.CreatePoint2d(center.X , center.Y- pipeOutCircle.Radius);
             Point2d lineEnd = InventorTool.CreatePoint2d(center.X, center.Y- pipeSupLength- pipeOutCircle.Radius);
             SketchLine line = osketch.SketchLines.AddByTwoPoints(pipeOutCircle.CenterSketchPoint, lineEnd);
+
             //osketch.GeometricConstraints.AddCoincident((SketchEntity)line.StartSketchPoint, (SketchEntity)pipeOutCircle);
 
             Point2d arcCente = InventorTool.CreatePoint2d(0,-circle.Radius);
@@ -215,6 +220,41 @@ namespace ParamedModule.HeatSinkSystem
             
             osketch.GeometricConstraints.AddHorizontal((SketchEntity)VLine);
             osketch.GeometricConstraints.AddCoincident((SketchEntity)VLine.EndSketchPoint, (SketchEntity)capLine);
+
+            PlanarSketch pipesketch = Definition.Sketches.Add(CapEndFace);
+           SketchPoint pipeCenter=(SketchPoint)  pipesketch.AddByProjectingEntity(VLine);
+            SketchCircle pipeCircle1 = pipesketch.SketchCircles.AddByCenterRadius(pipeCenter, PipeSurRadius);
+            SketchCircle pipeCircle2 = pipesketch.SketchCircles.AddByCenterRadius(pipeCenter, PipeSurRadius+pipeSurThickness);
+            Profile pipePro = pipesketch.Profiles.AddForSolid();
+            Path pPath = Definition.Features.CreatePath(line);
+            SweepDefinition def = Definition.Features.SweepFeatures.CreateSweepDefinition(SweepTypeEnum.kPathSweepType, pipePro, pPath, PartFeatureOperationEnum.kNewBodyOperation);
+            return Definition.Features.SweepFeatures.Add(def);
+
+        }
+        void CreatePipeSurMirror(RevolveFeature pipe,SweepFeature pipeSur,WorkAxis Axis,double PipeAngle,double FirstSurAngle,int PipeSurNumber)
+        {
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            objc.Add(pipeSur);
+            double angle = (PipeAngle - FirstSurAngle * 2) ;
+           CircularPatternFeatureDefinition circular= Definition.Features.CircularPatternFeatures.CreateDefinition(objc, Axis, false, PipeSurNumber, angle, true);
+            circular.Angle = angle;
+            circular.PositioningMethod = PatternPositioningMethodEnum.kFittedPositioningMethod;
+            circular.Operation = PartFeatureOperationEnum.kNewBodyOperation;
+            CircularPatternFeature cir= Definition.Features.CircularPatternFeatures.AddByDefinition(circular);
+            objc.Add(cir);
+            objc.Add(pipe);
+            MirrorFeatureDefinition MirrorDef = Definition.Features.MirrorFeatures.CreateDefinition(objc, Definition.WorkPlanes[2],PatternComputeTypeEnum.kAdjustToModelCompute);
+            Definition.Features.MirrorFeatures.AddByDefinition(MirrorDef);
+            #region 切割
+            //Face pipeFirstFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.StartFaces.GetEnumerator());
+            //Face pipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.EndFaces.GetEnumerator());
+            //List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(pipeFirstFace.Edges.GetEnumerator());
+            //PlanarSketch osketh = Definition.Sketches.Add(pipeFirstFace);
+            //osketh.AddByProjectingEntity(edges[0]);
+            //Profile pro = osketh.Profiles.AddForSolid();
+            //SketchLine line = (SketchLine)osketh.AddByProjectingEntity(Axis);
+            //RevolveFeature clear = Definition.Features.RevolveFeatures.AddByAngle(pro, line, 120 / 180 * Math.PI, PartFeatureExtentDirectionEnum.kNegativeExtentDirection, PartFeatureOperationEnum.kCutOperation);
+            #endregion
         }
     }
 }

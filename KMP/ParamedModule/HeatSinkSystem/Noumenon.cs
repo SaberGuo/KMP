@@ -183,10 +183,10 @@ namespace ParamedModule.HeatSinkSystem
             pipeSketch.SketchCircles.AddByCenterRadius(pipeCenter, pipeSurRadius);
             pipeSketch.SketchCircles.AddByCenterRadius(pipeCenter, pipeSurRadius + pipeSurThickness);
             Profile pipePro = pipeSketch.Profiles.AddForSolid();
-            ObjectCollection objc = InventorTool.CreateObjectCollection();
-            objc.Add(line);
-            objc.Add(arc);
-            objc.Add(VLine);
+            //ObjectCollection objc = InventorTool.CreateObjectCollection();
+            //objc.Add(line);
+            //objc.Add(arc);
+            //objc.Add(VLine);
             Path pPath= Definition.Features.CreatePath(line);
           SweepDefinition def=  Definition.Features.SweepFeatures.CreateSweepDefinition(SweepTypeEnum.kPathSweepType, pipePro,pPath, PartFeatureOperationEnum.kJoinOperation);
         return    Definition.Features.SweepFeatures.Add(def);
