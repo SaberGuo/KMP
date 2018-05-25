@@ -8,8 +8,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
   public  class ParNoumenon:ParameterBase
     {
         #region
-        PassedParameter inDiameter = new PassedParameter();
-        PassedParameter thickness=new PassedParameter();
+        PassedParameter inDiameter ;
+        PassedParameter thickness;
         double length;
         [Browsable(false)]
         [DisplayName("热沉罐内半径")]
@@ -59,7 +59,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double pipeLength;
         double pipeDistance;
         double pipeOffset;
-    
+        [Category("管道")]
         [DisplayName("管值径")]
         public double PipeDiameter
         {
@@ -73,6 +73,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeDiameter = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管厚度")]
         public double PipeThickness
         {
@@ -86,6 +87,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeThickness = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管长度")]
         public double PipeLength
         {
@@ -99,6 +101,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeLength = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管与罐口距离")]
         public double PipeDistance
         {
@@ -112,6 +115,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeDistance = value;
             }
         }
+        [Category("管道")]
         [DisplayName("罐与罐中心距离")]
         public double PipeOffset
         {
@@ -127,7 +131,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         }
         #endregion
         #region 罐内管支撑
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑直径")]
         public double PipeSurDiameter
         {
@@ -141,7 +145,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDiameter = value;
             }
         }
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑厚度")]
         public double PipeSurThickness
         {
@@ -155,7 +159,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurThickness = value;
             }
         }
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑与管口距离")]
         public double PipeSurDistance
         {
@@ -169,7 +173,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDistance = value;
             }
         }
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑水平距离")]
         public double PipeSurLength
         {
@@ -183,7 +187,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurLength = value;
             }
         }
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑弯曲半径")]
         public double PipeSurCurveRadius
         {
@@ -197,7 +201,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurCurveRadius = value;
             }
         }
-        [Category("内管")]
+        [Category("管支撑")]
         [DisplayName("管支撑数量")]
         public int PipeSurNum
         {

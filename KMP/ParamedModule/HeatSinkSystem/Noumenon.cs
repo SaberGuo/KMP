@@ -7,16 +7,19 @@ using Inventor;
 using Infranstructure.Tool;
 using System.ComponentModel.Composition;
 using KMP.Interface;
+using KMP.Interface.Model;
 namespace ParamedModule.HeatSinkSystem
 {
-    [Export("Noumenon", typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[Export("Noumenon", typeof(IParamedModule))]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Noumenon : PartModulebase
     {
         internal ParNoumenon par = new ParNoumenon();
-        public Noumenon() : base()
+        public Noumenon(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;
+            par.InDiameter = inDiameter;
+            par.Thickness = thickness;
             init();
         }
         void init()
@@ -61,17 +64,21 @@ namespace ParamedModule.HeatSinkSystem
             ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InDiameter.Value/2),UsMM(par.Thickness.Value),UsMM(par.Length),out inCircle,out outCircle);
             Face CStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.StartFaces.GetEnumerator());
             Face CEndFace= InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
+            Definition.iMateDefinitions.AddMateiMateDefinition(CStartFace, 0).Name="StartFace";
+            Definition.iMateDefinitions.AddMateiMateDefinition(CEndFace, 0).Name="EndFace";
             List<Face> CSideFace= InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(CSideFace[0]);
+            Definition.iMateDefinitions.AddMateiMateDefinition(axis, 0).Name="Axis";
           ExtrudeFeature pipe=  CreatePipe(CStartFace, inCircle, UsMM(par.PipeLength), UsMM(par.PipeDiameter/2), UsMM(par.PipeThickness), UsMM(par.PipeDistance), UsMM(par.PipeOffset),out pipeOutCircle);
             Face pipeStartFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.StartFaces.GetEnumerator());
             SweepFeature pipeSur = CreatePipeSurp(CSideFace[0],pipeStartFace, inCircle, pipeOutCircle,UsMM( par.PipeSurDistance), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurLength), UsMM(par.PipeSurDiameter/2), UsMM(par.PipeSurThickness));
             CreatePipeSurMid(pipe,pipeSur, axis, UsMM(par.PipeLength), par.PipeSurNum, UsMM(par.PipeSurDistance), Definition.WorkPlanes[3],Definition.WorkPlanes[2]);
 
            RevolveFeature Hoop=  CreateHoop(CSideFace[1],axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset),par.THoopNumber,UsMM(par.Length));
-            double endloopLength = UsMM(par.Length-par.THoopOffset*2);
-           ExtrudeFeature endLong=  CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight),par.EndLongAngle,UsMM(par.InDiameter.Value/2+par.Thickness.Value),endloopLength);
-            CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber);
+            double endloopLength = UsMM(par.Length-par.THoopOffset*2)/(par.THoopNumber-1)-UsMM(par.TBrachWidth);
+           ExtrudeFeature endLong=  CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), 
+               UsMM(par.TTopHeight),par.EndLongAngle,UsMM(par.InDiameter.Value/2+par.Thickness.Value),endloopLength);
+            CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber, endloopLength);
         }
         #region 创建罐体和罐内管道
         /// <summary>
@@ -188,8 +195,9 @@ namespace ParamedModule.HeatSinkSystem
             //objc.Add(arc);
             //objc.Add(VLine);
             Path pPath= Definition.Features.CreatePath(line);
-          SweepDefinition def=  Definition.Features.SweepFeatures.CreateSweepDefinition(SweepTypeEnum.kPathSweepType, pipePro,pPath, PartFeatureOperationEnum.kJoinOperation);
-        return    Definition.Features.SweepFeatures.Add(def);
+            //  SweepDefinition def=  Definition.Features.SweepFeatures.CreateSweepDefinition(SweepTypeEnum.kPathSweepType, pipePro,pPath, PartFeatureOperationEnum.kJoinOperation);
+            //return    Definition.Features.SweepFeatures.Add(def);
+            return Definition.Features.SweepFeatures.AddUsingPath(pipePro, pPath, PartFeatureOperationEnum.kJoinOperation);
         }
         /// <summary>
         /// 创建管和管支架阵列、镜像
@@ -207,21 +215,24 @@ namespace ParamedModule.HeatSinkSystem
             double temp = (pipeLength - pipeSurDistance * 2) / (pipeSurNum - 1);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(pipeSur);
-          RectangularPatternFeatureDefinition def=  Definition.Features.RectangularPatternFeatures.CreateDefinition(objc, axis, true, pipeSurNum, temp);
-          RectangularPatternFeature feature=  Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            //RectangularPatternFeatureDefinition def=  Definition.Features.RectangularPatternFeatures.CreateDefinition(objc, axis, true, pipeSurNum, temp);
+            //RectangularPatternFeature feature=  Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            RectangularPatternFeature feature = Definition.Features.RectangularPatternFeatures.Add(objc, axis, true, pipeSurNum, temp,PatternSpacingTypeEnum.kDefault,null,null,true,null,null,PatternSpacingTypeEnum.kDefault,null,PatternComputeTypeEnum.kAdjustToModelCompute);
             ObjectCollection MirObj = InventorTool.CreateObjectCollection();
             MirObj.Add(pipeSur);
             MirObj.Add(feature);
-          MirrorFeatureDefinition mirr=  Definition.Features.MirrorFeatures.CreateDefinition(MirObj, pipeSurMirPlane,PatternComputeTypeEnum.kAdjustToModelCompute);
-          MirrorFeature pipeSurs=  Definition.Features.MirrorFeatures.AddByDefinition(mirr);
+            //MirrorFeatureDefinition mirr=  Definition.Features.MirrorFeatures.CreateDefinition(MirObj, pipeSurMirPlane,PatternComputeTypeEnum.kAdjustToModelCompute);
+            //MirrorFeature pipeSurs=  Definition.Features.MirrorFeatures.AddByDefinition(mirr);
+            MirrorFeature pipeSurs = Definition.Features.MirrorFeatures.Add(MirObj, pipeSurMirPlane, false, PatternComputeTypeEnum.kAdjustToModelCompute);
             ObjectCollection pipeMirObj = InventorTool.CreateObjectCollection();
             pipeMirObj.Add(pipeSur);
             pipeMirObj.Add(feature);
             pipeMirObj.Add(pipeSurs);
             pipeMirObj.Add(pipe);
 
-            MirrorFeatureDefinition PipeDef = Definition.Features.MirrorFeatures.CreateDefinition(pipeMirObj, pipeMirPlane,PatternComputeTypeEnum.kAdjustToModelCompute);
-            Definition.Features.MirrorFeatures.AddByDefinition(PipeDef);
+            //MirrorFeatureDefinition PipeDef = Definition.Features.MirrorFeatures.CreateDefinition(pipeMirObj, pipeMirPlane,PatternComputeTypeEnum.kAdjustToModelCompute);
+            //Definition.Features.MirrorFeatures.AddByDefinition(PipeDef);
+            Definition.Features.MirrorFeatures.Add(pipeMirObj, pipeMirPlane, false, PatternComputeTypeEnum.kAdjustToModelCompute);
         }
         #endregion
         /// <summary>
@@ -243,7 +254,7 @@ namespace ParamedModule.HeatSinkSystem
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2],true);
           SketchLine line1=(SketchLine)  osketch.AddByProjectingEntity(edges[0]);
             SketchLine line2 = (SketchLine)osketch.AddByProjectingEntity(edges[1]);
-            SketchLine line3 = osketch.SketchLines.AddByTwoPoints(line1.EndSketchPoint, line2.StartSketchPoint);
+            SketchLine line3 = osketch.SketchLines.AddByTwoPoints(line1.StartSketchPoint, line2.StartSketchPoint);
           List<SketchLine> lines=  CreateTSteel(osketch, braceWidth, braceHeight, topWidth, topHeight);
             osketch.GeometricConstraints.AddCollinear((SketchEntity)line3, (SketchEntity)lines[2]);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
@@ -257,8 +268,9 @@ namespace ParamedModule.HeatSinkSystem
             RevolveFeature T = Definition.Features.RevolveFeatures.AddFull(pro, axis, PartFeatureOperationEnum.kNewBodyOperation);
             ObjectCollection RectObjc = InventorTool.CreateObjectCollection();
             RectObjc.Add(T);
-          RectangularPatternFeatureDefinition def=  Definition.Features.RectangularPatternFeatures.CreateDefinition(RectObjc, axis, true, THoopNum,(CLength - TOffset * 2) / (THoopNum - 1));
-            Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            /*RectangularPatternFeatureDefinition def=*/
+            Definition.Features.RectangularPatternFeatures.Add(RectObjc, axis, true, THoopNum,(CLength - TOffset * 2) / (THoopNum - 1));
+           // Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
             return T;
         }
         /// <summary>
@@ -306,19 +318,21 @@ namespace ParamedModule.HeatSinkSystem
             osketch.RotateSketchObjects(objc, outCircle.CenterSketchPoint.Geometry, Angle/180*Math.PI-Math.PI/2);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
-            def.SetDistanceExtent(EndLongLength, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            def.SetDistanceExtent(EndLongLength, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
           return  Definition.Features.ExtrudeFeatures.Add(def);
         }
-        void CreateEndLondMirror(ExtrudeFeature EndLong,WorkAxis Axis, double braceWidth,int EndLongNumber,int HoopNumber)
+        void CreateEndLondMirror(ExtrudeFeature EndLong,WorkAxis Axis, double braceWidth,int EndLongNumber,int HoopNumber,double endloopLength)
         {
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(EndLong);
-            RectangularPatternFeatureDefinition def = Definition.Features.RectangularPatternFeatures.CreateDefinition(objc, Axis, true, HoopNumber - 1, braceWidth);
-            RectangularPatternFeature feature = Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            //RectangularPatternFeatureDefinition def = Definition.Features.RectangularPatternFeatures.CreateDefinition(objc, Axis, true, HoopNumber - 1, braceWidth);
+            //RectangularPatternFeature feature = Definition.Features.RectangularPatternFeatures.AddByDefinition(def);
+            RectangularPatternFeature feature = Definition.Features.RectangularPatternFeatures.Add(objc, Axis, true, HoopNumber - 1, braceWidth+ endloopLength, PatternSpacingTypeEnum.kDefault,null,null,true,null,null,PatternSpacingTypeEnum.kDefault,null,PatternComputeTypeEnum.kAdjustToModelCompute);
             objc.Add(feature);
-          CircularPatternFeatureDefinition CirCularDef=  Definition.Features.CircularPatternFeatures.CreateDefinition(objc, Axis, true, EndLongNumber, Math.PI*2,true);
-            CirCularDef.Angle = Math.PI * 2;
-            Definition.Features.CircularPatternFeatures.AddByDefinition(CirCularDef);
+            //CircularPatternFeatureDefinition CirCularDef=  Definition.Features.CircularPatternFeatures.CreateDefinition(objc, Axis, true, EndLongNumber, Math.PI*2,true);
+            //  CirCularDef.Angle = Math.PI * 2;
+            //  Definition.Features.CircularPatternFeatures.AddByDefinition(CirCularDef);
+            Definition.Features.CircularPatternFeatures.Add(objc, Axis, true, EndLongNumber, Math.PI * 2,true,PatternComputeTypeEnum.kAdjustToModelCompute);
         }
     }
 }

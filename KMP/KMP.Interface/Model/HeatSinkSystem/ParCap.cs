@@ -8,8 +8,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
    public class ParCap:ParameterBase
     {
         #region
-        PassedParameter inDiameter = new PassedParameter();
-        PassedParameter thickness=new PassedParameter();
+        PassedParameter inDiameter ;
+        PassedParameter thickness;
         double capThickness;
         double slotThickness;
         double slotHight;
@@ -56,6 +56,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 capThickness = value;
             }
         }
+        [Category("槽")]
         [DisplayName("槽厚度")]
         public double SlotThickness
         {
@@ -69,6 +70,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotThickness = value;
             }
         }
+        [Category("槽")]
         [DisplayName("槽高度")]
         public double SlotHight
         {
@@ -82,6 +84,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotHight = value;
             }
         }
+        [Category("槽")]
         [DisplayName("槽宽度")]
         public double SlotWide
         {
@@ -95,6 +98,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotWide = value;
             }
         }
+        [Category("槽")]
         [DisplayName("圆槽与门边距离")]
         public double SlotOffset
         {
@@ -109,11 +113,13 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
+        #region
         double pipeAngle;
         double pipeDiameter;
         double pipeThickness;
         double pipeYOffset;
         double pipeXOffset;
+        [Category("管道")]
         [DisplayName("管总角度")]
         public double PipeAngle
         {
@@ -127,6 +133,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeAngle = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管内直径")]
         public double PipeDiameter
         {
@@ -140,6 +147,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeDiameter = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管厚度")]
         public double PipeThickness
         {
@@ -153,6 +161,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeThickness = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管中心与门边距离")]
         public double PipeYOffset
         {
@@ -166,6 +175,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeYOffset = value;
             }
         }
+        [Category("管道")]
         [DisplayName("管中心与门面距离")]
         public double PipeXOffset
         {
@@ -179,9 +189,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeXOffset = value;
             }
         }
+        #endregion
         #region 罐内管支撑
 
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("管支撑直径")]
         public double PipeSurDiameter
         {
@@ -195,7 +206,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDiameter = value;
             }
         }
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("管支撑厚度")]
         public double PipeSurThickness
         {
@@ -209,7 +220,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurThickness = value;
             }
         }
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("首个支撑与管口角度")]
         public double PipeSurDistance
         {
@@ -223,7 +234,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDistance = value;
             }
         }
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("管支撑水平距离")]
         public double PipeSurLength
         {
@@ -237,7 +248,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurLength = value;
             }
         }
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("管支撑弯曲半径")]
         public double PipeSurCurveRadius
         {
@@ -251,7 +262,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurCurveRadius = value;
             }
         }
-        [Category("内管")]
+        [Category("管支架")]
         [DisplayName("管支撑数量")]
         public int PipeSurNum
         {
@@ -266,7 +277,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
 
-    
+   
 
         double pipeSurDiameter;
         double pipeSurThickness;
@@ -274,6 +285,162 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double pipeSurLength;
         double pipeSurCurveRadius;
         int pipeSurNum;
+        #endregion
+        #region
+        double titleHeigh;
+        double titleWidth;
+        double titleOffset;
+        double titleLength;
+        [Category("独板")]
+        [DisplayName("厚度")]
+        public double TitleHeigh
+        {
+            get
+            {
+                return titleHeigh;
+            }
+
+            set
+            {
+                titleHeigh = value;
+            }
+        }
+        [Category("独板")]
+        [DisplayName("宽度")]
+        public double TitleWidth
+        {
+            get
+            {
+                return titleWidth;
+            }
+
+            set
+            {
+                titleWidth = value;
+            }
+        }
+        [Category("独板")]
+        [DisplayName("与底板距离")]
+        public double TitleOffset
+        {
+            get
+            {
+                return titleOffset;
+            }
+
+            set
+            {
+                titleOffset = value;
+            }
+        }
+        [Category("独板")]
+        [DisplayName("长度")]
+        public double TitleLength
+        {
+            get
+            {
+                return titleLength;
+            }
+
+            set
+            {
+                titleLength = value;
+            }
+        }
+
+
+        #endregion
+        #region 插头
+        double plugWidth;
+        double plugHeight;
+        double plugLenght;
+        double plugOffset;
+        double plugHoleDiameter;
+        double plugHoleDistance;
+        [Category("插头")]
+        [DisplayName("宽度")]
+        public double PlugWidth
+        {
+            get
+            {
+                return plugWidth;
+            }
+
+            set
+            {
+                plugWidth = value;
+            }
+        }
+        [Category("插头")]
+        [DisplayName("厚度")]
+        public double PlugHeight
+        {
+            get
+            {
+                return plugHeight;
+            }
+
+            set
+            {
+                plugHeight = value;
+            }
+        }
+        [Category("插头")]
+        [DisplayName("两片间距离")]
+        public double PlugOffset
+        {
+            get
+            {
+                return plugOffset;
+            }
+
+            set
+            {
+                plugOffset = value;
+            }
+        }
+        [Category("插头")]
+        [DisplayName("孔直径")]
+        public double PlugHoleDiameter
+        {
+            get
+            {
+                return plugHoleDiameter;
+            }
+
+            set
+            {
+                plugHoleDiameter = value;
+            }
+        }
+        [Category("插头")]
+        [DisplayName("孔与插头边距离")]
+        public double PlugHoleDistance
+        {
+            get
+            {
+                return plugHoleDistance;
+            }
+
+            set
+            {
+                plugHoleDistance = value;
+            }
+        }
+        [Category("插头")]
+        [DisplayName("长度")]
+        public double PlugLenght
+        {
+            get
+            {
+                return plugLenght;
+            }
+
+            set
+            {
+                plugLenght = value;
+            }
+        }
         #endregion
     }
 }

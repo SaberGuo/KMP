@@ -33,6 +33,9 @@ namespace ParameterService
                     case "ParCap":
                         item.CreateModule();
                         break;
+                    case "ParHeatSink":
+                        item.CreateModule();
+                        break;
                     default:
                         break;
                 }
