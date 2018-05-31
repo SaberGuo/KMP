@@ -6,7 +6,7 @@ using KMP.Interface;
 using KMP.Interface.Model.Container;
 using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
-
+using Infranstructure.Tool;
 namespace ParameterService
 {
     [Export(typeof(IModuleService))]
@@ -18,6 +18,7 @@ namespace ParameterService
         public ModuleService()
         {
             list = ServiceLocator.Current.GetAllInstances<IParamedModule>().ToList();
+            assemsly= list.Where(a => a.Parameter.GetType().Name == "ParContainerSystem").FirstOrDefault();
          
         }
         IParamedModule assemsly;
@@ -34,6 +35,9 @@ namespace ParameterService
                         item.CreateModule();
                         break;
                     case "ParHeatSink":
+                       // assemsly = item;
+                        break;
+                    case "ParContainerSystem":
                         item.CreateModule();
                         break;
                     default:
@@ -100,6 +104,18 @@ namespace ParameterService
             IParamedModule module = ServiceLocator.Current.GetInstance<IParamedModule>(projType);
             module.ModelPath = projPath;
             return module;
+        }
+        public void Serialization()
+        {
+            //string path = AppDomain.CurrentDomain.BaseDirectory + "aa.xml";
+            //Type t = assemsly.GetType();
+            //XMLDeserializerHelper.Serialization<ParamedModuleBase>(assemsly, path);
+            assemsly.Serialization();
+           
+        }
+        public void DeSerialization()
+        {
+            assemsly.DeSerialization();
         }
     }
 }

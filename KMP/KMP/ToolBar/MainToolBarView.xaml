@@ -84,5 +84,17 @@
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
         </ToolBar>
+        <ToolBar>
+            <xctk:IconButton Command="{x:Static cmd:ModelCommands.SerializationCommand}">
+                <xctk:IconButton.Icon>
+                    <Image Source="../Resources/barchart.png"/>
+                </xctk:IconButton.Icon>
+            </xctk:IconButton>
+            <xctk:IconButton Command="{x:Static cmd:ModelCommands.DeSerializationCommand}">
+                <xctk:IconButton.Icon>
+                    <Image Source="../Resources/barchart.png"/>
+                </xctk:IconButton.Icon>
+            </xctk:IconButton>
+        </ToolBar>
     </DockPanel>
 </UserControl>

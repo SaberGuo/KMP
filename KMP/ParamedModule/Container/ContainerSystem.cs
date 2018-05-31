@@ -13,12 +13,12 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ContainerSystem : AssembleModuleBase
     {
-        ParContainerSystem par = new ParContainerSystem();
-        Cylinder _cylinder;
-        CylinderDoor _cylinderDoor;
-        Pedestal _pedestal;
-        RailSystem _railSystem;
-        PlaneSystem _plane;
+        public ParContainerSystem par = new ParContainerSystem();
+        public Cylinder _cylinder;
+        public CylinderDoor _cylinderDoor;
+        public Pedestal _pedestal;
+        public RailSystem _railSystem;
+        public PlaneSystem _plane;
         [ImportingConstructor]
         public ContainerSystem():base()
         {

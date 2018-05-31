@@ -17,7 +17,7 @@ namespace ParamedModule.Container
 
   public  class RailSupportBrace : PartModulebase
     {
-        internal ParRailSupportBrace par = new ParRailSupportBrace();
+        public ParRailSupportBrace par = new ParRailSupportBrace();
         [ImportingConstructor]
         public RailSupportBrace():base()
         {

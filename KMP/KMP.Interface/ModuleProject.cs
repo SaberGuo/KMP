@@ -36,5 +36,19 @@ namespace KMP.Interface
             }
             
         }
+        public void DeSerialization()
+        {
+            if (this.Count > 0)
+            {
+                this.First().DeSerialization();
+            }
+        }
+        public void Serialization()
+        {
+            if (this.Count > 0)
+            {
+                this.First().Serialization();
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace ParamedModule.Container
    
     public  class Rail: PartModulebase
     {
-       internal ParRail par = new ParRail();
+        public ParRail par = new ParRail();
         [ImportingConstructor]
         public Rail():base()
         {

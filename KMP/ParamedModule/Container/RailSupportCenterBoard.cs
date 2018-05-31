@@ -16,7 +16,7 @@ namespace ParamedModule.Container
 
    public class RailSupportCenterBoard : PartModulebase
     {
-        internal ParRailSupportCenterBoard par = new ParRailSupportCenterBoard();
+        public ParRailSupportCenterBoard par = new ParRailSupportCenterBoard();
         public RailSupportCenterBoard():base()
         {
             this.Parameter = par;

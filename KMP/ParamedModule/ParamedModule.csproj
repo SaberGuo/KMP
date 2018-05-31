@@ -69,6 +69,7 @@
     <Compile Include="HeatSinkSystem\Cap.cs" />
     <Compile Include="HeatSinkSystem\HeatSink.cs" />
     <Compile Include="HeatSinkSystem\Noumenon.cs" />
+    <Compile Include="Laborator.cs" />
     <Compile Include="ParamedModuleBase.cs" />
     <Compile Include="Container\Pedestal.cs" />
     <Compile Include="PartModulebase.cs" />

@@ -13,8 +13,11 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSupport : PartModulebase
     {
-      internal  ParPlaneSupport par = new ParPlaneSupport();
-        [ImportingConstructor]
+        public ParPlaneSupport par = new ParPlaneSupport();
+        public PlaneSupport():base()
+        {
+
+        }
         public PlaneSupport(PassedParameter InRadius):base()
         {
             this.Parameter = par;

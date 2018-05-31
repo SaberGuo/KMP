@@ -7,19 +7,22 @@ using Inventor;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.HeatSinkSystem;
+using System.Xml.Serialization;
 namespace ParamedModule.HeatSinkSystem
 {
-    [Export( typeof(IParamedModule))]
+    [Export("HeaterSystem", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HeatSink : AssembleModuleBase
     {
-        ParHeatSink par = new ParHeatSink();
-        Cap _cap;
-        Noumenon _nomenon;
+        [XmlElement]
+      public  ParHeatSink par = new ParHeatSink();
+        public Cap _cap;
+        public Noumenon _nomenon;
         [ImportingConstructor]
         public HeatSink():base()
         {
             this.Parameter = par;
+            this.Name = "热沉系统";
             _cap = new Cap(par.InDiameter,par.Thickness);
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
             SubParamedModules.Add(_cap);
@@ -57,6 +60,7 @@ namespace ParamedModule.HeatSinkSystem
             Definition.iMateResults.AddByTwoiMates(capAxis2, nomenonAxis);
             Definition.iMateResults.AddByTwoiMates(StartFace, capFace1);
             Definition.iMateResults.AddByTwoiMates(endFace, capFace2);
+            SaveDoc();
         }
     }
 }

@@ -13,9 +13,12 @@ namespace ParamedModule.Container
     public class CylinderDoor : PartModulebase
     {
 
-        ParCylinderDoor par = new ParCylinderDoor();
+        public ParCylinderDoor par = new ParCylinderDoor();
         Dictionary<double, WorkPlane> _sidePlanes = new Dictionary<double, WorkPlane>();
-        [ImportingConstructor]
+       public CylinderDoor():base()
+        {
+
+        }
         public CylinderDoor(PassedParameter InRadius, PassedParameter Thickness) : base()
         {
             this.Name = "罐门";

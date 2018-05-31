@@ -12,9 +12,13 @@ namespace ParamedModule.Container
  
     public class RailSystem : AssembleModuleBase
     {
-      internal  ParRailSystem par = new ParRailSystem();
-        internal Rail rail = new Rail();
-        internal RailSupport support;
+        public ParRailSystem par = new ParRailSystem();
+        public Rail rail = new Rail();
+        public RailSupport support;
+        public RailSystem():base()
+        {
+
+        }
         public RailSystem(PassedParameter InRadius) :base()
         {
             rail = new Rail();

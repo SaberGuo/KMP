@@ -22,7 +22,7 @@ namespace KMP
 
         protected override DependencyObject CreateShell()
         {
-            return this.Container.GetExportedValue<TestWindow>();
+            return this.Container.GetExportedValue<Shell>();
         }
 
         protected override void InitializeShell()

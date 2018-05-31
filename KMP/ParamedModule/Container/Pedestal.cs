@@ -10,12 +10,15 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[Export(typeof(IParamedModule))]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Pedestal : PartModulebase
     {
-        ParPedestal par = new ParPedestal();
-        [ImportingConstructor]
+        public ParPedestal par = new ParPedestal();
+        public Pedestal() : base()
+        {
+
+        }
         public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
             this.Name = "底座";

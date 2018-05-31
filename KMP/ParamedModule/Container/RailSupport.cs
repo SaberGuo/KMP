@@ -16,12 +16,12 @@ namespace ParamedModule.Container
  
    public class RailSupport : AssembleModuleBase
     {
-      internal  ParRailSupport par = new ParRailSupport();
-        internal RailSupportTopBoard topBoard;
-        internal RailSupportSidePlate sidePlate;
-        internal RailSupportCenterBoard centerBoard;
-        internal RailSupportBrace brace;
-        internal RailSupportbaseBoard baseBoard;
+        public ParRailSupport par = new ParRailSupport();
+        public RailSupportTopBoard topBoard;
+        public RailSupportSidePlate sidePlate;
+        public RailSupportCenterBoard centerBoard;
+        public RailSupportBrace brace;
+        public RailSupportbaseBoard baseBoard;
     
         public RailSupport():base()
         {

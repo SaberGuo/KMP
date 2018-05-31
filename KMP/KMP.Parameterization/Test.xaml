@@ -8,6 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="119,110,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="BT_Serializer" Content="序列化" HorizontalAlignment="Left" Margin="119,162,0,0" VerticalAlignment="Top" Width="75" Click="BT_Serializer_Click" />
+        <Button x:Name="BT_DeSerializer" Content="反序列化" HorizontalAlignment="Left" Margin="119,209,0,0" VerticalAlignment="Top" Width="75" Click="BT_DeSerializer_Click" />
 
     </Grid>
 </UserControl>

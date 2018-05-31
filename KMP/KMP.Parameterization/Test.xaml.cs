@@ -36,5 +36,15 @@ namespace KMP.Parameterization
         {
             _moduleService.Create();
         }
+
+        private void BT_Serializer_Click(object sender, RoutedEventArgs e)
+        {
+            _moduleService.Serialization();
+        }
+
+        private void BT_DeSerializer_Click(object sender, RoutedEventArgs e)
+        {
+            _moduleService.DeSerialization();
+        }
     }
 }

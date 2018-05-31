@@ -15,9 +15,13 @@ namespace ParamedModule.Container
 
     public class Cylinder : PartModulebase
     {
-        internal ParCylinder par = new ParCylinder();
+        public ParCylinder par = new ParCylinder();
         Dictionary<double, WorkPlane> _cylinderHolePlanes = new Dictionary<double, WorkPlane>();
         Dictionary<double, WorkPlane> _capHolePlanes = new Dictionary<double, WorkPlane>();
+        public Cylinder():base()
+        {
+
+        }
         public Cylinder(PassedParameter InRadius, PassedParameter Thickness) : base()
         {
             this.Parameter = par;

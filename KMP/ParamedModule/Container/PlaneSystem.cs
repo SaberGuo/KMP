@@ -13,11 +13,14 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSystem : AssembleModuleBase
     {
-        internal ParPlaneSystem par = new ParPlaneSystem();
+        public ParPlaneSystem par = new ParPlaneSystem();
 
-        internal PlaneSupport _planeSup;
-        internal  RailSupportSidePlate _plane;
-        [ImportingConstructor]
+        public PlaneSupport _planeSup;
+        public  RailSupportSidePlate _plane;
+        public PlaneSystem():base()
+        {
+
+        }
         public PlaneSystem(PassedParameter InRadius) :base()
         {
            this.Parameter = par;

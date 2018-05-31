@@ -14,10 +14,15 @@ namespace ParamedModule.HeatSinkSystem
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cap : PartModulebase
     {
-        internal ParCap par = new ParCap();
+        public ParCap par = new ParCap();
+        public Cap():base()
+        {
+
+        }
         public Cap(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;
+            this.Name = "热沉盖";
             par.InDiameter = inDiameter;
             par.Thickness = thickness;
             init();
@@ -77,6 +82,7 @@ namespace ParamedModule.HeatSinkSystem
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
             CreateTitle(SlotOutFace, CapCircle, Axis,UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
             CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight),UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
+            SaveDoc();
         }
         #region 创建槽
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)

@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.ViewModel;
 using System.ComponentModel;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using Microsoft.Practices.ServiceLocation;
-
+using System.Reflection;
 namespace KMP.Interface.Model.Container
 {
   [DisplayName("容器开孔")]
@@ -19,6 +19,28 @@ namespace KMP.Interface.Model.Container
         double holeOffset;
         double pipeThickness;
         ParFlanch parFlanch=new ParFlanch();
+        [DisplayName("法兰公称通径")]
+        [ItemsSource(typeof(ParFlanchSource))]
+        public double FlanchDN
+        {
+            get
+            {
+                return this.flanchDN;
+            }
+            set
+            {
+                this.flanchDN = value;
+                ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
+                Type T = typeof(ParFlanch);
+                PropertyInfo[] propertys = T.GetProperties();
+                foreach (var item in propertys)
+                {
+                    object c = item.GetValue(franch, null);
+                    //object d = item.GetValue(this.ParFlanch, null);
+                    item.SetValue(this.ParFlanch, c, null);
+                }
+            }
+        }
         /// <summary>
         /// 定位角度
         /// </summary>
@@ -108,20 +130,7 @@ namespace KMP.Interface.Model.Container
 
         private double flanchDN = 10;
 
-        [DisplayName("法兰公称通径")]
-        [ItemsSource(typeof(ParFlanchSource))]
-        public double FlanchDN
-        {
-            get
-            {
-                return this.flanchDN;
-            }
-            set
-            {
-                this.flanchDN = value;
-                this.ParFlanch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
-            }
-        }
+      
         [DisplayName("法兰")]
         //[ItemsSource(typeof(ParFlanchSource))]
         public ParFlanch ParFlanch

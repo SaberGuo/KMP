@@ -16,7 +16,8 @@ namespace KMP.Interface
         string ModelPath { get; set; }
         string FullPath { get; }
         string Name { get; set; }
-        ComponentOccurrence Occurrence { get; set; }
+        //ComponentOccurrence Occurrence { get; set; }
+        
         ModuleCollection SubParamedModules { get; set; }
         void CreateModule();
         bool CheckParamete();
@@ -26,7 +27,8 @@ namespace KMP.Interface
         event EventHandler<GeneratorEventArgs> GeneratorChanged;
         event EventHandler<GeneratorEventArgs> ParErrorHappen;
         void GeneratorProgress(object sender, string info);
-
+        void Serialization();
+        void DeSerialization();
         int GetGeneratorCount();
     }
 }

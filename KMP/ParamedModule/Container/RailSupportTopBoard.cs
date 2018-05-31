@@ -14,11 +14,11 @@ namespace ParamedModule.Container
     /// <summary>
     /// 导轨支架顶板
     /// </summary>
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[Export(typeof(IParamedModule))]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class RailSupportTopBoard : PartModulebase
     {
-      internal  ParRailSupportTopBoard par = new ParRailSupportTopBoard();
+        public ParRailSupportTopBoard par = new ParRailSupportTopBoard();
         public RailSupportTopBoard():base()
         {
             this.Parameter = par;

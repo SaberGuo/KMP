@@ -14,10 +14,16 @@ namespace ParamedModule.HeatSinkSystem
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Noumenon : PartModulebase
     {
-        internal ParNoumenon par = new ParNoumenon();
+        public ParNoumenon par = new ParNoumenon();
+
+        public Noumenon():base()
+        {
+
+        }
         public Noumenon(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;
+            this.Name = "热沉罐";
             par.InDiameter = inDiameter;
             par.Thickness = thickness;
             init();
@@ -79,6 +85,7 @@ namespace ParamedModule.HeatSinkSystem
            ExtrudeFeature endLong=  CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), 
                UsMM(par.TTopHeight),par.EndLongAngle,UsMM(par.InDiameter.Value/2+par.Thickness.Value),endloopLength);
             CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber, endloopLength);
+            SaveDoc();
         }
         #region 创建罐体和罐内管道
         /// <summary>
