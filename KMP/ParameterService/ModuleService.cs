@@ -24,26 +24,31 @@ namespace ParameterService
         IParamedModule assemsly;
         public void Create()
         {
-            foreach (var item in list)
-            {
-                switch (item.Parameter.GetType().Name)
-                {
-                    case "ParNoumenon":
-                        item.CreateModule();
-                        break;
-                    case "ParCap":
-                        item.CreateModule();
-                        break;
-                    case "ParHeatSink":
-                       // assemsly = item;
-                        break;
-                    case "ParContainerSystem":
-                        item.CreateModule();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            IParamedModule SS = ServiceLocator.Current.GetInstance<IParamedModule>("ContainerSystem");
+            SS.CreateModule();
+            //foreach (var item in list)
+            //{
+            //    switch (item.Parameter.GetType().Name)
+            //    {
+            //        case "ParNoumenon":
+            //            item.CreateModule();
+            //            break;
+            //        case "ParCap":
+            //            item.CreateModule();
+            //            break;
+            //        case "ParHeatSink":
+            //           // assemsly = item;
+            //            break;
+            //        case "ParContainerSystem":
+            //            item.CreateModule();
+            //            break;
+            //        case "ParCylinder":
+            //             item.CreateModule();
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
             //foreach (var item in list)
             //{
             //    if (item.Parameter == null) continue;

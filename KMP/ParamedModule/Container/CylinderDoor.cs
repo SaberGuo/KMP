@@ -338,7 +338,7 @@ namespace ParamedModule.Container
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace = Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
-            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 + "mm", par.InRadius.Value + par.Thickness.Value + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.ParFlanch.D6 + "mm", par.InRadius.Value + par.Thickness.Value + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             #endregion
             CreateSideHolePipe(plane, holeCenter, parHole);
             //SketchLine positionLine=  osketch.SketchLines.AddByTwoPoints(holeCenter, InventorTool.Origin);
@@ -356,8 +356,8 @@ namespace ParamedModule.Container
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             osketch.Visible = false;
             SketchPoint center = (SketchPoint)osketch.AddByProjectingEntity(holeCenter);
-            SketchCircle circle1 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.HoleRadius));
-            SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.HoleRadius + parHole.PipeThickness));
+            SketchCircle circle1 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.ParFlanch.D6/2));
+            SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.ParFlanch.D6/2 + parHole.PipeThickness));
             Profile pro = osketch.Profiles.AddForSolid();
             foreach (ProfilePath item in pro)
             {
