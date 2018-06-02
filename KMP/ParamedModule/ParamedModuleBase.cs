@@ -80,7 +80,8 @@ namespace ParamedModule
         }
         public void ParErrorChanged(object sender, string info)
         {
-            this.ParErrorHappen(sender, new GeneratorEventArgs { ProgressInfo = info });
+            throw new MyException(this.Name + "参数设置错误 : " + info, ExceptionType.WARNING);
+            //this.ParErrorHappen?.Invoke(sender, new GeneratorEventArgs { ProgressInfo = info });
         }
         public string ModelPath
         {

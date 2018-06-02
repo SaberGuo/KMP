@@ -60,9 +60,21 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-            if (par.HoleRadius >= par.Width / 4) return false;
-            if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
-            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width) return false;
+            if (par.HoleRadius >= par.Width / 4)
+            {
+                ParErrorChanged(this, "螺丝孔太大");
+                return false;
+            }
+            if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width)
+            {
+                ParErrorChanged(this, "螺丝孔与板侧边距离过大");
+                return false;
+            }
+            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width)
+            {
+                ParErrorChanged(this, "螺丝孔与板顶边距离过大");
+                return false;
+            }
             if (!CheckParZero()) return false;
             return true;
         }

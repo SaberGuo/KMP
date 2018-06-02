@@ -52,10 +52,10 @@ namespace ParamedModule.Container
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
             ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100, PipeThickness = 2 };
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100, PipeThickness = 2 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200, PipeThickness = 2 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150, PipeThickness = 2 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
+            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, PipeThickness = 2 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300,  PipeThickness = 2 };
             hole.ParFlanch = parflanch1;
             hole1.ParFlanch = parflanch1;
             hole2.ParFlanch = parflanch1;
@@ -65,7 +65,7 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
             #region 堵头顶孔
-            ParCylinderHole CapHole = new ParCylinderHole() { HoleRadius = 200, PipeLenght = 300, PipeThickness = 4 };
+            ParCylinderHole CapHole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.CapTopHole = CapHole;
@@ -76,8 +76,8 @@ namespace ParamedModule.Container
             //  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             // ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
             //  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole4 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole5 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParCylinderHole ParSideHole4 = new ParCylinderHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParCylinderHole ParSideHole5 = new ParCylinderHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             //   ParSideHole.ParFlanch = sideFlanch;
             //  ParSideHole1.ParFlanch = sideFlanch;
             //   ParSideHole2.ParFlanch = sideFlanch;
@@ -990,18 +990,19 @@ namespace ParamedModule.Container
             for (int i = 0; i < par.ParHoles.Count; i++)
             {
                 var item = par.ParHoles[i];
-                if (item.HoleOffset > par.InRadius.Value - item.HoleRadius)
+                if (item.HoleOffset > par.InRadius.Value - item.ParFlanch.D1/2)
                 {
                     ParErrorChanged(this, "孔的偏移量和孔的半径大于罐的半径");
                     return false;
                 }
-                if (item.PositionDistance >= par.Length - item.HoleRadius)
+                if (item.PositionDistance >= par.Length - item.ParFlanch.D1 / 2)
                 {
                     ParErrorChanged(this, "孔距离罐口值和孔的半径大于罐的长度");
                     return false;
                 }
-                if (item.PositionAngle < 0 && item.PositionAngle > 360)
+                if (item.PositionAngle < 0 || item.PositionAngle > 360)
                 {
+                     
                     ParErrorChanged(this, "孔的角度位置超出范围");
                     return false;
                 }

@@ -60,7 +60,50 @@ namespace ParamedModule.HeatSinkSystem
         }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            double Radius = par.InDiameter.Value / 2 + par.Thickness.Value;//盖子半径
+            if (!CheckParZero()) return false;
+            if(par.PipeAngle<0||par.PipeAngle>90)
+            {
+                ParErrorChanged(this, "管道角度超出范围");
+                return false;
+            }
+            if(par.PipeYOffset<=par.PipeDiameter/2)
+            {
+                ParErrorChanged(this, "管道直径大于管道与盖面的距离的两倍！");
+                return false;
+            }
+            if(par.PipeXOffset+par.PipeDiameter/2>=par.SlotOffset-par.SlotWide/2)
+            {
+                ParErrorChanged(this, "管道与圆槽相交");
+                return false;
+            }
+            if (par.PipeSurDiameter >= par.PipeSurDiameter||par.PipeSurDiameter+par.PipeSurThickness*2>par.PipeDiameter+par.PipeThickness*2)
+            {
+                ParErrorChanged(this, "管道支架横截面直径大于管道横截面直径！");
+                return false;
+            }
+             if((par.PipeDiameter/2+par.PipeThickness+par.PipeSurLength+par.PipeSurCurveRadius+par.PipeSurDiameter/2+par.PipeSurThickness)> par.PipeXOffset)
+            {
+                ParErrorChanged(this, "管道支架距离盖中心过远！");
+                return false;
+            }
+             if(par.PipeSurNum<3)
+            {
+                ParErrorChanged(this, "管道支架数量过小！");
+                return false;
+            }
+             if(((par.PipeAngle-par.PipeSurDiameter*2)/par.PipeSurNum)/180*Math.PI*(Radius-par.PipeXOffset) <=(par.PipeSurThickness*2+par.PipeSurDiameter))
+                {
+                ParErrorChanged(this, "管道间放不下"+par.PipeSurNum+"个支架！");
+                return false;
+            }
+            if ((par.SlotOffset+par.SlotWide+par.SlotThickness*2)> Radius)
+            {
+                ParErrorChanged(this, "槽宽度和槽与门边的距离和大于盖半径！");
+                return false;
+            }
+
+            return true;
         }
 
         public override void CreateModule()
@@ -203,6 +246,19 @@ namespace ParamedModule.HeatSinkSystem
         }
         #endregion
         #region 创建管
+        /// <summary>
+        /// 创建管道
+        /// </summary>
+        /// <param name="Axis">盖子中心轴</param>
+        /// <param name="plane">管道开始面的基面</param>
+        /// <param name="circle">盖子圆草图</param>
+        /// <param name="Angle">管道角度大小</param>
+        /// <param name="radius">管道内半径</param>
+        /// <param name="thickness">管道壁厚</param>
+        /// <param name="pipeXOffset">管中心与门面距离</param>
+        /// <param name="pipeYOffset">管中心与门边距离</param>
+        /// <param name="pipePlane">管道开始面</param>
+        /// <returns>管道特征</returns>
         RevolveFeature CreatePipe(WorkAxis Axis, WorkPlane plane, SketchCircle circle, double Angle, double radius, double thickness, double pipeXOffset, double pipeYOffset, out WorkPlane pipePlane)
         {
             pipePlane = Definition.WorkPlanes.AddByLinePlaneAndAngle(Axis, plane, Angle / 360 * Math.PI, true);
@@ -216,6 +272,24 @@ namespace ParamedModule.HeatSinkSystem
             Profile pro = osketch.Profiles.AddForSolid();
             return Definition.Features.RevolveFeatures.AddByAngle(pro, Axis, Angle / 180 * Math.PI, PartFeatureExtentDirectionEnum.kNegativeExtentDirection, PartFeatureOperationEnum.kNewBodyOperation);
         }
+        /// <summary>
+        /// 创建管道支架
+        /// </summary>
+        /// <param name="pipe">管道特征</param>
+        /// <param name="Axis">盖中心轴</param>
+        /// <param name="pipePlane">管道开始面</param>
+        /// <param name="circle">管道外圆草图</param>
+        /// <param name="Angle">管道角度</param>
+        /// <param name="radius">管道半径</param>
+        /// <param name="thickness">管厚度</param>
+        /// <param name="pipeXOffset">管中心与门边距离</param>
+        /// <param name="pipeYOffset">管中心与门面距离</param>
+        /// <param name="pipeSupLength">管道支架水平长度</param>
+        /// <param name="pipeSurHRaidus">管道支架弯转圆半径</param>
+        /// <param name="PipeSurRadius">管道支架半径</param>
+        /// <param name="pipeSurThickness">管道支架壁厚</param>
+        /// <param name="CapEndFace">盖子开始面</param>
+        /// <returns></returns>
         SweepFeature CreatePipeSup(RevolveFeature pipe, WorkAxis Axis, WorkPlane pipePlane, SketchCircle circle, double Angle, double radius, double thickness, double pipeXOffset, double pipeYOffset,
             double pipeSupLength, double pipeSurHRaidus, double PipeSurRadius, double pipeSurThickness, Face CapEndFace)
         {

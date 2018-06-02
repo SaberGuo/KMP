@@ -31,7 +31,7 @@ namespace ParamedModule.Container
             par.Width = 120;
             par.Thickness = 20;
             par.HoleCenterDistance = 10;
-            par.HoleRadius = 5.5;
+            par.HoleDiameter = 11;
             par.HoleSideEdgeDistance =15;
             par.HoleTopEdgeDistance = 15;
         }
@@ -41,7 +41,7 @@ namespace ParamedModule.Container
             CreateDoc();
            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition,osketch, UsMM(par.Width), UsMM(par.Width ), UsMM(par.Thickness),
-                UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleRadius ));
+                UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleDiameter/2 ));
 
             #region 支架装配
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
@@ -67,9 +67,21 @@ namespace ParamedModule.Container
         public override bool CheckParamete()
         {
             if (!CheckParZero()) return false;
-            if (par.HoleTopEdgeDistance <= par.HoleRadius) return false;
-            if (par.HoleSideEdgeDistance <= par.HoleRadius) return false;
-            if (par.HoleCenterDistance + par.HoleRadius > par.Width / 2) return false;
+            if (par.HoleTopEdgeDistance <= par.HoleDiameter/2)
+            {
+                ParErrorChanged(this, "孔与顶边的距离小于孔的半径");
+                return false;
+            }
+            if (par.HoleSideEdgeDistance <= par.HoleDiameter/2)
+            {
+                ParErrorChanged(this, "孔与侧边的距离小于孔的半径");
+                return false;
+            }
+            if (par.HoleCenterDistance + par.HoleDiameter > par.Width / 2)
+            {
+                ParErrorChanged(this, "孔的长度大于钣金的宽度");
+                return false;
+            }
             return true;
         }
     }

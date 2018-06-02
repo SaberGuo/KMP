@@ -46,12 +46,20 @@ namespace ParamedModule.Container
         {
             if (!CheckParZero()) return false;
             if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
-            if (par.Offset >= par.CylinderInRadius.Value) return false;
+            if (par.Offset >= par.CylinderInRadius.Value)
+            {
+                ParErrorChanged(this, "罐体中心偏移量大于罐体半径");
+                return false;
+            }
             double h0 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(par.Offset, 2), 0.5);//偏移后圆上点到圆心的垂直高度
             par.HeightOffset = h0 - par.RailTotalHeight; //偏移后导轨中心线定点到圆心的垂直高度
-            if (par.HeightOffset < 0) return false;
+            if (par.HeightOffset < 0)
+            {
+                ParErrorChanged(this, "导轨组件安装在罐体中高于罐体半径");
+                return false;
+            }
             double railHeight = rail.par.BraceHeight + rail.par.UpBridgeHeight + rail.par.DownBridgeHeight;//导轨高度
-            //高度=总高度+导轨高度+顶板厚度+支撑高度+中间板厚度+底板厚度
+            //除侧板外组件总高度=总高度+导轨高度+顶板厚度+支撑高度+中间板厚度+底板厚度
             double h1 =  railHeight + support.topBoard.par.Thickness + support.brace.par.Height+support.centerBoard.par.Thickness + support.baseBoard.par.Thickness;
             //中心线底板到大圆线垂直距离
             double h2 = par.RailTotalHeight - h1;
@@ -62,10 +70,12 @@ namespace ParamedModule.Container
             double h22 = par.HeightOffset + h1;
             double w22 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(h22, 2), 0.5);
             double w2 = w22 - w1; //旁板与圆接触面到圆心的水平距离
-            double h3 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(w2, 2), 0.5); //旁板与圆接触面圆上点到圆心的垂直距离
+            ////旁板与圆接触面圆上点到圆心的垂直距离
+            double h3 = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(w2, 2), 0.5); 
             support.sidePlate.par.Thickness = h3 - par.HeightOffset - h1;
             if (support.sidePlate.par.Thickness <= 0)
             {
+                ParErrorChanged(this, "板材厚度小于零");
                 return false;
             }
 

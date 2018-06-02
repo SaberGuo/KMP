@@ -60,7 +60,23 @@ namespace ParamedModule.HeatSinkSystem
         }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if(par.PipeLength+ par.PipeDistance>par.Length)
+            {
+                ParErrorChanged(this, "管长度与管道开始面道罐口的距离和大于罐长度！");
+                return false;
+            }
+             if(par.PipeOffset+par.PipeDiameter/2+par.PipeThickness>=par.InDiameter.Value/2)
+            {
+                ParErrorChanged(this, "管部分超出了罐体横截面外！");
+                return false;
+            }
+             if(((par.PipeLength-par.PipeSurDistance*2)/par.PipeSurNum)<(par.PipeSurDiameter+par.PipeSurThickness*2))
+            {
+                ParErrorChanged(this, "管长度放不下"+par.PipeSurNum+"个支架！");
+                return false;
+            }
+            
+            return true;
         }
 
         public override void CreateModule()

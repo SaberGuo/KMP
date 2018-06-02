@@ -13,7 +13,7 @@ namespace KMP.Interface.Model.Container
         double thickness;
         double width;
        
-        double holeRadius;
+        double holeDiameter;
         double holeCenterDistance;
         double holeSideEdgeDistance;
         double holeTopEdgeDistance;
@@ -46,21 +46,21 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Width);
             }
         }
-        [DisplayName("孔半径")]
-        public double HoleRadius
+        [DisplayName("孔直径")]
+        public double HoleDiameter
         {
             get
             {
-                return holeRadius;
+                return holeDiameter;
             }
 
             set
             {
-                holeRadius = value;
-                this.RaisePropertyChanged(() => this.HoleRadius);
+                holeDiameter = value;
+                this.RaisePropertyChanged(() => this.HoleDiameter);
             }
         }
-        [DisplayName("孔中心距离")]
+        [DisplayName("孔两个中心距离")]
         public double HoleCenterDistance
         {
             get

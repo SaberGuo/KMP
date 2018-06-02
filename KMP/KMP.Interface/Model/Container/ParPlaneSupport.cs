@@ -12,8 +12,8 @@ namespace KMP.Interface.Model.Container
         double offset;
         double brachHeight1;
         double brachHeight2;
-        double brachRadius1;
-        double brachRadius2;
+        double brachDiameter1;
+        double brachDiameter2;
         double topBoardThickness;
         double topBoardWidth;
         /// <summary>
@@ -71,34 +71,34 @@ namespace KMP.Interface.Model.Container
         /// 底部支撑半径
         /// </summary>
         /// 
-        [DisplayName("底部支撑半径")]
-        public double BrachRadius1
+        [DisplayName("底部支撑直径")]
+        public double BrachDiameter1
         {
             get
             {
-                return brachRadius1;
+                return brachDiameter1;
             }
 
             set
             {
-                brachRadius1 = value;
+                brachDiameter1 = value;
             }
         }
         /// <summary>
         /// 中部支撑半径
         /// </summary>
         /// 
-        [DisplayName("中部支撑半径")]
-        public double BrachRadius2
+        [DisplayName("中部支撑直径")]
+        public double BrachDiameter2
         {
             get
             {
-                return brachRadius2;
+                return brachDiameter2;
             }
 
             set
             {
-                brachRadius2 = value;
+                brachDiameter2 = value;
             }
         }
         /// <summary>

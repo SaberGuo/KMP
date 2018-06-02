@@ -448,11 +448,32 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
             double r = par.InRadius.Value + par.Thickness.Value + par.PanelThickness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度
-            if (par.UnderBoardingAngle > 140) return false;
-            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length ) return false;
-            if (par.PedestalCenterDistance <= r + 10) return false;
-            if (par.PedestalLength < length) return false;
-            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth) return false;
+            if (par.UnderBoardingAngle > 140)
+            {
+                ParErrorChanged(this, "垫板角度大于140度");
+                return false;
+            }
+
+            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length )
+            {
+                ParErrorChanged(this, "竖板间距和厚度和大于垫板的水平长度");
+                return false;
+            }
+            if (par.PedestalCenterDistance <= r + 10)
+            {
+                ParErrorChanged(this, "底板于垫板的间距过小");
+                return false;
+            }
+            if (par.PedestalLength < length)
+            {
+                ParErrorChanged(this, "底板长度小与垫板的水平长度");
+                return false;
+            }
+            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth)
+            {
+                ParErrorChanged(this, "竖板的宽度与背板厚度和偏移距离总和大于垫板的宽度");
+                return false;
+            }
             return true;
         }
     }

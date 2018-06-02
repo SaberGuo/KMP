@@ -116,7 +116,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("罐与罐中心距离")]
+        [DisplayName("管与罐中心距离")]
         public double PipeOffset
         {
             get
