@@ -8,6 +8,8 @@ using Infranstructure.Tool;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model;
+using KMP.Interface.Model.Container;
+using System.Collections.ObjectModel;
 namespace ParamedModule.HeatSinkSystem
 {
     //[Export("Noumenon", typeof(IParamedModule))]
@@ -15,7 +17,7 @@ namespace ParamedModule.HeatSinkSystem
     public class Noumenon : PartModulebase
     {
         public ParNoumenon par = new ParNoumenon();
-
+        Dictionary<double, WorkPlane> _HolePlanes = new Dictionary<double, WorkPlane>();
         public Noumenon():base()
         {
 
@@ -53,6 +55,18 @@ namespace ParamedModule.HeatSinkSystem
             par.EndLongAngle = 30;
             par.EndLongNumber = 4;
         }
+        public override void DisPose()
+        {
+            base.DisPose();
+            _HolePlanes.Clear();
+            CStartFace = null;
+            CEndFace = null;
+            CSideFace = null;
+            axis = null;
+        }
+        Face CStartFace, CEndFace;
+        List<Face> CSideFace;
+        WorkAxis axis;
 
         private void Parameter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -78,17 +92,17 @@ namespace ParamedModule.HeatSinkSystem
             
             return true;
         }
-
+        #region
         public override void CreateSub()
         {
             SketchCircle inCircle, outCircle, pipeOutCircle; ///罐内外草图圆、罐外圆草图
             ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InDiameter.Value / 2), UsMM(par.Thickness.Value), UsMM(par.Length), out inCircle, out outCircle);
-            Face CStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.StartFaces.GetEnumerator());
-            Face CEndFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
+             CStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.StartFaces.GetEnumerator());
+             CEndFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
             Definition.iMateDefinitions.AddMateiMateDefinition(CStartFace, 0).Name = "StartFace";
             Definition.iMateDefinitions.AddMateiMateDefinition(CEndFace, 0).Name = "EndFace";
-            List<Face> CSideFace = InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
-            WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(CSideFace[0]);
+            CSideFace = InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
+             axis = Definition.WorkAxes.AddByRevolvedFace(CSideFace[0]);
             axis.Name = "NoumenonAxis";
             Definition.iMateDefinitions.AddMateiMateDefinition(axis, 0).Name = "Axis";
             ExtrudeFeature pipe = CreatePipe(CStartFace, inCircle, UsMM(par.PipeLength), UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeDistance), UsMM(par.PipeOffset), out pipeOutCircle);
@@ -356,6 +370,105 @@ namespace ParamedModule.HeatSinkSystem
             //  CirCularDef.Angle = Math.PI * 2;
             //  Definition.Features.CircularPatternFeatures.AddByDefinition(CirCularDef);
             Definition.Features.CircularPatternFeatures.Add(objc, Axis, true, EndLongNumber, Math.PI * 2,true,PatternComputeTypeEnum.kAdjustToModelCompute);
+        }
+        #endregion
+        public void CreateHoles(List<ParCylinderHole> holes,double offset)
+        {
+            List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(CSideFace[1].Edges.GetEnumerator());
+            CreatePlanes(CStartFace, CSideFace[1], holes);
+            foreach (var item in holes)  //创建孔、短管、法兰
+            {
+                WorkPlane plane = _HolePlanes[item.PositionAngle];
+                if (plane == null) continue;
+
+                CreateHole(plane, CStartFace, axis, item, outFaceEdges[1],CSideFace[0],offset);
+            }
+        }
+        /// <summary>
+        /// 罐体开孔
+        /// </summary>
+        /// <param name="plane">开孔的平面</param>
+        /// <param name="DistanceFace">罐口面</param>
+        /// <param name="axis">罐中心轴</param>
+        /// <param name="parHole">孔参数</param>
+        /// <param name="outFaceEdge">罐外侧面边</param>
+        private void CreateHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole, Edge outFaceEdge,Face InFace,double offset)
+        {
+            #region 创建罐体孔
+            double x, y;
+            if (parHole.PositionAngle >180 && parHole.PositionAngle < 360)
+            {
+                x = 1;
+                y = 1;
+                if (parHole.HoleOffset < 0)
+                {
+                    y = -1;
+                }
+            }
+            else
+            {
+                x = -1;
+                y = -1;
+                if (parHole.HoleOffset < 0)
+                {
+                    y = 1;
+                }
+            }
+
+
+            PlanarSketch osketch = Definition.Sketches.Add(plane);
+            Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(DistanceFace.Edges.GetEnumerator());
+            SketchLine line = (SketchLine)osketch.AddByProjectingEntity(edge);
+            line.Construction = true;
+            SketchLine centerLine = (SketchLine)osketch.AddByProjectingEntity(axis);
+            centerLine.Construction = true;
+            SketchPoint origin = osketch.SketchPoints.Add(InventorTool.Origin); //边缘中心点 辅助点
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)line, (SketchEntity)origin);
+            osketch.GeometricConstraints.AddCoincident((SketchEntity)centerLine, (SketchEntity)origin);
+            SketchPoint holeCenter = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(x, y));
+            TwoPointDistanceDimConstraint offSetDim = osketch.DimensionConstraints.AddTwoPointDistance(origin, holeCenter, DimensionOrientationEnum.kVerticalDim, holeCenter.Geometry);
+            offSetDim.Parameter.Value = Math.Abs(UsMM(parHole.HoleOffset));
+            TwoPointDistanceDimConstraint distanceDim = osketch.DimensionConstraints.AddTwoPointDistance(origin, holeCenter, DimensionOrientationEnum.kHorizontalDim, holeCenter.Geometry);
+            distanceDim.Parameter.Value = UsMM(parHole.PositionDistance)-offset;
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            objc.Add(holeCenter);
+            SketchHolePlacementDefinition HolePlace = Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
+              HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, UsMM(parHole.ParFlanch.D6), UsMM(par.InDiameter.Value/2 + par.Thickness.Value), PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+           // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.ParFlanch.D6,InFace,true);
+            // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
+            #endregion
+          
+        }
+        /// <summary>
+        /// 创建开孔平面
+        /// </summary>
+        /// <param name="outTageFace"></param>
+        /// <param name="outFace"></param>
+        /// <param name="parHoles"></param>
+        private void CreatePlanes(Face outTageFace, Face outFace,List<ParCylinderHole> parHoles)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(outTageFace);
+            osketch.Visible = false;
+            List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(outFace.Edges.GetEnumerator());
+            SketchCircle cycle = (SketchCircle)osketch.AddByProjectingEntity(edges[0]);
+            SketchLine line = osketch.SketchLines.AddByTwoPoints(cycle.CenterSketchPoint, InventorTool.TranGeo.CreatePoint2d(10, 0));
+            line.Construction = true;
+            osketch.GeometricConstraints.AddHorizontal((SketchEntity)line);
+
+            foreach (var item in parHoles)
+            {
+                if (_HolePlanes.ContainsKey(item.PositionAngle)) continue;
+                SketchPoint p = osketch.SketchPoints.Add(InventorTool.CreatePoint2d(1, 1));
+                osketch.GeometricConstraints.AddCoincident((SketchEntity)p, (SketchEntity)cycle);
+                ThreePointAngleDimConstraint dim = osketch.DimensionConstraints.AddThreePointAngle(p, cycle.CenterSketchPoint, line.EndSketchPoint, p.Geometry);
+                dim.Parameter.Value = item.PositionAngle / 180 * Math.PI;
+                dim.Visible = false;
+
+                WorkPlane plane = Definition.WorkPlanes.AddByPointAndTangent(p, outFace);
+                _HolePlanes.Add(item.PositionAngle, plane);
+            }
+
+
         }
     }
 }

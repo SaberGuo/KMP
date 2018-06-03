@@ -10,8 +10,8 @@ using KMP.Interface;
 using KMP.Interface.Model;
 namespace ParamedModule.HeatSinkSystem
 {
-    //[Export(typeof(IParamedModule))]
-    //[PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export("Cap", typeof(IParamedModule))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cap : PartModulebase
     {
         public ParCap par = new ParCap();
@@ -113,6 +113,12 @@ namespace ParamedModule.HeatSinkSystem
             SketchCircle CapCircle;//盖子圆草图
             WorkPlane pipePlane;
             ExtrudeFeature cap = CreateCap(UsMM(par.InDiameter.Value / 2 + par.Thickness.Value), UsMM(par.CapThickness), out capStartFace, out CapCircle);
+            cap.Name = "HeartCap";
+            List<Face> start = InventorTool.GetCollectionFromIEnumerator<Face>(cap.StartFaces.GetEnumerator());
+            for (int i = 0; i < start.Count; i++)
+            {
+                Definition.iMateDefinitions.AddMateiMateDefinition(start[i], 0).Name = "face" + i;
+            }
             Face EndFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.EndFaces.GetEnumerator());
             Definition.iMateDefinitions.AddMateiMateDefinition(EndFace, 0).Name = "Face";
             Face capSideFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
@@ -125,7 +131,7 @@ namespace ParamedModule.HeatSinkSystem
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
             CreateTitle(SlotOutFace, CapCircle, Axis, UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
             CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight), UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
-
+         
         }
         #region 创建槽
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)

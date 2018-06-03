@@ -11,7 +11,7 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.HeatSinkSystem;
 using System.Xml.Serialization;
-
+using KMP.Interface.Model.Container;
 namespace ParamedModule
 {
     [Export("WareHouseEnvironment", typeof(IParamedModule))]
@@ -29,6 +29,7 @@ namespace ParamedModule
             _heatSink = new HeatSink();
             SubParamedModules.Add(_container);
             SubParamedModules.Add(_heatSink);
+            par.OffSet = 0;
         }
         public override bool CheckParamete()
         {
@@ -37,20 +38,7 @@ namespace ParamedModule
             return true;
         }
 
-        //public override void CreateModule()
-        //{
-        //    CreateDoc();
-        //    if (!CheckParamete()) return;
-        //    oPos = InventorTool.TranGeo.CreateMatrix();
-        //    _container.CreateModule();
-        //    _heatSink.CreateModule();
-        //    ComponentOccurrence COcontainer = LoadOccurrence((ComponentDefinition)_container.Doc.ComponentDefinition);
-        //    ComponentOccurrence COheatSink = LoadOccurrence((ComponentDefinition)_heatSink.Doc.ComponentDefinition);
-        //    WorkAxis CylinderAxis = GetAxis(COcontainer, "CylinderAxis");
-        //    WorkAxis NoumenonAxis = GetAxis(COheatSink, "NoumenonAxis");
-        //    Definition.Constraints.AddMateConstraint(CylinderAxis, NoumenonAxis, 0);
-
-        //}
+      
         public override void CreateSub()
         {
             InventorTool.Inventor.Documents.CloseAll();
@@ -62,7 +50,15 @@ namespace ParamedModule
             WorkAxis CylinderAxis = GetAxisProxy(COcontainer, "CylinderAxis");
             WorkAxis NoumenonAxis = GetAxisProxy(COheatSink, "NoumenonAxis");
             Definition.Constraints.AddMateConstraint(CylinderAxis, NoumenonAxis, 0);
-
+            MateiMateDefinition cylinderOutageMate = (MateiMateDefinition)Getimate(COcontainer, "mateK");
+            Face cylinderOutageFace = (Face)cylinderOutageMate.Entity;
+            object  cylinderOutageFaceProxy;//罐体轴代理 罐口面代理
+            COcontainer.CreateGeometryProxy(cylinderOutageFace, out cylinderOutageFaceProxy);
+           ExtrudeFeature cap= GetFeatureproxy<ExtrudeFeature>(COheatSink, "HeartCap", ObjectTypeEnum.kExtrudeFeatureObject);
+            Face capStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.StartFaces.GetEnumerator());
+            Definition.Constraints.AddFlushConstraint(capStartFace, cylinderOutageFace, UsMM(par.OffSet));
+           List<ParCylinderHole> holes=  _container._cylinder.par.ParHoles.Where(a => a.IsHeatSinkHole).ToList();
+            _heatSink._nomenon.CreateHoles(holes, UsMM(par.OffSet+_heatSink._cap.par.CapThickness));
         }
         public static WorkAxis GetAxisProxy(ComponentOccurrence occ,string name)
         {

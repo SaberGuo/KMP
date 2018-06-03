@@ -71,7 +71,7 @@ namespace ParamedModule.Container
             ComponentOccurrence COcylinderDoor = LoadOccurrence((ComponentDefinition)_cylinderDoor.Doc.ComponentDefinition);
             SetiMateResult(COcylinder);
             SetiMateResult(COcylinderDoor);
-            List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
+           // List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
             double distance = _cylinder.par.Length / (par.PedestalNumber + 1);
             iMateDefinition cylinderAxisMate = Getimate(COcylinder, "mateH");//罐体轴
                                                                              //  WorkAxis aixs = ((MateiMateDefinition)cylinderAxisMate).Entity;

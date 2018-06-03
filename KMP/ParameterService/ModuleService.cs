@@ -24,7 +24,7 @@ namespace ParameterService
         IParamedModule assemsly;
         public void Create()
         {
-            IParamedModule SS = ServiceLocator.Current.GetInstance<IParamedModule>("ContainerSystem");
+            IParamedModule SS = ServiceLocator.Current.GetInstance<IParamedModule>("WareHouseEnvironment");//HeaterSystem
             SS.CreateModule();
             //foreach (var item in list)
             //{

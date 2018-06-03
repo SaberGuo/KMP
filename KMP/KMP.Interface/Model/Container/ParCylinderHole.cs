@@ -18,6 +18,7 @@ namespace KMP.Interface.Model.Container
         double pipeLenght;
         double holeOffset;
         double pipeThickness;
+        bool isHeatSinkHole;
         ParFlanch parFlanch=new ParFlanch();
         [DisplayName("法兰公称通径")]
         [ItemsSource(typeof(ParFlanchSource))]
@@ -161,6 +162,19 @@ namespace KMP.Interface.Model.Container
             {
                 pipeThickness = value;
                 this.RaisePropertyChanged(() => this.PipeThickness);
+            }
+        }
+        [DisplayName("是否热沉系统孔")]
+        public bool IsHeatSinkHole
+        {
+            get
+            {
+                return isHeatSinkHole;
+            }
+
+            set
+            {
+                isHeatSinkHole = value;
             }
         }
     }
