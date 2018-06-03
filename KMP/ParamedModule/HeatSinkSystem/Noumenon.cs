@@ -90,6 +90,7 @@ namespace ParamedModule.HeatSinkSystem
             Definition.iMateDefinitions.AddMateiMateDefinition(CEndFace, 0).Name="EndFace";
             List<Face> CSideFace= InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(CSideFace[0]);
+            axis.Name = "NoumenonAxis";
             Definition.iMateDefinitions.AddMateiMateDefinition(axis, 0).Name="Axis";
           ExtrudeFeature pipe=  CreatePipe(CStartFace, inCircle, UsMM(par.PipeLength), UsMM(par.PipeDiameter/2), UsMM(par.PipeThickness), UsMM(par.PipeDistance), UsMM(par.PipeOffset),out pipeOutCircle);
             Face pipeStartFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.StartFaces.GetEnumerator());

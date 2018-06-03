@@ -320,7 +320,12 @@ namespace ParamedModule
                 }
             }
         }
-
+        public void CloseSameNameDocment()
+        {
+            List<Document> list = InventorTool.GetCollectionFromIEnumerator<Document>(InventorTool.Inventor.Documents.GetEnumerator());
+            List<Document> select =  list.Where(a => a.DisplayName ==( this.Name+".iam")).ToList();
+            select.ForEach(a => a.Close(true));
+        }
 
 
 

@@ -62,7 +62,7 @@ namespace KMP.Parameterization
             ProjectTypes = new List<ProjectT>();
             ProjectTypes.Add(new ProjectT { Description = "容器系统", TypeValue = "ContainerSystem" });
             ProjectTypes.Add(new ProjectT { Description = "热沉系统", TypeValue = "HeaterSystem" });
-
+            ProjectTypes.Add(new ProjectT { Description = "环境箱", TypeValue = "WareHouseEnvironment" });
         }
         private string _projectType ="ContainerSystem";
         public string ProjectType

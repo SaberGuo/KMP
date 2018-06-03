@@ -62,7 +62,7 @@ namespace ParamedModule.HeatSinkSystem
         {
             double Radius = par.InDiameter.Value / 2 + par.Thickness.Value;//盖子半径
             if (!CheckParZero()) return false;
-            if(par.PipeAngle<0||par.PipeAngle>90)
+            if(par.PipeAngle<0||par.PipeAngle>140)
             {
                 ParErrorChanged(this, "管道角度超出范围");
                 return false;
@@ -77,12 +77,12 @@ namespace ParamedModule.HeatSinkSystem
                 ParErrorChanged(this, "管道与圆槽相交");
                 return false;
             }
-            if (par.PipeSurDiameter >= par.PipeSurDiameter||par.PipeSurDiameter+par.PipeSurThickness*2>par.PipeDiameter+par.PipeThickness*2)
+            if (par.PipeSurDiameter >= par.PipeDiameter||par.PipeSurDiameter+par.PipeSurThickness*2>par.PipeDiameter+par.PipeThickness*2)
             {
                 ParErrorChanged(this, "管道支架横截面直径大于管道横截面直径！");
                 return false;
             }
-             if((par.PipeDiameter/2+par.PipeThickness+par.PipeSurLength+par.PipeSurCurveRadius+par.PipeSurDiameter/2+par.PipeSurThickness)> par.PipeXOffset)
+             if((par.PipeDiameter/2+par.PipeThickness+par.PipeSurLength+par.PipeSurCurveRadius+par.PipeSurDiameter/2+par.PipeSurThickness)> par.PipeYOffset)
             {
                 ParErrorChanged(this, "管道支架距离盖中心过远！");
                 return false;
@@ -92,7 +92,7 @@ namespace ParamedModule.HeatSinkSystem
                 ParErrorChanged(this, "管道支架数量过小！");
                 return false;
             }
-             if(((par.PipeAngle-par.PipeSurDiameter*2)/par.PipeSurNum)/180*Math.PI*(Radius-par.PipeXOffset) <=(par.PipeSurThickness*2+par.PipeSurDiameter))
+             if(((par.PipeAngle-par.PipeSurDiameter*2)/par.PipeSurNum)/180*Math.PI*(Radius-par.PipeYOffset) <=(par.PipeSurThickness*2+par.PipeSurDiameter))
                 {
                 ParErrorChanged(this, "管道间放不下"+par.PipeSurNum+"个支架！");
                 return false;

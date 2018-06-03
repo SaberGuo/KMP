@@ -58,7 +58,7 @@ namespace KMP.Parameterization
         {
             get { return this._newModelWinState; }
             set
-            {
+            {  
                 this._newModelWinState = value;
                 RaisePropertyChanged("NewModelWinState");
             }

@@ -53,6 +53,7 @@ namespace ParamedModule
             // GetFeatures(item);
             return item;
         }
+        #region 获取或设置装配
         /// <summary>
         /// 获取需要用到的特征
         /// </summary>
@@ -373,6 +374,7 @@ namespace ParamedModule
             planeStruct.Part = (PartFeature)feature;
             return planeStruct;
         }
+#endregion
         protected void SaveDoc()
         {
 
@@ -399,5 +401,19 @@ namespace ParamedModule
             public Face StartFace;
             public PartFeature Part;
         }
+        public override void CreateModule()
+        {
+            GeneratorProgress(this, "开始创建"+this.Name);
+            DisPose();
+            if (!CheckParamete()) return;
+            CloseSameNameDocment();
+            CreateDoc();
+            oPos = InventorTool.TranGeo.CreateMatrix();
+            CreateSub();
+            SaveDoc();
+            GeneratorProgress(this, "完成创建" + this.Name);
+        }
+        public abstract void CreateSub();
+      
     }
 }

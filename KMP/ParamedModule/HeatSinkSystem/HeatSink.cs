@@ -30,16 +30,14 @@ namespace ParamedModule.HeatSinkSystem
         }
         public override bool CheckParamete()
         {
-            throw new NotImplementedException();
+            if (!_cap.CheckParamete() || (!_nomenon.CheckParamete()))
+                return false;
+            return true;
         }
 
-        public override void CreateModule()
+      
+        public override void CreateSub()
         {
-            DisPose();
-            InventorTool.Inventor.Documents.CloseAll();
-            //GeneratorProgress(this, "开始创建热沉系统");
-            CreateDoc();
-            oPos = InventorTool.TranGeo.CreateMatrix();
             _cap.CreateModule();
             _nomenon.CreateModule();
             ComponentOccurrence COnomenon = LoadOccurrence((ComponentDefinition)_nomenon.Doc.ComponentDefinition);
@@ -60,7 +58,6 @@ namespace ParamedModule.HeatSinkSystem
             Definition.iMateResults.AddByTwoiMates(capAxis2, nomenonAxis);
             Definition.iMateResults.AddByTwoiMates(StartFace, capFace1);
             Definition.iMateResults.AddByTwoiMates(endFace, capFace2);
-            SaveDoc();
         }
     }
 }
