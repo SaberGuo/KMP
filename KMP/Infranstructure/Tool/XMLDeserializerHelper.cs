@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
+using System.Windows.Forms;
 namespace Infranstructure.Tool
 {
     public static class XMLDeserializerHelper
@@ -32,7 +33,8 @@ namespace Infranstructure.Tool
                 //if some error occured,throw it
                 catch (InvalidOperationException error)
                 {
-                    throw error;
+                    MessageBox.Show("反序列化错误，Xml文件不正确！");
+                    return default(T);
                 }
                 //finally close all resourece
                 finally

@@ -153,19 +153,7 @@ namespace ParamedModule
             string path = AppDomain.CurrentDomain.BaseDirectory + "aa.xml";
 
           ParamedModuleBase module=  XMLDeserializerHelper.Deserialization<ParamedModule.ParamedModuleBase>(this, path);
-            //  Type A = module.GetType();
-
-            // // MemberInfo[] Binfos = B.GetMembers();
-            //FieldInfo[] Ainfos=  A.GetFields();
-            //  foreach (var item in Ainfos)
-            //  {
-            //      object OA = item.GetValue(module);
-            //      object OB = item.GetValue(this);
-
-            //          SetValue(OA, OB);
-
-
-            //  }
+          if(module!=null)
             SetValue(module, this);
         }
         public void GetSubField()
