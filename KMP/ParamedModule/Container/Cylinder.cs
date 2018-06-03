@@ -92,16 +92,15 @@ namespace ParamedModule.Container
             par.CapSideHoles.Add(ParSideHole5);
             #endregion
         }
-        public override void CreateModule()
+        public override void DisPose()
         {
+            base.DisPose();
             _cylinderHolePlanes.Clear();
             _capHolePlanes.Clear();
-
-
-            // if (!CheckParamete()) return;
-            // if (!CheckParamete()) return;
-            GeneratorProgress(this, "开始创建容器");
-            CreateDoc();
+        }
+       
+        public override void CreateSub()
+        {
             #region
             RevolveFeature cap;
             SketchEllipticalArc Arc1;
@@ -143,8 +142,6 @@ namespace ParamedModule.Container
             }
             CreateCapClear(Arc1);
             #endregion
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器");
         }
         /// <summary>
         /// 创建顶孔

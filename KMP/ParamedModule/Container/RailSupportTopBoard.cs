@@ -36,33 +36,31 @@ namespace ParamedModule.Container
             par.HoleTopEdgeDistance = 15;
         }
       
-        public override void CreateModule()
+    
+
+        public override void CreateSub()
         {
-            CreateDoc();
-           PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition,osketch, UsMM(par.Width), UsMM(par.Width ), UsMM(par.Thickness),
-                UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleDiameter/2 ));
+            PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width), UsMM(par.Width), UsMM(par.Thickness),
+                UsMM(par.HoleCenterDistance), UsMM(par.HoleTopEdgeDistance), UsMM(par.HoleSideEdgeDistance), UsMM(par.HoleDiameter / 2));
 
             #region 支架装配
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
             box.Name = "TopBoard";
             MateiMateDefinition mateD = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
             mateD.Name = "mateD";
-         
+
             #endregion
             #region  导轨装配
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0).Name = "mateR1";//顶面
-            //侧面顺序 0，2 是导轨长度方向
-           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[0], 0).Name = "mateR3";
-           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[1], 0).Name = "mateR2";
-          
+                                                                                           //侧面顺序 0，2 是导轨长度方向
+                                                                                           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[0], 0).Name = "mateR3";
+                                                                                           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[1], 0).Name = "mateR2";
+
             #endregion
-             SaveDoc();
         }
-
-
 
         public override bool CheckParamete()
         {

@@ -34,30 +34,26 @@ namespace ParamedModule.Container
             par.HoleTopEdgeDistance = 25;
         }
 
-        public override void CreateModule()
+      
+        public override void CreateSub()
         {
-           
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature box=  InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width ), UsMM(par.Width ), UsMM(par.Thickness),
-                 UsMM(par.HoleCenterDistance ), UsMM(par.HoleTopEdgeDistance ), UsMM(par.HoleSideEdgeDistance ), UsMM(par.HoleRadius ));
+            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width), UsMM(par.Width), UsMM(par.Thickness),
+                   UsMM(par.HoleCenterDistance), UsMM(par.HoleTopEdgeDistance), UsMM(par.HoleSideEdgeDistance), UsMM(par.HoleRadius));
             box.Name = "CenterBoard";
 
 
-            List<Face> sideFaces= InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
+            List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
-            
+
             MateiMateDefinition mateB = Definition.iMateDefinitions.AddMateiMateDefinition(startFace, 0);
             mateB.Name = "mateB";
             MateiMateDefinition mateC = Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0);
             mateC.Name = "mateC";
-            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[2], 0).Name="flushC";
-          
-            SaveDoc();
-           
-        }
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[2], 0).Name = "flushC";
 
+        }
         public override bool CheckParamete()
         {
             if (par.HoleRadius >= par.Width / 4)

@@ -45,17 +45,15 @@ namespace ParamedModule.Container
         }
 
         #region 创建模型 
-        public override void CreateModule()
+    
+        public override void CreateSub()
         {
-
-            GeneratorProgress(this, "开始创建容器底座");
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.Visible = false;
             #region 创建圆
             SketchArc outArc, underBoardArc;
             SketchLine sublineCenter;
-            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter,UsMM( par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
+            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter, UsMM(par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
             #endregion
             #region 垫板堵头
             SketchLine line1 = osketch.SketchLines.AddByTwoPoints(underBoardArc.StartSketchPoint, GetCyclePoint(
@@ -76,14 +74,11 @@ namespace ParamedModule.Container
             osketch.DimensionConstraints.AddTwoPointDistance(underBoardArc.CenterSketchPoint, pedestalLines[2].StartSketchPoint, DimensionOrientationEnum.kVerticalDim, underBoardArc.CenterSketchPoint.Geometry).Parameter.Value = UsMM(par.PedestalCenterDistance);
             #endregion
             List<SketchLine> leftLines, rightLines;
-          DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc,out leftLines,out rightLines,UsMM(par.FootBoardThickness), UsMM(par.FootBoardBetween));
+            DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc, out leftLines, out rightLines, UsMM(par.FootBoardThickness), UsMM(par.FootBoardBetween));
             CreateunderBoard(outArc, underBoardArc, line1, line2);
             CreatePedestalBoard(pedestalLines);
-           ExtrudeFeature footboad=  CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
+            ExtrudeFeature footboad = CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
             CreateFootBoard(footboad, leftLines, rightLines, pedestalLines[0], underBoardArc);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器底座");
-
         }
         /// <summary>
         /// 创建竖版实体

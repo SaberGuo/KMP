@@ -45,23 +45,18 @@ namespace ParamedModule.Container
             par.TopBoardThickness = 30;
             par.TopBoardWidth = 300;
         }
-        public override void CreateModule()
+  
+        public override void CreateSub()
         {
-          
-            GeneratorProgress(this, "开始创建容器内平板支撑");
-            CreateDoc();
             SketchArc arc;
             SketchLine line1, line2;
             List<SketchLine> lines1, lines2;
-            CreateDownCyling(UsMM(par.InRadius.Value), UsMM(par.BrachDiameter1/2), UsMM(par.BrachDiameter2/2),
-                UsMM(par.BrachHeight1), UsMM(par.BrachHeight2),UsMM(par.Offset),out arc,
-                out line1,out line2,out lines1,out lines2);
-         RevolveFeature UpCyling=   CreateUpCyling(lines2);
-            CreateTopBox(UpCyling,UsMM(par.TopBoardWidth),UsMM(par.TopBoardWidth),UsMM(par.TopBoardThickness));
+            CreateDownCyling(UsMM(par.InRadius.Value), UsMM(par.BrachDiameter1 / 2), UsMM(par.BrachDiameter2 / 2),
+                UsMM(par.BrachHeight1), UsMM(par.BrachHeight2), UsMM(par.Offset), out arc,
+                out line1, out line2, out lines1, out lines2);
+            RevolveFeature UpCyling = CreateUpCyling(lines2);
+            CreateTopBox(UpCyling, UsMM(par.TopBoardWidth), UsMM(par.TopBoardWidth), UsMM(par.TopBoardThickness));
             CreateClear(arc, line1, line2);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器内平板支撑");
-
         }
         /// <summary>
         /// 创建下半部分圆筒支撑

@@ -45,6 +45,23 @@ namespace ParamedModule
             Doc = null;
             Definition = null;
         }
+        public override void CreateModule()
+        {
+            GeneratorProgress(this, "开始创建零件" + this.Name);
+            DisPose();
+            CloseSameNameDocment();
+            CreateDoc();
+            CreateSub();
+            SaveDoc();
+            GeneratorProgress(this, "结束创建零件" + this.Name);
+        }
+        public abstract void CreateSub();
+        internal override void CloseSameNameDocment()
+        {
+            List<Document> list = InventorTool.GetCollectionFromIEnumerator<Document>(InventorTool.Inventor.Documents.GetEnumerator());
+            List<Document> select = list.Where(a => a.DisplayName == (this.Name + ".ipt")).ToList();
+            select.ForEach(a => a.Close(true));
+        }
         internal static void AddDiameter(PlanarSketch osketch,SketchEntity entity,double Diameter)
         {
             Point2d p;

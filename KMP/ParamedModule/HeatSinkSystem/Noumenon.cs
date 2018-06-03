@@ -79,30 +79,29 @@ namespace ParamedModule.HeatSinkSystem
             return true;
         }
 
-        public override void CreateModule()
+        public override void CreateSub()
         {
-            CreateDoc(); 
-            SketchCircle inCircle, outCircle,pipeOutCircle; ///罐内外草图圆、罐外圆草图
-            ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InDiameter.Value/2),UsMM(par.Thickness.Value),UsMM(par.Length),out inCircle,out outCircle);
+            SketchCircle inCircle, outCircle, pipeOutCircle; ///罐内外草图圆、罐外圆草图
+            ExtrudeFeature cylinder = CreateCylinder(UsMM(par.InDiameter.Value / 2), UsMM(par.Thickness.Value), UsMM(par.Length), out inCircle, out outCircle);
             Face CStartFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.StartFaces.GetEnumerator());
-            Face CEndFace= InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
-            Definition.iMateDefinitions.AddMateiMateDefinition(CStartFace, 0).Name="StartFace";
-            Definition.iMateDefinitions.AddMateiMateDefinition(CEndFace, 0).Name="EndFace";
-            List<Face> CSideFace= InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
+            Face CEndFace = InventorTool.GetFirstFromIEnumerator<Face>(cylinder.EndFaces.GetEnumerator());
+            Definition.iMateDefinitions.AddMateiMateDefinition(CStartFace, 0).Name = "StartFace";
+            Definition.iMateDefinitions.AddMateiMateDefinition(CEndFace, 0).Name = "EndFace";
+            List<Face> CSideFace = InventorTool.GetCollectionFromIEnumerator<Face>(cylinder.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(CSideFace[0]);
             axis.Name = "NoumenonAxis";
-            Definition.iMateDefinitions.AddMateiMateDefinition(axis, 0).Name="Axis";
-          ExtrudeFeature pipe=  CreatePipe(CStartFace, inCircle, UsMM(par.PipeLength), UsMM(par.PipeDiameter/2), UsMM(par.PipeThickness), UsMM(par.PipeDistance), UsMM(par.PipeOffset),out pipeOutCircle);
+            Definition.iMateDefinitions.AddMateiMateDefinition(axis, 0).Name = "Axis";
+            ExtrudeFeature pipe = CreatePipe(CStartFace, inCircle, UsMM(par.PipeLength), UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeDistance), UsMM(par.PipeOffset), out pipeOutCircle);
             Face pipeStartFace = InventorTool.GetFirstFromIEnumerator<Face>(pipe.StartFaces.GetEnumerator());
-            SweepFeature pipeSur = CreatePipeSurp(CSideFace[0],pipeStartFace, inCircle, pipeOutCircle,UsMM( par.PipeSurDistance), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurLength), UsMM(par.PipeSurDiameter/2), UsMM(par.PipeSurThickness));
-            CreatePipeSurMid(pipe,pipeSur, axis, UsMM(par.PipeLength), par.PipeSurNum, UsMM(par.PipeSurDistance), Definition.WorkPlanes[3],Definition.WorkPlanes[2]);
+            SweepFeature pipeSur = CreatePipeSurp(CSideFace[0], pipeStartFace, inCircle, pipeOutCircle, UsMM(par.PipeSurDistance), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurLength), UsMM(par.PipeSurDiameter / 2), UsMM(par.PipeSurThickness));
+            CreatePipeSurMid(pipe, pipeSur, axis, UsMM(par.PipeLength), par.PipeSurNum, UsMM(par.PipeSurDistance), Definition.WorkPlanes[3], Definition.WorkPlanes[2]);
 
-           RevolveFeature Hoop=  CreateHoop(CSideFace[1],axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset),par.THoopNumber,UsMM(par.Length));
-            double endloopLength = UsMM(par.Length-par.THoopOffset*2)/(par.THoopNumber-1)-UsMM(par.TBrachWidth);
-           ExtrudeFeature endLong=  CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), 
-               UsMM(par.TTopHeight),par.EndLongAngle,UsMM(par.InDiameter.Value/2+par.Thickness.Value),endloopLength);
+            RevolveFeature Hoop = CreateHoop(CSideFace[1], axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset), par.THoopNumber, UsMM(par.Length));
+            double endloopLength = UsMM(par.Length - par.THoopOffset * 2) / (par.THoopNumber - 1) - UsMM(par.TBrachWidth);
+            ExtrudeFeature endLong = CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth),
+                UsMM(par.TTopHeight), par.EndLongAngle, UsMM(par.InDiameter.Value / 2 + par.Thickness.Value), endloopLength);
             CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber, endloopLength);
-            SaveDoc();
+
         }
         #region 创建罐体和罐内管道
         /// <summary>

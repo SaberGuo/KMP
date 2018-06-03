@@ -106,15 +106,15 @@ namespace ParamedModule.HeatSinkSystem
             return true;
         }
 
-        public override void CreateModule()
+     
+        public override void CreateSub()
         {
-            CreateDoc();
             Face capStartFace;//盖子结束面
             SketchCircle CapCircle;//盖子圆草图
             WorkPlane pipePlane;
             ExtrudeFeature cap = CreateCap(UsMM(par.InDiameter.Value / 2 + par.Thickness.Value), UsMM(par.CapThickness), out capStartFace, out CapCircle);
             Face EndFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.EndFaces.GetEnumerator());
-            Definition.iMateDefinitions.AddMateiMateDefinition(EndFace, 0).Name="Face";
+            Definition.iMateDefinitions.AddMateiMateDefinition(EndFace, 0).Name = "Face";
             Face capSideFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(capSideFace);
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "Axis";
@@ -123,9 +123,9 @@ namespace ParamedModule.HeatSinkSystem
             SweepFeature pipeSur = CreatePipeSup(pipe, Axis, pipePlane, CapCircle, par.PipeSurDistance, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),
                    UsMM(par.PipeSurLength), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurDiameter / 2), UsMM(par.PipeSurThickness), capStartFace);
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
-            CreateTitle(SlotOutFace, CapCircle, Axis,UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
-            CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight),UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
-            SaveDoc();
+            CreateTitle(SlotOutFace, CapCircle, Axis, UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
+            CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight), UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
+
         }
         #region 创建槽
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)

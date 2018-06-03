@@ -59,13 +59,14 @@ namespace ParamedModule.Container
 
             this.Name = "容器大门";
         }
-        public override void CreateModule()
+        public override void DisPose()
         {
-
+            base.DisPose();
             _sidePlanes.Clear();
-
-            GeneratorProgress(this, "开始创建容器大门");
-            CreateDoc();
+        }
+      
+        public override void CreateSub()
+        {
             SketchEllipticalArc OutArc, InArc;
             RevolveFeature revolve = CreateDoor(UsMM(par.Thickness.Value), UsMM(par.InRadius.Value), UsMM(par.DoorRadius), out InArc, out OutArc);
             List<Face> sideFace = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.SideFaces.GetEnumerator());
@@ -98,10 +99,7 @@ namespace ParamedModule.Container
 
             }
             CreateClear(InArc);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器大门");
         }
-
         private RevolveFeature CreateDoor(double thickness, double inRadius, double doorRadius, out SketchEllipticalArc Arc1, out SketchEllipticalArc Arc2)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);

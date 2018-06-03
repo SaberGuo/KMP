@@ -32,30 +32,19 @@ namespace ParamedModule.Container
             par.DownBridgeWidth = 120;
             par.RailLength = 5000;
         }
-        public override void CreateModule()
+     
+        public override void CreateSub()
         {
-            GeneratorProgress(this, "开始创建容器内导轨");
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();
-            ExtrudeDefinition ex= Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
             ex.SetDistanceExtent(par.RailLength + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-          ExtrudeFeature box=  Definition.Features.ExtrudeFeatures.Add(ex);
+            ExtrudeFeature box = Definition.Features.ExtrudeFeatures.Add(ex);
             box.Name = "Rail";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
-            ///顶层是侧面11，底层面是侧面5，依次顺序排列
-           // Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0).Name = "mateR1"; //导轨截面
-
-           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[4], 0).Name = "mateR2"; //导轨底梁侧面
-           // Definition.iMateDefinitions.AddMateiMateDefinition(sideFaces[5], 0).Name = "mateR1"; //导轨底面
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器内导轨");
-
-
         }
-
         /// <summary>
         /// 创建单个加强筋
         /// </summary>

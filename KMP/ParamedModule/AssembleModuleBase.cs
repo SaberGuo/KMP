@@ -403,7 +403,7 @@ namespace ParamedModule
         }
         public override void CreateModule()
         {
-            GeneratorProgress(this, "开始创建"+this.Name);
+            GeneratorProgress(this, "开始创建部件"+this.Name);
             DisPose();
             if (!CheckParamete()) return;
             CloseSameNameDocment();
@@ -411,9 +411,15 @@ namespace ParamedModule
             oPos = InventorTool.TranGeo.CreateMatrix();
             CreateSub();
             SaveDoc();
-            GeneratorProgress(this, "完成创建" + this.Name);
+            GeneratorProgress(this, "完成创建部件" + this.Name);
         }
         public abstract void CreateSub();
-      
+        internal override void CloseSameNameDocment()
+        {
+            List<Document> list = InventorTool.GetCollectionFromIEnumerator<Document>(InventorTool.Inventor.Documents.GetEnumerator());
+            List<Document> select = list.Where(a => a.DisplayName == (this.Name + ".iam")).ToList();
+            select.ForEach(a => a.Close(true));
+        }
+
     }
 }

@@ -53,30 +53,40 @@ namespace ParamedModule
         //}
         public override void CreateSub()
         {
+            InventorTool.Inventor.Documents.CloseAll();
+            CreateDoc();
             _container.CreateModule();
             _heatSink.CreateModule();
             ComponentOccurrence COcontainer = LoadOccurrence((ComponentDefinition)_container.Doc.ComponentDefinition);
             ComponentOccurrence COheatSink = LoadOccurrence((ComponentDefinition)_heatSink.Doc.ComponentDefinition);
-            WorkAxis CylinderAxis = GetAxis(COcontainer, "CylinderAxis");
-            WorkAxis NoumenonAxis = GetAxis(COheatSink, "NoumenonAxis");
+            WorkAxis CylinderAxis = GetAxisProxy(COcontainer, "CylinderAxis");
+            WorkAxis NoumenonAxis = GetAxisProxy(COheatSink, "NoumenonAxis");
             Definition.Constraints.AddMateConstraint(CylinderAxis, NoumenonAxis, 0);
 
         }
-        public static WorkAxis GetAxis(ComponentOccurrence occ,string name)
+        public static WorkAxis GetAxisProxy(ComponentOccurrence occ,string name)
         {
             if(occ.DefinitionDocumentType==DocumentTypeEnum.kPartDocumentObject)
             {
                 List<WorkAxis> Axises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)occ.Definition).WorkAxes.GetEnumerator());
                 WorkAxis Axis = Axises.Where(a => a.Name == name).FirstOrDefault();
-                if (Axis != null) return Axis;
+                if (Axis != null)
+                {
+                    object result;
+                    occ.CreateGeometryProxy(Axis, out result);
+                    return (WorkAxis)result;
+                }
                 return null;
             }
             else
             {
                 foreach (ComponentOccurrence item in occ.SubOccurrences)
                 {
-                    WorkAxis result = GetAxis(item, name);
-                    if (result != null) return result;
+                    WorkAxis result = GetAxisProxy(item, name);
+                    if (result != null)
+                    {
+                        return result;
+                    }
                 }
                 return null;
             }
