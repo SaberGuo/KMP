@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
+using KMP.Interface.Model;
 namespace KMP.Interface.Tools
 {
     public class PassedParamConverter : ExpandableObjectConverter

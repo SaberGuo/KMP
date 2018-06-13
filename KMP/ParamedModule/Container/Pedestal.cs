@@ -10,12 +10,15 @@ using KMP.Interface;
 using System.ComponentModel.Composition;
 namespace ParamedModule.Container
 {
-    [Export(typeof(IParamedModule))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    //[Export(typeof(IParamedModule))]
+    //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Pedestal : PartModulebase
     {
-        ParPedestal par = new ParPedestal();
-        [ImportingConstructor]
+        public ParPedestal par = new ParPedestal();
+        public Pedestal() : base()
+        {
+
+        }
         public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
             this.Name = "底座";
@@ -42,17 +45,15 @@ namespace ParamedModule.Container
         }
 
         #region 创建模型 
-        public override void CreateModule()
+    
+        public override void CreateSub()
         {
-
-            GeneratorProgress(this, "开始创建容器底座");
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             osketch.Visible = false;
             #region 创建圆
             SketchArc outArc, underBoardArc;
             SketchLine sublineCenter;
-            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter,UsMM( par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
+            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter, UsMM(par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
             #endregion
             #region 垫板堵头
             SketchLine line1 = osketch.SketchLines.AddByTwoPoints(underBoardArc.StartSketchPoint, GetCyclePoint(
@@ -73,14 +74,11 @@ namespace ParamedModule.Container
             osketch.DimensionConstraints.AddTwoPointDistance(underBoardArc.CenterSketchPoint, pedestalLines[2].StartSketchPoint, DimensionOrientationEnum.kVerticalDim, underBoardArc.CenterSketchPoint.Geometry).Parameter.Value = UsMM(par.PedestalCenterDistance);
             #endregion
             List<SketchLine> leftLines, rightLines;
-          DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc,out leftLines,out rightLines,UsMM(par.FootBoardThickness), UsMM(par.FootBoardBetween));
+            DrawingFootLine(osketch, sublineCenter, pedestalLines[0], underBoardArc, out leftLines, out rightLines, UsMM(par.FootBoardThickness), UsMM(par.FootBoardBetween));
             CreateunderBoard(outArc, underBoardArc, line1, line2);
             CreatePedestalBoard(pedestalLines);
-           ExtrudeFeature footboad=  CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
+            ExtrudeFeature footboad = CreateBackBoard(underBoardArc, rightLines.Last(), leftLines.Last(), pedestalLines[0]);
             CreateFootBoard(footboad, leftLines, rightLines, pedestalLines[0], underBoardArc);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器底座");
-
         }
         /// <summary>
         /// 创建竖版实体
@@ -441,15 +439,36 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
         #endregion
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             double r = par.InRadius.Value + par.Thickness.Value + par.PanelThickness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度
-            if (par.UnderBoardingAngle > 140) return false;
-            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length ) return false;
-            if (par.PedestalCenterDistance <= r + 10) return false;
-            if (par.PedestalLength < length) return false;
-            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth) return false;
+            if (par.UnderBoardingAngle > 140)
+            {
+                ParErrorChanged(this, "垫板角度大于140度");
+                return false;
+            }
+
+            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length )
+            {
+                ParErrorChanged(this, "竖板间距和厚度和大于垫板的水平长度");
+                return false;
+            }
+            if (par.PedestalCenterDistance <= r + 10)
+            {
+                ParErrorChanged(this, "底板于垫板的间距过小");
+                return false;
+            }
+            if (par.PedestalLength < length)
+            {
+                ParErrorChanged(this, "底板长度小与垫板的水平长度");
+                return false;
+            }
+            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth)
+            {
+                ParErrorChanged(this, "竖板的宽度与背板厚度和偏移距离总和大于垫板的宽度");
+                return false;
+            }
             return true;
         }
     }

@@ -29,7 +29,7 @@ namespace KMP
         {
             base.InitializeShell();
 
-            Application.Current.MainWindow = (Shell)this.Shell;
+            Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
 
 

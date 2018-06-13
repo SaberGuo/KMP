@@ -20,8 +20,8 @@ namespace KMP.Parameterization
     /// <summary>
     /// Test.xaml 的交互逻辑
     /// </summary>
-    //[ViewExport(RegionName = "Test")]
-    //[PartCreationPolicy(CreationPolicy.NonShared)]
+    [ViewExport(RegionName = "Test")]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public partial class Test : UserControl
     {
         IModuleService _moduleService;
@@ -35,6 +35,16 @@ namespace KMP.Parameterization
         private void button_Click(object sender, RoutedEventArgs e)
         {
             _moduleService.Create();
+        }
+
+        private void BT_Serializer_Click(object sender, RoutedEventArgs e)
+        {
+            _moduleService.Serialization();
+        }
+
+        private void BT_DeSerializer_Click(object sender, RoutedEventArgs e)
+        {
+            _moduleService.DeSerialization();
         }
     }
 }

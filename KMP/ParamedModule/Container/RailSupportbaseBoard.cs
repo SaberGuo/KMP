@@ -17,7 +17,7 @@ namespace ParamedModule.Container
 
  public  class RailSupportbaseBoard : PartModulebase
     {
-        internal ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
+        public ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
         [ImportingConstructor]
         public RailSupportbaseBoard():base()
         {
@@ -34,19 +34,18 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-          return  CommonTool.CheckParameterValue(par);
-            
+            if (!CheckParZero()) return false;
+            return true;
         }
 
-        public override void CreateModule()
+     
+        public override void CreateSub()
         {
-            GeneratorProgress(this, "开始创建容器内导轨支架底板");
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature box=   InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
+            ExtrudeFeature box = InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             box.Name = "RailBaseBoard";
-          
+
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
             List<Edge> startEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(startFace.Edges.GetEnumerator());
@@ -55,13 +54,11 @@ namespace ParamedModule.Container
             mateA.Name = "mateA";
             MateiMateDefinition mateB = Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0);
             mateB.Name = "mateB";
-           // partDef.iMateDefinitions.AddAngleiMateDefinition(sideFaces[0], false, Math.PI/2);
+            // partDef.iMateDefinitions.AddAngleiMateDefinition(sideFaces[0], false, Math.PI/2);
             //Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0 ).Name= "flushA";
-            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name="flushB";
-            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[3], 0).Name="flushC";
-           // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushD";
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器内导轨支架底板");
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name = "flushB";
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[3], 0).Name = "flushC";
+
         }
     }
 }

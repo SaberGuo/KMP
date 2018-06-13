@@ -6,15 +6,18 @@ using KMP.Interface.Model.Container;
 using Infranstructure.Tool;
 using Inventor;
 using System.ComponentModel.Composition;
-using KMP.Interface;
+using KMP.Interface.Model;
 namespace ParamedModule.Container
 {
     //[Export(typeof(IParamedModule))]
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSupport : PartModulebase
     {
-      internal  ParPlaneSupport par = new ParPlaneSupport();
-        [ImportingConstructor]
+        public ParPlaneSupport par = new ParPlaneSupport();
+        public PlaneSupport():base()
+        {
+
+        }
         public PlaneSupport(PassedParameter InRadius):base()
         {
             this.Parameter = par;
@@ -23,7 +26,12 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
+           if(par.Offset+par.BrachDiameter1/2>=par.InRadius.Value)
+            {
+                ParErrorChanged(this, "支撑偏移量和底部支撑半径和大于罐体半径");
+                return false;
+            }
             return true;
         }
         void init()
@@ -31,30 +39,39 @@ namespace ParamedModule.Container
           
             par.BrachHeight1 = 100;
             par.BrachHeight2 = 200;
-            par.BrachRadius1 = 100;
-            par.BrachRadius2 = 50;
+            par.BrachDiameter1 = 200;
+            par.BrachDiameter2 = 100;
             par.Offset = 800;
             par.TopBoardThickness = 30;
             par.TopBoardWidth = 300;
         }
-        public override void CreateModule()
+  
+        public override void CreateSub()
         {
-          
-            GeneratorProgress(this, "开始创建容器内平板支撑");
-            CreateDoc();
             SketchArc arc;
             SketchLine line1, line2;
             List<SketchLine> lines1, lines2;
-            CreateDownCyling(UsMM(par.InRadius.Value), UsMM(par.BrachRadius1), UsMM(par.BrachRadius2),
-                UsMM(par.BrachHeight1), UsMM(par.BrachHeight2),UsMM(par.Offset),out arc,
-                out line1,out line2,out lines1,out lines2);
-         RevolveFeature UpCyling=   CreateUpCyling(lines2);
-            CreateTopBox(UpCyling,UsMM(par.TopBoardWidth),UsMM(par.TopBoardWidth),UsMM(par.TopBoardThickness));
+            CreateDownCyling(UsMM(par.InRadius.Value), UsMM(par.BrachDiameter1 / 2), UsMM(par.BrachDiameter2 / 2),
+                UsMM(par.BrachHeight1), UsMM(par.BrachHeight2), UsMM(par.Offset), out arc,
+                out line1, out line2, out lines1, out lines2);
+            RevolveFeature UpCyling = CreateUpCyling(lines2);
+            CreateTopBox(UpCyling, UsMM(par.TopBoardWidth), UsMM(par.TopBoardWidth), UsMM(par.TopBoardThickness));
             CreateClear(arc, line1, line2);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器内平板支撑");
-
         }
+        /// <summary>
+        /// 创建下半部分圆筒支撑
+        /// </summary>
+        /// <param name="inRadius">罐体内直径</param>
+        /// <param name="braceRadius1">底部支撑半径</param>
+        /// <param name="braceRadius2">上部支撑半径</param>
+        /// <param name="braceLength1">底部支撑长度</param>
+        /// <param name="braceLength2">上部支撑长度</param>
+        /// <param name="offset">支撑到罐体轴心的距离</param>
+        /// <param name="arc">罐体圆弧</param>
+        /// <param name="line1">辅助线</param>
+        /// <param name="line2">辅助线</param>
+        /// <param name="lines1">下部支撑草图</param>
+        /// <param name="lines2">上部支撑草图</param>
         void CreateDownCyling(double inRadius,double braceRadius1,double braceRadius2,double braceLength1,
             double braceLength2,double offset,out SketchArc arc,out SketchLine line1,out SketchLine line2,
            out List<SketchLine> lines1,out List<SketchLine> lines2)
@@ -103,6 +120,11 @@ namespace ParamedModule.Container
             RevolveFeature revolve = Definition.Features.RevolveFeatures.AddFull(pro, lines1[0], PartFeatureOperationEnum.kNewBodyOperation);
          
         }
+        /// <summary>
+        /// 创建上部支撑
+        /// </summary>
+        /// <param name="lines">上部支撑草图线</param>
+        /// <returns></returns>
         RevolveFeature CreateUpCyling(List<SketchLine> lines)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
@@ -114,6 +136,12 @@ namespace ParamedModule.Container
             Profile pro = osketch.Profiles.AddForSolid();
           return  Definition.Features.RevolveFeatures.AddFull(pro, results[0], PartFeatureOperationEnum.kJoinOperation);
         }
+        /// <summary>
+        /// 清除下部支撑的多余部分
+        /// </summary>
+        /// <param name="arc">罐体圆弧</param>
+        /// <param name="line1">辅助线1</param>
+        /// <param name="line2">辅助线2</param>
         void CreateClear(SketchArc arc,SketchLine line1,SketchLine line2)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
@@ -125,6 +153,13 @@ namespace ParamedModule.Container
             Profile pro = osketch.Profiles.AddForSolid();
             Definition.Features.RevolveFeatures.AddFull(pro, lineP2, PartFeatureOperationEnum.kIntersectOperation);
         }
+        /// <summary>
+        /// 创建顶部平板
+        /// </summary>
+        /// <param name="upCyling">上半部分圆筒支撑</param>
+        /// <param name="wide">宽</param>
+        /// <param name="length">长</param>
+        /// <param name="height">高</param>
         void CreateTopBox(RevolveFeature upCyling,double wide,double length,double height)
         {
             List<Face> SFS = InventorTool.GetCollectionFromIEnumerator<Face>(upCyling.SideFaces.GetEnumerator());

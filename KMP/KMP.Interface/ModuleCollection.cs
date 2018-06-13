@@ -28,6 +28,7 @@ namespace KMP.Interface
             this.Add(module);
             module.PropertyChanged += ModulePropertyChanged;
             module.GeneratorChanged += OnGeneratorChanged;
+         
         }
         public virtual void ModulePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

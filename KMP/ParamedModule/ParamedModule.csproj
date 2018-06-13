@@ -66,6 +66,10 @@
     <Compile Include="Container\RailSupportCenterBoard.cs" />
     <Compile Include="Container\RailSupportSidePlate.cs" />
     <Compile Include="Container\RailSupportTopBoard.cs" />
+    <Compile Include="HeatSinkSystem\Cap.cs" />
+    <Compile Include="HeatSinkSystem\HeatSink.cs" />
+    <Compile Include="HeatSinkSystem\Noumenon.cs" />
+    <Compile Include="WareHouseEnvironment.cs" />
     <Compile Include="ParamedModuleBase.cs" />
     <Compile Include="Container\Pedestal.cs" />
     <Compile Include="PartModulebase.cs" />
@@ -102,6 +106,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Service\" /Y</PostBuildEvent>

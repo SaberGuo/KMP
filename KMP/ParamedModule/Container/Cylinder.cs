@@ -12,12 +12,17 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace ParamedModule.Container
 {
-
+    
     public class Cylinder : PartModulebase
     {
-        internal ParCylinder par = new ParCylinder();
+        public ParCylinder par = new ParCylinder();
         Dictionary<double, WorkPlane> _cylinderHolePlanes = new Dictionary<double, WorkPlane>();
         Dictionary<double, WorkPlane> _capHolePlanes = new Dictionary<double, WorkPlane>();
+        public Cylinder():base()
+        {
+
+        }
+      
         public Cylinder(PassedParameter InRadius, PassedParameter Thickness) : base()
         {
             this.Parameter = par;
@@ -46,11 +51,11 @@ namespace ParamedModule.Container
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
-            ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12, D0 = 480, N = 6 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100, PipeThickness = 2 };
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, HoleRadius = 100, PipeThickness = 2 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, HoleRadius = 200, PipeThickness = 2 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300, HoleRadius = 150, PipeThickness = 2 };
+            ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
+            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
+            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, PipeThickness = 2 };
+            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300,  PipeThickness = 2 };
             hole.ParFlanch = parflanch1;
             hole1.ParFlanch = parflanch1;
             hole2.ParFlanch = parflanch1;
@@ -60,7 +65,7 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
             #region 堵头顶孔
-            ParCylinderHole CapHole = new ParCylinderHole() { HoleRadius = 200, PipeLenght = 300, PipeThickness = 4 };
+            ParCylinderHole CapHole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.CapTopHole = CapHole;
@@ -71,8 +76,8 @@ namespace ParamedModule.Container
             //  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             // ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
             //  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole4 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole5 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParCylinderHole ParSideHole4 = new ParCylinderHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParCylinderHole ParSideHole5 = new ParCylinderHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             //   ParSideHole.ParFlanch = sideFlanch;
             //  ParSideHole1.ParFlanch = sideFlanch;
             //   ParSideHole2.ParFlanch = sideFlanch;
@@ -87,16 +92,15 @@ namespace ParamedModule.Container
             par.CapSideHoles.Add(ParSideHole5);
             #endregion
         }
-        public override void CreateModule()
+        public override void DisPose()
         {
+            base.DisPose();
             _cylinderHolePlanes.Clear();
             _capHolePlanes.Clear();
-
-
-            // if (!CheckParamete()) return;
-            // if (!CheckParamete()) return;
-            GeneratorProgress(this, "开始创建容器");
-            CreateDoc();
+        }
+       
+        public override void CreateSub()
+        {
             #region
             RevolveFeature cap;
             SketchEllipticalArc Arc1;
@@ -117,7 +121,7 @@ namespace ParamedModule.Container
                 WorkPlane plane = _cylinderHolePlanes[item.PositionAngle];
                 if (plane == null) continue;
 
-                CreateHole(plane, sideFaces[3], Axis, item, outFaceEdges[0]);
+                CreateHole(plane, sideFaces[3], Axis, item, outFaceEdges[1]);
             }
             ClearResidue(sideFaces[3], UsMM(par.Length));
             #endregion
@@ -138,15 +142,17 @@ namespace ParamedModule.Container
             }
             CreateCapClear(Arc1);
             #endregion
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器");
         }
-
+        /// <summary>
+        /// 创建顶孔
+        /// </summary>
+        /// <param name="cap">罐顶头特性</param>
+        /// <param name="OutFace">罐体横截面</param>
         private void CreteTopHole(RevolveFeature cap, Face OutFace)
         {
             WorkPlane topHolePlane;
             SketchCircle CapTopInCircle;
-            CreateTopHole(cap, OutFace, UsMM(par.CapRadius), UsMM(par.Thickness.Value), UsMM(par.CapTopHole.HoleRadius), out topHolePlane, out CapTopInCircle);
+            CreateTopHole(cap, OutFace, UsMM(par.CapRadius), UsMM(par.Thickness.Value), UsMM(par.CapTopHole.ParFlanch.D6/2), out topHolePlane, out CapTopInCircle);
             ExtrudeFeature TopPipe = CreateTopHolePipe(topHolePlane, CapTopInCircle, UsMM(par.CapTopHole.PipeLenght), UsMM(par.CapTopHole.PipeThickness));
             Face topPipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopPipe.StartFaces.GetEnumerator());
             ExtrudeFeature TopFlance = CreateTopFlance(topPipeEndFace, CapTopInCircle, UsMM(par.CapTopHole.ParFlanch.D1 / 2), UsMM(par.CapTopHole.ParFlanch.H));
@@ -205,7 +211,7 @@ namespace ParamedModule.Container
                 foreach (ProfileEntity sub in item)
                 {
                     ObjectTypeEnum enum1 = sub.Type;
-                    if (sub.SketchEntity == Arc1 || sub.SketchEntity == Arc2 || sub.SketchEntity == lines[2] || sub.SketchEntity == lines[1])
+                    if (sub.SketchEntity == Arc1 || sub.SketchEntity == Arc2 || sub.SketchEntity == Line1 || sub.SketchEntity == Line2)
                     {
                         item.AddsMaterial = false;
                         break;
@@ -402,22 +408,24 @@ namespace ParamedModule.Container
                 dim.Parameter.Value = item.PositionAngle / 180 * Math.PI;
                 dim.Visible = false;
 
-                WorkPlane plane = Definition.WorkPlanes.AddByPointAndTangent(p, outFace);
+                WorkPlane plane = Definition.WorkPlanes.AddByPointAndTangent(p, outFace,true);
                 _cylinderHolePlanes.Add(item.PositionAngle, plane);
             }
 
 
         }
+      
         /// <summary>
-        /// 开孔
+        /// 罐体开孔
         /// </summary>
         /// <param name="plane">开孔的平面</param>
         /// <param name="DistanceFace">罐口面</param>
         /// <param name="axis">罐中心轴</param>
-        /// <param name="cyliderSideFace">罐外侧面</param>
+        /// <param name="parHole">孔参数</param>
+        /// <param name="outFaceEdge">罐外侧面边</param>
         private void CreateHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole, Edge outFaceEdge)
         {
-            #region 创建孔
+            #region 创建罐体孔
             double x, y;
             if (parHole.PositionAngle >= 0 && parHole.PositionAngle < 180)
             {
@@ -456,13 +464,13 @@ namespace ParamedModule.Container
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace = Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
-            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 + "mm", par.InRadius.Value + par.Thickness.Value + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, UsMM(parHole.ParFlanch.D6) , UsMM(par.InRadius.Value + par.Thickness.Value) , PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
             #endregion
             Face holeSideFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.SideFaces.GetEnumerator());
             WorkAxis holeAxis = Definition.WorkAxes.AddByRevolvedFace(holeSideFace, true);
 
-            RevolveFeature pipe = CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.HoleRadius), UsMM(parHole.PipeThickness), UsMM(parHole.HoleOffset), parHole.PositionAngle, holeAxis);
+            RevolveFeature pipe = CreatePipe(DistanceFace, outFaceEdge, holeCenter, UsMM(parHole.PipeLenght), UsMM(parHole.ParFlanch.D6/2), UsMM(parHole.PipeThickness), UsMM(parHole.HoleOffset), parHole.PositionAngle, holeAxis);
             SketchCircle flanchInCircle;
             ExtrudeFeature flanch = CreateFlance(pipe, UsMM(parHole.ParFlanch.D1 / 2), UsMM(parHole.ParFlanch.H), out flanchInCircle);
             if (flanch == null) return;
@@ -692,6 +700,16 @@ namespace ParamedModule.Container
         }
         #endregion
         #region 顶部开孔
+        /// <summary>
+        /// 顶部开孔
+        /// </summary>
+        /// <param name="cap">罐顶特性</param>
+        /// <param name="outFace">罐顶口横截面</param>
+        /// <param name="capRadius">封口水平半径</param>
+        /// <param name="thickness">厚度</param>
+        /// <param name="holeRadius">孔半径</param>
+        /// <param name="topHolePlane">孔平面</param>
+        /// <param name="topSketchCircle">罐口界面圆草图</param>
         private void CreateTopHole(RevolveFeature cap, Face outFace, double capRadius, double thickness, double holeRadius, out WorkPlane topHolePlane, out SketchCircle topSketchCircle)
         {
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.Faces.GetEnumerator());
@@ -708,6 +726,14 @@ namespace ParamedModule.Container
             ExtrudeFeature hole = Definition.Features.ExtrudeFeatures.Add(ex);
             // topHoleFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.Faces.GetEnumerator());
         }
+        /// <summary>
+        /// 创建顶部孔管道
+        /// </summary>
+        /// <param name="topHolePlane">顶孔平面</param>
+        /// <param name="inCircle">罐内圆草图</param>
+        /// <param name="pipeLenght">管长度</param>
+        /// <param name="thickness">管厚度</param>
+        /// <returns></returns>
         private ExtrudeFeature CreateTopHolePipe(WorkPlane topHolePlane, SketchCircle inCircle, double pipeLenght, double thickness)
         {
             // Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(topHoleFace.Edges.GetEnumerator());
@@ -715,7 +741,7 @@ namespace ParamedModule.Container
             SketchEntity circle = osketch.AddByProjectingEntity(inCircle);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(circle);
-            osketch.OffsetSketchEntitiesUsingDistance(objc, thickness, false);
+            osketch.OffsetSketchEntitiesUsingDistance(objc, thickness, true);
             // SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(circle.CenterSketchPoint, outRadius);
             Profile pro = osketch.Profiles.AddForSolid();
             foreach (ProfilePath item in pro)
@@ -733,6 +759,14 @@ namespace ParamedModule.Container
             ex.SetDistanceExtentTwo(pipeLenght);
             return Definition.Features.ExtrudeFeatures.Add(ex);
         }
+        /// <summary>
+        /// 创建顶部孔法兰
+        /// </summary>
+        /// <param name="plane"></param>
+        /// <param name="topInCircle">管内圆草图</param>
+        /// <param name="flachOutRadius">法兰外圆半径</param>
+        /// <param name="flachThickness">法兰厚度</param>
+        /// <returns></returns>
         private ExtrudeFeature CreateTopFlance(Face plane, SketchCircle topInCircle, double flachOutRadius, double flachThickness)
         {
             PlanarSketch osketch = Definition.Sketches.Add(plane);
@@ -783,7 +817,13 @@ namespace ParamedModule.Container
                 _capHolePlanes.Add(item.PositionAngle, plane);
             }
         }
-
+        /// <summary>
+        /// 创建堵头侧边孔
+        /// </summary>
+        /// <param name="plane">侧边孔平面</param>
+        /// <param name="DistanceFace">堵头底部平面</param>
+        /// <param name="axis">堵头轴线</param>
+        /// <param name="parHole">孔参数</param>
         private void CreateCapSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole)
         {
             #region
@@ -824,7 +864,7 @@ namespace ParamedModule.Container
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace = Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
-            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.HoleRadius * 2 + "mm", par.InRadius.Value + par.Thickness.Value + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, parHole.ParFlanch.D6 + "mm", par.InRadius.Value + par.Thickness.Value + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             #endregion
             CreateCapSideHolePipe(plane, holeCenter, parHole);
             //SketchLine positionLine=  osketch.SketchLines.AddByTwoPoints(holeCenter, InventorTool.Origin);
@@ -837,13 +877,19 @@ namespace ParamedModule.Container
             //  PlanarSketch pipeSketch = Definition.Sketches.AddWithOrientation(pipePlane, positionLine, true, false, holeCenter, true);
             //  CreateSideHolePipe(pipeSketch, edges[1]);
         }
+        /// <summary>
+        /// 创建堵头侧边孔管道
+        /// </summary>
+        /// <param name="plane">孔平面</param>
+        /// <param name="holeCenter">孔中心点</param>
+        /// <param name="parHole">孔参数</param>
         private void CreateCapSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParCylinderHole parHole)
         {
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             osketch.Visible = false;
             SketchPoint center = (SketchPoint)osketch.AddByProjectingEntity(holeCenter);
-            SketchCircle circle1 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.HoleRadius));
-            SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.HoleRadius + parHole.PipeThickness));
+            SketchCircle circle1 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.ParFlanch.D6/2));
+            SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(center, UsMM(parHole.ParFlanch.D6/2 + parHole.PipeThickness));
             Profile pro = osketch.Profiles.AddForSolid();
             foreach (ProfilePath item in pro)
             {
@@ -905,6 +951,10 @@ namespace ParamedModule.Container
             SurfaceTypeEnum t1 = flachEndFace.SurfaceType;
             CreateFlanceScrew(flachEndFace, circle1, parHole.ParFlanch.N, UsMM(parHole.ParFlanch.C / 2), UsMM(parHole.ParFlanch.D0 / 2), UsMM(parHole.ParFlanch.H));
         }
+        /// <summary>
+        /// 创建堵头清除面
+        /// </summary>
+        /// <param name="arc"></param>
         private void CreateCapClear(SketchEllipticalArc arc)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
@@ -917,22 +967,49 @@ namespace ParamedModule.Container
         #endregion
         public override bool CheckParamete()
         {
-            if (!CommonTool.CheckParameterValue(par)) return false;
-            if (par.FlanchWidth < par.Thickness.Value) return false;
-            if (par.RibWidth <= par.RibBraceWidth) return false;
-            if (par.RibHeight <= par.RibBraceHeight) return false;
+            if (!CheckParZero()) return false;
+            if (par.FlanchWidth < par.Thickness.Value)
+            {
+                ParErrorChanged(this, "法兰宽度不能小于罐壁厚度");
+                return false;
+            }
+           
+            if (par.RibWidth <= par.RibBraceWidth)
+            {
+                ParErrorChanged(this, "加强筋上下面宽度必须大于中部支柱宽度");
+                return false;
+            }
+            if (par.RibHeight <= par.RibBraceHeight)
+            {
+                ParErrorChanged(this, "加强筋总高度必须大于中部支柱高度");
+                return false;
+            }
             for (int i = 0; i < par.ParHoles.Count; i++)
             {
                 var item = par.ParHoles[i];
-                if (item.HoleOffset > par.InRadius.Value - item.HoleRadius) return false;
-                if (item.PositionDistance > par.Length - item.HoleRadius) return false;
-                if (item.PositionAngle < 0 && item.PositionAngle > 360) return false;
+                if (item.HoleOffset > par.InRadius.Value - item.ParFlanch.D1/2)
+                {
+                    ParErrorChanged(this, "孔的偏移量和孔的半径大于罐的半径");
+                    return false;
+                }
+                if (item.PositionDistance >= par.Length - item.ParFlanch.D1 / 2)
+                {
+                    ParErrorChanged(this, "孔距离罐口值和孔的半径大于罐的长度");
+                    return false;
+                }
+                if (item.PositionAngle < 0 || item.PositionAngle > 360)
+                {
+                     
+                    ParErrorChanged(this, "孔的角度位置超出范围");
+                    return false;
+                }
                 for (int j = i + 1; j < par.ParHoles.Count; j++)
                 {
-                    if (item.HoleRadius == par.ParHoles[j].HoleRadius)
+                    if (item.PositionAngle == par.ParHoles[j].PositionAngle)
                     {
                         if (item.HoleOffset == par.ParHoles[j].HoleOffset && item.PositionDistance == par.ParHoles[j].PositionDistance)
                         {
+                            ParErrorChanged(this, "孔的角度位置超出范围");
                             return false;
                         }
                     }

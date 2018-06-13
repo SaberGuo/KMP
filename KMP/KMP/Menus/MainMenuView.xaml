@@ -16,7 +16,14 @@
             <MenuItem Header="新建(_New)..." InputGestureText="Ctrl+N" Command="{x:Static cmd:FileCommands.NewFileCommand }">
          
             </MenuItem>
+          
             <MenuItem x:Name="Open" Header="打开(_Load)..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
+
+            </MenuItem>
+            <MenuItem x:Name="Serialization" Header="序列化" InputGestureText="Ctrl+O" Command="{x:Static cmd:ModelCommands.SerializationCommand}">
+
+            </MenuItem>
+            <MenuItem x:Name="DeSerialization" Header="反序列化" InputGestureText="Ctrl+O" Command="{x:Static cmd:ModelCommands.DeSerializationCommand}">
 
             </MenuItem>
             <MenuItem Header="保存(_Save)" InputGestureText="Ctrl+S" Command="{x:Static cmd:FileCommands.SaveAllFileCommand}">

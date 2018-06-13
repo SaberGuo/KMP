@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.ViewModel;
 using System.ComponentModel;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using Microsoft.Practices.ServiceLocation;
-
+using System.Reflection;
 namespace KMP.Interface.Model.Container
 {
   [DisplayName("容器开孔")]
@@ -14,11 +14,34 @@ namespace KMP.Interface.Model.Container
     {
         double positionAngle;
         double positionDistance;
-        double holeRadius;
+       // double holeRadius;
         double pipeLenght;
         double holeOffset;
         double pipeThickness;
+        bool isHeatSinkHole;
         ParFlanch parFlanch=new ParFlanch();
+        [DisplayName("法兰公称通径")]
+        [ItemsSource(typeof(ParFlanchSource))]
+        public double FlanchDN
+        {
+            get
+            {
+                return this.flanchDN;
+            }
+            set
+            {
+                this.flanchDN = value;
+                ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
+                Type T = typeof(ParFlanch);
+                PropertyInfo[] propertys = T.GetProperties();
+                foreach (var item in propertys)
+                {
+                    object c = item.GetValue(franch, null);
+                    //object d = item.GetValue(this.ParFlanch, null);
+                    item.SetValue(this.ParFlanch, c, null);
+                }
+            }
+        }
         /// <summary>
         /// 定位角度
         /// </summary>
@@ -53,23 +76,23 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.PositionDistance);
             }
         }
-        /// <summary>
-        /// 孔半径
-        /// </summary>
-        [DisplayName("孔半径")]
-        public double HoleRadius
-        {
-            get
-            {
-                return holeRadius;
-            }
+        ///// <summary>
+        ///// 孔半径
+        ///// </summary>
+        //[DisplayName("孔半径")]
+        //public double HoleRadius
+        //{
+        //    get
+        //    {
+        //        return holeRadius;
+        //    }
 
-            set
-            {
-                holeRadius = value;
-                this.RaisePropertyChanged(() => this.HoleRadius);
-            }
-        }
+        //    set
+        //    {
+        //        holeRadius = value;
+        //        this.RaisePropertyChanged(() => this.HoleRadius);
+        //    }
+        //}
         /// <summary>
         /// 短管长度
         /// </summary>
@@ -108,20 +131,6 @@ namespace KMP.Interface.Model.Container
 
         private double flanchDN = 10;
 
-        [DisplayName("法兰公称通径")]
-        [ItemsSource(typeof(ParFlanchSource))]
-        public double FlanchDN
-        {
-            get
-            {
-                return this.flanchDN;
-            }
-            set
-            {
-                this.flanchDN = value;
-                this.ParFlanch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
-            }
-        }
         [DisplayName("法兰")]
         //[ItemsSource(typeof(ParFlanchSource))]
         public ParFlanch ParFlanch
@@ -153,6 +162,19 @@ namespace KMP.Interface.Model.Container
             {
                 pipeThickness = value;
                 this.RaisePropertyChanged(() => this.PipeThickness);
+            }
+        }
+        [DisplayName("是否热沉系统孔")]
+        public bool IsHeatSinkHole
+        {
+            get
+            {
+                return isHeatSinkHole;
+            }
+
+            set
+            {
+                isHeatSinkHole = value;
             }
         }
     }

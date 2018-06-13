@@ -57,7 +57,7 @@ namespace KMP.Interface.Model.Container
         /// 容器门深度内半径
         /// </summary>
         /// 
-        [DisplayName("容器门深度内半径")]
+        [DisplayName("罐门内半径")]
         public double DoorRadius
         {
             get
@@ -89,7 +89,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
-        [DisplayName("堵头顶孔")]
+        [DisplayName("罐门顶孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole TopHole
         {
@@ -104,7 +104,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.TopHole);
             }
         }
-        [DisplayName("堵头侧边孔")]
+        [DisplayName("罐门侧边孔")]
         public ObservableCollection<ParCylinderHole> SideHoles
         {
             get

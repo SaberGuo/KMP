@@ -17,7 +17,7 @@ namespace ParamedModule.Container
 
   public  class RailSupportBrace : PartModulebase
     {
-        internal ParRailSupportBrace par = new ParRailSupportBrace();
+        public ParRailSupportBrace par = new ParRailSupportBrace();
         [ImportingConstructor]
         public RailSupportBrace():base()
         {
@@ -32,20 +32,17 @@ namespace ParamedModule.Container
             par.Thickness = 15;
         }
 
-        public override void CreateModule()
+      
+        public override void CreateSub()
         {
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-          ExtrudeFeature cyling=  CreateCyling(osketch, UsMM(par.InRadius), UsMM(par.Thickness), UsMM(par.Height));
+            ExtrudeFeature cyling = CreateCyling(osketch, UsMM(par.InRadius), UsMM(par.Thickness), UsMM(par.Height));
             cyling.Name = "Brace";
             Face sideface = InventorTool.GetFirstFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(sideface);
             axis.Name = "BraceAxis";
             axis.Visible = false;
-           
-
             SetMate(cyling);
-            SaveDoc();
         }
         /// <summary>
         /// 创建筒状体
@@ -96,7 +93,8 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-          return   CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
     }
 }

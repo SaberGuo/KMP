@@ -16,7 +16,7 @@ namespace ParamedModule.Container
 
   public  class RailSupportSidePlate : PartModulebase
     {
-        internal ParRailSupportSidePlate par = new ParRailSupportSidePlate();
+        public ParRailSupportSidePlate par = new ParRailSupportSidePlate();
         public RailSupportSidePlate():base()
         {
             this.Parameter = par;
@@ -32,23 +32,22 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            return CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
 
-        public override void CreateModule()
+     
+        public override void CreateSub()
         {
-           
-            CreateDoc();
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-           ExtrudeFeature box= InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
+            ExtrudeFeature box = InventorTool.CreateBox(Definition, osketch, UsMM(par.Length), UsMM(par.Width), UsMM(par.Thickness));
             Face endFace = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             box.Name = "RailSidePlate";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             MateiMateDefinition mateA = Definition.iMateDefinitions.AddMateiMateDefinition(endFace, 0);
             mateA.Name = "mateA";
-           // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushA";
-            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name="flushB";
-            SaveDoc();
+            // Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[0], 0).Name="flushA";
+            Definition.iMateDefinitions.AddFlushiMateDefinition(sideFaces[1], 0).Name = "flushB";
         }
     }
 }

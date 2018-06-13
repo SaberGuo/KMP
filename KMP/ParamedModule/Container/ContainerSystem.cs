@@ -13,12 +13,12 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ContainerSystem : AssembleModuleBase
     {
-        ParContainerSystem par = new ParContainerSystem();
-        Cylinder _cylinder;
-        CylinderDoor _cylinderDoor;
-        Pedestal _pedestal;
-        RailSystem _railSystem;
-        PlaneSystem _plane;
+        public ParContainerSystem par = new ParContainerSystem();
+        public Cylinder _cylinder;
+        public CylinderDoor _cylinderDoor;
+        public Pedestal _pedestal;
+        public RailSystem _railSystem;
+        public PlaneSystem _plane;
         [ImportingConstructor]
         public ContainerSystem():base()
         {
@@ -50,61 +50,58 @@ namespace ParamedModule.Container
             if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
                 (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()) || (!_plane.CheckParamete()))
                 return false;
-            return CommonTool.CheckParameterValue(par);
+            if (!CheckParZero()) return false;
+            return true;
         }
 
-        public override void CreateModule()
+      
+        public override void CreateSub()
         {
-            DisPose();
-            if (!CheckParamete()) return;
-            InventorTool.Inventor.Documents.CloseAll();
-            GeneratorProgress(this, "开始创建容器系统");
-            CreateDoc();
-            oPos = InventorTool.TranGeo.CreateMatrix();
+           // GeneratorProgress(this, "开始创建容器系统");
             _cylinder.CreateModule();
             _cylinderDoor.CreateModule();
             _plane.CreateModule();
-           
-          
+
+
             _pedestal.CreateModule();
             _railSystem.CreateModule();
-           
+
             #region 容器罐、罐门、底座组装
             ComponentOccurrence COcylinder = LoadOccurrence((ComponentDefinition)_cylinder.Doc.ComponentDefinition);
             ComponentOccurrence COcylinderDoor = LoadOccurrence((ComponentDefinition)_cylinderDoor.Doc.ComponentDefinition);
             SetiMateResult(COcylinder);
             SetiMateResult(COcylinderDoor);
-            List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
+           // List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
             double distance = _cylinder.par.Length / (par.PedestalNumber + 1);
             iMateDefinition cylinderAxisMate = Getimate(COcylinder, "mateH");//罐体轴
-          //  WorkAxis aixs = ((MateiMateDefinition)cylinderAxisMate).Entity;
-           List<WorkAxis> cylinderAxes=  InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)COcylinder.Definition).WorkAxes.GetEnumerator());
+                                                                             //  WorkAxis aixs = ((MateiMateDefinition)cylinderAxisMate).Entity;
+            List<WorkAxis> cylinderAxes = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)COcylinder.Definition).WorkAxes.GetEnumerator());
             WorkAxis cylinderAxis = cylinderAxes.Where(a => a.Name == "CylinderAxis").FirstOrDefault();
             MateiMateDefinition cylinderOutageMate = (MateiMateDefinition)Getimate(COcylinder, "mateK");
             Face cylinderOutageFace = (Face)cylinderOutageMate.Entity;
             object cylinderAxisProxy, cylinderOutageFaceProxy;//罐体轴代理 罐口面代理
             COcylinder.CreateGeometryProxy(cylinderOutageFace, out cylinderOutageFaceProxy);
             COcylinder.CreateGeometryProxy(cylinderAxis, out cylinderAxisProxy);
-         
-            for (int i=0;i<par.PedestalNumber;i++)
+
+            for (int i = 0; i < par.PedestalNumber; i++)
             {
                 ComponentOccurrence COpedestal = LoadOccurrence((ComponentDefinition)_pedestal.Doc.ComponentDefinition);
-               
+
                 #region 底座轴配对
-              
+
                 iMateDefinition b = Getimate(COpedestal, "mateM");
-                Definition.iMateResults.AddByTwoiMates(cylinderAxisMate,b);
+                Definition.iMateResults.AddByTwoiMates(cylinderAxisMate, b);
                 #endregion
                 #region 底座平移
-               
+
                 List<PartFeature> features = InventorTool.GetCollectionFromIEnumerator<PartFeature>(((PartComponentDefinition)COpedestal.Definition).Features.GetEnumerator());
 
                 PartFeature feature = features.Where(d => d.Name == "UnderBoard").FirstOrDefault();
                 Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(((ExtrudeFeature)feature).StartFaces.GetEnumerator());
-             
-                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, ( -i * distance - distance)+"mm").Name = "mateG" + i;
-                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace,( -i * distance - distance)+"mm").Name="mateG"+i;
-            
+
+                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, (-i * distance - distance) + "mm").Name = "mateG" + i;
+                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, (-i * distance - distance) + "mm").Name = "mateG" + i;
+
                 Definition.iMateResults.AddByTwoiMates(Getimate(COcylinder, "mateG" + i), Getimate(COpedestal, "mateG" + i));
                 #endregion
             }
@@ -112,41 +109,41 @@ namespace ParamedModule.Container
             #region 导轨组件组装
             ComponentOccurrence CORai1 = LoadOccurrence((ComponentDefinition)_railSystem.Doc.ComponentDefinition);
             ComponentOccurrence CORai2 = LoadOccurrence((ComponentDefinition)_railSystem.Doc.ComponentDefinition);
-           ExtrudeFeature rail1 = GetFeatureproxy<ExtrudeFeature>(CORai1, "Rail",ObjectTypeEnum.kExtrudeFeatureObject);
-            ExtrudeFeature rail2 =GetFeatureproxy<ExtrudeFeature>(CORai2, "Rail", ObjectTypeEnum.kExtrudeFeatureObject);
+            ExtrudeFeature rail1 = GetFeatureproxy<ExtrudeFeature>(CORai1, "Rail", ObjectTypeEnum.kExtrudeFeatureObject);
+            ExtrudeFeature rail2 = GetFeatureproxy<ExtrudeFeature>(CORai2, "Rail", ObjectTypeEnum.kExtrudeFeatureObject);
             List<Face> railSF1 = InventorTool.GetCollectionFromIEnumerator<Face>(rail1.SideFaces.GetEnumerator());
             List<Face> railSF2 = InventorTool.GetCollectionFromIEnumerator<Face>(rail2.SideFaces.GetEnumerator());
             Face railEndFace1 = InventorTool.GetFirstFromIEnumerator<Face>(rail1.StartFaces.GetEnumerator());
             Face railStartFace2 = InventorTool.GetFirstFromIEnumerator<Face>(rail2.EndFaces.GetEnumerator());
             //  List<Face> railSF2 = GetSideFacesproxy(CORai2, "Rail");
-            
+
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[11], UsMM(_railSystem.par.HeightOffset));//导轨顶面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[11], UsMM(_railSystem.par.HeightOffset));
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[0], UsMM(-_railSystem.par.Offset-_railSystem.rail.par.UpBridgeWidth/2));//导轨顶侧面
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[10], UsMM(_railSystem.par.Offset- _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[0], UsMM(-_railSystem.par.Offset - _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[10], UsMM(_railSystem.par.Offset - _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, 0); //导轨横截面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, 0);
             #endregion
+            #region
             oPos.SetToRotateTo(InventorTool.TranGeo.CreateVector(0, 0, 1), InventorTool.TranGeo.CreateVector(0, 1, 0));
-          
+
             ComponentOccurrence COPlane1 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
-      
+
             ComponentOccurrence COPlane2 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
-            
-            OccStruct OccPlane1 = GetOccStruct(COPlane1, "RailSidePlate",_plane.par.PlaneNumber-1);
-            OccStruct OccPlane2 = GetOccStruct(COPlane2, "RailSidePlate",0);
+
+            OccStruct OccPlane1 = GetOccStruct(COPlane1, "RailSidePlate", _plane.par.PlaneNumber - 1);
+            OccStruct OccPlane2 = GetOccStruct(COPlane2, "RailSidePlate", 0);
             Definition.Constraints.AddAngleConstraint(OccPlane1.SideFaces[2], OccPlane2.SideFaces[2], Math.PI);
             //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane1.EndFace, 0);
             //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane2.EndFace, 0);
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.EndFace, UsMM(_plane.par.HeightOffset));//导轨顶面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.EndFace, UsMM(_plane.par.HeightOffset));
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.SideFaces[1], UsMM(-_plane._planeSup.par.Offset-_plane._plane.par.Width/2));//导轨顶侧面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.SideFaces[1], UsMM(-_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.SideFaces[3], UsMM(_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2],0); //导轨横截面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2], 0); //导轨横截面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane2.SideFaces[0], 0);
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器系统");
+            #endregion
+           // GeneratorProgress(this, "完成创建容器系统");
         }
-
     }
 }

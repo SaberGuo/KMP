@@ -58,7 +58,7 @@ namespace KMP.Parameterization
         {
             get { return this._newModelWinState; }
             set
-            {
+            {  
                 this._newModelWinState = value;
                 RaisePropertyChanged("NewModelWinState");
             }
@@ -153,7 +153,7 @@ namespace KMP.Parameterization
 
 
         }
-
+       
         #endregion
         private void OnGeneratorChanged(object sender, GeneratorEventArgs e)
         {
@@ -163,8 +163,17 @@ namespace KMP.Parameterization
         private void InitModelCommands()
         {
             _modelCommandProxy.GenModelCommand = new DelegateCommand(GenModelExecuted);
+            _modelCommandProxy.DeSerializationCommand = new DelegateCommand(DeSerialization);
+            _modelCommandProxy.SerializationCommand = new DelegateCommand(Serialization);
         }
-
+        private void DeSerialization()
+        {
+            this.Modules.DeSerialization();
+        }
+        private void Serialization()
+        {
+            this.Modules.Serialization();
+        }
         private void GenModelExecuted()
         {
             if(this.Modules.Count == 0)

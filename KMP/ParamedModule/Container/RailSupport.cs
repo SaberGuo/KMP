@@ -16,12 +16,12 @@ namespace ParamedModule.Container
  
    public class RailSupport : AssembleModuleBase
     {
-      internal  ParRailSupport par = new ParRailSupport();
-        internal RailSupportTopBoard topBoard;
-        internal RailSupportSidePlate sidePlate;
-        internal RailSupportCenterBoard centerBoard;
-        internal RailSupportBrace brace;
-        internal RailSupportbaseBoard baseBoard;
+        public ParRailSupport par = new ParRailSupport();
+        public RailSupportTopBoard topBoard;
+        public RailSupportSidePlate sidePlate;
+        public RailSupportCenterBoard centerBoard;
+        public RailSupportBrace brace;
+        public RailSupportbaseBoard baseBoard;
     
         public RailSupport():base()
         {
@@ -44,32 +44,29 @@ namespace ParamedModule.Container
         {
             if ((!topBoard.CheckParamete()) || (!sidePlate.CheckParamete()) ||
                 (!centerBoard.CheckParamete()) || (!brace.CheckParamete()) || (!baseBoard.CheckParamete())) return false;
-            if (!CommonTool.CheckParameterValue(par)) return false;
+            if (!CheckParZero()) return false;
             return true;
         }
 
-        public override void CreateModule()
+        
+        public override void CreateSub()
         {
-            DisPose();
-            #region 当前部件需要
-            GeneratorProgress(this, "开始创建容器内导轨支撑");
+          //  GeneratorProgress(this, "开始创建容器内导轨支撑");
             centerBoard.CreateModule();
             baseBoard.CreateModule();
             sidePlate.CreateModule();
             brace.CreateModule();
             topBoard.CreateModule();
-            CreateDoc();
-            oPos = InventorTool.TranGeo.CreateMatrix();
-          ComponentOccurrence CObaseBoad = LoadOccurrence((ComponentDefinition)baseBoard.Doc.ComponentDefinition);
+            ComponentOccurrence CObaseBoad = LoadOccurrence((ComponentDefinition)baseBoard.Doc.ComponentDefinition);
             ComponentOccurrence COcenterBoad = LoadOccurrence((ComponentDefinition)centerBoard.Doc.ComponentDefinition);
             ComponentOccurrence COsidePlate = LoadOccurrence((ComponentDefinition)sidePlate.Doc.ComponentDefinition);
             ComponentOccurrence CObrace = LoadOccurrence((ComponentDefinition)brace.Doc.ComponentDefinition);
             ComponentOccurrence COtopBoard = LoadOccurrence((ComponentDefinition)topBoard.Doc.ComponentDefinition);
-            List<Face> baseBoardSideFaces = GetSideFaces(CObaseBoad,"RailBaseBoard");
-            List<Face> sidePlateSideFaces = GetSideFaces(COsidePlate,"RailSidePlate");
-            List<Face> centerBoardSF = GetSideFaces(COcenterBoad,"CenterBoard");
-            List<Face> topBoardSF = GetSideFaces(COtopBoard,"TopBoard");
-             List<WorkAxis> braceAxises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)CObrace.Definition).WorkAxes.GetEnumerator());
+            List<Face> baseBoardSideFaces = GetSideFaces(CObaseBoad, "RailBaseBoard");
+            List<Face> sidePlateSideFaces = GetSideFaces(COsidePlate, "RailSidePlate");
+            List<Face> centerBoardSF = GetSideFaces(COcenterBoad, "CenterBoard");
+            List<Face> topBoardSF = GetSideFaces(COtopBoard, "TopBoard");
+            List<WorkAxis> braceAxises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)CObrace.Definition).WorkAxes.GetEnumerator());
             WorkAxis braceAxis = braceAxises.Where(a => a.Name == "BraceAxis").FirstOrDefault();
             SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE", -centerBoard.par.Width / 2);
             SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[1], "mateF", -centerBoard.par.Width / 2);
@@ -82,15 +79,7 @@ namespace ParamedModule.Container
             SetiMateResult(COsidePlate);
             SetiMateResult(CObrace);
             SetiMateResult(COtopBoard);
-            //object obj1, obj2;
-            //CObaseBoad.CreateGeometryProxy(baseBoardSideFaces[0], out obj1);
-            //COsidePlate.CreateGeometryProxy(sidePlateSideFaces[0], out obj2);
-            //Definition.Constraints.AddFlushConstraint(obj1, obj2, 0);
-            #endregion
-
-            SaveDoc();
-            GeneratorProgress(this, "完成创建容器内导轨支撑");
+          //  GeneratorProgress(this, "完成创建容器内导轨支撑");
         }
-
     }
 }
