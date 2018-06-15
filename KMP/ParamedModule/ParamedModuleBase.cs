@@ -21,6 +21,7 @@ namespace ParamedModule
         ModuleCollection subParameModules =new ModuleCollection();
         string modelPath="";
         string name="";
+        string projectType = "";
         public ParamedModuleBase()
         {
             this.SubParamedModules.Root = this;
@@ -49,6 +50,18 @@ namespace ParamedModule
             {
                 this.name = value;
                 RaisePropertyChanged(() => this.Name);
+            }
+        }
+
+        public string ProjectType
+        {
+            get
+            {
+                return projectType;
+            }
+            set
+            {
+                this.projectType = value;
             }
         }
         [XmlIgnore]
@@ -144,14 +157,16 @@ namespace ParamedModule
         }
         public void Serialization()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "aa.xml";
+            string path = System.IO.Path.Combine(ModelPath, this.Name + ".kmp");
            
             XMLDeserializerHelper.Serialization<ParamedModule.ParamedModuleBase>(this, path);
         }
-        public void DeSerialization()
+        public void Serialization(string path)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "aa.xml";
-
+            XMLDeserializerHelper.Serialization<ParamedModule.ParamedModuleBase>(this, path);
+        }
+        public void DeSerialization(string path= "")
+        {
           ParamedModuleBase module=  XMLDeserializerHelper.Deserialization<ParamedModule.ParamedModuleBase>(this, path);
           if(module!=null)
             SetValue(module, this);

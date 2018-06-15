@@ -117,19 +117,53 @@ namespace KMP.Parameterization
         {
             this._fileCommandProxy.OpenFileCommand = new DelegateCommand(this.OpenFileExecuted);
             this._fileCommandProxy.NewFileCommand = new DelegateCommand(this.NewFileExecuted);
-
+            this._fileCommandProxy.ExitCommand = new DelegateCommand(this.ExistExecuted);
             this._childWindViewModel.NewModelHandler += OnNewModelHandler;
         }
+        private void ExistExecuted()
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+        private string browserLocation="";
         private void OpenFileExecuted()
         {
+            
+            
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "C# Inventor Open File Dialog";
-            fdlg.InitialDirectory = @"c:\program files\autodesk\inventor 2013\samples\models\";
-            fdlg.Filter = "Inventor files (*.ipt; *.iam; *.idw)|*.ipt;*.iam;*.idw";
-            fdlg.FilterIndex = 2;
+            fdlg.InitialDirectory = this.browserLocation==""?AppDomain.CurrentDomain.BaseDirectory: this.browserLocation;
+            fdlg.Filter = "kmp files (*.kmp)|*.kmp";
+            fdlg.FilterIndex = 1;
             fdlg.RestoreDirectory = true;
             if (fdlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                if (this.Modules.Count > 0 && this.Modules.IsChanged)
+                {
+                    if (MessageBox.Show("是否保存当前工程?", "工程保存", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        this.Modules.Serialization();
+                    }
+                }
+                //clear the current modules
+                if (this.Modules.Count > 0)
+                {
+                    this.Modules.Clear();
+                }
+                
+                IParamedModule module = _moduleService.OpenProject(fdlg.FileName);
+                if(module == null)
+                {
+                    MyException e = new MyException("打开文件失败！", ExceptionType.WARNING);
+                    this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
+                    return;
+                }
+                this.Modules.ProjectPath = fdlg.FileName;
+                this.Modules.AddModule(module);
+                this.Modules.First().GeneratorChanged += OnGeneratorChanged;
+
+                this._eventAggregator.GetEvent<ProjectChangedEvent>().Publish(this.Modules.ProjectPath);
+                //this.Modules.DeSerialization(fdlg.FileName);
+                //this.Modules.First
                 //_eventAggregator.GetEvent<UpdateModelEvent>().Publish(fdlg.FileName);
             }
         }
@@ -147,10 +181,12 @@ namespace KMP.Parameterization
 
             //create model
             IParamedModule module = _moduleService.CreateProject(e.ProjectType, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+            string projDir = System.IO.Path.Combine(e.ProjectDir, e.ProjectName);
+            this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName+".kmp");
             this.Modules.AddModule(module);
             this.Modules.First().GeneratorChanged += OnGeneratorChanged;
 
-
+            this._eventAggregator.GetEvent<ProjectChangedEvent>().Publish(this.Modules.ProjectPath);
 
         }
        
@@ -165,10 +201,33 @@ namespace KMP.Parameterization
             _modelCommandProxy.GenModelCommand = new DelegateCommand(GenModelExecuted);
             _modelCommandProxy.DeSerializationCommand = new DelegateCommand(DeSerialization);
             _modelCommandProxy.SerializationCommand = new DelegateCommand(Serialization);
+            _modelCommandProxy.SaveCommand = new DelegateCommand(SaveFile);
+        }
+        private void SaveFile()
+        {
+            this.Modules.Serialization();
+
+            MyException e = new MyException("保存文件完成！", ExceptionType.INFO);
+            _eventAggregator.GetEvent<InfoEvent>().Publish(e);
+        }
+
+        private void SaveAsFile()
+        {
+            SaveFileDialog sfDlg = new SaveFileDialog();
+            sfDlg.InitialDirectory = this.browserLocation == "" ? AppDomain.CurrentDomain.BaseDirectory : this.browserLocation;
+            sfDlg.Filter = "kmp files (*.kmp)|*.kmp";
+            sfDlg.AddExtension = true;
+            sfDlg.DefaultExt = "kmp";
+            
+            if(sfDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.Modules.First().ModelPath = System.IO.Path.GetDirectoryName(sfDlg.FileName);
+                this.Modules.Serialization(sfDlg.FileName);
+            }
         }
         private void DeSerialization()
         {
-            this.Modules.DeSerialization();
+           // this.Modules.DeSerialization();
         }
         private void Serialization()
         {

@@ -110,6 +110,19 @@ namespace ParameterService
             module.ModelPath = projPath;
             return module;
         }
+
+        public IParamedModule OpenProject(string projPath)
+        {
+            string projType = XMLDeserializerHelper.GetProjType(projPath);
+            if (projType != "")
+            {
+                IParamedModule module = ServiceLocator.Current.GetInstance<IParamedModule>(projType);
+                module.DeSerialization(projPath);
+                module.ModelPath = System.IO.Path.GetDirectoryName(projPath);
+                return module;
+            }
+            return null;
+        }
         public void Serialization()
         {
             //string path = AppDomain.CurrentDomain.BaseDirectory + "aa.xml";
@@ -120,7 +133,7 @@ namespace ParameterService
         }
         public void DeSerialization()
         {
-            assemsly.DeSerialization();
+            //assemsly.DeSerialization();
         }
     }
 }

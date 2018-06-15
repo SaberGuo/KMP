@@ -37,6 +37,32 @@ namespace Infranstructure.Commands
 
         static DelegateCommand _DeSerializationCommand;
 
+        static DelegateCommand _SaveCommand;
+        public static DelegateCommand SaveCommand
+        {
+            get
+            {
+                return _SaveCommand;
+            }
+            set
+            {
+                _SaveCommand = value;
+            }
+        }
+
+        static DelegateCommand _SaveAsCommand;
+        public static DelegateCommand SaveAsCommand
+        {
+            get
+            {
+                return _SaveAsCommand;
+            }
+            set
+            {
+                _SaveAsCommand = value;
+            }
+        }
+
     }
 
     [Export]
@@ -57,6 +83,18 @@ namespace Infranstructure.Commands
         {
             get { return ModelCommands.DeSerializationCommand; }
             set { ModelCommands.DeSerializationCommand = value; }
+        }
+
+        public virtual DelegateCommand SaveCommand
+        {
+            get { return ModelCommands.SaveCommand; }
+            set { ModelCommands.SaveCommand = value; }
+        }
+
+        public virtual DelegateCommand SaveAsCommand
+        {
+            get { return ModelCommands.SaveAsCommand; }
+            set { ModelCommands.SaveAsCommand = value; }
         }
     }
 }

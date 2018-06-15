@@ -56,21 +56,17 @@
                     <Image Source="../Resources/add.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="32" Height="32" ToolTip="打开">
+            <xctk:IconButton Width="32" Height="32" ToolTip="打开"  Command="{x:Static cmd:FileCommands.OpenFileCommand}">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/open.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="32" Height="32" ToolTip="保存">
+            <xctk:IconButton Width="32" Height="32" ToolTip="保存" Command="{x:Static cmd:ModelCommands.SaveCommand}">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/save.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="32" Height="32" ToolTip="保存所有">
-                <xctk:IconButton.Icon>
-                    <Image Source="../Resources/save_all.png"/>
-                </xctk:IconButton.Icon>
-            </xctk:IconButton>
+            
             <xctk:IconButton Width="32" Height="32" ToolTip="帮助">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/help-browser.png"/>

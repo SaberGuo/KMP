@@ -23,6 +23,7 @@ namespace KMP.Menus
         {
             this._logger = logger;
             this._eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ProjectChangedEvent>().Subscribe(OnProjectChanged);
             CommandInit();
 
 
@@ -35,8 +36,32 @@ namespace KMP.Menus
         {
             
         }
-       
-       
+
+        void OnProjectChanged(string projectPath)
+        {
+            if(projectPath == "")
+            {
+                this.HasProject = false;
+            }
+            else
+            {
+                this.HasProject = true;
+            }
+        }
         #endregion
+
+        private bool hasProject = false;
+        public bool HasProject
+        {
+            get
+            {
+                return hasProject;
+            }
+            set
+            {
+                this.hasProject = value;
+                this.RaisePropertyChanged(() => this.HasProject);
+            }
+        }
     }
 }

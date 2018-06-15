@@ -23,6 +23,7 @@ namespace ParamedModule.HeatSinkSystem
         {
             this.Parameter = par;
             this.Name = "热沉盖";
+            this.ProjectType = "Cap";
             par.InDiameter = inDiameter;
             par.Thickness = thickness;
             init();

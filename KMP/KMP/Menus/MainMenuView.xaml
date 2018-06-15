@@ -26,9 +26,9 @@
             <MenuItem x:Name="DeSerialization" Header="反序列化" InputGestureText="Ctrl+O" Command="{x:Static cmd:ModelCommands.DeSerializationCommand}">
 
             </MenuItem>
-            <MenuItem Header="保存(_Save)" InputGestureText="Ctrl+S" Command="{x:Static cmd:FileCommands.SaveAllFileCommand}">
+            <MenuItem Header="保存(_Save)" IsEnabled="{Binding HasProject}"  InputGestureText="Ctrl+S" Command="{x:Static cmd:ModelCommands.SaveCommand}">
             </MenuItem>
-            <MenuItem Header="另存为(Save _As) ..." InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
+            <MenuItem Header="另存为(Save _As) ..." IsEnabled="{Binding HasProject}" InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
             <Separator />
             <MenuItem Header="退出(_Exit)" InputGestureText="Ctrl+X" Command="{x:Static cmd:FileCommands.ExitCommand}">
             </MenuItem>
@@ -37,8 +37,7 @@
 
         </MenuItem>
         <MenuItem Header="项目(_Project)">
-            <MenuItem Header="生成选中模型"/>
-            <MenuItem Header="生成所有模型"/>
+            <MenuItem Header="生成模型" Command="{x:Static cmd:ModelCommands.GenModelCommand }"/>
             <MenuItem Header="添加"/>
         </MenuItem>
 

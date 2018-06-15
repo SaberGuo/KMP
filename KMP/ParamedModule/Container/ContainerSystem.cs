@@ -19,12 +19,15 @@ namespace ParamedModule.Container
         public Pedestal _pedestal;
         public RailSystem _railSystem;
         public PlaneSystem _plane;
+
+        
         [ImportingConstructor]
         public ContainerSystem():base()
         {
             init();
             this.Name = "容器系统";
             this.Parameter = par;
+            this.ProjectType = "ContainerSystem";
             _plane = new PlaneSystem(par.InRadius);
             _cylinder = new Cylinder(par.InRadius,par.Thickness);
             _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);

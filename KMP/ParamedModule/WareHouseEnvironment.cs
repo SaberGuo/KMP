@@ -25,6 +25,7 @@ namespace ParamedModule
         {
             this.Parameter = par;
             this.Name = "环境仓";
+            this.ProjectType = "WareHouseEnvironment";
             _container = new ContainerSystem();
             _heatSink = new HeatSink();
             SubParamedModules.Add(_container);

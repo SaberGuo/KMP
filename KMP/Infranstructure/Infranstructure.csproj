@@ -110,6 +110,7 @@
     <Compile Include="Events\GeneratorEventArgs.cs" />
     <Compile Include="Events\InfoEvent.cs" />
     <Compile Include="Events\NewModelEvent.cs" />
+    <Compile Include="Events\ProjectEvent.cs" />
     <Compile Include="Events\UpdateModelEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tool\CommonTool.cs" />

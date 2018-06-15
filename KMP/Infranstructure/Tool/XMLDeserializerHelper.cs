@@ -6,10 +6,36 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 namespace Infranstructure.Tool
 {
     public static class XMLDeserializerHelper
     {
+        public static string GetProjType(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(xmlPath);
+                XmlNodeList xnList = xmlDoc.SelectNodes("//ProjectType");
+                if (xnList.Count == 0)
+                {
+                    return "";
+                }
+                XmlNode typeNode = xnList.Item(0);
+                if (typeNode != null)
+                {
+                    string projType = typeNode.InnerText;
+                    return projType;
+                }
+                return "";
+                
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+        }
         /// <summary>
         /// Deserialization XML document
         /// </summary>

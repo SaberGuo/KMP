@@ -36,18 +36,46 @@ namespace KMP.Interface
             }
             
         }
-        public void DeSerialization()
+        public void DeSerialization(string path)
         {
+            
             if (this.Count > 0)
             {
-                this.First().DeSerialization();
+                
+                //this.First().DeSerialization();
+            }
+            else
+            {
+                
             }
         }
         public void Serialization()
         {
             if (this.Count > 0)
             {
-                this.First().Serialization();
+                this.First().Serialization(ProjectPath);
+            }
+        }
+        public void Serialization(string path)
+        {
+            if (this.Count > 0)
+            {
+                this.ProjectPath = path;
+                this.First().Serialization(ProjectPath);
+            }
+            
+
+        }
+        private string projectPath;
+        public string ProjectPath
+        {
+            get
+            {
+                return projectPath;
+            }
+            set
+            {
+                this.projectPath = value;
             }
         }
     }

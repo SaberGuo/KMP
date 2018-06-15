@@ -11,5 +11,7 @@ namespace KMP.Interface
         void Serialization();
         void DeSerialization();
         IParamedModule CreateProject(string projType, string projPath);
+
+        IParamedModule OpenProject(string projPath);
     }
 }
