@@ -114,7 +114,7 @@ namespace KMP.Parameterization.InventorMonitor
             System.Environment.SetEnvironmentVariable("PATH", path);
         }
 
-
+        
         public void CloseDocument()
         {
             if(_odocument != null){
@@ -164,8 +164,44 @@ namespace KMP.Parameterization.InventorMonitor
                 _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kBackViewOrientation;
             }
 
+          
+
         }
 
+
+        public void ViewOperation(string orientation)
+        {
+            if (_oserver != null && _oview != null)
+            {
+                _ocamera = _oview.Camera;
+                switch (orientation)
+                {
+                    case "up":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kTopViewOrientation;
+                        break;
+                    case "down":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kBottomViewOrientation;
+                        break;
+                    case "front":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kFrontViewOrientation;
+                        break;
+                    case "back":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kBackViewOrientation;
+                        break;
+                    case "left":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kLeftViewOrientation;
+                        break;
+                    case "right":
+                        _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kRightViewOrientation;
+                        break;
+                }
+                _ocamera.Apply();
+                _oview.Update(true);
+
+
+            }
+           
+        }
         #endregion
         #region event handler
         public void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)

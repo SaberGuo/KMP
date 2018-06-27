@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infranstructure.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,20 @@ namespace KMP.Interface
             {
                 this.isChanged = value;
 
+            }
+        }
+
+        private Project _ProjInfo = new Project();
+        public Project ProjInfo
+        {
+            get
+            {
+                return this._ProjInfo;
+            }
+            set
+            {
+                this.ProjInfo = value;
+                
             }
         }
 

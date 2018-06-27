@@ -8,6 +8,7 @@
         xmlns:inf="clr-namespace:Infranstructure.Behaviors;assembly=Infranstructure"
         xmlns:cmd="clr-namespace:Infranstructure.Commands;assembly=Infranstructure"
         xmlns:local="clr-namespace:KMP"
+        xmlns:wfi ="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:view="clr-namespace:KMP.Parameterization.InventorMonitor;assembly=KMP.Parameterization"
         mc:Ignorable="d"
         WindowState="Maximized"
@@ -70,7 +71,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            
+
             <ContentControl x:Name="MainContent" 
                                 VerticalAlignment="Stretch"
                                 cal:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}">
@@ -83,7 +84,7 @@
                     </TransformGroup>
                 </ContentControl.RenderTransform>
             </ContentControl>
-            <ContentControl x:Name="ChildWins" VerticalAlignment="Stretch"
+            <!--<ContentControl x:Name="ChildWins" VerticalAlignment="Stretch"
                             cal:RegionManager.RegionName="{x:Static inf:RegionNames.ChildWinRegion}">
                 <ContentControl.RenderTransform>
                     <TransformGroup>
@@ -93,10 +94,11 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </ContentControl.RenderTransform>
-            </ContentControl>
-            
+            </ContentControl>-->
+
         </Grid>
-        
+
+
         <!--statusBar-->
         <Grid x:Name="StatusGrid" VerticalAlignment="Bottom" Margin="0,0,10,0" Grid.Row="3" RenderTransformOrigin="0.5,0.5">
             <ContentControl cal:RegionManager.RegionName="{x:Static inf:RegionNames.StatusBarRegion}">
@@ -110,5 +112,9 @@
                 </ContentControl.RenderTransform>
             </ContentControl>
         </Grid>
+
+        
+
     </Grid>
+
 </Window>

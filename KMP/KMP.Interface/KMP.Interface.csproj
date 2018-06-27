@@ -105,6 +105,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBrowserWindow.cs" />
+    <Compile Include="IDatabaseService.cs" />
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />

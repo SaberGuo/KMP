@@ -1,0 +1,162 @@
+﻿<Window x:Class="KMP.DatabaseBrowser.BrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KMP.DatabaseBrowser"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+        mc:Ignorable="d"
+        Closing="Window_Closing"
+        Title="MainWindow" Height="720" Width="1024">
+    <Window.Resources>
+        <local:PathToThumbnailConvertor x:Key="ImageConverter"></local:PathToThumbnailConvertor>
+        <DataTemplate x:Key="userTemplate">
+            <TextBlock Text="{Binding User.Name}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="contentTemplate">
+            <TextBlock Text="{Binding Content}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="TimeTemplate">
+            <TextBlock Text="{Binding CreatedAt}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ItemTemplate">
+            <Grid Width="200" Height="210">
+                <Grid.Style>
+                    <Style>
+                        <Setter Property="TextBlock.Foreground" Value="Transparent"></Setter>
+                    </Style>
+                </Grid.Style>
+                <Border Margin="2" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="3">
+                    <Grid   Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="185"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"  Source="{Binding Path=Path,Converter={StaticResource ImageConverter}}" Margin="2"  ></Image>
+                        <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Left" Margin="2">
+                            <TextBlock Text="{Binding Name}" Foreground="Gray" />
+                            <TextBlock Text="{Binding CreatedAt}" Foreground="Gray"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                </Border>
+            </Grid>
+        </DataTemplate>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Resources>
+                <!--SelectedItem with focus-->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" Opacity=".4"/>
+            </Style.Resources>
+
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <ToolBar>
+            <xctk:IconButton Width="32" Height="32">
+                <xctk:IconButton.Icon>
+                    <Image Source="./Resources/add.png"/>
+                </xctk:IconButton.Icon>
+            </xctk:IconButton>
+            <xctk:IconButton Width="32" Height="32">
+                <xctk:IconButton.Icon>
+                    <Image Source="./Resources/open.png"/>
+                </xctk:IconButton.Icon>
+            </xctk:IconButton>
+        </ToolBar>
+        <xcad:DockingManager Grid.Row ="1" AllowMixedOrientation="True"                   
+                         BorderBrush="Black"
+                         BorderThickness="1"
+                         >
+            <xcad:DockingManager.Theme>
+                <xcad:AeroTheme/>
+            </xcad:DockingManager.Theme>
+            <xcad:LayoutRoot x:Name="_layoutRoot">
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutAnchorablePaneGroup  DockWidth="150" Orientation="Vertical">
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable ContentId="journal" Title="目录" >
+                                <TreeView>
+                                    <TreeViewItem Header="模型库">
+                                        <TreeViewItem Header="环境舱" Selected="WareHouseEnvironment_MouseLeftButtonDown"/>
+                                        <TreeViewItem Header="容器系统" Selected="ContainerSystem_MouseLeftButtonDown"/>
+                                        <TreeViewItem Header="热沉系统" Selected="HeaterSystem_MouseLeftButtonDown"/>
+                                    </TreeViewItem>
+                                </TreeView>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutAnchorablePaneGroup>
+
+                    <xcad:LayoutAnchorablePaneGroup   Orientation="Vertical">
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable ContentId="journal" Title="浏览" >
+                                <ListBox Grid.IsSharedSizeScope="True"  Margin="5" ItemTemplate="{StaticResource ItemTemplate}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SnapsToDevicePixels="True"
+                                         ItemsSource="{Binding Projs}"
+                                         SelectedItem="{Binding SeledProj}">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Background="#F3FFFF" >
+                                            </WrapPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+
+                                </ListBox>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutAnchorablePaneGroup>
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="200" Orientation="Vertical">
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable ContentId="journal" Title="信息" >
+                                <xctk:PropertyGrid NameColumnWidth="110"
+                        SelectedObject="{Binding SeledProj}"/>
+                            </xcad:LayoutAnchorable>
+
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane>
+                  
+                            <xcad:LayoutAnchorable ContentId="journal" Title="评论" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <ToolBar Grid.Row="0">
+                                        <xctk:IconButton Width="32" Height="32">
+                                            <xctk:IconButton.Icon>
+                                                <Image Source="./Resources/comment_add.png"/>
+                                            </xctk:IconButton.Icon>
+                                        </xctk:IconButton>
+                                    </ToolBar>
+                                    <ListView Grid.Row="1" 
+                                              Grid.IsSharedSizeScope="True"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                              SnapsToDevicePixels="True"
+                                              ItemsSource="{Binding Comments}">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="用户" CellTemplate="{StaticResource userTemplate}" />
+                                                <GridViewColumn Header="时间" CellTemplate="{StaticResource TimeTemplate}"/>
+                                                <GridViewColumn Header="评论" CellTemplate="{StaticResource contentTemplate}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Grid>
+                               
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutAnchorablePaneGroup>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </Grid>
+   
+</Window>

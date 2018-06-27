@@ -5,15 +5,19 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace KMP.Parameterization
 {
-    class ChildWinViewModel: NotificationObject, IChildWinViewModel
+    [Export(typeof(ChildWinViewModel))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class ChildWinViewModel: NotificationObject, IChildWinViewModel
     {
         private IEventAggregator _eventAggregator;
+        [ImportingConstructor]
         public ChildWinViewModel(IEventAggregator eventAggregator)
         {
             this.InitNewModelWin();

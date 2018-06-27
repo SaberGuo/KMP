@@ -8,6 +8,8 @@ using Microsoft.Practices.Prism.Modularity;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using Infranstructure.Behaviors;
+using System.Diagnostics;
+using System.Threading;
 
 namespace KMP
 {
@@ -29,9 +31,13 @@ namespace KMP
         {
             base.InitializeShell();
 
+            SplashScreen sp = new SplashScreen("./Resources/splash.png");
+
+            sp.Show(false);
+ 
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
-
+            sp.Close(new TimeSpan(0,0,2));
 
         }
 

@@ -15,6 +15,9 @@ using Infranstructure.Behaviors;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Parameterization.InventorMonitor;
+using Infranstructure.Commands;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.ServiceLocation;
 
 namespace KMP.Parameterization
 {
@@ -28,6 +31,8 @@ namespace KMP.Parameterization
         public MainDockView()
         {
             InitializeComponent();
+
+            init_viewCommands();
         }
 
         [Import]
@@ -36,7 +41,30 @@ namespace KMP.Parameterization
             set { this.DataContext = value; }
             get { return (MainDockViewModel)DataContext; }
         }
+        private ViewCommandProxy viewCommandProxy;
 
+
+        private void init_viewCommands()
+        {
+            viewCommandProxy = ServiceLocator.Current.GetInstance<ViewCommandProxy>();
+            this.viewCommandProxy.OrientViewCommand = new DelegateCommand<string>(ViewOperation);
+        }
+
+        private void ViewOperation(string orient)
+        {
+            try
+            {
+                IInvMonitorViewModel v = (IInvMonitorViewModel)this.DocManager.ActiveContent;
+                v.ViewOperation(orient);
+            }
+            catch (Exception e)
+            {
+
+                return;
+            }
+            
+            
+        }
         private void _moduleTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             _viewModel.ShowModule(_moduleTree.SelectedItem as IParamedModule);
@@ -44,6 +72,7 @@ namespace KMP.Parameterization
 
         private void DockingManager_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
         {
+            
             ((IInvMonitorViewModel)e.Document.Content).CloseDocument();
             _viewModel.Documents.Remove((IInvMonitorViewModel)e.Document.Content);
         }

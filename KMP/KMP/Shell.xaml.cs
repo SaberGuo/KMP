@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 namespace KMP
 {
     [Export]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>

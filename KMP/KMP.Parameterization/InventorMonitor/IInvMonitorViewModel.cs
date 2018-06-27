@@ -20,6 +20,7 @@ namespace KMP.Parameterization.InventorMonitor
 
         Int32 HWnd { get; set; }
 
+        void ViewOperation(string orientation);
         /// <summary>
         /// 
         /// </summary>

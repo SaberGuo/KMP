@@ -23,6 +23,7 @@ namespace ParamedModule.HeatSinkSystem
         {
             this.Parameter = par;
             this.Name = "热沉系统";
+            this.ProjectType = "HeaterSystem";
             _cap = new Cap(par.InDiameter,par.Thickness);
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
             SubParamedModules.Add(_cap);

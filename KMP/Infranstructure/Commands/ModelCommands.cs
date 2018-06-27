@@ -63,6 +63,39 @@ namespace Infranstructure.Commands
             }
         }
 
+        static DelegateCommand _AddModelCommand;
+        public static DelegateCommand AddModelCommand
+        {
+            get
+            {
+                return _AddModelCommand;
+            }
+            set
+            {
+                _AddModelCommand = value;
+            }
+        }
+
+        static DelegateCommand _AddModelFromDatabaseCommand;
+        public static DelegateCommand AddModelFromDatabaseCommand
+        {
+            get { return _AddModelFromDatabaseCommand; }
+            set { _AddModelFromDatabaseCommand = value; }
+        }
+
+        static DelegateCommand _UploadCommand;
+        public static DelegateCommand UploadCommand
+        {
+            get
+            {
+                return _UploadCommand;
+            }
+            set
+            {
+                _UploadCommand = value;
+            }
+        }
+
     }
 
     [Export]
@@ -95,6 +128,24 @@ namespace Infranstructure.Commands
         {
             get { return ModelCommands.SaveAsCommand; }
             set { ModelCommands.SaveAsCommand = value; }
+        }
+
+        public virtual DelegateCommand AddModelCommand
+        {
+            get { return ModelCommands.AddModelCommand; }
+            set { ModelCommands.AddModelCommand = value; }
+        }
+
+        public virtual DelegateCommand AddModelFromDatabaseCommand
+        {
+            get { return ModelCommands.AddModelFromDatabaseCommand; }
+            set { ModelCommands.AddModelFromDatabaseCommand = value; }
+        }
+
+        public virtual DelegateCommand UploadCommand
+        {
+            get { return ModelCommands.UploadCommand; }
+            set { ModelCommands.UploadCommand = value; }
         }
     }
 }

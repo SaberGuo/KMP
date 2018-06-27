@@ -18,8 +18,11 @@ namespace KMP.Interface
         string FullPath { get; }
         string Name { get; set; }
         //ComponentOccurrence Occurrence { get; set; }
-        
+        string PreviewImagePath { get; }
         ModuleCollection SubParamedModules { get; set; }
+
+        IParamedModule FindModule(string projType);
+        bool AddModule(IParamedModule pm);
         void CreateModule();
         bool CheckParamete();
 

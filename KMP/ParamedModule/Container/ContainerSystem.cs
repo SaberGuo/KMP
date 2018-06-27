@@ -39,6 +39,7 @@ namespace ParamedModule.Container
             SubParamedModules.AddModule(_railSystem);
             SubParamedModules.AddModule(_plane);
             init();
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
         void init()
         {

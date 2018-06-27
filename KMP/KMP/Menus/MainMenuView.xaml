@@ -12,44 +12,49 @@
              >
     
     <Menu Grid.Row="0">
-        <MenuItem Header="文件(_File)">
-            <MenuItem Header="新建(_New)..." InputGestureText="Ctrl+N" Command="{x:Static cmd:FileCommands.NewFileCommand }">
+        <MenuItem Header="文件">
+            <MenuItem Header="新建..." InputGestureText="Ctrl+N" Command="{x:Static cmd:FileCommands.NewFileCommand }">
          
             </MenuItem>
           
-            <MenuItem x:Name="Open" Header="打开(_Load)..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
+            <MenuItem x:Name="Open" Header="打开..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
 
             </MenuItem>
-            <MenuItem x:Name="Serialization" Header="序列化" InputGestureText="Ctrl+O" Command="{x:Static cmd:ModelCommands.SerializationCommand}">
-
+            
+            <MenuItem Header="保存" IsEnabled="{Binding HasProject}"  InputGestureText="Ctrl+S" Command="{x:Static cmd:ModelCommands.SaveCommand}">
             </MenuItem>
-            <MenuItem x:Name="DeSerialization" Header="反序列化" InputGestureText="Ctrl+O" Command="{x:Static cmd:ModelCommands.DeSerializationCommand}">
-
-            </MenuItem>
-            <MenuItem Header="保存(_Save)" IsEnabled="{Binding HasProject}"  InputGestureText="Ctrl+S" Command="{x:Static cmd:ModelCommands.SaveCommand}">
-            </MenuItem>
-            <MenuItem Header="另存为(Save _As) ..." IsEnabled="{Binding HasProject}" InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
+            <MenuItem Header="另存为 ..." IsEnabled="{Binding HasProject}" InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
             <Separator />
-            <MenuItem Header="退出(_Exit)" InputGestureText="Ctrl+X" Command="{x:Static cmd:FileCommands.ExitCommand}">
+            <MenuItem Header="退出" InputGestureText="Ctrl+X" Command="{x:Static cmd:FileCommands.ExitCommand}">
             </MenuItem>
         </MenuItem>
-        <MenuItem Header="视图(_View)">
+        <MenuItem Header="视图">
 
         </MenuItem>
-        <MenuItem Header="项目(_Project)">
+        <MenuItem Header="项目">
             <MenuItem Header="生成模型" Command="{x:Static cmd:ModelCommands.GenModelCommand }"/>
-            <MenuItem Header="添加"/>
+            <MenuItem Header="从文件添加..." Command="{x:Static cmd:ModelCommands.AddModelCommand}"/>
+            <!--<MenuItem Header="从数据库添加..." Command="{x:Static cmd:ModelCommands.AddModelFromDatabaseCommand}"/>-->
+            <MenuItem Header="上传数据库" Command="{x:Static cmd:ModelCommands.UploadCommand}"/>
+            
         </MenuItem>
 
-        <MenuItem Header="分析(_Analysis)">
-            <MenuItem Header="计算(_Caculate)..."/>
-            <MenuItem Header="报告(_Report)"/>
+        <MenuItem Header="分析">
+            <MenuItem Header="计算..."/>
+            <MenuItem Header="报告"/>
         </MenuItem>
-        <MenuItem Header="工具(_Tool)"/>
+        <MenuItem Header="工具">
+            <MenuItem Header="模型库">
+                <MenuItem Header="浏览" Command="{x:Static cmd:DatabaseCommands.BrowserCommand}">
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="配置" Command="{x:Static cmd:DatabaseCommands.ConfigCommand}">
+            </MenuItem>
+        </MenuItem>
 
-        <MenuItem Header="关于(A_bout)">
-            <MenuItem Header="帮助(_Help)"/>
-            <MenuItem Header="软件(_Soft)..."/>
+        <MenuItem Header="关于">
+            <MenuItem Header="帮助"/>
+            <MenuItem Header="软件..."/>
         </MenuItem>
     </Menu>
 </UserControl>

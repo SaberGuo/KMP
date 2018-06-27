@@ -8,7 +8,10 @@
              xmlns:wfi ="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
              mc:Ignorable="d" 
              >
-    <wfi:WindowsFormsHost>
-        <wf:PictureBox x:Name="holder" Height="768" Width="1024"/>
-    </wfi:WindowsFormsHost>
+    <Grid>
+        <wfi:WindowsFormsHost>
+            <wf:PictureBox x:Name="holder" Height="768" Width="1024"/>
+        </wfi:WindowsFormsHost>
+    </Grid>
+   
 </UserControl>

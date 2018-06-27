@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using KMP.Parameterization.PopWindows;
 
 namespace KMP.Parameterization
 {
@@ -26,26 +27,35 @@ namespace KMP.Parameterization
         IInvMonitorController _invMonitorController;
         IEventAggregator _eventAggregator;
         IModuleService _moduleService;
+        IDatabaseService _databaseService;
         FileCommandProxy _fileCommandProxy;
         ModelCommandProxy _modelCommandProxy;
+        DatabaseCommandProxy _databaseCommandProxy;
         ChildWinViewModel _childWindViewModel;
 
         [ImportingConstructor]
         public MainDockViewModel(IEventAggregator eventAggregator,
             IInvMonitorController invMonitorController,
             IModuleService moduleService,
+            IDatabaseService databaseService,
+            ChildWinViewModel childWinViewModel,
             FileCommandProxy fileCommandProxy,
-            ModelCommandProxy modelCommandProxy)
+            ModelCommandProxy modelCommandProxy,
+            DatabaseCommandProxy databaseCommandProxy)
         {
             _eventAggregator = eventAggregator;
             _invMonitorController = invMonitorController;
             _moduleService = moduleService;
+            _databaseService = databaseService;
             _fileCommandProxy = fileCommandProxy;
             _modelCommandProxy = modelCommandProxy;
+            _databaseCommandProxy = databaseCommandProxy;
             Modules = new ModuleProject();
-            _childWindViewModel = new ChildWinViewModel(_eventAggregator);
+            _childWindViewModel = childWinViewModel;
+            
             InitFileCommands();
             InitModelCommands();
+            InitDatabaseCommands();
             //this._eventAggregator.GetEvent<GeneratorEvent>().Subscribe(this.OnGenerateChanged);
 
 
@@ -157,22 +167,38 @@ namespace KMP.Parameterization
                     this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
                     return;
                 }
+                
+                this.Modules.ProjInfo.IsEditing = true;
+                this.Modules.ProjInfo.Path = fdlg.FileName;
+                this.Modules.ProjInfo.Name = module.Name;
+                this.Modules.ProjInfo.ProjType = module.ProjectType;
+                this.Modules.ProjInfo.CreatedAt = DateTime.Now;
                 this.Modules.ProjectPath = fdlg.FileName;
                 this.Modules.AddModule(module);
                 this.Modules.First().GeneratorChanged += OnGeneratorChanged;
-
                 this._eventAggregator.GetEvent<ProjectChangedEvent>().Publish(this.Modules.ProjectPath);
                 //this.Modules.DeSerialization(fdlg.FileName);
                 //this.Modules.First
                 //_eventAggregator.GetEvent<UpdateModelEvent>().Publish(fdlg.FileName);
             }
         }
+        NewModelWin newModelWin = null;
         private void NewFileExecuted()
         {
-            this._childWindViewModel.CreateNewModelWindows();
+            if(newModelWin == null)
+            {
+                newModelWin = new NewModelWin();
+                newModelWin.childWinViewModel = this._childWindViewModel;
+                newModelWin.Owner = System.Windows.Application.Current.MainWindow;
+            }
+            newModelWin.ShowDialog();
+
+
+
+            //this._childWindViewModel.CreateNewModelWindows();
             //NewModelWinState = "Open";
-            
-         
+
+
         }
 
         private void OnNewModelHandler(object sender, ProjectEventArgs e)
@@ -181,8 +207,15 @@ namespace KMP.Parameterization
 
             //create model
             IParamedModule module = _moduleService.CreateProject(e.ProjectType, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+            module.Name = e.ProjectName;
             string projDir = System.IO.Path.Combine(e.ProjectDir, e.ProjectName);
-            this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName+".kmp");
+            this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName + ".kmp");
+            this.Modules.ProjInfo.IsEditing = true;
+            this.Modules.ProjInfo.Path = this.Modules.ProjectPath;
+            this.Modules.ProjInfo.Name = module.Name;
+            this.Modules.ProjInfo.ProjType = module.ProjectType;
+            this.Modules.ProjInfo.CreatedAt = DateTime.Now;
+
             this.Modules.AddModule(module);
             this.Modules.First().GeneratorChanged += OnGeneratorChanged;
 
@@ -191,10 +224,7 @@ namespace KMP.Parameterization
         }
        
         #endregion
-        private void OnGeneratorChanged(object sender, GeneratorEventArgs e)
-        {
-            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("generating," + e.ProgressInfo);
-        }
+        
         #region modelcommands
         private void InitModelCommands()
         {
@@ -202,6 +232,51 @@ namespace KMP.Parameterization
             _modelCommandProxy.DeSerializationCommand = new DelegateCommand(DeSerialization);
             _modelCommandProxy.SerializationCommand = new DelegateCommand(Serialization);
             _modelCommandProxy.SaveCommand = new DelegateCommand(SaveFile);
+            _modelCommandProxy.AddModelCommand = new DelegateCommand(AddModelExecuted);
+            _modelCommandProxy.AddModelFromDatabaseCommand = new DelegateCommand(AddModelFromDatabaseExecuted);
+            _modelCommandProxy.UploadCommand = new DelegateCommand(UploadModelExecuted);
+        }
+        private void UploadModelExecuted()
+        {
+            _databaseService.UploadProj(this.Modules.ProjInfo);
+        }
+
+        private void AddModelExecuted()
+        {
+            //from file
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "C# Inventor Open File Dialog";
+            fdlg.InitialDirectory = this.browserLocation == "" ? AppDomain.CurrentDomain.BaseDirectory : this.browserLocation;
+            fdlg.Filter = "kmp files (*.kmp)|*.kmp";
+            fdlg.FilterIndex = 1;
+            fdlg.RestoreDirectory = true;
+            if (fdlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.AddModule(fdlg.FileName);
+            }
+
+        }
+        private void AddModule(string projPath)
+        {
+            if (this.Modules.Count > 0)
+            {
+                IParamedModule module = _moduleService.OpenProject(projPath);
+                //find the same node
+                bool res = this.Modules.First().AddModule(module);
+                if (res)
+                {
+                    MessageBox.Show("工程添加成功");
+                }
+            }
+        }
+        private void AddModelFromDatabaseExecuted()
+        {
+
+        }
+
+        private void OnGeneratorChanged(object sender, GeneratorEventArgs e)
+        {
+            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("generating," + e.ProgressInfo);
         }
         private void SaveFile()
         {
@@ -233,6 +308,8 @@ namespace KMP.Parameterization
         {
             this.Modules.Serialization();
         }
+
+       
         private void GenModelExecuted()
         {
             if(this.Modules.Count == 0)
@@ -240,6 +317,8 @@ namespace KMP.Parameterization
 
                 return;
             }
+            //this.IsGenerating = true;
+            //this._childWindViewModel.GeneratorWinState = "Open";
             this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator,"+this.Modules.First().GetGeneratorCount().ToString());
             //GeneratorDelegate gDelegate = new GeneratorDelegate(GenerateModules);
             //gDelegate.BeginInvoke(GenerateCallback, null);
@@ -247,6 +326,8 @@ namespace KMP.Parameterization
             generatortask.ContinueWith((result)=> {
                 _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+                //this._childWindViewModel.GeneratorWinState = "Close";
+                //this.IsGenerating = false;
             });
             generatortask.Start();
             //generatortask.Start();
@@ -294,6 +375,15 @@ namespace KMP.Parameterization
             }
             
         }
+        #endregion
+
+        #region databasecommands
+        private void InitDatabaseCommands()
+        {
+            
+        }
+
+        
         #endregion
 
         public void ShowModule(IParamedModule m)

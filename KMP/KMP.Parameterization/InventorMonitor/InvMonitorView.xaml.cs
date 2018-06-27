@@ -38,6 +38,7 @@ namespace KMP.Parameterization.InventorMonitor
         private void InitAppComponet()
         {
             this.holder.MouseDown += this._viewModel.OnMouseDown;
+            this.holder.MouseDown += Holder_MouseDown;
             this.holder.MouseMove += this._viewModel.OnMouseMove;
             this.holder.MouseUp += this._viewModel.OnMouseUp;
             this.holder.MouseDoubleClick += this._viewModel.OnMouseDoubleClick;
@@ -52,9 +53,15 @@ namespace KMP.Parameterization.InventorMonitor
 
         }
 
+        private void Holder_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            this.holder.Invalidate();
+        }
+
         private void Holder_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             this._viewModel.OnSizeChanged(sender, e);
+
         }
 
         private IInvMonitorViewModel _viewModel;

@@ -26,6 +26,45 @@ namespace ParamedModule
         {
             this.SubParamedModules.Root = this;
         }
+
+        public IParamedModule FindModule(string projType)
+        {
+            IParamedModule res = null;
+            foreach (var subModule in this.subParameModules)
+            {
+                if(subModule.ProjectType == projectType)
+                {
+                    return subModule;
+                }
+                res = subModule.FindModule(projType);
+                if (res != null)
+                {
+                    return res;
+                }
+            }
+            return res;
+
+        }
+
+        public bool AddModule(IParamedModule pm)
+        {
+            bool res = false;
+            for (int i=0;i<this.subParameModules.Count;++i)
+            {
+                if (subParameModules[i].ProjectType == pm.ProjectType)
+                {
+                    pm.ModelPath = subParameModules[i].ModelPath;
+                    subParameModules[i] = pm;
+                    return true;
+                }
+                res = subParameModules[i].AddModule(pm);
+                if (res)
+                {
+                    return res;
+                }
+            }
+            return res;
+        }
         /*public ComponentOccurrence Occurrence
         {
             get
@@ -38,7 +77,7 @@ namespace ParamedModule
                 throw new NotImplementedException();
             }
         }*/
-      //  public ComponentOccurrence Occurrence { get; set; }
+        //  public ComponentOccurrence Occurrence { get; set; }
 
         public string Name
         {
@@ -96,6 +135,8 @@ namespace ParamedModule
             throw new MyException(this.Name + "参数设置错误 : " + info, ExceptionType.WARNING);
             //this.ParErrorHappen?.Invoke(sender, new GeneratorEventArgs { ProgressInfo = info });
         }
+        public string PreviewImagePath { get; set; }
+
         public string ModelPath
         {
             get

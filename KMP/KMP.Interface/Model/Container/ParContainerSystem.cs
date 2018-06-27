@@ -9,6 +9,11 @@ namespace KMP.Interface.Model.Container
 {
    public class ParContainerSystem:ParameterBase
     {
+        public ParContainerSystem()
+        {
+            
+        }
+
         double pedestalNumber;
         PassedParameter inRadius=new PassedParameter();
         PassedParameter thickness = new PassedParameter();

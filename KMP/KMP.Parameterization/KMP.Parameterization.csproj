@@ -105,11 +105,15 @@
     <Compile Include="ParamsManager\FlanchEditor.xaml.cs">
       <DependentUpon>FlanchEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PathToImageConvertor.cs" />
     <Compile Include="PopWindows\GeneratorInfoView.xaml.cs">
       <DependentUpon>GeneratorInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopWindows\NewModelView.xaml.cs">
       <DependentUpon>NewModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopWindows\NewModelWin.xaml.cs">
+      <DependentUpon>NewModelWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
@@ -153,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopWindows\NewModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopWindows\NewModelWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
