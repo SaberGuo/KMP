@@ -110,7 +110,11 @@
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />
-    <Compile Include="Model\Container\ParFlanch.cs" />
+    <Compile Include="Model\Other\ParCoolVAC.cs" />
+    <Compile Include="Model\Other\ParCryoLiquidTank.cs" />
+    <Compile Include="Model\Other\ParCryoLiquidTanks.cs" />
+    <Compile Include="Model\Other\ParValve.cs" />
+    <Compile Include="Model\ParFlanch.cs" />
     <Compile Include="Model\Container\ParPlaneSupport.cs" />
     <Compile Include="Model\Container\ParPlaneSystem.cs" />
     <Compile Include="Model\Container\ParRail.cs" />
@@ -129,7 +133,7 @@
     <Compile Include="Model\ParameterBase.cs" />
     <Compile Include="Model\Container\ParCylinder.cs" />
     <Compile Include="Model\Container\ParCylinderDoor.cs" />
-    <Compile Include="Model\Container\ParCylinderHole.cs" />
+    <Compile Include="Model\ParCylinderHole.cs" />
     <Compile Include="Model\Container\ParPedestal.cs" />
     <Compile Include="ModuleCollection.cs" />
     <Compile Include="ModuleProject.cs" />
@@ -165,6 +169,7 @@
       <Name>Infranstructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Common\" /Y</PostBuildEvent>

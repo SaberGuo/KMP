@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
-namespace KMP.Interface.Model.Container
+namespace KMP.Interface.Model
 {
     public static class ParFlanchDict
     {

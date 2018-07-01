@@ -118,7 +118,10 @@ namespace Infranstructure.Tool
        
         }
 
-      
+      public static EdgeCollection CreateEdgeCollection()
+        {
+            return Inventor.TransientObjects.CreateEdgeCollection();
+        }
         public static ObjectCollection CreateObjectCollection()
         {
             return Inventor.TransientObjects.CreateObjectCollection();
@@ -408,6 +411,68 @@ namespace Infranstructure.Tool
         {
             return osketch.SketchLines.AddByTwoPoints(Origin, CreatePoint2d(0, 1));
         }
+
+        public static ExtrudeFeature CreateFlance(Face plane, SketchCircle topInCircle, double flachOutRadius, double flachThickness,PartComponentDefinition Definition)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane);
+            SketchCircle circle = (SketchCircle)osketch.AddByProjectingEntity(topInCircle);
+            SketchCircle outCircle = osketch.SketchCircles.AddByCenterRadius(circle.CenterSketchPoint, flachOutRadius);
+            Profile pro = osketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
+            ex.SetDistanceExtent(flachThickness, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            return Definition.Features.ExtrudeFeatures.Add(ex);
+        }
+        /// <summary>
+        /// 创建法兰凹面
+        /// </summary>
+        public static ExtrudeFeature CreateFlanceGroove(Face plane, SketchCircle sketchInCircle, double outRadius, PartComponentDefinition Definition)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane);
+            SketchCircle inCircle = (SketchCircle)osketch.AddByProjectingEntity(sketchInCircle);
+            SketchCircle outCircle = osketch.SketchCircles.AddByCenterRadius(inCircle.CenterSketchPoint, outRadius);
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetDistanceExtent(1 + "mm", PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+           return  Definition.Features.ExtrudeFeatures.Add(ex);
+           
+        }
+        /// <summary>
+        /// 创建法兰螺丝孔
+        /// </summary>
+        /// <param name="plane">定位面</param>
+        /// <param name="inCircle">中心点定位圆</param>
+        /// <param name="screwNumber">螺丝数量</param>
+        /// <param name="ScrewRadius">孔半径</param>
+        /// <param name="arrangeRadius">排版半径</param>
+        public static ExtrudeFeature CreateFlanceScrew(Face plane, SketchCircle inCircle, double screwNumber, double ScrewRadius, double arrangeRadius, double flanchThickness, PartComponentDefinition Definition)
+        {
+            double angle = 360 / screwNumber / 180 * Math.PI;
+            PlanarSketch osketch = Definition.Sketches.Add(plane);
+            SketchCircle flanceInCircle = (SketchCircle)osketch.AddByProjectingEntity(inCircle);
+            SketchCircle screwCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, arrangeRadius), ScrewRadius);
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            objc.Add(screwCircle);
+            for (int i = 1; i < screwNumber; i++)
+            {
+                osketch.RotateSketchObjects(objc, flanceInCircle.CenterSketchPoint.Geometry, angle * i, true);
+            }
+            Profile pro = osketch.Profiles.AddForSolid();
+            ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+            ex.SetDistanceExtent(flanchThickness, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+           return  Definition.Features.ExtrudeFeatures.Add(ex);
+        }
+
     }
     public struct XY
     {

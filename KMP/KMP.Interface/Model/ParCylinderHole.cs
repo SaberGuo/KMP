@@ -7,7 +7,7 @@ using System.ComponentModel;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
-namespace KMP.Interface.Model.Container
+namespace KMP.Interface.Model
 {
   [DisplayName("容器开孔")]
   public  class ParCylinderHole:NotificationObject
