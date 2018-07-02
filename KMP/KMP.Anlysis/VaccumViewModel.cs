@@ -7,7 +7,7 @@ using System.Text;
 
 namespace KMP.Anlysis
 {
-    class VaccumViewModel
+    public class VaccumViewModel
     {
         private VacuumParam _parameters = new VacuumParam();
         public VacuumParam Parameters
@@ -16,7 +16,7 @@ namespace KMP.Anlysis
             set { this._parameters = value; }
         }
 
-        VaccumViewModel()
+        public VaccumViewModel()
         {
             this.AnalysisCommand = new DelegateCommand(AnalysisExecuted);
         }

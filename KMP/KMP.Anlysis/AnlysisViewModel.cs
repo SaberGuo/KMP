@@ -8,14 +8,14 @@ using System.Text;
 
 namespace KMP.Anlysis
 {
-    [Export(typeof(AnlysisViewModel))]
-    class AnlysisViewModel: NotificationObject
+    [Export(typeof(AnalysisViewModel))]
+    public class AnalysisViewModel: NotificationObject
     {
-        private EventAggregator _eventAggregator;
+        private IEventAggregator _eventAggregator;
         private VaccumViewModel _vaccumViewModel;
 
         [ImportingConstructor]
-        AnlysisViewModel(EventAggregator eventAggregator)
+        public AnalysisViewModel(IEventAggregator eventAggregator)
         {
             this._eventAggregator = eventAggregator;
             VaccumViewModel = new VaccumViewModel();

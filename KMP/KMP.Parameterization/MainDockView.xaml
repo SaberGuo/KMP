@@ -56,10 +56,8 @@
                         <xcad:LayoutAnchorablePane FloatingHeight="200">
                             <xcad:LayoutAnchorable Title="预览图">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="preview"/>
                                     <Image  Width="200" Height="120" Source="{Binding ElementName=_moduleTree, Path=SelectedItem, Converter={StaticResource previewConverter}}"/>
                                 </StackPanel>
-                                
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                     </xcad:LayoutAnchorablePaneGroup>

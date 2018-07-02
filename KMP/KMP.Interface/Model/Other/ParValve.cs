@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using Microsoft.Practices.ServiceLocation;
+
 namespace KMP.Interface.Model.Other
 {
    public class ParValve:ParameterBase
     {
+        public ParValve()
+        {
+            ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
+        }
         ParFlanch _flanch = new ParFlanch();
         double a, b, g, c, d, h, i,f;
         public ParFlanch Flanch

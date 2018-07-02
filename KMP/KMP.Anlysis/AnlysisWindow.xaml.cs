@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace KMP.Anlysis
 {
-    [Export(typeof(IAnlysisWindow))]
+    [Export(typeof(IAnalysisWindow))]
     /// <summary>
     /// AnlysisWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class AnlysisWindow : Window, IAnlysisWindow
+    public partial class AnlysisWindow : Window, IAnalysisWindow
     {
         public AnlysisWindow()
         {
@@ -33,7 +33,7 @@ namespace KMP.Anlysis
         }
 
         [Import]
-        AnlysisViewModel viewModel
+        AnalysisViewModel viewModel
         {
             set
             {

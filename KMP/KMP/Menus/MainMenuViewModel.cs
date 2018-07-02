@@ -68,7 +68,9 @@ namespace KMP.Menus
 
         void AnlysisBrowserExecuted()
         {
-
+            Window t = (Window)ServiceLocator.Current.GetInstance<IAnalysisWindow>();
+            t.Owner = System.Windows.Application.Current.MainWindow;
+            t.ShowDialog();
         }
         void OnProjectChanged(string projectPath)
         {

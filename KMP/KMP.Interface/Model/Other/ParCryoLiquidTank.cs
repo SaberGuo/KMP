@@ -75,9 +75,12 @@ namespace KMP.Interface.Model.Other
     [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("液体储槽参数")]
     public class ParCryoLiquidTank:ParameterBase
     {
-       
+        public ParCryoLiquidTank()
+        {
+            ServiceLocator.Current.GetInstance<ParTankCapacityDictProxy>();
+        }
         ParTankCapacity capacity=new ParTankCapacity();
-        double capacityDN;
+        double capacityDN = 1200;
         [DisplayName("容积参数")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParTankCapacity Capacity

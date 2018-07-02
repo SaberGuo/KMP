@@ -40,7 +40,7 @@
         </MenuItem>
 
         <MenuItem Header="分析">
-            <MenuItem Header="计算..."/>
+            <MenuItem Header="计算..." Command="{x:Static cmd:SystemCommands.AnlysisCommand}" IsEnabled="{Binding HasProject}"/>
             <MenuItem Header="报告"/>
         </MenuItem>
         <MenuItem Header="工具">

@@ -12,6 +12,11 @@ namespace KMP.Interface.Model.Other
 {
    public class ParCoolVAC:ParameterBase
     {
+        public ParCoolVAC()
+        {
+            ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
+            
+        }
         ParFlanch _flanch = new ParFlanch();
         double height;
         double totolHeight;

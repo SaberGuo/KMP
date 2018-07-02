@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KMP.Interface
 {
-    public interface IAnlysisWindow
+    public interface IAnalysisWindow
     {
     }
 }
