@@ -8,7 +8,6 @@ using Infranstructure.Tool;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model;
-using KMP.Interface.Model.Container;
 using System.Collections.ObjectModel;
 namespace ParamedModule.HeatSinkSystem
 {

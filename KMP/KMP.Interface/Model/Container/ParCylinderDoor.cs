@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-
 using System.Collections.ObjectModel;
+using KMP.Interface.Model;
 namespace KMP.Interface.Model.Container
 {
   public  class ParCylinderDoor:ParameterBase
@@ -15,7 +15,7 @@ namespace KMP.Interface.Model.Container
         double doorRadius;
         double flanchWidth;
         ParCylinderHole topHole = new ParCylinderHole();
-        ObservableCollection<ParCylinderHole> sideHoles = new ObservableCollection<Container.ParCylinderHole>();
+        ObservableCollection<ParCylinderHole> sideHoles = new ObservableCollection<ParCylinderHole>();
 
         /// <summary>
         /// 容器内半径 不显示

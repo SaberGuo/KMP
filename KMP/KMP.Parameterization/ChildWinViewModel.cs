@@ -67,6 +67,9 @@ namespace KMP.Parameterization
             ProjectTypes.Add(new ProjectT { Description = "容器系统", TypeValue = "ContainerSystem" });
             ProjectTypes.Add(new ProjectT { Description = "热沉系统", TypeValue = "HeaterSystem" });
             ProjectTypes.Add(new ProjectT { Description = "环境箱", TypeValue = "WareHouseEnvironment" });
+            ProjectTypes.Add(new ProjectT { Description = "阀门", TypeValue = "Valve" });
+            ProjectTypes.Add(new ProjectT { Description = "低温泵", TypeValue = "CoolVAC" });
+            ProjectTypes.Add(new ProjectT { Description = "低温液体储槽阵列", TypeValue = "CryoLiquidTanks" });
         }
         private string _projectType ="ContainerSystem";
         public string ProjectType

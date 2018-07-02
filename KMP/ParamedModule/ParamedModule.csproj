@@ -69,6 +69,10 @@
     <Compile Include="HeatSinkSystem\Cap.cs" />
     <Compile Include="HeatSinkSystem\HeatSink.cs" />
     <Compile Include="HeatSinkSystem\Noumenon.cs" />
+    <Compile Include="Other\CoolVAC.cs" />
+    <Compile Include="Other\CryoLiquidTank.cs" />
+    <Compile Include="Other\CryoLiquidTanks.cs" />
+    <Compile Include="Other\Valve.cs" />
     <Compile Include="WareHouseEnvironment.cs" />
     <Compile Include="ParamedModuleBase.cs" />
     <Compile Include="Container\Pedestal.cs" />
