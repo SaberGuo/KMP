@@ -15,6 +15,20 @@ namespace Infranstructure.Commands
             get { return _ConfigCommand; }
             set { _ConfigCommand = value; }
         }
+
+        static DelegateCommand _ReportCommand;
+        public static DelegateCommand ReportCommand
+        {
+            get { return _ReportCommand; }
+            set { _ReportCommand = value; }
+        }
+
+        static DelegateCommand _AnlysisCommand;
+        public static DelegateCommand AnlysisCommand
+        {
+            get { return _AnlysisCommand; }
+            set { _AnlysisCommand = value; }
+        }
     }
     [Export]
     [PartCreationPolicy(CreationPolicy.Shared)]
@@ -24,6 +38,18 @@ namespace Infranstructure.Commands
         {
             get { return SystemCommands.ConfigCommand; }
             set { SystemCommands.ConfigCommand = value; }
+        }
+
+        public virtual DelegateCommand ReportCommand
+        {
+            get { return SystemCommands.ReportCommand; }
+            set { SystemCommands.ReportCommand = value; }
+        }
+
+        public virtual DelegateCommand AnlysisCommand
+        {
+            get { return SystemCommands.AnlysisCommand; }
+            set { SystemCommands.AnlysisCommand = value; }
         }
     }
 }

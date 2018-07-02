@@ -105,10 +105,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAnlysisWindow.cs" />
     <Compile Include="IBrowserWindow.cs" />
+    <Compile Include="IConfigWindow.cs" />
     <Compile Include="IDatabaseService.cs" />
     <Compile Include="IModuleService.cs" />
     <Compile Include="IParamedModule.cs" />
+    <Compile Include="IReportWindow.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />
     <Compile Include="Model\Container\ParFlanch.cs" />
     <Compile Include="Model\Container\ParPlaneSupport.cs" />

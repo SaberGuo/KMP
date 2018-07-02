@@ -23,12 +23,15 @@ namespace KMP.Menus
         private ILoggerFacade _logger;
         private IEventAggregator _eventAggregator;
         private DatabaseCommandProxy _dbCommandProxy;
+        private SystemCommandProxy _systemCommandProxy;
         [ImportingConstructor]
-        public MainMenuViewModel(ILoggerFacade logger, IEventAggregator eventAggregator, DatabaseCommandProxy dbCommandProxy)
+        public MainMenuViewModel(ILoggerFacade logger, IEventAggregator eventAggregator,
+            DatabaseCommandProxy dbCommandProxy, SystemCommandProxy systemCommandProxy)
         {
             this._logger = logger;
             this._eventAggregator = eventAggregator;
             this._dbCommandProxy = dbCommandProxy;
+            this._systemCommandProxy = systemCommandProxy;
             _eventAggregator.GetEvent<ProjectChangedEvent>().Subscribe(OnProjectChanged);
             CommandInit();
 
@@ -41,15 +44,32 @@ namespace KMP.Menus
         private void CommandInit()
         {
             _dbCommandProxy.BrowserCommand = new DelegateCommand(DBBrowserExecuted);
+            _systemCommandProxy.ReportCommand = new DelegateCommand(ReportBrowserExecuted);
+            _systemCommandProxy.ConfigCommand = new DelegateCommand(ConfigBrowserExecuted);
+            _systemCommandProxy.AnlysisCommand = new DelegateCommand(AnlysisBrowserExecuted);
         }
         void DBBrowserExecuted()
         {
             Window t = ((Window)ServiceLocator.Current.GetInstance<IBrowserWindow>());
             t.Owner = System.Windows.Application.Current.MainWindow;
             t.ShowDialog();
-            
         }
 
+        void ReportBrowserExecuted()
+        {
+            Window t = (Window)ServiceLocator.Current.GetInstance<IReportWindow>();
+            t.Owner = System.Windows.Application.Current.MainWindow;
+            t.ShowDialog();
+        }
+        void ConfigBrowserExecuted()
+        {
+
+        }
+
+        void AnlysisBrowserExecuted()
+        {
+
+        }
         void OnProjectChanged(string projectPath)
         {
             if(projectPath == "")
