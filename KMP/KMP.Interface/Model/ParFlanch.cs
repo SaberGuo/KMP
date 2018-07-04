@@ -123,10 +123,136 @@ namespace KMP.Interface.Model
                 D = 8,
                 N = 4
             });
-
-
-
-
+            FlanchDict.Add("DN63", new ParFlanch
+            {
+                DN = 63,
+                D6 = 70,
+                D0 = 110,
+                D1 = 130,
+                D2 = 95,
+                H = 12,
+                C = 9,
+                X = 1,
+                D = 8,
+                N = 4
+            });
+            FlanchDict.Add("DN80", new ParFlanch
+            {
+                DN = 80,
+                D6 = 83,
+                D0 = 125,
+                D1 = 145,
+                D2 = 110,
+                H = 12,
+                C = 9,
+                X = 1,
+                D = 8,
+                N = 8
+            });
+            FlanchDict.Add("DN100", new ParFlanch
+            {
+                DN = 100,
+                D6 = 102,
+                D0 = 145,
+                D1 = 165,
+                D2 = 130,
+                H = 12,
+                C = 9,
+                X = 1,
+                D = 8,
+                N = 8
+            });
+            FlanchDict.Add("DN125", new ParFlanch
+            {
+                DN = 125,
+                D6 = 127,
+                D0 = 175,
+                D1 = 200,
+                D2 = 155,
+                H = 16,
+                C = 11,
+                X = 1,
+                D = 10,
+                N = 8
+            });
+            FlanchDict.Add("DN160", new ParFlanch
+            {
+                DN = 160,
+                D6 = 153,
+                D0 = 200,
+                D1 = 225,
+                D2 = 180,
+                H = 16,
+                C = 11,
+                X = 1,
+                D = 10,
+                N = 8
+            });
+            FlanchDict.Add("DN200", new ParFlanch
+            {
+                DN = 200,
+                D6 = 213,
+                D0 = 260,
+                D1 = 285,
+                D2 = 240,
+                H = 16,
+                C = 11,
+                X = 1,
+                D = 10,
+                N = 12
+            });
+            FlanchDict.Add("DN250", new ParFlanch
+            {
+                DN = 250,
+                D6 = 261,
+                D0 = 310,
+                D1 = 335,
+                D2 = 290,
+                H = 16,
+                C = 11,
+                X = 1,
+                D = 10,
+                N = 12
+            });
+            FlanchDict.Add("DN320", new ParFlanch
+            {
+                DN = 320,
+                D6 = 318,
+                D0 = 395,
+                D1 = 425,
+                D2 = 370,
+                H = 20,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 12
+            });
+            FlanchDict.Add("DN400", new ParFlanch
+            {
+                DN = 400,
+                D6 = 400,
+                D0 = 480,
+                D1 = 510,
+                D2 = 450,
+                H = 20,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 16
+            });
+            FlanchDict.Add("DN500", new ParFlanch
+            {
+                DN = 500,
+                D6 = 501,
+                D0 = 580,
+                D1 = 610,
+                D2 = 550,
+                H = 20,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 16
+            });
         }
         public Dictionary<string, ParFlanch> FlanchDict
         {
