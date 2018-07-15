@@ -39,7 +39,7 @@ namespace ParamedModule.Container
             CreateRib(osketch);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(par.RailLength + "mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(UsMM(par.RailLength) , PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
             ExtrudeFeature box = Definition.Features.ExtrudeFeatures.Add(ex);
             box.Name = "Rail";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());

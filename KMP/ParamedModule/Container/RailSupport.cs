@@ -68,12 +68,12 @@ namespace ParamedModule.Container
             List<Face> topBoardSF = GetSideFaces(COtopBoard, "TopBoard");
             List<WorkAxis> braceAxises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)CObrace.Definition).WorkAxes.GetEnumerator());
             WorkAxis braceAxis = braceAxises.Where(a => a.Name == "BraceAxis").FirstOrDefault();
-            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE", -centerBoard.par.Width / 2);
-            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[1], "mateF", -centerBoard.par.Width / 2);
-            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[0], "mateG", -topBoard.par.Width / 2);
-            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[1], "mateH", -topBoard.par.Width / 2);
-            SetFlushiMate(CObaseBoad, baseBoardSideFaces[0], COsidePlate, sidePlateSideFaces[0], "flushA", -(baseBoard.par.Length - sidePlate.par.Length) / 2);
-            SetFlushiMate(COcenterBoad, centerBoardSF[3], CObaseBoad, baseBoardSideFaces[0], "flushD", -(baseBoard.par.Length - centerBoard.par.Width) / 2);
+            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE",UsMM( -centerBoard.par.Width)*10 / 2);
+            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[1], "mateF", UsMM(-centerBoard.par.Width) * 10 / 2);
+            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[0], "mateG", UsMM(-topBoard.par.Width) * 10 / 2);
+            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[1], "mateH", UsMM(-topBoard.par.Width) * 10 / 2);
+            SetFlushiMate(CObaseBoad, baseBoardSideFaces[0], COsidePlate, sidePlateSideFaces[0], "flushA", -UsMM(baseBoard.par.Length - sidePlate.par.Length) * 10 / 2);
+            SetFlushiMate(COcenterBoad, centerBoardSF[3], CObaseBoad, baseBoardSideFaces[0], "flushD", -UsMM(baseBoard.par.Length - centerBoard.par.Width) * 10 / 2);
             SetiMateResult(CObaseBoad);
             SetiMateResult(COcenterBoad);
             SetiMateResult(COsidePlate);

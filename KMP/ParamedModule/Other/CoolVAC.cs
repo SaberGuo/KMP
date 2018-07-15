@@ -13,7 +13,7 @@ namespace ParamedModule.Other
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CoolVAC : PartModulebase
     {
-        ParCoolVAC par = new ParCoolVAC();
+       public ParCoolVAC par = new ParCoolVAC();
         [ImportingConstructor]
         public CoolVAC() : base()
         {

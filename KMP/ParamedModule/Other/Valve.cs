@@ -15,7 +15,7 @@ namespace ParamedModule.Other
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Valve : PartModulebase
     {
-        ParValve par = new ParValve();
+       public ParValve par = new ParValve();
         [ImportingConstructor]
         public Valve():base()
         {
@@ -58,6 +58,10 @@ namespace ParamedModule.Other
             ExtrudeFeature cy= CreateCy(REndFace,out CyCir);
             Face CYEF = InventorTool.GetFirstFromIEnumerator<Face>(cy.EndFaces.GetEnumerator());
             ExtrudeFeature flanch= InventorTool.CreateFlance(CYEF, CyCir, par.ValveType.Flanch.D1/2, par.ValveType.Flanch.H, Definition);
+            flanch.Name = "Flanch1";
+            Face SF = InventorTool.GetFirstFromIEnumerator<Face>(flanch.SideFaces.GetEnumerator());
+            WorkAxis axis1 = Definition.WorkAxes.AddByRevolvedFace(SF);
+            axis1.Name = flanch.Name + "A";
             Face FEFace = InventorTool.GetFirstFromIEnumerator<Face>(flanch.EndFaces.GetEnumerator());
            ExtrudeFeature Groove= InventorTool.CreateFlanceGroove(FEFace, CyCir, par.ValveType.Flanch.D2 / 2, Definition);
            ExtrudeFeature Screw= InventorTool.CreateFlanceScrew(FEFace, CyCir, par.ValveType.Flanch.N, par.ValveType.Flanch.C / 2, par.ValveType.Flanch.D0 / 2, par.ValveType.Flanch.H, Definition);

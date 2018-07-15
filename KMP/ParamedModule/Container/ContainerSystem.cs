@@ -76,7 +76,7 @@ namespace ParamedModule.Container
             SetiMateResult(COcylinder);
             SetiMateResult(COcylinderDoor);
            // List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
-            double distance = _cylinder.par.Length / (par.PedestalNumber + 1);
+            double distance = UsMM(_cylinder.par.Length) / (par.PedestalNumber + 1);
             iMateDefinition cylinderAxisMate = Getimate(COcylinder, "mateH");//罐体轴
                                                                              //  WorkAxis aixs = ((MateiMateDefinition)cylinderAxisMate).Entity;
             List<WorkAxis> cylinderAxes = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)COcylinder.Definition).WorkAxes.GetEnumerator());
@@ -103,8 +103,8 @@ namespace ParamedModule.Container
                 PartFeature feature = features.Where(d => d.Name == "UnderBoard").FirstOrDefault();
                 Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(((ExtrudeFeature)feature).StartFaces.GetEnumerator());
 
-                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, (-i * distance - distance) + "mm").Name = "mateG" + i;
-                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, (-i * distance - distance) + "mm").Name = "mateG" + i;
+                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, (-i * distance - distance) ).Name = "mateG" + i;
+                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, (-i * distance - distance) ).Name = "mateG" + i;
 
                 Definition.iMateResults.AddByTwoiMates(Getimate(COcylinder, "mateG" + i), Getimate(COpedestal, "mateG" + i));
                 #endregion
