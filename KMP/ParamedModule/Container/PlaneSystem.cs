@@ -96,7 +96,7 @@ namespace ParamedModule.Container
             OccStruct OccSub = GetOccStruct(COSup, "PlaneSupTop", 0);
             Definition.Constraints.AddMateConstraint(COPlanes[0].StartFace, OccSub.EndFace, 0);
             Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[1], OccSub.SideFaces[3], 0);
-            Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[2], OccSub.SideFaces[0], 0);
+            Definition.Constraints.AddFlushConstraint(COPlanes[0].SideFaces[0], OccSub.SideFaces[2], 0);
            // GeneratorProgress(this, "完成创建容器内平板系统");
         }
     }

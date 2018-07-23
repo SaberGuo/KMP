@@ -157,7 +157,7 @@ namespace ParamedModule
         public virtual string FullPath { get; }
         public double UsMM(double value)
         {
-            return value / 1;
+            return value / 10;
         }
         [XmlIgnore]
         public ModuleCollection SubParamedModules

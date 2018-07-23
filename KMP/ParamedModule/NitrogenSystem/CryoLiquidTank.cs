@@ -7,14 +7,17 @@ using Infranstructure.Tool;
 using Inventor;
 using System.ComponentModel.Composition;
 using KMP.Interface;
-using KMP.Interface.Model.Other;
-namespace ParamedModule.Other
+using KMP.Interface.Model.NitrogenSystem;
+namespace ParamedModule.NitrogenSystem
 {
+    /// <summary>
+    /// 低温液体储槽
+    /// </summary>
     [Export("CryoLiquidTank", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CryoLiquidTank : PartModulebase
     {
-        ParCryoLiquidTank par = new ParCryoLiquidTank();
+       public ParCryoLiquidTank par = new ParCryoLiquidTank();
         [ImportingConstructor]
         public CryoLiquidTank():base()
         {
@@ -36,13 +39,13 @@ namespace ParamedModule.Other
         public override void CreateSub()
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[1]);
-            double shortDimen = par.Capacity.Dimension / 2;
-            double height = par.Capacity.Height - shortDimen;
+            double shortDimen = UsMM(par.Capacity.Dimension) / 2;
+            double height = UsMM(par.Capacity.Height) - shortDimen;
          // SketchLine line=  osketch.SketchLines.AddByTwoPoints(InventorTool.CreatePoint2d(shortDimen / 2, height / 2), InventorTool.CreatePoint2d(shortDimen / 2, -height / 2));
-          SketchEllipticalArc arc1=  osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, height / 2), InventorTool.Right, par.Capacity.Dimension / 2, shortDimen / 2, 0, Math.PI/2);
-          SketchEllipticalArc arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, -height / 2), InventorTool.Right, par.Capacity.Dimension / 2, shortDimen / 2, 1.5*Math.PI, Math.PI/2);
-            SketchEllipticalArc arc3 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, height / 2), InventorTool.Right, par.Capacity.Dimension / 2-2, shortDimen / 2-2, 0, Math.PI / 2);
-            SketchEllipticalArc arc4 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, -height / 2), InventorTool.Right, par.Capacity.Dimension / 2-2, shortDimen / 2-2,1.5* Math.PI, Math.PI / 2);
+          SketchEllipticalArc arc1=  osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, height / 2), InventorTool.Right, UsMM(par.Capacity.Dimension) / 2, shortDimen / 2, 0, Math.PI/2);
+          SketchEllipticalArc arc2 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, -height / 2), InventorTool.Right, UsMM(par.Capacity.Dimension) / 2, shortDimen / 2, 1.5*Math.PI, Math.PI/2);
+            SketchEllipticalArc arc3 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, height / 2), InventorTool.Right, UsMM(par.Capacity.Dimension) / 2-2, shortDimen / 2-2, 0, Math.PI / 2);
+            SketchEllipticalArc arc4 = osketch.SketchEllipticalArcs.Add(InventorTool.CreatePoint2d(0, -height / 2), InventorTool.Right, UsMM(par.Capacity.Dimension) / 2-2, shortDimen / 2-2,1.5* Math.PI, Math.PI / 2);
             // SketchLine CenterLine = osketch.SketchLines.AddByTwoPoints(arc1.EndSketchPoint, arc2.EndSketchPoint);
             //CenterLine.Construction = true;
             SketchLine line = osketch.SketchLines.AddByTwoPoints(arc1.StartSketchPoint, arc2.EndSketchPoint);
@@ -65,9 +68,18 @@ namespace ParamedModule.Other
             ExtrudeDefinition SurExtrude = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(SurPro, PartFeatureOperationEnum.kJoinOperation);
             SurExtrude.SetDistanceExtent(shortDimen / 10, PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
             ExtrudeFeature SurExtrudeFeature= Definition.Features.ExtrudeFeatures.Add(SurExtrude);
+            SurExtrudeFeature.Name = "Sur";
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(SurExtrudeFeature);
-            WorkAxis axis = Definition.WorkAxes.AddByLine(line2, true);
+            WorkAxis axis = Definition.WorkAxes.AddByLine(line2,true);
+            WorkPlane plane = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[2], 0);
+            plane.Visible = false;
+            plane.Name = "Flush";
+            WorkPlane plane1 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[1], 0);
+            plane1.Visible = false;
+            plane1.Name = "Mate";
+            //axis.Visible = false;
+            //axis.Name = "Axis";
             Definition.Features.CircularPatternFeatures.Add(objc, axis, false, 3, Math.PI * 2, true, PatternComputeTypeEnum.kAdjustToModelCompute);
             //SketchLine line1 = osketch.SketchLines.AddByTwoPoints(arc1.EndSketchPoint, arc3.EndSketchPoint);
             // Profile pro = osketch.Profiles.AddForSolid();

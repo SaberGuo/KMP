@@ -53,6 +53,11 @@ namespace ParamedModule
             // GetFeatures(item);
             return item;
         }
+       protected ComponentOccurrence LoadOccurrence(string name,Matrix matrix)
+        {
+            string str = AppDomain.CurrentDomain.BaseDirectory + "Models\\" + name;
+            return Definition.Occurrences.Add(str, matrix);
+        }
         #region 获取或设置装配
         /// <summary>
         /// 获取需要用到的特征
@@ -374,7 +379,24 @@ namespace ParamedModule
             planeStruct.Part = (PartFeature)feature;
             return planeStruct;
         }
-#endregion
+       protected static WorkAxis GetAxis(ComponentOccurrence occ, string name)
+        {
+            List<WorkAxis> Axises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)occ.Definition).WorkAxes.GetEnumerator());
+            WorkAxis Axis = Axises.Where(a => a.Name == name).FirstOrDefault();
+            object AxisProxy;
+            occ.CreateGeometryProxy(Axis, out AxisProxy);
+            return (WorkAxis)AxisProxy;
+        }
+      protected static  WorkPlane GetPlane(ComponentOccurrence occ, string name)
+        {
+            List<WorkPlane> Planes = InventorTool.GetCollectionFromIEnumerator<WorkPlane>(((PartComponentDefinition)occ.Definition).WorkPlanes.GetEnumerator());
+            WorkPlane plane = Planes.Where(a => a.Name == name).FirstOrDefault();
+            object planeProxy;
+            occ.CreateGeometryProxy(plane, out planeProxy);
+            return (WorkPlane)planeProxy;
+        }
+
+        #endregion
         protected void SaveDoc()
         {
 

@@ -9,6 +9,9 @@ using KMP.Interface;
 using KMP.Interface.Model.Other;
 namespace ParamedModule.Other
 {
+    /// <summary>
+    /// 低温泵
+    /// </summary>
     [Export("CoolVAC", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CoolVAC : PartModulebase

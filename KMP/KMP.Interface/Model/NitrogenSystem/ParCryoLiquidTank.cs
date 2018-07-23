@@ -10,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using Microsoft.Practices.ServiceLocation;
 using System.ComponentModel.Composition;
 
-namespace KMP.Interface.Model.Other
+namespace KMP.Interface.Model.NitrogenSystem
 {
     public static class ParTankCapacityDict
     {

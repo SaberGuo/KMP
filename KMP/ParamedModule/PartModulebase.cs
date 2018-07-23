@@ -25,6 +25,7 @@ namespace ParamedModule
         protected void CreateDoc()
         {
              Doc = InventorTool.CreatePart();
+            Doc.UnitsOfMeasure.LengthUnits = UnitsTypeEnum.kMillimeterLengthUnits;
             Definition = Doc.ComponentDefinition;
         }
         
