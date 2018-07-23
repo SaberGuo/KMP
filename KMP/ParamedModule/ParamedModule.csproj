@@ -81,6 +81,11 @@
     <Compile Include="NitrogenSystem\CryoLiquidTank.cs" />
     <Compile Include="NitrogenSystem\CryoLiquidTanks.cs" />
     <Compile Include="Other\Valve.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WareHouseEnvironment.cs" />
     <Compile Include="ParamedModuleBase.cs" />
     <Compile Include="Container\Pedestal.cs" />
@@ -118,10 +123,21 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\液压泵.ipt" />
+    <None Include="Resources\过冷器.ipt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Service\" /Y</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Service\" /Y
+copy "$(ProjectDir)\Resources\过冷器.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\" /Y
+copy "$(ProjectDir)\Resources\液压泵.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
