@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,8 +89,8 @@ namespace KMP.Interface.Model.Other
                 D = 173,
                 F = 64,
                 G = 34,
-                H = 153,
-                I = 56,
+                H = 140.5,
+                I = 64,
                 Flanch = ParFlanchDict.FlanchDict["DN63"]
             });
             ValveTypeDict.Add("DN80", new ParValveType
@@ -101,8 +101,8 @@ namespace KMP.Interface.Model.Other
                 D = 228,
                 F = 75,
                 G = 36,
-                H = 177,
-                I = 69,
+                H = 162,
+                I = 77,
                 Flanch = ParFlanchDict.FlanchDict["DN80"]
             });
             ValveTypeDict.Add("DN100", new ParValveType
@@ -113,8 +113,8 @@ namespace KMP.Interface.Model.Other
                 D = 228,
                 F = 75,
                 G = 35,
-                H = 184,
-                I = 70,
+                H = 179,
+                I = 77,
                 Flanch = ParFlanchDict.FlanchDict["DN100"]
             });
             ValveTypeDict.Add("DN160", new ParValveType
@@ -125,8 +125,8 @@ namespace KMP.Interface.Model.Other
                 D = 302,
                 F = 75,
                 G = 40,
-                H = 207,
-                I = 70,
+                H = 215,
+                I = 77,
                 Flanch = ParFlanchDict.FlanchDict["DN160"]
             });
             ValveTypeDict.Add("DN200", new ParValveType
@@ -137,8 +137,8 @@ namespace KMP.Interface.Model.Other
                 D = 380,
                 F = 75,
                 G = 42,
-                H = 214,
-                I = 70,
+                H = 229.5,
+                I = 98,
                 Flanch = ParFlanchDict.FlanchDict["DN200"]
             });
             ValveTypeDict.Add("DN250", new ParValveType
@@ -149,8 +149,8 @@ namespace KMP.Interface.Model.Other
                 D = 464,
                 F = 80,
                 G = 48,
-                H = 266,
-                I = 70,
+                H = 202.5,
+                I = 117,
                 Flanch = ParFlanchDict.FlanchDict["DN250"]
             });
             ValveTypeDict.Add("DN320", new ParValveType
@@ -161,8 +161,8 @@ namespace KMP.Interface.Model.Other
                 D = 669.5,
                 F = 138,
                 G = 100,
-                H = 314,
-                I = 75,
+                H = 318,
+                I = 117,
                 Flanch = ParFlanchDict.FlanchDict["DN320"]
             });
             ValveTypeDict.Add("DN400", new ParValveType
@@ -173,8 +173,8 @@ namespace KMP.Interface.Model.Other
                 D = 810,
                 F = 138,
                 G = 100,
-                H = 325,
-                I = 75,
+                H = 328,
+                I = 117,
                 Flanch = ParFlanchDict.FlanchDict["DN400"]
             });
         }
