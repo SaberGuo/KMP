@@ -124,7 +124,10 @@
     <Compile Include="Model\NitrogenSystem\ParCryoLiquidTank.cs" />
     <Compile Include="Model\NitrogenSystem\ParCryoLiquidTanks.cs" />
     <Compile Include="Model\Other\ParDRYVAC.cs" />
+    <Compile Include="Model\Other\ParMolecularPump.cs" />
+    <Compile Include="Model\Other\ParScrewLine.cs" />
     <Compile Include="Model\Other\ParValve.cs" />
+    <Compile Include="Model\Other\ParVocuoSystem.cs" />
     <Compile Include="Model\ParFlanch.cs" />
     <Compile Include="Model\Container\ParPlaneSupport.cs" />
     <Compile Include="Model\Container\ParPlaneSystem.cs" />

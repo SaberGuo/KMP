@@ -10,6 +10,9 @@ using KMP.Interface.Model.Other;
 using KMP.Interface.Model;
 namespace ParamedModule.Other
 {
+    /// <summary>
+    /// 干泵DVR
+    /// </summary>
     [Export("DRYVAC", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class DRYVAC : PartModulebase

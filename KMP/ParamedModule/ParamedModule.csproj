@@ -81,6 +81,9 @@
     <Compile Include="NitrogenSystem\CryoLiquidTank.cs" />
     <Compile Include="NitrogenSystem\CryoLiquidTanks.cs" />
     <Compile Include="Other\DRYVAC.cs" />
+    <Compile Include="Other\MolecularPump.cs" />
+    <Compile Include="Other\ScrewLine.cs" />
+    <Compile Include="Other\VacuoSystem.cs" />
     <Compile Include="Other\Valve.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -14,7 +14,7 @@ namespace KMP.Interface.Model.Other
     {
         public ParDRYVAC():base()
         {
-            ServiceLocator.Current.GetInstance<ParValveTypeProxy>();
+            ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
         }
         #region
         private double lenth;
