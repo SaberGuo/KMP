@@ -37,6 +37,11 @@ namespace ParamedModule.Other
         }
         public override bool CheckParamete()
         {
+            if(par.VAC.TotolHeight<=par.VAC.Height)
+            {
+                ParErrorChanged(this, "泵主体高度不能大于总高度！");
+                return false;
+            }
             return true;
         }
 

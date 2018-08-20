@@ -22,6 +22,7 @@ namespace ParamedModule.NitrogenSystem
         PumpArea pumps = new PumpArea();
         public Nitrogen():base()
         {
+            this.Name = "氮系统";
             this.Parameter = par;
             this.SubParamedModules.Add(tanks);
             this.SubParamedModules.Add(heatUps);

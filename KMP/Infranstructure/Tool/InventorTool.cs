@@ -460,6 +460,7 @@ namespace Infranstructure.Tool
             double angle = 360 / screwNumber / 180 * Math.PI;
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             SketchCircle flanceInCircle = (SketchCircle)osketch.AddByProjectingEntity(inCircle);
+            flanceInCircle.Construction = true;
             SketchCircle screwCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, arrangeRadius), ScrewRadius);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(screwCircle);
