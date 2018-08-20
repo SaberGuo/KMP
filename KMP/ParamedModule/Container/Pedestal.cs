@@ -17,7 +17,7 @@ namespace ParamedModule.Container
         public ParPedestal par = new ParPedestal();
         public Pedestal() : base()
         {
-
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "Pedestal.png");
         }
         public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
@@ -26,6 +26,8 @@ namespace ParamedModule.Container
             init();
             par.InRadius = InRadiius;
             par.Thickness = Thickness;
+
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "Pedestal.png");
         }
         void init()
         {

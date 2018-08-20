@@ -27,11 +27,12 @@ namespace KMP.Anlysis
         {
             //Sp
             double t = (this.Parameters.PressS - this.Parameters.PreUltimatePress) / (this.Parameters.PressT - Parameters.PreUltimatePress);
-            this.Parameters.PrePumpingSpeed = 2.3 * this.Parameters.Kq * this.Parameters.Volume / this.Parameters.PumpingTime * Math.Log((t));
+            double PrePumpingSpeed = 2.3 * this.Parameters.Kq * this.Parameters.Volume / this.Parameters.PumpingTime * Math.Log((t));
             //U
-            this.Parameters.PipelineConductance = 1.34 * 1000 * Math.Pow(this.Parameters.PipeDiameter, 4) / this.Parameters.PipeLength * this.Parameters.AvgPress;
+            double PipelineConductance = 1.34 * 1000 * Math.Pow(this.Parameters.PipeDiameter, 4) / this.Parameters.PipeLength * this.Parameters.AvgPress;
             //S
-            this.Parameters.PreAvalPumpingSpeed = this.Parameters.PrePumpingSpeed * this.Parameters.PipelineConductance / (this.Parameters.PrePumpingSpeed + this.Parameters.PipelineConductance);
+            double PreAvalPumpingSpeed = this.Parameters.PrePumpingSpeed * this.Parameters.PipelineConductance / (this.Parameters.PrePumpingSpeed + this.Parameters.PipelineConductance);
+            this.Parameters.ParametersAnalysed(PrePumpingSpeed, PipelineConductance, PreAvalPumpingSpeed);
         }
     }
 }

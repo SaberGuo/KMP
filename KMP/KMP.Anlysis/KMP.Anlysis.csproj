@@ -136,6 +136,11 @@
       <Name>KMP.Interface</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\formulate1.png" />
+    <Resource Include="resources\formulate2.png" />
+    <Resource Include="resources\formulate3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Module\" /Y</PostBuildEvent>

@@ -76,5 +76,15 @@ namespace KMP.Parameterization
             ((IInvMonitorViewModel)e.Document.Content).CloseDocument();
             _viewModel.Documents.Remove((IInvMonitorViewModel)e.Document.Content);
         }
+
+        private void PropertyGrid_SelectedPropertyItemChanged(object sender, RoutedPropertyChangedEventArgs<Xceed.Wpf.Toolkit.PropertyGrid.PropertyItemBase> e)
+        {
+            if (e.NewValue.Description.Length>0)
+            {
+                string PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", e.NewValue.Description + ".png");
+                this.preview.Source = new BitmapImage(new Uri(PreviewImagePath));
+            }
+            
+        }
     }
 }

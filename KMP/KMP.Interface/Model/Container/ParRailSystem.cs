@@ -67,7 +67,8 @@ namespace KMP.Interface.Model.Container
         /// 距罐体中心线平移
         /// </summary>
         /// 
-        [DisplayName("距罐体中心线平移")]
+        [DisplayName("距罐体中心线平移R")]
+        [Description("导轨-支持")]
         public double Offset
         {
             get

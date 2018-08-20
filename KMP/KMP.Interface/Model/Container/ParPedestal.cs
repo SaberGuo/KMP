@@ -60,7 +60,8 @@ namespace KMP.Interface.Model.Container
         /// 板材厚度
         /// </summary>
         /// 
-        [DisplayName("板材厚度")]
+        [DisplayName("板材厚度T3")]
+        [Description("容器底座")]
         public double PanelThickness
         {
             get
@@ -78,7 +79,8 @@ namespace KMP.Interface.Model.Container
         /// 竖板厚度
         /// </summary>
         /// 
-        [DisplayName("竖板厚度")]
+        [DisplayName("竖板厚度T4")]
+        [Description("容器底座")]
         public double FootBoardThickness
         {
             get
@@ -96,7 +98,8 @@ namespace KMP.Interface.Model.Container
         /// 垫板角度
         /// </summary>
         /// 
-        [DisplayName("垫板角度")]
+        [DisplayName("垫板角度a")]
+        [Description("容器底座")]
         public double UnderBoardingAngle
         {
             get
@@ -114,7 +117,8 @@ namespace KMP.Interface.Model.Container
         /// 垫板宽度
         /// </summary>
         /// 
-        [DisplayName("垫板宽度")]
+        [DisplayName("垫板宽度L1")]
+        [Description("容器底座")]
         public double UnderBoardWidth
         {
             get
@@ -132,7 +136,8 @@ namespace KMP.Interface.Model.Container
         /// 底板距离罐体中心距离
         /// </summary>
         /// 
-        [DisplayName("底板距离罐体中心距离")]
+        [DisplayName("底板距离罐体中心距离h1")]
+        [Description("容器底座")]
         public double PedestalCenterDistance
         {
             get
@@ -150,7 +155,8 @@ namespace KMP.Interface.Model.Container
         /// 竖板间隔
         /// </summary>
         /// 
-        [DisplayName("竖板间隔")]
+        [DisplayName("竖板间隔d3")]
+        [Description("容器底座")]
         public double FootBoardBetween
         {
             get
@@ -168,7 +174,8 @@ namespace KMP.Interface.Model.Container
         /// 背板偏移距离
         /// </summary>
         /// 
-        [DisplayName("背板偏移距离")]
+        [DisplayName("背板偏移距离d2")]
+        [Description("容器底座")]
         public double BackBoardMoveDistance
         {
             get
@@ -186,7 +193,8 @@ namespace KMP.Interface.Model.Container
         /// 竖板宽度
         /// </summary>
         /// 
-        [DisplayName("竖板宽度")]
+        [DisplayName("竖板宽度T2")]
+        [Description("容器底座")]
         public double FootBoardWidth
         {
             get
@@ -205,6 +213,7 @@ namespace KMP.Interface.Model.Container
        /// </summary>
        /// 
        [DisplayName("竖板数量")]
+       [Description("容器底座")]
         public double FootBoardNum
         {
             get
@@ -223,6 +232,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("底板长度")]
+        [Description("容器底座")]
         public double PedestalLength
         {
             get

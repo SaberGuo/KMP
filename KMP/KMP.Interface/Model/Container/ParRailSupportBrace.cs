@@ -13,7 +13,8 @@ namespace KMP.Interface.Model.Container
         double inRadius;
         double thickness;
         double height;
-        [DisplayName("半径")]
+        [DisplayName("半径R")]
+        [Description("导轨-中支持")]
         public double InRadius
         {
             get
@@ -27,7 +28,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.InRadius);
             }
         }
-        [DisplayName("厚度")]
+        [DisplayName("厚度T")]
+        [Description("导轨-中支持")]
         public double Thickness
         {
             get
@@ -41,7 +43,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-        [DisplayName("高度")]
+        [DisplayName("高度h")]
+        [Description("导轨-中支持")]
         public double Height
         {
             get

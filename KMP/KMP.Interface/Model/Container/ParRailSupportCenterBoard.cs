@@ -22,6 +22,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("厚度")]
+        [Description("导轨-下底板")]
         public double Thickness
         {
             get
@@ -39,7 +40,8 @@ namespace KMP.Interface.Model.Container
         /// 宽度
         /// </summary>
         /// 
-        [DisplayName("宽度")]
+        [DisplayName("宽度L1")]
+        [Description("导轨-下底板")]
         public double Width
         {
             get
@@ -57,7 +59,8 @@ namespace KMP.Interface.Model.Container
         /// 螺丝孔半径
         /// </summary>
         /// 
-        [DisplayName("螺丝孔半径")]
+        [DisplayName("螺丝孔半径d1")]
+        [Description("导轨-下底板")]
         public double HoleRadius
         {
             get
@@ -75,7 +78,8 @@ namespace KMP.Interface.Model.Container
         /// 螺丝孔中心之间距离
         /// </summary>
         /// 
-        [DisplayName("螺丝孔中心之间距离")]
+        [DisplayName("螺丝孔中心之间距离L2")]
+        [Description("导轨-下底板")]
         public double HoleCenterDistance
         {
             get
@@ -93,7 +97,8 @@ namespace KMP.Interface.Model.Container
         /// 螺丝孔中心到钣金侧边距离
         /// </summary>
         /// 
-        [DisplayName("螺丝孔中心到钣金侧边距离")]
+        [DisplayName("螺丝孔中心到钣金侧边距离L3")]
+        [Description("导轨-下底板")]
         public double HoleSideEdgeDistance
         {
             get
@@ -111,7 +116,8 @@ namespace KMP.Interface.Model.Container
         /// 螺丝孔中心到钣金顶边距离
         /// </summary>
         /// 
-        [DisplayName("螺丝孔中心到钣金顶边距离")]
+        [DisplayName("螺丝孔中心到钣金顶边距离h1")]
+        [Description("导轨-下底板")]
         public double HoleTopEdgeDistance
         {
             get

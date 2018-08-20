@@ -21,6 +21,7 @@ namespace KMP.Interface.Model.Container
         /// 底座数量
         /// </summary>
         [DisplayName("底座数量")]
+        [Description("容器系统")]
         public double PedestalNumber
         {
             
@@ -36,7 +37,8 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        [DisplayName("罐体半径")]
+        [DisplayName("罐体半径d2")]
+        [Description("容器系统")]
         /// <summary>
         /// 罐体半径
         /// </summary>
@@ -54,7 +56,8 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        [DisplayName("罐体厚度")]
+        [DisplayName("罐体厚度T1")]
+        [Description("容器系统")]
         /// <summary>
         /// 罐体厚度
         /// </summary>

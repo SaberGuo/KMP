@@ -9,6 +9,9 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:invMonitor="clr-namespace:KMP.Parameterization.InventorMonitor"
              xmlns:model ="clr-namespace:KMP.Interface;assembly=KMP.Interface"
+             xmlns:cmd="clr-namespace:Infranstructure.Commands;assembly=Infranstructure"
+             xmlns:mcmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d">
     <UserControl.Resources>
         <local:PathToImageConvertor x:Key="previewConverter"></local:PathToImageConvertor>
@@ -39,14 +42,22 @@
             </xcad:DockingManager.DocumentHeaderTemplate>
             <xcad:LayoutRoot x:Name="_layoutRoot">
                 <xcad:LayoutPanel Orientation="Horizontal">
-                    <xcad:LayoutAnchorablePaneGroup  DockWidth="300" Orientation="Vertical">
+                    <xcad:LayoutAnchorablePaneGroup  DockWidth="400" Orientation="Vertical">
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable ContentId="properties" Title="参数" CanHide="False" CanClose="False"
                                             AutoHideWidth="240"
                                          IconSource="./Resources/Image/property-blue.png">
                                 <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                     <StackPanel Orientation="Vertical">
+                                        <ToolBar>
+                                            <xctk:IconButton Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="32" Height="32">
+                                                <xctk:IconButton.Icon>
+                                                    <Image Source="./Resources/Image/reload.png"/>
+                                                </xctk:IconButton.Icon>
+                                            </xctk:IconButton>
+                                        </ToolBar>
                                         <xctk:PropertyGrid NameColumnWidth="110"
+                                         SelectedPropertyItemChanged="PropertyGrid_SelectedPropertyItemChanged"
                         SelectedObject="{Binding ElementName=_moduleTree, Path=SelectedItem.Parameter}"/>
                                     </StackPanel>
                                 </ScrollViewer>
@@ -56,7 +67,8 @@
                         <xcad:LayoutAnchorablePane FloatingHeight="200">
                             <xcad:LayoutAnchorable Title="预览图">
                                 <StackPanel Orientation="Vertical">
-                                    <Image  Width="200" Height="120" Source="{Binding ElementName=_moduleTree, Path=SelectedItem, Converter={StaticResource previewConverter}}"/>
+                                    <Image Height="300" x:Name="preview"/>
+                                    <!--<Image Height="300" Source="{Binding ElementName=_moduleTree, Path=SelectedItem, Converter={StaticResource previewConverter}}"/>-->
                                 </StackPanel>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
@@ -81,6 +93,18 @@
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
                                     </TreeView.ItemTemplate>
+                                    <TreeView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="生成模型" Name="TreeMenuGenerate" Command="{Binding TreeNodeGenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                            <MenuItem Header="保存" Name="TreeMenuSave" Command="{Binding TreeNodeSaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                            <MenuItem Header="关闭" Name="TreeMenuClose" Command="{Binding TreeNodeCloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                        </ContextMenu>
+                                    </TreeView.ContextMenu>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <mcmd:EventToCommand Command="{Binding SelectTreeNodeCommand}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </TreeView>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>

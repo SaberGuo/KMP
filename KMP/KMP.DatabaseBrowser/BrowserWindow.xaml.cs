@@ -62,5 +62,15 @@ namespace KMP.DatabaseBrowser
         {
             this.viewModel.ProjectTypeChanged("HeaterSystem");
         }
+
+        private void NitrogenSystem_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            this.viewModel.ProjectTypeChanged("NitrogenSystem");
+        }
+        private void CoolSystem_MouseleftButtonDown(object sender, RoutedEventArgs e)
+        {
+            this.viewModel.ProjectTypeChanged("CoolSystem");
+        }
+
     }
 }

@@ -47,7 +47,11 @@ namespace KMP.Interface
         {
             if (this.Count > 0)
             {
-                this.First().CreateModule();
+                //this.First().CreateModule();
+                foreach (var item in this)
+                {
+                    item.CreateModule();
+                }
             }
             
         }

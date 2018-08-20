@@ -17,6 +17,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using KMP.Parameterization.PopWindows;
+using System.Windows.Input;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
+using System.Windows.Controls;
 
 namespace KMP.Parameterization
 {
@@ -32,7 +37,7 @@ namespace KMP.Parameterization
         ModelCommandProxy _modelCommandProxy;
         DatabaseCommandProxy _databaseCommandProxy;
         ChildWinViewModel _childWindViewModel;
-
+        public ICommand SelectTreeNodeCommand { get; set; }
         [ImportingConstructor]
         public MainDockViewModel(IEventAggregator eventAggregator,
             IInvMonitorController invMonitorController,
@@ -56,10 +61,64 @@ namespace KMP.Parameterization
             InitFileCommands();
             InitModelCommands();
             InitDatabaseCommands();
+
+            SelectTreeNodeCommand = new DelegateCommand<RoutedEventArgs>(SelectTreeNodeCommandExec);
             //this._eventAggregator.GetEvent<GeneratorEvent>().Subscribe(this.OnGenerateChanged);
+            TreeNodeGenCommand = new DelegateCommand<IParamedModule>(TreeNodeGenExecuted);
+            TreeNodeSaveCommand = new DelegateCommand<IParamedModule>(TreeNodeSaveExecuted);
+            TreeNodeCloseCommand = new DelegateCommand<IParamedModule>(TreeNodeCloseExecuted);
 
 
+        }
 
+        private void SelectTreeNodeCommandExec(RoutedEventArgs e)
+        {
+            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+
+            if (treeViewItem == null) return;
+            treeViewItem.Focus();
+            e.Handled = true;
+        }
+
+        public ICommand TreeNodeGenCommand { get; set; }
+        public ICommand TreeNodeSaveCommand { get; set; }
+        public ICommand TreeNodeCloseCommand { get; set; }
+
+        private void TreeNodeGenExecuted(IParamedModule module)
+        {
+            this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator," + module.GetGeneratorCount().ToString());
+         
+            Task generatortask = new Task(()=> { module.CreateModule(); });
+            generatortask.ContinueWith((result) => {
+                _invMonitorController.UpdateInvModel(module.FullPath);
+                this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+                //this._childWindViewModel.GeneratorWinState = "Close";
+                //this.IsGenerating = false;
+            });
+            generatortask.Start();
+        }
+
+        private void TreeNodeSaveExecuted(IParamedModule module)
+        {
+            module.Serialization();
+        }
+
+        private void TreeNodeCloseExecuted(IParamedModule module)
+        {
+            module.Serialization();
+            this.Modules.Remove(module);
+        }
+
+        private static DependencyObject VisualUpwardSearch<M>(DependencyObject source)
+        {
+            while (source != null && source.GetType() != typeof(M))
+            {
+                if (source is Visual || source is Visual3D)
+                    source = VisualTreeHelper.GetParent(source);
+                else
+                    source = LogicalTreeHelper.GetParent(source);
+            }
+            return source;
         }
         #region childwindow
 
@@ -149,7 +208,7 @@ namespace KMP.Parameterization
             {
                 if (this.Modules.Count > 0 && this.Modules.IsChanged)
                 {
-                    if (MessageBox.Show("是否保存当前工程?", "工程保存", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    if (System.Windows.Forms.MessageBox.Show("是否保存当前工程?", "工程保存", MessageBoxButtons.OKCancel) == DialogResult.OK)
                     {
                         this.Modules.Serialization();
                     }
@@ -265,7 +324,7 @@ namespace KMP.Parameterization
                 bool res = this.Modules.First().AddModule(module);
                 if (res)
                 {
-                    MessageBox.Show("工程添加成功");
+                    System.Windows.Forms.MessageBox.Show("工程添加成功");
                 }
             }
         }

@@ -135,9 +135,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Service\" /Y
-copy "$(ProjectDir)\Resources\过冷器.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\" /Y
-copy "$(ProjectDir)\Resources\液压泵.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\" /Y</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Service\";
+copy "$(ProjectDir)\Resources\过冷器.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\";
+copy "$(ProjectDir)\Resources\液压泵.ipt" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)\Models\";</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

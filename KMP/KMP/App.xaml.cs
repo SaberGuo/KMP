@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using GalaSoft.MvvmLight.Ioc;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -17,6 +19,7 @@ namespace KMP
             base.OnStartup(e);
 
             KMPBootstrapper bootstrapper = new KMPBootstrapper();
+            
             bootstrapper.Run();
         }
     }

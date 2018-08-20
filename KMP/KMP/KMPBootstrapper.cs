@@ -10,6 +10,7 @@ using System.Windows;
 using Infranstructure.Behaviors;
 using System.Diagnostics;
 using System.Threading;
+using System.ComponentModel.Composition;
 
 namespace KMP
 {
@@ -33,6 +34,7 @@ namespace KMP
 
             SplashScreen sp = new SplashScreen("./Resources/splash.png");
 
+            
             sp.Show(false);
  
             Application.Current.MainWindow = (Window)this.Shell;
@@ -55,6 +57,7 @@ namespace KMP
             catalog = new DirectoryCatalog("Service");
             this.AggregateCatalog.Catalogs.Add(catalog);
         }
+
 
         protected override void ConfigureContainer()
         {

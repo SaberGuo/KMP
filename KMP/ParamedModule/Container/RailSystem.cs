@@ -17,7 +17,7 @@ namespace ParamedModule.Container
         public RailSupport support;
         public RailSystem():base()
         {
-
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "RailSystem.png");
         }
         public RailSystem(PassedParameter InRadius) :base()
         {
@@ -33,6 +33,8 @@ namespace ParamedModule.Container
             par.CylinderInRadius = InRadius;
 
             this.Name = "导轨系统";
+
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "RailSystem.png");
         }
         void init()
         {

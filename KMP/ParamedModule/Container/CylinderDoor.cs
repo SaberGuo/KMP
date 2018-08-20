@@ -17,7 +17,7 @@ namespace ParamedModule.Container
         Dictionary<double, WorkPlane> _sidePlanes = new Dictionary<double, WorkPlane>();
        public CylinderDoor():base()
         {
-
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "CylinderDoor.png");
         }
         public CylinderDoor(PassedParameter InRadius, PassedParameter Thickness) : base()
         {
@@ -26,6 +26,8 @@ namespace ParamedModule.Container
             this.Parameter = par;
             par.InRadius = InRadius;
             par.Thickness = Thickness;
+
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "CylinderDoor.png");
 
         }
         private void init()

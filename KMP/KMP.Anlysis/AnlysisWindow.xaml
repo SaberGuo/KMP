@@ -8,7 +8,7 @@
         Closing="Window_Closing"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="AnlysisWindow" Height="600" Width="800">
-    <Window.Resources>
+    <!--<Window.Resources>
         <sys:Double x:Key="TabItemShadowRadius">6</sys:Double>
         <Color x:Key="AyTabItem.Static.Shadow.Color1">#7F000000</Color>
         <Color x:Key="AyTabItem.Static.Shadow.Color2">#00000000</Color>
@@ -217,24 +217,15 @@
 
         </Style>
 
-    </Window.Resources>
-    <TabControl BorderThickness="1,0,1,1"  HorizontalAlignment="Left" Height="560" Width="780" Margin="10,10,10,10" VerticalAlignment="Top" Style="{DynamicResource AyTabControl}" TabStripPlacement="Top" >
+    </Window.Resources>-->
+    <TabControl BorderThickness="1,0,1,1"  HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" TabStripPlacement="Top" >
         <TabItem Header="真空系统">
-            <TabItem.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                    <GradientStop Color="#FFA1B8D3" Offset="0"/>
-                    <GradientStop Color="#FFABC3DF" Offset="0.067"/>
-                    <GradientStop Color="#FFA5B9D4" Offset="0.967"/>
-                    <GradientStop Color="#FF194177" Offset="1"/>
-                </LinearGradientBrush>
-            </TabItem.Background>
-            <local:VacuumView DataContext="{Binding VaccumViewModel}"/>
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <local:VacuumView DataContext="{Binding VaccumViewModel}" />
+            </ScrollViewer>
+            
         </TabItem>
-        <TabItem Header="aaronyang快递" >
-            <Grid >
-                <TextBlock FontSize="36" Text="aaronyang的快递" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Grid>
-        </TabItem>
+        
     </TabControl>
     
 </Window>

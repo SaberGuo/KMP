@@ -6,14 +6,86 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KMP.Anlysis"
              mc:Ignorable="d" 
+             Width="700"
              >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <!--粗抽系统设计-->
-        <Grid Grid.Row="0">
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <!--粗抽系统设计-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel Orientation="Vertical">
+                        <Label>粗抽极限真空度确定：</Label>
+                        <TextBlock>主泵为低温泵，工作压力一般为10Pa~10-7Pa。粗抽结束压力由下式确定：</TextBlock>
+                        <Image Height="105"  Source="./resources/formulate1.png"/>
+                        <StackPanel Margin="10" Orientation="Horizontal">
+                            <Label Margin="10,0,10,0">Q</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.CryopumpVolume}"></TextBox>
+                            <Label Margin="10,0,10,0">V</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.Volume}"></TextBox>
+                            <Label Margin="10,0,10,0">粗抽结束压力：P</Label>
+                            <TextBox IsReadOnly="True" Width="60" Text="{Binding Parameters.PreEndPress}"></TextBox>
+                            <Button Margin="10,0,10,0" Width="60" Command="{Binding AnalysisCommand}">计算</Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Vertical">
+                        <Label>粗抽泵的抽速估算：</Label>
+                        <TextBlock>根据公式计算出的粗抽泵的抽速忽略了容器管道和试件的漏放气以及管道流导的影响，再配备粗抽泵实际抽速时应大于计算的粗抽泵抽速。</TextBlock>
+                        <Image Height="160" Source="./resources/formulate2.png"/>
+                        <StackPanel Margin="10" Orientation="Horizontal">
+                            <Label Margin="10,0,10,0">t</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PumpingTime}"></TextBox>
+                            <Label Margin="10,0,10,0">Pt</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PressT}"></TextBox>
+                            <Label Margin="10,0,10,0">Pi</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PressS}"></TextBox>
+                            <Label Margin="10,0,10,0">P0</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PreUltimatePress}"></TextBox>
+                            <Label Margin="10,0,10,0">粗抽泵的抽速(Sp)</Label>
+                            <TextBox IsReadOnly="True" Width="60" Text="{Binding Parameters.PrePumpingSpeed}"></TextBox>
+                            <Button Margin="10,0,10,0" Width="60" Command="{Binding AnalysisCommand}">计算</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <StackPanel Orientation="Vertical">
+                        <Label>粗抽管道的流导：</Label>
+                        <Image Height="120" Source="./resources/formulate3.png"/>
+                        <StackPanel Margin="10" Orientation="Horizontal">
+                            <Label Margin="10,0,10,0">管道长度(Le)</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PipeLength}"></TextBox>
+                            <Label Margin="10,0,10,0">管道直径(d)</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.PipeDiameter}"></TextBox>
+                            <Label Margin="10,0,10,0">平均压力(P_b)</Label>
+                            <TextBox Width="60" Text="{Binding Parameters.AvgPress}"></TextBox>
+                            <Label Margin="10,0,10,0">管道流导(U)</Label>
+                            <TextBox Width="60" IsReadOnly="True" Text="{Binding Parameters.PipelineConductance}"></TextBox>
+
+                            <Button Margin="10,0,10,0" Width="60" Command="{Binding AnalysisCommand}">计算</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="3">
+
+                </Grid>
+            </Grid>
+
+            <!--<Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -22,16 +94,26 @@
                 <ToolBar>
                     <Button Command="{Binding AnalysisCommand}">分析</Button>
                 </ToolBar>
-                <xctk:PropertyGrid SelectedObject="{Binding Parameters}"></xctk:PropertyGrid>
+                <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <xctk:PropertyGrid NameColumnWidth="110" Height="500"
+                        SelectedObject="{Binding Parameters}"/>
+                    </StackPanel>
+                </ScrollViewer>
+                
             </StackPanel>
             
             <Grid Grid.Column="1">
                 
             </Grid>
+        </Grid>-->
+
+            <!--高真空系统设计-->
+            <Grid Grid.Column="1">
+
+            </Grid>
+
         </Grid>
-        <!--高真空系统设计-->
-        <Grid Grid.Row="1">
-            
-        </Grid>
-    </Grid>
+    </ScrollViewer>
+    
 </UserControl>

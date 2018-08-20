@@ -89,6 +89,8 @@
                                         <TreeViewItem Header="环境舱" Selected="WareHouseEnvironment_MouseLeftButtonDown"/>
                                         <TreeViewItem Header="容器系统" Selected="ContainerSystem_MouseLeftButtonDown"/>
                                         <TreeViewItem Header="热沉系统" Selected="HeaterSystem_MouseLeftButtonDown"/>
+                                        <TreeViewItem Header="氮系统" Selected="NitrogenSystem_MouseLeftButtonDown"/>
+                                        <TreeViewItem Header="真空系统" Selected="CoolSystem_MouseleftButtonDown"/>
                                     </TreeViewItem>
                                 </TreeView>
                             </xcad:LayoutAnchorable>

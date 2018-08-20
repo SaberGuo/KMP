@@ -20,7 +20,7 @@ namespace ParamedModule.Container
         Dictionary<double, WorkPlane> _capHolePlanes = new Dictionary<double, WorkPlane>();
         public Cylinder():base()
         {
-
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
       
         public Cylinder(PassedParameter InRadius, PassedParameter Thickness) : base()
@@ -30,6 +30,7 @@ namespace ParamedModule.Container
             init();
             this.par.InRadius = InRadius;
             this.par.Thickness = Thickness;
+            this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
 
         private void Parameter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
