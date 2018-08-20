@@ -57,6 +57,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 上下位置
         /// </summary>
+        [DisplayName("上下位置")]
         public double PositionDistance
         {
             get
@@ -72,6 +73,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 管道长度
         /// </summary>
+        [DisplayName("管道长度")]
         public double PipeLenght
         {
             get
@@ -87,6 +89,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 管道厚度
         /// </summary>
+        [DisplayName("管道厚度")]
         public double PipeThickness
         {
             get

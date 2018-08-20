@@ -41,7 +41,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         //        _offset = value;
         //    }
         //}
-
+        [DisplayName("阵列距离集合")]
         public ObservableCollection<double> Offsets
         {
             get
@@ -57,6 +57,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 液氮储槽数量
         /// </summary>
+        [DisplayName("液氮储槽数量")]
         public int LiquidTankNum
         {
             get
@@ -73,6 +74,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 氮气储罐数量
         /// </summary>
+        [DisplayName("氮气储罐数量")]
         public int NitrogenTankNum
         {
             get
@@ -89,6 +91,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 汽化器数量
         /// </summary>
+        [DisplayName("汽化器数量")]
         public int VaporizerNum
         {
             get

@@ -216,7 +216,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         double _capacity;
         double _dimension;
         double _height;
-        //[DisplayName("储槽体积")]
+        [DisplayName("储槽体积")]
         public double Capacity
         {
             get
@@ -230,7 +230,7 @@ namespace KMP.Interface.Model.NitrogenSystem
                 this.RaisePropertyChanged(() => this.Capacity);
             }
         }
-       //[DisplayName("储槽直径")]
+       [DisplayName("储槽直径")]
         public double Dimension
         {
             get
@@ -244,7 +244,7 @@ namespace KMP.Interface.Model.NitrogenSystem
                 this.RaisePropertyChanged(() => this.Dimension);
             }
         }
-        //[DisplayName("储槽高度")]
+        [DisplayName("储槽高度")]
         public double Height
         {
             get
