@@ -56,6 +56,8 @@ namespace KMP.Interface.Model.Other
         private double bottomHeight;
         #endregion
         #region 干泵长宽高
+        [Category("干泵参数")]
+        [DisplayName("泵长")]
         public double Lenth
         {
             get
@@ -68,7 +70,8 @@ namespace KMP.Interface.Model.Other
                 lenth = value;
             }
         }
-
+        [Category("干泵参数")]
+        [DisplayName("泵宽")]
         public double Width
         {
             get
@@ -81,7 +84,8 @@ namespace KMP.Interface.Model.Other
                 width = value;
             }
         }
-
+        [Category("干泵参数")]
+        [DisplayName("泵高")]
         public double Height
         {
             get
@@ -96,6 +100,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 顶部接口法兰
+        [Category("顶部接口")]
+        [DisplayName("法兰参数")]
         public ParFlanch TopFlanch
         {
             get
@@ -108,6 +114,8 @@ namespace KMP.Interface.Model.Other
                 topFlanch = value;
             }
         }
+        [Category("顶部接口")]
+        [DisplayName("法兰DN")]
         public double TopDN
         {
             get
@@ -131,6 +139,8 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
+        [Category("顶部接口")]
+        [DisplayName("接口深度")]
         public double TopHoleDepth
         {
             get
@@ -143,7 +153,8 @@ namespace KMP.Interface.Model.Other
                 topHoleDepth = value;
             }
         }
-
+        [Category("顶部接口")]
+        [DisplayName("接口X位置")]
         public double TopHoleX
         {
             get
@@ -156,7 +167,8 @@ namespace KMP.Interface.Model.Other
                 topHoleX = value;
             }
         }
-
+        [Category("顶部接口")]
+        [DisplayName("接口Y位置")]
         public double TopHoleY
         {
             get
@@ -171,6 +183,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 顶部触摸屏
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏长度")]
         public double ScreenLength
         {
             get
@@ -183,7 +197,8 @@ namespace KMP.Interface.Model.Other
                 screenLength = value;
             }
         }
-
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏宽度")]
         public double ScreenWidth
         {
             get
@@ -196,7 +211,8 @@ namespace KMP.Interface.Model.Other
                 screenWidth = value;
             }
         }
-
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏左侧高")]
         public double ScreenHeight1
         {
             get
@@ -209,7 +225,8 @@ namespace KMP.Interface.Model.Other
                 screenHeight1 = value;
             }
         }
-
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏右侧高")]
         public double ScreenHeight2
         {
             get
@@ -222,7 +239,8 @@ namespace KMP.Interface.Model.Other
                 screenHeight2 = value;
             }
         }
-
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏X位置")]
         public double ScreenX
         {
             get
@@ -235,7 +253,8 @@ namespace KMP.Interface.Model.Other
                 screenX = value;
             }
         }
-
+        [Category("顶部触摸屏")]
+        [DisplayName("触摸屏Y位置")]
         public double ScreenY
         {
             get
@@ -250,6 +269,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 风扇参数
+        [Category("风扇")]
+        [DisplayName("宽度")]
         public double FanWidth
         {
             get
@@ -262,7 +283,8 @@ namespace KMP.Interface.Model.Other
                 fanWidth = value;
             }
         }
-
+        [Category("风扇")]
+        [DisplayName("X位置")]
         public double FanX
         {
             get
@@ -275,7 +297,8 @@ namespace KMP.Interface.Model.Other
                 fanX = value;
             }
         }
-
+        [Category("风扇")]
+        [DisplayName("Y位置")]
         public double FanY
         {
             get
@@ -290,6 +313,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 侧边阀门参数
+        [Category("侧边阀门")]
+        [DisplayName("X位置")]
         public double ValveX
         {
             get
@@ -302,7 +327,8 @@ namespace KMP.Interface.Model.Other
                 valveX = value;
             }
         }
-
+        [Category("侧边阀门")]
+        [DisplayName("Y位置")]
         public double ValveY
         {
             get
@@ -315,7 +341,8 @@ namespace KMP.Interface.Model.Other
                 valveY = value;
             }
         }
-
+        [Category("侧边阀门")]
+        [DisplayName("内直径")]
         public double ValveInDia
         {
             get
@@ -328,7 +355,8 @@ namespace KMP.Interface.Model.Other
                 valveInDia = value;
             }
         }
-
+        [Category("侧边阀门")]
+        [DisplayName("阀壁厚度")]
         public double ValveThinkness
         {
             get
@@ -343,6 +371,7 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 泵代替物参数
+        [Browsable(false)]
         public double PumpHeight
         {
             get
@@ -355,7 +384,7 @@ namespace KMP.Interface.Model.Other
                 pumpHeight = value;
             }
         }
-
+        [Browsable(false)]
         public double PumpLenght
         {
             get
@@ -368,7 +397,7 @@ namespace KMP.Interface.Model.Other
                 pumpLenght = value;
             }
         }
-
+        [Browsable(false)]
         public double PumpWidth
         {
             get
@@ -381,7 +410,7 @@ namespace KMP.Interface.Model.Other
                 pumpWidth = value;
             }
         }
-
+        [Browsable(false)]
         public double PumpX
         {
             get
@@ -394,7 +423,7 @@ namespace KMP.Interface.Model.Other
                 pumpX = value;
             }
         }
-
+        [Browsable(false)]
         public double PumpY
         {
             get
@@ -409,6 +438,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 侧边接口参数
+        [Category("侧边接口")]
+        [DisplayName("法兰参数")]
         public ParFlanch SideFlanch
         {
             get
@@ -421,6 +452,8 @@ namespace KMP.Interface.Model.Other
                 sideFlanch = value;
             }
         }
+        [Category("侧边接口")]
+        [DisplayName("法兰DN")]
         public double SideDN
         {
             get
@@ -444,6 +477,8 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
+        [Category("侧边接口")]
+        [DisplayName("X位置")]
         public double SideFlanchX
         {
             get
@@ -456,7 +491,8 @@ namespace KMP.Interface.Model.Other
                 sideFlanchX = value;
             }
         }
-
+        [Category("侧边接口")]
+        [DisplayName("Y位置")]
         public double SideFlanchY
         {
             get
@@ -471,6 +507,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 侧边两个小孔接口参数
+        [Category("侧边孔")]
+        [DisplayName("孔直径")]
         public double SideHoleDia
         {
             get
@@ -483,7 +521,8 @@ namespace KMP.Interface.Model.Other
                 sideHoleDia = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("孔壁厚度")]
         public double SideHoleThinkness
         {
             get
@@ -496,7 +535,8 @@ namespace KMP.Interface.Model.Other
                 sideHoleThinkness = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("孔1X位置")]
         public double SideHoleX1
         {
             get
@@ -509,7 +549,8 @@ namespace KMP.Interface.Model.Other
                 sideHoleX1 = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("孔2X位置")]
         public double SideHoleX2
         {
             get
@@ -522,7 +563,8 @@ namespace KMP.Interface.Model.Other
                 sideHoleX2 = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("孔1Y位置")]
         public double SideHoleY1
         {
             get
@@ -535,7 +577,8 @@ namespace KMP.Interface.Model.Other
                 sideHoleY1 = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("孔2Y位置")]
         public double SideHoleY2
         {
             get
@@ -551,6 +594,7 @@ namespace KMP.Interface.Model.Other
 
 
         #endregion
+        [DisplayName("底部支撑高度")]
         public double BottomHeight
         {
             get

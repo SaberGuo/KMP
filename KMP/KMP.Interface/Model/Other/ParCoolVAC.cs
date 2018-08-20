@@ -11,6 +11,9 @@ using Microsoft.Practices.ServiceLocation;
 using System.ComponentModel.Composition;
 namespace KMP.Interface.Model.Other
 {
+    /// <summary>
+    /// 低温泵
+    /// </summary>
    public class ParCoolVAC:ParameterBase
     {
         public ParCoolVAC()
@@ -143,8 +146,8 @@ namespace KMP.Interface.Model.Other
         ParFlanch _flanch = new ParFlanch();
         double height;
         double totolHeight;
-       
-      
+
+        [DisplayName("法兰参数")]
         public ParFlanch Flanch
         {
             get
@@ -158,9 +161,9 @@ namespace KMP.Interface.Model.Other
                 this.RaisePropertyChanged(() => this.Flanch);
             }
         }
-        
 
-  
+
+        [DisplayName("泵主体高度")]
         public double Height
         {
             get
@@ -174,7 +177,7 @@ namespace KMP.Interface.Model.Other
                 this.RaisePropertyChanged(() => this.Height);
             }
         }
-      
+        [DisplayName("泵总高度")]
         public double TotolHeight
         {
             get
