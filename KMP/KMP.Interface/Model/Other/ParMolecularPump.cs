@@ -17,8 +17,8 @@ namespace KMP.Interface.Model.Other
             ServiceLocator.Current.GetInstance<ParMolecularDictProxy>();
         }
         private double mAGW;
-      
-      
+
+        [DisplayName("干泵型号选择")]
         public double MAGW
         {
             get
@@ -41,7 +41,7 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
-
+        [DisplayName("干泵参数")]
         public ParMolecular Molecular
         {
             get
@@ -153,6 +153,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 主题直径
         /// </summary>
+        [DisplayName("主体直径")]
         public double D1
         {
             get
@@ -169,6 +170,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 总长度
         /// </summary>
+        [DisplayName("总长度")]
         public double H
         {
             get
@@ -182,7 +184,7 @@ namespace KMP.Interface.Model.Other
                 this.RaisePropertyChanged(() => this.H);
             }
         }
-
+        [Browsable(false)]
         public double MAGW
         {
             get

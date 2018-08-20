@@ -4,14 +4,20 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
+using System.ComponentModel;
+
 namespace KMP.Interface.Model.Other
 {
-   public class ParScrewLine:ParameterBase
+    /// <summary>
+    /// 干泵SP
+    /// </summary>
+    public class ParScrewLine:ParameterBase
     {
         public ParScrewLine()
         {
             ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
         }
+        #region
         private double lenth;
         private double width;
         private double height;
@@ -92,8 +98,10 @@ namespace KMP.Interface.Model.Other
         private double flanchCYDiameter;
         private double flanchRactWith;
         private double flanchRactHeight;
-
+        #endregion
         #region 顶部孔参数
+        [Category("顶部孔")]
+        [DisplayName("深度")]
         public double TopHoleDepth
         {
             get
@@ -106,7 +114,8 @@ namespace KMP.Interface.Model.Other
                 topHoleDepth = value;
             }
         }
-
+        [Category("顶部孔")]
+        [DisplayName("X位置")]
         public double TopHoleX
         {
             get
@@ -122,6 +131,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// Y坐标，不显示
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("Y位置")]
         public double TopHoleY
         {
             get
@@ -138,6 +149,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰直径
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰直径")]
         public double FlanchDiameter
         {
             get
@@ -153,6 +166,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰厚度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰厚度")]
         public double FlanchThinkness
         {
             get
@@ -168,6 +183,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 螺丝孔直径1
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("螺丝孔1直径")]
         public double ScrewDiameter1
         {
             get
@@ -183,6 +200,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 螺丝孔直径2
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("螺丝孔2直径")]
         public double ScrewDiameter2
         {
             get
@@ -198,6 +217,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 螺丝孔旋转直径1
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("螺丝孔1环绕直径")]
         public double ScrewRangeDiameter1
         {
             get
@@ -213,6 +234,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 螺丝孔旋转2
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("螺丝孔2环绕直径")]
         public double ScrewRangeDiameter2
         {
             get
@@ -228,6 +251,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔1直径
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰内部孔1 直径")]
         public double FlanchInDiameter1
         {
             get
@@ -240,9 +265,11 @@ namespace KMP.Interface.Model.Other
                 flanchInDiameter1 = value;
             }
         }
-       /// <summary>
-       /// 法兰内部孔2 直径
-       /// </summary>
+        /// <summary>
+        /// 法兰内部孔2 直径
+        /// </summary>
+        [Category("顶部孔")]
+         [DisplayName("法兰内部孔2 直径")]
         public double FlanchIndiameter2
         {
             get
@@ -258,6 +285,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔3 直径
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰内部孔3 直径")]
         public double FlanchIndiameter3
         {
             get
@@ -273,6 +302,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔1深度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰内部孔1深度")]
         public double FlanchInDepth1
         {
             get
@@ -288,6 +319,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔2 深度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰内部孔2 深度")]
         public double FlanchInDepth2
         {
             get
@@ -303,6 +336,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔 3 深度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰内部孔 3 深度")]
         public double FlanchInDepth3
         {
             get
@@ -318,6 +353,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰旋绕圆柱直径
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰旋绕圆柱直径")]
         public double FlanchCYDiameter
         {
             get
@@ -333,6 +370,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰旋绕长方体宽度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰旋绕长方体宽度")]
         public double FlanchRactWith
         {
             get
@@ -348,6 +387,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰旋绕长方体高度
         /// </summary>
+        [Category("顶部孔")]
+        [DisplayName("法兰旋绕长方体高度")]
         public double FlanchRactHeight
         {
             get
@@ -362,6 +403,8 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 侧边接口参数
+        [Category("侧边孔")]
+        [DisplayName("法兰参数")]
         public ParFlanch SideFlanch
         {
             get
@@ -374,6 +417,8 @@ namespace KMP.Interface.Model.Other
                 sideFlanch = value;
             }
         }
+        [Category("侧边孔")]
+        [DisplayName("法兰DN")]
         public double SideDN
         {
             get
@@ -397,6 +442,8 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
+        [Category("侧边孔")]
+        [DisplayName("法兰X位置")]
         public double SideFlanchX
         {
             get
@@ -409,7 +456,8 @@ namespace KMP.Interface.Model.Other
                 sideFlanchX = value;
             }
         }
-
+        [Category("侧边孔")]
+        [DisplayName("法兰Y位置")]
         public double SideFlanchY
         {
             get
@@ -437,6 +485,8 @@ namespace KMP.Interface.Model.Other
             }
         }
         #region 把手参数
+        [Category("把手")]
+        [DisplayName("长度")]
         public double HandleLength
         {
             get
@@ -449,7 +499,8 @@ namespace KMP.Interface.Model.Other
                 handleLength = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("宽度")]
         public double HandleWidth
         {
             get
@@ -462,7 +513,8 @@ namespace KMP.Interface.Model.Other
                 handleWidth = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("深度")]
         public double HandleDepth
         {
             get
@@ -475,7 +527,8 @@ namespace KMP.Interface.Model.Other
                 handleDepth = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("把手1 X位置")]
         public double HandleX1
         {
             get
@@ -488,7 +541,8 @@ namespace KMP.Interface.Model.Other
                 handleX1 = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("把手2 X位置")]
         public double HandleX2
         {
             get
@@ -501,7 +555,8 @@ namespace KMP.Interface.Model.Other
                 handleX2 = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("把手1 Y位置")]
         public double HandleY1
         {
             get
@@ -514,7 +569,8 @@ namespace KMP.Interface.Model.Other
                 handleY1 = value;
             }
         }
-
+        [Category("把手")]
+        [DisplayName("把手2 Y位置")]
         public double HandleY2
         {
             get
@@ -542,6 +598,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 宽
         /// </summary>
+        [Category("窗口")]
+        [DisplayName("宽度")]
         public double AirWidth
         {
             get
@@ -557,6 +615,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 高
         /// </summary>
+        [Category("窗口")]
+        [DisplayName("高度")]
         public double AirHeight
         {
             get
@@ -572,6 +632,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 前面水平位置
         /// </summary>
+        [Category("窗口")]
+        [DisplayName("前部距边位置")]
         public double ForX
         {
             get
@@ -587,6 +649,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 前面高位置
         /// </summary>
+        [Category("窗口")]
+        [DisplayName("前部距顶端位置")]
         public double ForY
         {
             get
@@ -602,6 +666,8 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 侧边高位置
         /// </summary>
+        [Category("窗口")]
+        [DisplayName("侧边距顶部高")]
         public double SideY
         {
             get
