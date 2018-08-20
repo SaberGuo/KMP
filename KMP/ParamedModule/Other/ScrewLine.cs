@@ -74,8 +74,13 @@ namespace ParamedModule.Other
         }
         public override bool CheckParamete()
         {
-            if (par.SideFlanchX <= par.SideFlanch.D6 || par.SideFlanchY <= par.SideFlanch.D6 || par.Height - par.SideFlanch.D6 <= par.SideY
-                || par.Lenth - par.SideFlanchX <= par.SideFlanchX) return false;
+            if (par.SideFlanchX <= par.SideFlanch.D6 || par.SideFlanchY <= par.SideFlanch.D6 || par.Height - par.SideFlanch.D6 <= par.SideFlanchY
+                || par.Lenth - par.SideFlanch.D6 <= par.SideFlanchX)
+            {
+                ParErrorChanged(this, "侧边孔位置超出范围！");
+                return false;
+            }
+               
 
             return true;
         }
