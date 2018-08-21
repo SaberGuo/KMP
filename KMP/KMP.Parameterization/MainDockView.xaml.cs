@@ -79,11 +79,20 @@ namespace KMP.Parameterization
 
         private void PropertyGrid_SelectedPropertyItemChanged(object sender, RoutedPropertyChangedEventArgs<Xceed.Wpf.Toolkit.PropertyGrid.PropertyItemBase> e)
         {
-            if (e.NewValue.Description.Length>0)
+            try
             {
-                string PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", e.NewValue.Description + ".png");
-                this.preview.Source = new BitmapImage(new Uri(PreviewImagePath));
+                if (e.NewValue.Description.Length > 0)
+                {
+                    string PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", e.NewValue.Description + ".png");
+                    this.preview.Source = new BitmapImage(new Uri(PreviewImagePath));
+                }
             }
+            catch (Exception)
+            {
+
+                this.preview.Source = null;
+            }
+           
             
         }
     }

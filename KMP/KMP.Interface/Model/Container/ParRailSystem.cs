@@ -5,6 +5,9 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
+    /// <summary>
+    /// 导轨面距中心高度 总高度修改
+    /// </summary>
   public  class ParRailSystem:ParameterBase
     {
         double supportNum;
@@ -16,7 +19,7 @@ namespace KMP.Interface.Model.Container
         /// 导轨支架数量
         /// </summary>
         /// 
-        [DisplayName("导轨支架数量")]
+        [DisplayName("导轨支座数量")]
         public double SupportNum
         {
             get

@@ -13,6 +13,9 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
+    /// <summary>
+    /// 大门法兰厚度T2 增加 后封头直边长度L4 增加
+    /// </summary>
   public  class ParCylinder:ParameterBase
     {
 
@@ -30,6 +33,62 @@ namespace KMP.Interface.Model.Container
         ParCylinderHole capTopHole = new ParCylinderHole();
         ObservableCollection<ParCylinderHole> capSideHoles = new ObservableCollection<ParCylinderHole>();
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
+        [Category("容器筒体")]
+        [DisplayName("大门法兰宽度H2")]
+        /// <summary>
+        /// 罐体法兰宽度
+        /// </summary>
+        public double FlanchWidth
+        {
+            get
+            {
+                return flanchWidth;
+            }
+
+            set
+            {
+                flanchWidth = value;
+                this.RaisePropertyChanged(() => this.FlanchWidth);
+            }
+        }
+        /// <summary>
+        /// 罐长度
+        /// </summary>
+        [Category("容器筒体")]
+        [DisplayName("直筒段长度L1")]
+        [Description("容器系统")]
+        public double Length
+        {
+            get
+            {
+                return length;
+            }
+
+            set
+            {
+                length = value;
+                this.RaisePropertyChanged(() => this.Length);
+            }
+        }
+        [Category("容器筒体")]
+        [DisplayName("后封头深度d1")]
+        [Description("容器系统")]
+        /// <summary>
+        /// 罐封头长度内半径
+        /// </summary>
+        public double CapRadius
+        {
+            get
+            {
+                return capRadius;
+            }
+
+            set
+            {
+                capRadius = value;
+                this.RaisePropertyChanged(() => this.CapRadius);
+            }
+        }
         [Browsable(false)]
         /// <summary>
         /// 罐内半径
@@ -65,46 +124,9 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        /// <summary>
-        /// 罐长度
-        /// </summary>
-        [Category("罐体")]
-        [DisplayName("长度L1")]
-        [Description("容器系统")]
-        public double Length
-        {
-            get
-            {
-                return length;
-            }
-
-            set
-            {
-                length = value;
-                this.RaisePropertyChanged(() => this.Length);
-            }
-        }
-        [Category("罐体")]
-        [DisplayName("封头内半径d1")]
-        [Description("容器系统")]
-        /// <summary>
-        /// 罐封头长度内半径
-        /// </summary>
-        public double CapRadius
-        {
-            get
-            {
-                return capRadius;
-            }
-
-            set
-            {
-                capRadius = value;
-                this.RaisePropertyChanged(() => this.CapRadius);
-            }
-        }
+ 
         [Category("加强筋")]
-        [DisplayName("上下部分宽度L3")]
+        [DisplayName("加强筋宽度L3")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋的宽度
@@ -126,7 +148,7 @@ namespace KMP.Interface.Model.Container
         ///加强筋数量
         /// </summary>
         [Category("加强筋")]
-        [DisplayName("数量")]
+        [DisplayName("加强筋数量")]
         [Description("容器系统")]
         public double RibNumber
         {
@@ -142,7 +164,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("总高度H1")]
+        [DisplayName("加强筋总高度H1")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋的高度
@@ -161,7 +183,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("首个与罐口的距离L2")]
+        [DisplayName("初始定位L2")]
         [Description("容器系统")]
         /// <summary>
         /// 第一个加强筋距离罐口的距离
@@ -180,7 +202,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("支柱宽度L3")]
+        [DisplayName("腹板宽度L3")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋支柱的宽度
@@ -199,7 +221,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("支柱高度H3")]
+        [DisplayName("腹板高度H3")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋支柱的高度
@@ -217,26 +239,9 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RibBraceHeight);
             }
         }
-        [Category("罐体")]
-        [DisplayName("法兰宽度")]
-        /// <summary>
-        /// 罐体法兰宽度
-        /// </summary>
-        public double FlanchWidth
-        {
-            get
-            {
-                return flanchWidth;
-            }
-
-            set
-            {
-                flanchWidth = value;
-                this.RaisePropertyChanged(() => this.FlanchWidth);
-            }
-        }
+ 
         [Category("开孔")]
-        [DisplayName("罐体孔")]
+        [DisplayName("筒体开孔")]
         [Description("容器-孔")]
         public ObservableCollection<ParCylinderHole> ParHoles
         {
@@ -256,7 +261,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [Category("开孔")]
-        [DisplayName("堵头顶孔")]
+        [DisplayName("后封头轴向孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole CapTopHole
         {
@@ -276,7 +281,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [Category("开孔")]
-        [DisplayName("堵头侧边孔")]
+        [DisplayName("后封头侧孔")]
         public ObservableCollection<ParCylinderHole> CapSideHoles
         {
             get

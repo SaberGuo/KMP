@@ -10,6 +10,9 @@ using Microsoft.Practices.ServiceLocation;
 using System.ComponentModel.Composition;
 namespace KMP.Interface.Model.Other
 {
+    /// <summary>
+    /// 分子泵参数
+    /// </summary>
    public class ParMolecularPump:ParameterBase
     {
         public ParMolecularPump():base()
@@ -18,7 +21,8 @@ namespace KMP.Interface.Model.Other
         }
         private double mAGW;
 
-        [DisplayName("干泵型号选择")]
+        [DisplayName("分子泵型号选择")]
+        [ItemsSource(typeof(ParMolecularSource))]
         public double MAGW
         {
             get
@@ -41,7 +45,7 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
-        [DisplayName("干泵参数")]
+        [DisplayName("分子泵参数")]
         public ParMolecular Molecular
         {
             get
