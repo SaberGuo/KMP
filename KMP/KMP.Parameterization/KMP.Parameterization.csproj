@@ -121,6 +121,9 @@
     <Compile Include="PopWindows\GeneratorInfoView.xaml.cs">
       <DependentUpon>GeneratorInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopWindows\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopWindows\NewModelView.xaml.cs">
       <DependentUpon>NewModelView.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,10 @@
     <Page Include="PopWindows\GeneratorInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopWindows\MultiSelectComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PopWindows\NewModelView.xaml">
       <SubType>Designer</SubType>
