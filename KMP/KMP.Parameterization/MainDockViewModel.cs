@@ -447,7 +447,7 @@ namespace KMP.Parameterization
 
         public void ShowModule(IParamedModule m)
         {
-            if (System.IO.File.Exists(m.FullPath))
+            if (m!=null && System.IO.File.Exists(m.FullPath))
             {
                 _invMonitorController.UpdateInvModel(m.FullPath);
             }
