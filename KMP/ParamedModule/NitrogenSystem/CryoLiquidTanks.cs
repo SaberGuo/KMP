@@ -26,13 +26,13 @@ namespace ParamedModule.NitrogenSystem
         public CryoLiquidTanks():base()
         {
             this.Name = "低温液体储槽阵列";
-           
+
             //par.Number = 3;
             //par.Offset = 2500;
             //this.Parameter = par;
             //tank = new CryoLiquidTank();
             //this.SubParamedModules.Add(tank);
-          
+            this.Parameter = par;
             LiquidTank = new CryoLiquidTank();
             GasTank = new CryoLiquidTank();
             vaporizer = new Vaporizer();

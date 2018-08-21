@@ -105,6 +105,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 法兰参数
         /// </summary>
+        [DisplayName("法兰参数")]
         public ParFlanch ParFlanch
         {
             get

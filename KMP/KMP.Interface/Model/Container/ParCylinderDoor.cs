@@ -57,7 +57,7 @@ namespace KMP.Interface.Model.Container
         /// 容器门深度内半径
         /// </summary>
         /// 
-        [DisplayName("罐门内半径d1")]
+        [DisplayName("大门深度d1")]
         [Description("容器大门")]
         public double DoorRadius
         {
@@ -76,7 +76,7 @@ namespace KMP.Interface.Model.Container
         /// 容器门法兰宽度
         /// </summary>
         /// 
-        [DisplayName("罐体法兰宽度T2")]
+        [DisplayName("大门法兰宽度T2")]
         [Description("容器系统")]
         public double FlanchWidth
         {
@@ -91,7 +91,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
-        [DisplayName("罐门顶孔")]
+        [DisplayName("大门轴向孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParCylinderHole TopHole
         {
@@ -106,7 +106,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.TopHole);
             }
         }
-        [DisplayName("罐门侧边孔")]
+        [DisplayName("大门侧孔")]
         [Description("容器大门-孔")]
         public ObservableCollection<ParCylinderHole> SideHoles
         {

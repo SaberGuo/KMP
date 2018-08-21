@@ -31,7 +31,7 @@ namespace KMP.Interface.Model.Container
         /// 平板系统总高度 不显示
         /// </summary>
         /// 
-        [DisplayName("平板系统总高度")]
+        [DisplayName("内部踏板总高度")]
         public double TotalHeight
         {
             get
