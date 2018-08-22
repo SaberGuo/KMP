@@ -14,7 +14,7 @@ namespace ParamedModule.NitrogenSystem
     /// </summary>
     [Export("Nitrogen", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class Nitrogen : AssembleModuleBase
+    public class Nitrogen :ParamedModuleBase
     {
         ParNitrogen par = new ParNitrogen();
         CryoLiquidTanks tanks = new CryoLiquidTanks();
@@ -22,7 +22,7 @@ namespace ParamedModule.NitrogenSystem
         PumpArea pumps = new PumpArea();
         public Nitrogen():base()
         {
-            this.Name = "氮系统";
+            this.Name = "低温系统";
             this.Parameter = par;
             this.SubParamedModules.Add(tanks);
             this.SubParamedModules.Add(heatUps);
@@ -42,16 +42,21 @@ namespace ParamedModule.NitrogenSystem
         public override void CreateModule()
         {
             GeneratorProgress(this, "开始创建部件" + this.Name);
-            DisPose();
+          
             if (!CheckParamete()) return;
             tanks.CreateModule();
             heatUps.CreateModule();
             pumps.CreateModule();
             GeneratorProgress(this, "完成创建部件" + this.Name);
         }
-        public override void CreateSub()
+      
+        internal override void CloseSameNameDocment()
         {
-            throw new NotImplementedException();
+           
         }
+        //public override void CreateSub()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

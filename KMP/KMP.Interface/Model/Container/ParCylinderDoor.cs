@@ -77,7 +77,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("大门法兰宽度T2")]
-        [Description("容器系统")]
+        [Description("容器大门")]
         public double FlanchWidth
         {
             get

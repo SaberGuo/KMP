@@ -9,11 +9,11 @@ using KMP.Interface.Model.NitrogenSystem;
 namespace ParamedModule.Other
 {
     /// <summary>
-    /// 氮系统
+    /// 真空系统
     /// </summary>
     [Export("VacuoSystem", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class VacuoSystem:AssembleModuleBase
+    public class VacuoSystem: ParamedModuleBase
     {
         ParVocuoSystem par = new ParVocuoSystem();
         CoolVAC _Cool= new CoolVAC();
@@ -45,10 +45,10 @@ namespace ParamedModule.Other
             }
         }
 
-        public override void CreateSub()
+        public override void CreateModule()
         {
             GeneratorProgress(this, "开始创建部件" + this.Name);
-            DisPose();
+          
             if (!CheckParamete()) return;
             _Cool.CreateModule();
             _Dry.CreateModule();
@@ -56,6 +56,16 @@ namespace ParamedModule.Other
             _screwLine.CreateModule();
             _valve.CreateModule();
             GeneratorProgress(this, "完成创建部件" + this.Name);
+        }
+
+        //public override void CreateSub()
+        //{
+        
+        //}
+
+        internal override void CloseSameNameDocment()
+        {
+            throw new NotImplementedException();
         }
     }
 }

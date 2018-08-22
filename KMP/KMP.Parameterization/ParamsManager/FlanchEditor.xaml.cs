@@ -38,6 +38,7 @@ namespace KMP.Parameterization.ParamsManager
         {
             Binding binding = new Binding("Collection");
             binding.Source = propertyItem;
+           
             binding.Mode = propertyItem.IsReadOnly ? BindingMode.OneWay : BindingMode.TwoWay;
             BindingOperations.SetBinding(this, FlanchEditor.CollectionProperty, binding);
             return this;

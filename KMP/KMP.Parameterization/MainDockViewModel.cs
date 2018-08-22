@@ -265,7 +265,22 @@ namespace KMP.Parameterization
             //save current module
 
             //create model
-            IParamedModule module = _moduleService.CreateProject(e.ProjectType, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+            IParamedModule module = _moduleService.CreateProject("ProjectSystem", System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+            foreach (var item in e.ProjectTypes)
+            {
+                IParamedModule SubModule = _moduleService.CreateProject(item, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+             //   module.AddModule(SubModule);
+                module.SubParamedModules.Add(SubModule);
+            }
+            if(e.ProjectTypes.Contains("ContainerSystem") && e.ProjectTypes.Contains("HeaterSystem"))
+            {
+                IParamedModule SubModule = _moduleService.CreateProject("WareHouseEnvironment", System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
+                module.SubParamedModules.Add(SubModule);
+                IProject project = SubModule as IProject;
+                project.AddSubModule(module.SubParamedModules.Where(a => a.ProjectType == "ContainerSystem").FirstOrDefault());
+                project.AddSubModule(module.SubParamedModules.Where(a => a.ProjectType == "HeaterSystem").FirstOrDefault());
+            }
+           
             module.Name = e.ProjectName;
             string projDir = System.IO.Path.Combine(e.ProjectDir, e.ProjectName);
             this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName + ".kmp");

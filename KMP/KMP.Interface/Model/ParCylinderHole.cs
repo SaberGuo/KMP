@@ -19,6 +19,9 @@ namespace KMP.Interface.Model
         double holeOffset;
         double pipeThickness;
         bool isHeatSinkHole;
+        [DisplayName("名称")]
+        public string Name { get; set; }
+
         ParFlanch parFlanch=new ParFlanch();
         [DisplayName("法兰公称通径")]
         [ItemsSource(typeof(ParFlanchSource))]

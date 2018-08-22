@@ -24,7 +24,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("上梁高度h3")]
-        [Description("导轨")]
+        [Description("容器内导轨")]
         public double UpBridgeHeight
         {
             get

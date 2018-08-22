@@ -61,12 +61,34 @@ namespace KMP.Parameterization
         }
 
         public List<ProjectT> ProjectTypes { get; set; }
-        public Dictionary<string,string> ProjectSource { get; set; }
-        public Dictionary<string,string> SelectProjects { get; set; }
+        private Dictionary<string, object> _projectSource=new Dictionary<string, object>();
+        private Dictionary<string, object> _selectProjects=new Dictionary<string, object>();
+        public Dictionary<string, object> ProjectSource {
+            get
+            {
+                return _projectSource;
+            }
+            set
+            {
+                _projectSource = value;
+                RaisePropertyChanged(() => ProjectSource);
+            }
+        }
+        public Dictionary<string,object> SelectProjects
+        {
+            get
+            {
+                return _selectProjects;
+            }
+            set
+            {
+                _selectProjects = value;
+                RaisePropertyChanged(() => SelectProjects);
+            }
+        }
         private void InitProjectTypes()
         {
-            ProjectSource = new Dictionary<string, string>();
-            SelectProjects = new Dictionary<string, string>();
+         
          
             ProjectSource.Add("容器系统", "ContainerSystem");
             ProjectSource.Add("热沉系统", "HeaterSystem");
@@ -141,7 +163,7 @@ namespace KMP.Parameterization
 
                 return;
             }
-            this.NewModelHandler(this, new ProjectEventArgs { ProjectDir = this.ProjectLocation, ProjectName = this.ProjectName, ProjectType = this.ProjectType });
+            this.NewModelHandler(this, new ProjectEventArgs { ProjectDir = this.ProjectLocation, ProjectName = this.ProjectName, ProjectTypes = this.SelectProjects.Select(a=>a.Value.ToString()).ToList() });
             this.NewModelWinState = "Closed";
         }
         private void NewModelCancelExecuted()

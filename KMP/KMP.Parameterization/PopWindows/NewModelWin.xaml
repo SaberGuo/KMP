@@ -20,8 +20,8 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center">名称</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ProjectName}" Margin="5"></TextBox>
-        <TextBlock Grid.Row="1" Grid.Column="0"  Margin="5" VerticalAlignment="Center">类型</TextBlock>
-        <ComboBox Grid.Row="1" Grid.Column="1" SelectedValue="{Binding ProjectType}" Margin="5" SelectedValuePath="TypeValue"  DisplayMemberPath="Description" ItemsSource="{Binding ProjectTypes}"/>
+        <TextBlock Grid.Row="1" Grid.Column="0"  Margin="5" VerticalAlignment="Center">子系统</TextBlock>
+        <local:MultiSelectComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding ProjectSource}" SelectedItems="{Binding SelectProjects}"></local:MultiSelectComboBox>
         <TextBlock Grid.Row="2" Grid.Column="0"  Margin="5" VerticalAlignment="Center">位置</TextBlock>
         <Grid Grid.Row="2" Grid.Column="1" Margin="5">
             <Grid.ColumnDefinitions>

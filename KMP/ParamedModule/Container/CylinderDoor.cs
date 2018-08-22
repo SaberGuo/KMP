@@ -21,7 +21,7 @@ namespace ParamedModule.Container
         }
         public CylinderDoor(PassedParameter InRadius, PassedParameter Thickness) : base()
         {
-            this.Name = "罐门";
+            this.Name = "容器大门";
             init();
             this.Parameter = par;
             par.InRadius = InRadius;

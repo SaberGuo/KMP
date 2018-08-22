@@ -21,7 +21,7 @@ namespace ParamedModule.Container
         }
         public Pedestal(PassedParameter InRadiius, PassedParameter Thickness) :base()
         {
-            this.Name = "底座";
+            this.Name = "容器底座";
             this.Parameter = this.par;
             init();
             par.InRadius = InRadiius;
@@ -43,7 +43,6 @@ namespace ParamedModule.Container
             par.UnderBoardWidth = 340;
             par.BackBoardMoveDistance = 30;
 
-            this.Name = "底座";
         }
 
         #region 创建模型 

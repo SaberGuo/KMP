@@ -40,7 +40,7 @@ namespace ParamedModule.Container
 
         private void init()
         {
-            this.Name = "容器";
+            this.Name = "容器筒体";
            // par.InRadius.Value = 1400;
             par.CapRadius = 700;
 
@@ -52,6 +52,8 @@ namespace ParamedModule.Container
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
+            par.FlanchThinckness = 40;
+            par.CapLineLength = 10;
             ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
             ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
             ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
@@ -105,7 +107,7 @@ namespace ParamedModule.Container
             #region
             RevolveFeature cap;
             SketchEllipticalArc Arc1;
-            RevolveFeature cyling = CreateCyling(UsMM(par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length), UsMM(par.Thickness.Value), UsMM(par.RibFirstDistance), out cap, out Arc1);
+            RevolveFeature cyling = CreateCyling(UsMM(par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length+par.CapLineLength), UsMM(par.Thickness.Value), UsMM(par.RibFirstDistance), out cap, out Arc1);
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[3].Edges.GetEnumerator());
@@ -200,7 +202,7 @@ namespace ParamedModule.Container
             osketch.DimensionConstraints.AddTwoPointDistance(Line4.StartSketchPoint, Line4.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
             CreateRibs(osketch, Line2, length, RibFirstDistance);  //创建加强筋
-            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, UsMM(par.FlanchWidth));
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, UsMM(par.FlanchThinckness), UsMM(par.FlanchWidth));
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             osketch.GeometricConstraints.AddCollinear((SketchEntity)lines[3], (SketchEntity)Line4);
             ObjectCollection objc = InventorTool.CreateObjectCollection();

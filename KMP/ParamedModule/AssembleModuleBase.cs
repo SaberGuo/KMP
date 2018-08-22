@@ -410,8 +410,7 @@ namespace ParamedModule
         }
         public virtual void DisPose()
         {
-            //Doc = null;
-            //Definition = null;
+        
             freeiMates.Clear();
         }
 
