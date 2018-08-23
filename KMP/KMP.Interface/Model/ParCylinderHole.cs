@@ -48,7 +48,7 @@ namespace KMP.Interface.Model
         /// <summary>
         /// 定位角度
         /// </summary>
-        [DisplayName("定位角度")]
+        [DisplayName("定位角度(a)")]
         public double PositionAngle
         {
             get
@@ -65,7 +65,7 @@ namespace KMP.Interface.Model
         /// <summary>
         /// 定位距离
         /// </summary>
-        [DisplayName("定位距离")]
+        [DisplayName("定位距离(L)")]
         public double PositionDistance
         {
             get
@@ -99,7 +99,7 @@ namespace KMP.Interface.Model
         /// <summary>
         /// 短管长度
         /// </summary>
-        [DisplayName("短管长度")]
+        [DisplayName("短管长度(L1)")]
         public double PipeLenght
         {
             get
@@ -117,7 +117,7 @@ namespace KMP.Interface.Model
         /// 孔偏移量
         /// </summary>
         /// 
-        [DisplayName("孔偏移量")]
+        [DisplayName("孔偏移量(d)")]
         public double HoleOffset
         {
             get
