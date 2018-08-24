@@ -28,7 +28,8 @@ namespace KMP.Interface.Model.Container
       
         #region 容器筒体
         [Category("a容器筒体")]
-        [DisplayName("大门法兰宽度H2")]
+        [DisplayName("大门法兰宽度（H2）")]
+        [Description("容器系统")]
         /// <summary>
         /// 罐体法兰宽度
         /// </summary>
@@ -46,14 +47,14 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("a容器筒体")]
-        [DisplayName("大门法兰厚度T2")]
+        [DisplayName("大门法兰厚度（T2）")]
         [Description("容器系统")]
         public double FlanchThinckness { get; set; }
         /// <summary>
         /// 罐长度
         /// </summary>
         [Category("a容器筒体")]
-        [DisplayName("直筒段长度L1")]
+        [DisplayName("直筒段长度（L1）")]
         [Description("容器系统")]
         public double Length
         {
@@ -69,7 +70,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("a容器筒体")]
-        [DisplayName("后封头深度d1")]
+        [DisplayName("后封头深度（d1）")]
         [Description("容器系统")]
         /// <summary>
         /// 罐封头长度内半径
@@ -91,7 +92,7 @@ namespace KMP.Interface.Model.Container
         /// 后封头直边长度L4
         /// </summary>
         [Category("a容器筒体")]
-        [DisplayName("后封头直边长度L4")]
+        [DisplayName("后封头直边长度（L4）")]
         [Description("容器系统")]
         public double CapLineLength { get; set; }
         [Browsable(false)]
@@ -139,7 +140,7 @@ namespace KMP.Interface.Model.Container
         double ribBraceHeight;
 
         [Category("加强筋")]
-        [DisplayName("加强筋宽度L3")]
+        [DisplayName("加强筋宽度（L3）")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋的宽度
@@ -177,7 +178,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("加强筋总高度H1")]
+        [DisplayName("加强筋总高度（H1）")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋的高度
@@ -196,7 +197,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("初始定位L2")]
+        [DisplayName("初始定位（L2）")]
         [Description("容器系统")]
         /// <summary>
         /// 第一个加强筋距离罐口的距离
@@ -215,7 +216,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("腹板宽度L3")]
+        [DisplayName("腹板宽度（L5）")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋支柱的宽度
@@ -234,7 +235,7 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("腹板高度H3")]
+        [DisplayName("腹板高度（H3）")]
         [Description("容器系统")]
         /// <summary>
         /// 加强筋支柱的高度
