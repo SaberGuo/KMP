@@ -61,8 +61,19 @@ namespace KMP.Parameterization
         }
 
         public List<ProjectT> ProjectTypes { get; set; }
+        public Dictionary<string,string> ProjectSource { get; set; }
+        public Dictionary<string,string> SelectProjects { get; set; }
         private void InitProjectTypes()
         {
+            ProjectSource = new Dictionary<string, string>();
+            SelectProjects = new Dictionary<string, string>();
+         
+            ProjectSource.Add("容器系统", "ContainerSystem");
+            ProjectSource.Add("热沉系统", "HeaterSystem");
+            ProjectSource.Add("低温系统", "Nitrogen");
+            ProjectSource.Add("真空系统", "VacuoSystem");
+            SelectProjects.Add("容器系统", "ContainerSystem");
+
             ProjectTypes = new List<ProjectT>();
             ProjectTypes.Add(new ProjectT { Description = "容器系统", TypeValue = "ContainerSystem" });
             ProjectTypes.Add(new ProjectT { Description = "热沉系统", TypeValue = "HeaterSystem" });
