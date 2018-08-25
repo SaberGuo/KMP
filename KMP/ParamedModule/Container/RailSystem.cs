@@ -32,7 +32,7 @@ namespace ParamedModule.Container
             this.support.Name = "导轨支架";
             par.CylinderInRadius = InRadius;
 
-            this.Name = "导轨系统";
+            this.Name = "容器导轨";
 
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "RailSystem.png");
         }

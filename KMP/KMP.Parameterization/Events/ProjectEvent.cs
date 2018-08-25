@@ -8,7 +8,8 @@ namespace KMP.Parameterization.Events
     public class ProjectEventArgs: EventArgs
     {
         public string ProjectDir { get; set; }
+        public List<string> ProjectTypes { get; set; }
         public string ProjectName { get; set; }
-        public string ProjectType { get; set; }
+      //  public string ProjectType { get; set; }
     }
 }

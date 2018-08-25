@@ -16,7 +16,7 @@ namespace ParamedModule
 {
     [Export("WareHouseEnvironment", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class WareHouseEnvironment:AssembleModuleBase
+    public class WareHouseEnvironment:AssembleModuleBase,IProject
     {
         public ParWareHouseEnvironment par = new ParWareHouseEnvironment();
         public ContainerSystem _container;
@@ -26,10 +26,9 @@ namespace ParamedModule
             this.Parameter = par;
             this.Name = "环境仓";
             this.ProjectType = "WareHouseEnvironment";
-            _container = new ContainerSystem();
-            _heatSink = new HeatSink();
-            SubParamedModules.Add(_container);
-            SubParamedModules.Add(_heatSink);
+          
+            //SubParamedModules.Add(_container);
+            //SubParamedModules.Add(_heatSink);
             par.OffSet = 0;
         }
         public override bool CheckParamete()
@@ -39,13 +38,29 @@ namespace ParamedModule
             return true;
         }
 
-      
+
+        public override void CreateModule()
+        {
+            if(_container!=null&&_heatSink!=null)
+            {
+                GeneratorProgress(this, "开始创建部件" + this.Name);
+                DisPose();
+                if (!CheckParamete()) return;
+                CloseSameNameDocment();
+                CreateDoc();
+                oPos = InventorTool.TranGeo.CreateMatrix();
+                CreateSub();
+                SaveDoc();
+                GeneratorProgress(this, "完成创建部件" + this.Name);
+            }
+        
+        }
         public override void CreateSub()
         {
-            InventorTool.Inventor.Documents.CloseAll();
+          //  InventorTool.Inventor.Documents.CloseAll();
             CreateDoc();
-            _container.CreateModule();
-            _heatSink.CreateModule();
+            //_container.CreateModule();
+            //_heatSink.CreateModule();
             ComponentOccurrence COcontainer = LoadOccurrence((ComponentDefinition)_container.Doc.ComponentDefinition);
             ComponentOccurrence COheatSink = LoadOccurrence((ComponentDefinition)_heatSink.Doc.ComponentDefinition);
             WorkAxis CylinderAxis = GetAxisProxy(COcontainer, "CylinderAxis");
@@ -90,5 +105,17 @@ namespace ParamedModule
           
         }
 
+        public void AddSubModule(IParamedModule Sub)
+        {
+            if(Sub is ContainerSystem)
+            {
+                _container = Sub as ContainerSystem;
+            }
+            else if(Sub is HeatSink)
+            {
+                _heatSink = Sub as HeatSink;
+            }
+
+        }
     }
 }

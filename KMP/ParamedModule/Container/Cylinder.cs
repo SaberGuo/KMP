@@ -12,7 +12,8 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace ParamedModule.Container
 {
-    
+    [Export("Cylinder", typeof(IParamedModule))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cylinder : PartModulebase
     {
         public ParCylinder par = new ParCylinder();
@@ -40,7 +41,7 @@ namespace ParamedModule.Container
 
         private void init()
         {
-            this.Name = "容器";
+            this.Name = "容器筒体";
            // par.InRadius.Value = 1400;
             par.CapRadius = 700;
 
@@ -52,6 +53,8 @@ namespace ParamedModule.Container
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
+            par.FlanchThinckness = 40;
+            par.CapLineLength = 10;
             ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
             ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
             ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
@@ -105,7 +108,7 @@ namespace ParamedModule.Container
             #region
             RevolveFeature cap;
             SketchEllipticalArc Arc1;
-            RevolveFeature cyling = CreateCyling(UsMM(par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length), UsMM(par.Thickness.Value), UsMM(par.RibFirstDistance), out cap, out Arc1);
+            RevolveFeature cyling = CreateCyling(UsMM(par.CapRadius), UsMM(par.InRadius.Value), UsMM(par.Length+par.CapLineLength), UsMM(par.Thickness.Value), UsMM(par.RibFirstDistance), out cap, out Arc1);
             cyling.Name = "Cylinder";
             List<Face> sideFaces = InventorTool.GetCollectionFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             List<Edge> outFaceEdges = InventorTool.GetCollectionFromIEnumerator<Edge>(sideFaces[3].Edges.GetEnumerator());
@@ -127,7 +130,8 @@ namespace ParamedModule.Container
             ClearResidue(sideFaces[3], UsMM(par.Length));
             #endregion
             #region 堵头顶孔
-            CreteTopHole(cap, sideFaces[1]);
+            CreteTopHole(cap, sideFaces[1], Arc1);
+           
             #endregion
             #region 创建堵头侧孔
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
@@ -149,13 +153,29 @@ namespace ParamedModule.Container
         /// </summary>
         /// <param name="cap">罐顶头特性</param>
         /// <param name="OutFace">罐体横截面</param>
-        private void CreteTopHole(RevolveFeature cap, Face OutFace)
+        private void CreteTopHole(RevolveFeature cap, Face OutFace, SketchEllipticalArc Arc1)
         {
             WorkPlane topHolePlane;
             SketchCircle CapTopInCircle;
-            CreateTopHole(cap, OutFace, UsMM(par.CapRadius), UsMM(par.Thickness.Value), UsMM(par.CapTopHole.ParFlanch.D6/2), out topHolePlane, out CapTopInCircle);
-            ExtrudeFeature TopPipe = CreateTopHolePipe(topHolePlane, CapTopInCircle, UsMM(par.CapTopHole.PipeLenght), UsMM(par.CapTopHole.PipeThickness));
-            Face topPipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopPipe.StartFaces.GetEnumerator());
+            CreateTopHole(cap, OutFace, UsMM(par.CapRadius), UsMM(par.Thickness.Value), UsMM(par.CapTopHole.ParFlanch.D6/2), out topHolePlane, out CapTopInCircle,UsMM(par.CapTopHole.PositionDistance),UsMM(par.CapTopHole.HoleOffset));
+            double length;
+            if(par.CapTopHole.HoleOffset==0)
+            {
+                length = par.CapTopHole.PositionDistance;
+            }
+            else if(par.CapTopHole.PositionDistance==0)
+            {
+                length = par.CapTopHole.HoleOffset;
+            }
+            else
+            {
+                length = Math.Pow(Math.Pow(par.CapTopHole.PositionDistance, 2) + Math.Pow(par.CapTopHole.HoleOffset, 2), 0.5);
+            }
+            double Height =par.CapRadius- Math.Pow ((1 - Math.Pow(length, 2) / Math.Pow(par.InRadius.Value, 2))* Math.Pow(par.CapRadius, 2),0.5);
+            //double Height = length /(par.InRadius.Value / par.CapRadius);
+           
+            ExtrudeFeature TopPipe = CreateTopHolePipe(topHolePlane, CapTopInCircle, UsMM(par.CapTopHole.PipeLenght), UsMM(par.CapTopHole.PipeThickness),UsMM(Height), Arc1);
+            Face topPipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopPipe.EndFaces.GetEnumerator());
             ExtrudeFeature TopFlance = CreateTopFlance(topPipeEndFace, CapTopInCircle, UsMM(par.CapTopHole.ParFlanch.D1 / 2), UsMM(par.CapTopHole.ParFlanch.H));
             Face topFlanceEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopFlance.EndFaces.GetEnumerator());
             CreateFlanceGroove(topFlanceEndFace, CapTopInCircle, UsMM(par.CapTopHole.ParFlanch.D2 / 2));
@@ -200,7 +220,7 @@ namespace ParamedModule.Container
             osketch.DimensionConstraints.AddTwoPointDistance(Line4.StartSketchPoint, Line4.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
             CreateRibs(osketch, Line2, length, RibFirstDistance);  //创建加强筋
-            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, UsMM(par.FlanchWidth));
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, UsMM(par.FlanchThinckness), UsMM(par.FlanchWidth));
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             osketch.GeometricConstraints.AddCollinear((SketchEntity)lines[3], (SketchEntity)Line4);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
@@ -711,7 +731,7 @@ namespace ParamedModule.Container
         /// <param name="holeRadius">孔半径</param>
         /// <param name="topHolePlane">孔平面</param>
         /// <param name="topSketchCircle">罐口界面圆草图</param>
-        private void CreateTopHole(RevolveFeature cap, Face outFace, double capRadius, double thickness, double holeRadius, out WorkPlane topHolePlane, out SketchCircle topSketchCircle)
+        private void CreateTopHole(RevolveFeature cap, Face outFace, double capRadius, double thickness, double holeRadius, out WorkPlane topHolePlane, out SketchCircle topSketchCircle,double positionX,double positionY)
         {
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.Faces.GetEnumerator());
             Face capPlane = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
@@ -720,12 +740,13 @@ namespace ParamedModule.Container
             PlanarSketch osketch = Definition.Sketches.Add(topHolePlane);
             SketchCircle circle = (SketchCircle)osketch.AddByProjectingEntity(capEdge);
             circle.Construction = true;
-            topSketchCircle = osketch.SketchCircles.AddByCenterRadius(circle.CenterSketchPoint, holeRadius);
+            //  topSketchCircle = osketch.SketchCircles.AddByCenterRadius(circle.CenterSketchPoint, holeRadius);
+            topSketchCircle = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(positionX, positionY), holeRadius);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
             ex.SetThroughAllExtent(PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
             ExtrudeFeature hole = Definition.Features.ExtrudeFeatures.Add(ex);
-            // topHoleFace = InventorTool.GetFirstFromIEnumerator<Face>(hole.Faces.GetEnumerator());
+          
         }
         /// <summary>
         /// 创建顶部孔管道
@@ -735,7 +756,7 @@ namespace ParamedModule.Container
         /// <param name="pipeLenght">管长度</param>
         /// <param name="thickness">管厚度</param>
         /// <returns></returns>
-        private ExtrudeFeature CreateTopHolePipe(WorkPlane topHolePlane, SketchCircle inCircle, double pipeLenght, double thickness)
+        private ExtrudeFeature CreateTopHolePipe(WorkPlane topHolePlane, SketchCircle inCircle, double pipeLenght, double thickness,double Height, SketchEllipticalArc Arc1)
         {
             // Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(topHoleFace.Edges.GetEnumerator());
             PlanarSketch osketch = Definition.Sketches.Add(topHolePlane);
@@ -757,8 +778,47 @@ namespace ParamedModule.Container
                 }
             }
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
-            ex.SetDistanceExtentTwo(pipeLenght);
-            return Definition.Features.ExtrudeFeatures.Add(ex);
+            ex.SetDistanceExtent(UsMM(par.CapRadius), PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ExtrudeFeature f1= Definition.Features.ExtrudeFeatures.Add(ex);
+            //CreateCapClear(Arc1);
+            PlanarSketch tsketch = Definition.Sketches.Add(topHolePlane);
+            SketchEntity circle1 = tsketch.AddByProjectingEntity(inCircle);
+            objc.Clear();
+            objc.Add(circle1);
+            tsketch.OffsetSketchEntitiesUsingDistance(objc, thickness, true);
+            // SketchCircle circle2 = osketch.SketchCircles.AddByCenterRadius(circle.CenterSketchPoint, outRadius);
+            Profile pro1 = tsketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro1)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+           
+         
+            if (pipeLenght==Height)
+            {
+                return f1;
+            }
+            if(pipeLenght >Height)
+            {
+                ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
+                def.SetDistanceExtent(pipeLenght - Height, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+                return Definition.Features.ExtrudeFeatures.Add(def);
+            }
+            else
+            {
+                ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kCutOperation);
+                def.SetDistanceExtent(Height - pipeLenght, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+                return Definition.Features.ExtrudeFeatures.Add(def);
+            }
+          
+         
         }
         /// <summary>
         /// 创建顶部孔法兰
@@ -964,6 +1024,11 @@ namespace ParamedModule.Container
             SketchLine line2 = osketch.SketchLines.AddByTwoPoints(arc_P.CenterSketchPoint, arc_P.EndSketchPoint);
             Profile profile = osketch.Profiles.AddForSolid();
             RevolveFeature revolve = Definition.Features.RevolveFeatures.AddFull(profile, line1, PartFeatureOperationEnum.kCutOperation);
+            List<SurfaceBody> bodys = InventorTool.GetCollectionFromIEnumerator<SurfaceBody>(Definition.SurfaceBodies.GetEnumerator());
+            ObjectCollection objc = InventorTool.CreateObjectCollection();
+            bodys.ForEach(a => objc.Add(a));
+            revolve.SetAffectedBodies(objc);
+          
         }
         #endregion
         public override bool CheckParamete()
