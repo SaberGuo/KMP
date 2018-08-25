@@ -41,8 +41,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 thickness = value;
             }
         }
-        [DisplayName("热沉罐长度L")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("热沉罐长度（L）")]
+        [Description("热沉罐-总汇管")]
         public double Length
         {
             get
@@ -63,8 +63,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double pipeDistance;
         double pipeOffset;
         [Category("管道")]
-        [DisplayName("管直径d1")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("管直径（d1）")]
+        [Description("热沉罐-总汇管")]
         public double PipeDiameter
         {
             get
@@ -78,8 +78,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管厚度t")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("管厚度（t）")]
+        [Description("热沉罐-总汇管")]
         public double PipeThickness
         {
             get
@@ -93,8 +93,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管长度L2")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("管长度（L2）")]
+        [Description("热沉罐-总汇管")]
         public double PipeLength
         {
             get
@@ -108,8 +108,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管与罐口距离L1")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("管与罐口距离（L1）")]
+        [Description("热沉罐-总汇管")]
         public double PipeDistance
         {
             get
@@ -123,8 +123,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管与罐中心距离h1")]
-        [Description("热沉罐-支持管")]
+        [DisplayName("管与罐中心距离（h1）")]
+        [Description("热沉罐-总汇管")]
         public double PipeOffset
         {
             get
@@ -140,7 +140,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         #endregion
         #region 罐内管支撑
         [Category("管支撑")]
-        [DisplayName("管支撑直径")]
+        [DisplayName("管支撑直径（d）")]
         [Description("热沉罐-支持管")]
         public double PipeSurDiameter
         {
@@ -155,7 +155,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支撑")]
-        [DisplayName("管支撑厚度t")]
+        [DisplayName("管支撑厚度（t）")]
         [Description("热沉罐-支持管")]
         public double PipeSurThickness
         {
@@ -170,7 +170,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支撑")]
-        [DisplayName("管支撑与管口距离L1")]
+        [DisplayName("管支撑与管口距离（L1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurDistance
         {
@@ -185,7 +185,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支撑")]
-        [DisplayName("管支撑水平距离h1")]
+        [DisplayName("管支撑水平距离（h1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurLength
         {
@@ -200,7 +200,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支撑")]
-        [DisplayName("管支撑弯曲半径d1")]
+        [DisplayName("管支撑弯曲半径（d1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurCurveRadius
         {
@@ -247,7 +247,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double endLongAngle;
         int endLongNumber;
         [Category("骨架")]
-        [DisplayName("T字钢支撑高度H2")]
+        [DisplayName("T字钢支撑高度（H2）")]
         [Description("热沉罐-T字钢")]
         public double TBrachHeight
         {
@@ -262,7 +262,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢支撑宽度L3")]
+        [DisplayName("T字钢支撑宽度（L3）")]
         [Description("热沉罐-T字钢")]
         public double TBrachWidth
         {
@@ -277,7 +277,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢顶部宽度L2")]
+        [DisplayName("T字钢顶部宽度（L2）")]
         [Description("热沉罐-T字钢")]
         public double TTopWidth
         {
@@ -292,7 +292,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢顶部高度H1")]
+        [DisplayName("T字钢顶部高度（H1）")]
         [Description("热沉罐-T字钢")]
         public double TTopHeight
         {
@@ -307,7 +307,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢与罐口距离L1")]
+        [DisplayName("T字钢与罐口距离（L1）")]
         [Description("热沉罐-T字钢")]
         public double THoopOffset
         {
@@ -337,7 +337,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("纵梁角度a")]
+        [DisplayName("纵梁角度（a）")]
         [Description("热沉罐-纵梁")]
         public double EndLongAngle
         {

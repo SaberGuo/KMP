@@ -25,8 +25,9 @@ namespace Infranstructure.Tool
                        if(t!=null)
                         {
                             Message = t.DisplayName + "值不能为0";
+                            return false;
                         }
-                        return false;
+                       
                     }
                 }
                 //else

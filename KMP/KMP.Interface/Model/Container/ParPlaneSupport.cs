@@ -20,8 +20,8 @@ namespace KMP.Interface.Model.Container
         /// 安装距离罐中心
         /// </summary>
         /// 
-        [DisplayName("安装距离罐中心R")]
-        [Description("平板支持")]
+        [DisplayName("安装水平距离罐中心(D3)")]
+        [Description("平板系统")]
         public double Offset
         {
             get
@@ -38,8 +38,9 @@ namespace KMP.Interface.Model.Container
         /// 底部支撑高度
         /// </summary>
         /// 
-        [DisplayName("底部支撑高度H3")]
+        [DisplayName("底部支撑高度（H3）")]
         [Description("平板支持")]
+        [Browsable(false)]
         public double BrachHeight1
         {
             get
@@ -56,7 +57,7 @@ namespace KMP.Interface.Model.Container
         /// 中部支撑高度
         /// </summary>
         /// 
-        [DisplayName("中部支撑高度H2")]
+        [DisplayName("中部支撑高度（H2）")]
         [Description("平板支持")]
         public double BrachHeight2
         {
@@ -74,7 +75,7 @@ namespace KMP.Interface.Model.Container
         /// 底部支撑半径
         /// </summary>
         /// 
-        [DisplayName("底部支撑直径L")]
+        [DisplayName("底部支撑直径（L）")]
         [Description("平板支持")]
         public double BrachDiameter1
         {
@@ -92,7 +93,7 @@ namespace KMP.Interface.Model.Container
         /// 中部支撑半径
         /// </summary>
         /// 
-        [DisplayName("中部支撑直径D1")]
+        [DisplayName("中部支撑直径（D1）")]
         [Description("平板支持")]
         public double BrachDiameter2
         {
@@ -110,7 +111,7 @@ namespace KMP.Interface.Model.Container
         /// 顶部厚度
         /// </summary>
         /// 
-        [DisplayName("顶部厚度H1")]
+        [DisplayName("顶部厚度（H1）")]
         [Description("平板支持")]
         public double TopBoardThickness
         {
@@ -128,7 +129,7 @@ namespace KMP.Interface.Model.Container
         /// 顶部宽度
         /// </summary>
         /// 
-        [DisplayName("顶部宽度D2")]
+        [DisplayName("顶部宽度（D2）")]
         [Description("平板支持")]
         public double TopBoardWidth
         {

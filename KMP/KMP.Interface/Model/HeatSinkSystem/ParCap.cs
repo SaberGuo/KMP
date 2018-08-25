@@ -43,8 +43,9 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 thickness = value;
             }
         }
-        [DisplayName("门厚度T")]
+        [DisplayName("门厚度T2")]
         [Description("热沉盖-汇总管")]
+        [Category("热沉盖参数")]
         public double CapThickness
         {
             get
@@ -57,8 +58,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 capThickness = value;
             }
         }
+        #endregion
+        #region 槽
         [Category("槽")]
-        [DisplayName("槽厚度T")]
+        [DisplayName("槽厚度（T）")]
         [Description("热沉盖-槽")]
         public double SlotThickness
         {
@@ -73,7 +76,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("槽")]
-        [DisplayName("槽高度H")]
+        [DisplayName("槽高度（H）")]
         [Description("热沉盖-槽")]
         public double SlotHight
         {
@@ -88,7 +91,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("槽")]
-        [DisplayName("槽宽度L")]
+        [DisplayName("槽宽度（D）")]
         [Description("热沉盖-槽")]
         public double SlotWide
         {
@@ -103,7 +106,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("槽")]
-        [DisplayName("圆槽与门边距离D")]
+        [DisplayName("圆槽与门边距离（L）")]
         [Description("热沉盖-槽")]
         public double SlotOffset
         {
@@ -118,14 +121,14 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region
+        #region 管道
         double pipeAngle;
         double pipeDiameter;
         double pipeThickness;
         double pipeYOffset;
         double pipeXOffset;
         [Category("管道")]
-        [DisplayName("管总角度a")]
+        [DisplayName("管总角度（a）")]
         [Description("热沉盖-汇总管")]
         public double PipeAngle
         {
@@ -140,7 +143,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管内直径d")]
+        [DisplayName("管内直径（d）")]
         [Description("热沉盖-汇总管")]
         public double PipeDiameter
         {
@@ -155,7 +158,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管厚度t")]
+        [DisplayName("管厚度（T1）")]
         [Description("热沉盖-汇总管")]
         public double PipeThickness
         {
@@ -170,7 +173,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管中心与门边距离L")]
+        [DisplayName("管中心与门边距离（L）")]
         [Description("热沉盖-汇总管")]
         public double PipeYOffset
         {
@@ -185,7 +188,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管道")]
-        [DisplayName("管中心与门面距离")]
+        [DisplayName("管中心与门面距离（h）")]
         [Description("热沉盖-汇总管")]
         public double PipeXOffset
         {
@@ -200,10 +203,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region 罐内管支撑
+        #region 管支撑
 
         [Category("管支架")]
-        [DisplayName("管支撑直径d1")]
+        [DisplayName("管支撑直径（d1）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurDiameter
         {
@@ -218,7 +221,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑厚度t")]
+        [DisplayName("管支撑厚度（t）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurThickness
         {
@@ -233,7 +236,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("首个支撑与管口角度a")]
+        [DisplayName("首个支撑与管口角度（a）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurDistance
         {
@@ -248,7 +251,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑水平距离h1")]
+        [DisplayName("管支撑水平距离（h1）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurLength
         {
@@ -263,7 +266,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑弯曲半径d2")]
+        [DisplayName("管支撑弯曲半径（d2）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurCurveRadius
         {
@@ -302,13 +305,14 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double pipeSurCurveRadius;
         int pipeSurNum;
         #endregion
-        #region
+        #region 独板
         double titleHeigh;
         double titleWidth;
         double titleOffset;
         double titleLength;
         [Category("独板")]
-        [DisplayName("厚度")]
+        [DisplayName("厚度（T）")]
+        [Description("热沉盖-独板")]
         public double TitleHeigh
         {
             get
@@ -322,7 +326,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("独板")]
-        [DisplayName("宽度")]
+        [DisplayName("宽度（W）")]
+        [Description("热沉盖-独板")]
         public double TitleWidth
         {
             get
@@ -336,7 +341,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("独板")]
-        [DisplayName("与底板距离")]
+        [DisplayName("与底板距离）（T1）")]
+        [Description("热沉盖-独板")]
         public double TitleOffset
         {
             get
@@ -350,7 +356,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("独板")]
-        [DisplayName("长度")]
+        [DisplayName("长度（L）")]
+        [Description("热沉盖-独板")]
         public double TitleLength
         {
             get
@@ -374,8 +381,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double plugHoleDiameter;
         double plugHoleDistance;
         [Category("插头")]
-        [DisplayName("宽度H")]
-        [Description("热沉盖-插销")]
+        [DisplayName("宽度（H）")]
+        [Description("热沉盖-插销1")]
         public double PlugWidth
         {
             get
@@ -389,8 +396,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("插头")]
-        [DisplayName("厚度t")]
-        [Description("热沉盖-插销")]
+        [DisplayName("厚度（T）")]
+        [Description("热沉盖-插销2")]
         public double PlugHeight
         {
             get
@@ -404,8 +411,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("插头")]
-        [DisplayName("两片间距离T1")]
-        [Description("热沉盖-插销")]
+        [DisplayName("两片间距离（T1）")]
+        [Description("热沉盖-插销2")]
         public double PlugOffset
         {
             get
@@ -419,8 +426,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("插头")]
-        [DisplayName("孔直径d")]
-        [Description("热沉盖-插销")]
+        [DisplayName("孔直径（d）")]
+        [Description("热沉盖-插销1")]
         public double PlugHoleDiameter
         {
             get
@@ -434,8 +441,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("插头")]
-        [DisplayName("孔与插头边距离L1")]
-        [Description("热沉盖-插销")]
+        [DisplayName("孔与插头边距离（L1）")]
+        [Description("热沉盖-插销1")]
         public double PlugHoleDistance
         {
             get
@@ -449,8 +456,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("插头")]
-        [DisplayName("长度L")]
-        [Description("热沉盖-插销")]
+        [DisplayName("长度（L）")]
+        [Description("热沉盖-插销1")]
         public double PlugLenght
         {
             get

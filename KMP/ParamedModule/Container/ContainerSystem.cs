@@ -140,8 +140,8 @@ namespace ParamedModule.Container
             Definition.Constraints.AddAngleConstraint(OccPlane1.SideFaces[2], OccPlane2.SideFaces[2], Math.PI);
             //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane1.EndFace, 0);
             //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane2.EndFace, 0);
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.EndFace, UsMM(_plane.par.HeightOffset));//导轨顶面
-            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.EndFace, UsMM(_plane.par.HeightOffset));
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.EndFace, UsMM(_plane.par.PlaneToCenterDistance));//导轨顶面
+            Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.EndFace, UsMM(_plane.par.PlaneToCenterDistance));
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.SideFaces[1], UsMM(-_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.SideFaces[3], UsMM(_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2], 0); //导轨横截面
