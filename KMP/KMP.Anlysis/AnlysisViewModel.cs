@@ -13,6 +13,7 @@ namespace KMP.Anlysis
     {
         private IEventAggregator _eventAggregator;
         private VaccumViewModel _vaccumViewModel;
+        private HeliumViewModel _heliumViewModel;
 
         [ImportingConstructor]
         public AnalysisViewModel(IEventAggregator eventAggregator)
@@ -30,6 +31,18 @@ namespace KMP.Anlysis
             set
             {
                 this._vaccumViewModel = value;
+            }
+        }
+
+        public HeliumViewModel HeliumViewModel
+        {
+            get
+            {
+                return this._heliumViewModel;
+            }
+            set
+            {
+                this._heliumViewModel = value;
             }
         }
     }

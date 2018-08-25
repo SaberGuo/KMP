@@ -225,7 +225,11 @@
             </ScrollViewer>
             
         </TabItem>
-        
+        <TabItem Header="氮气系统">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <local:HeliumView DataContext="{Binding HeliumViewModel}" />
+            </ScrollViewer>
+        </TabItem>
     </TabControl>
     
 </Window>

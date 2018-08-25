@@ -90,7 +90,16 @@ namespace KMP.Parameterization
          
             Task generatortask = new Task(()=> { module.CreateModule(); });
             generatortask.ContinueWith((result) => {
-                _invMonitorController.UpdateInvModel(module.FullPath);
+                try
+                {
+                    _invMonitorController.UpdateInvModel(module.FullPath);
+                }
+                catch (Exception e)
+                {
+                    this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
+                    
+                }
+                
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
                 //this._childWindViewModel.GeneratorWinState = "Close";
                 //this.IsGenerating = false;

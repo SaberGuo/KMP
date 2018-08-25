@@ -182,7 +182,168 @@ namespace Infranstructure.Models
             }
 
         }
+        #region 高真空系统设计参数
+        private double _Q;
+        public double Q
+        {
+            get
+            {
+                return this._Q;
+            }
+            set
+            {
+                this._Q = value;
+                this.RaisePropertyChanged(() => this.Q);
+            }
+        }
 
+        private double _Qt;
+        public double Qt
+        {
+            get
+            {
+                return this._Qt;
+            }
+            set
+            {
+                this._Qt = value;
+                this.RaisePropertyChanged(() => this.Qt);
+            }
+        }
+
+        private double _Q0;
+        public double Q0
+        {
+            get
+            {
+                return this._Q0;
+            }
+            set
+            {
+                this._Q0 = value;
+                this.RaisePropertyChanged(() => this.Q0);
+            }
+        }
+
+        private double _Q1;
+        public double Q1
+        {
+            get
+            {
+                return this._Q1;
+            }
+            set
+            {
+                this._Q1 = value;
+                this.RaisePropertyChanged(() => this.Q1);
+            }
+        }
+        private double _Q2;
+        public double Q2
+        {
+            get
+            {
+                return this._Q2;
+            }
+            set
+            {
+                this._Q2 = value;
+                this.RaisePropertyChanged(() => this.Q2);
+            }
+        }
+        private double _Q3;
+        public double Q3
+        {
+            get
+            {
+                return this._Q3;
+            }
+            set
+            {
+                this._Q3 = value;
+                this.RaisePropertyChanged(() => this.Q3);
+            }
+        }
+        private double _Sp;
+        public double Sp
+        {
+            get
+            {
+                return this._Sp;
+            }
+            set
+            {
+                this._Sp = value;
+                this.RaisePropertyChanged(() => this.Sp);
+            }
+        }
+        private double _Pj;
+        public double Pj
+        {
+            get
+            {
+                return this._Pj;
+            }
+            set
+            {
+                this._Pj = value;
+                this.RaisePropertyChanged(() => this.Pj);
+            }
+        }
+        private double _P0;
+        public double P0
+        {
+            get
+            {
+                return this._P0;
+            }
+            set
+            {
+                this._P0 = value;
+                this.RaisePropertyChanged(() => this.P0);
+            }
+        }
+        private double _Pg;
+        public double Pg
+        {
+            get
+            {
+                return this._Pg;
+            }
+            set
+            {
+                this._Pg = value;
+                this.RaisePropertyChanged(() => this.Pg);
+            }
+        }
+        private double _Sm;
+        public double Sm
+        {
+            get
+            {
+                return this._Sm;
+            }
+            set
+            {
+                this._Sm = value;
+                this.RaisePropertyChanged(() => this.Sm);
+            }
+        }
+        private double _U;
+        public double U
+        {
+            get
+            {
+                return this._U;
+            }
+            set
+            {
+                this._U = value;
+                this.RaisePropertyChanged(() => this.U);
+            }
+        }
+
+        #endregion
         public void ParametersAnalysed(double prePumpingSpeed, double pipelineConductance, double preAvalPumpingSpeed)
         {
             this._PrePumpingSpeed = prePumpingSpeed;

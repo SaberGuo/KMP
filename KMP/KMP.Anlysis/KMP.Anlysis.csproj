@@ -85,6 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnlysisViewModel.cs" />
+    <Compile Include="HeliumView.xaml.cs">
+      <DependentUpon>HeliumView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeliumViewModel.cs" />
     <Compile Include="VaccumViewModel.cs" />
     <Compile Include="VacuumView.xaml.cs">
       <DependentUpon>VacuumView.xaml</DependentUpon>
@@ -96,6 +100,10 @@
     <Compile Include="AnlysisWindow.xaml.cs">
       <DependentUpon>AnlysisWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="HeliumView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VacuumView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +148,19 @@
     <Resource Include="resources\formulate1.png" />
     <Resource Include="resources\formulate2.png" />
     <Resource Include="resources\formulate3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\formulate4.png" />
+    <Resource Include="resources\formulate5.png" />
+    <Resource Include="resources\formulate6.png" />
+    <Resource Include="resources\formulate7.png" />
+    <Resource Include="resources\formulate8.png" />
+    <Resource Include="resources\formulate9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\formulate2-1.png" />
+    <Resource Include="resources\formulate2-2.png" />
+    <Resource Include="resources\formulate2-3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -10,13 +10,12 @@
              >
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid >
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <!--粗抽系统设计-->
-            <Grid Grid.Column="0">
+            <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -85,32 +84,66 @@
                 </Grid>
             </Grid>
 
-            <!--<Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Grid.Column="0">
-                <ToolBar>
-                    <Button Command="{Binding AnalysisCommand}">分析</Button>
-                </ToolBar>
-                <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <xctk:PropertyGrid NameColumnWidth="110" Height="500"
-                        SelectedObject="{Binding Parameters}"/>
-                    </StackPanel>
-                </ScrollViewer>
-                
-            </StackPanel>
-            
-            <Grid Grid.Column="1">
-                
-            </Grid>
-        </Grid>-->
-
+     
             <!--高真空系统设计-->
-            <Grid Grid.Column="1">
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical">
+                    <Label>系统气体负载计算：</Label>
+                    <TextBlock>系统的气体负载主要是指工作压力下试验物在试验过程中释放出来的气体和试验设备本身因各种原因所产生的气体总和，计算公式如下：</TextBlock>
+                    <Image Height="160" Source="./resources/formulate4.png"/>
+                    <TextBlock>空载情况下试验设备本身因各种原因所产生的气体综合，计算如下:</TextBlock>
+                    <Image Height="160" Source="./resources/formulate5.png"/>
+                    <TextBlock>Q1计算时主要考虑真空容器、热沉、防辐射屏、密封圈等材料的放气量</TextBlock>
+                    
+                    <TextBlock>Q2计算系统的总漏率不得大于总气体负荷5%~10%，不能因为漏气而限制真空容器空载时的极限压力：</TextBlock>
+                    <TextBlock>Q3可表示为：</TextBlock>
+                    <Image Height="160" Source="./resources/formulate6.png"/>
+                    <TextBlock>各种材料的渗透系统可查有关文献，渗透系数随着温度呈指数函数变化，室温下材料的手头系数小，可忽略不计。</TextBlock>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <Label Margin="10,0,10,0">系统气体负载(Qt)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Qt}"></TextBox>
+                        <Label Margin="10,0,10,0">总出气量(Q1)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Q1}"></TextBox>
+                        <Label Margin="10,0,10,0">泄漏产生气体负载(Q2)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Q2}"></TextBox>
+                        <Label Margin="10,0,10,0">渗透率(Q3)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Q3}"></TextBox>
 
+                        <Button Margin="10,0,10,0" Width="60" Command="{Binding Analysis2Command}">计算</Button>
+                    </StackPanel>
+                    <Label>设备高真空所需有限抽速计算：</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>是否有载荷</Label>
+                        <CheckBox IsChecked="{Binding isPressed}"></CheckBox>
+                    </StackPanel>
+                    <TextBlock>空载情况下，试验设备达到极限压力所需的有限抽速可按下公式计算</TextBlock>
+                    <Image Height="160" Source="./resources/formulate7.png"/>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <Label Margin="10,0,10,0">设备极限压力(Pj)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Pj}"></TextBox>
+                        <Label Margin="10,0,10,0">真空泵极限压力(P0)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.P0}"></TextBox>
+                    </StackPanel>
+                    <TextBlock>有载情况下，试验设备要求达到工作压力所需的有效抽速可如下公式计算</TextBlock>
+                    <Image Height="160" Source="./resources/formulate8.png"/>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <Label Margin="10,0,10,0">设备工作压力(Pg)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Pg}"></TextBox>
+                        <Label Margin="10,0,10,0">有限抽速(Sp)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Sp}"></TextBox>
+                    </StackPanel>
+                    <TextBlock>高真空泵的名义抽速的计算</TextBlock>
+                    
+                    <TextBlock>根据选择泵的数量、种类及型号确定单泵有效抽速和泵口到真空容器抽气口的流导并带入下公式计算出所需单泵额定名义抽速：</TextBlock>
+                    <Image Height="160" Source="./resources/formulate9.png"/>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <Label Margin="10,0,10,0">抽气口流导(U)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.U}"></TextBox>
+                        <Label Margin="10,0,10,0">单泵额定名义抽速(Sm)</Label>
+                        <TextBox Width="60" Text="{Binding Parameters.Sm}"></TextBox>
+                        <Button Margin="10,0,10,0" Width="60" Command="{Binding Analysis2Command}">计算</Button>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
 
         </Grid>
