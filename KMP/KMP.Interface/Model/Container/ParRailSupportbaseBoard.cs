@@ -14,8 +14,8 @@ namespace KMP.Interface.Model.Container
         double width;
         double length;
 
-        [DisplayName("厚度T")]
-        [Description("导轨下支撑横板")]
+        [DisplayName("厚度（T）")]
+        [Description("导轨-下支持横板")]
         public double Thickness
         {
             get
@@ -29,8 +29,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-        [DisplayName("宽度W")]
-        [Description("导轨下支撑横板")]
+        [DisplayName("宽度（W）")]
+        [Description("导轨-下支持横板")]
         public double Width
         {
             get
@@ -44,8 +44,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Width);
             }
         }
-        [DisplayName("长度L")]
-        [Description("导轨下支撑横板")]
+        [DisplayName("长度（L）")]
+        [Description("导轨-下支持横板")]
         public double Length
         {
             get

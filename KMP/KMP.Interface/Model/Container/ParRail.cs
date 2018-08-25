@@ -19,12 +19,28 @@ namespace KMP.Interface.Model.Container
         double downBridgeWidth;
         double braceWidth;
         double railLength;
+        double totalHeight;
+        [DisplayName("导轨总高度（h1）")]
+        [Description("导轨")]
+        public double TotalHeight
+        {
+            get
+            {
+                return totalHeight;
+            }
+
+            set
+            {
+                totalHeight = value;
+                BraceHeight = TotalHeight - UpBridgeHeight - downBridgeHeight;
+            }
+        }
         /// <summary>
         /// 上梁高度
         /// </summary>
         /// 
-        [DisplayName("上梁高度h3")]
-        [Description("容器内导轨")]
+        [DisplayName("导轨上板厚（d1）")]
+        [Description("导轨")]
         public double UpBridgeHeight
         {
             get
@@ -36,13 +52,14 @@ namespace KMP.Interface.Model.Container
             {
                 upBridgeHeight = value;
                 this.RaisePropertyChanged(() => this.UpBridgeHeight);
+                BraceHeight = TotalHeight - UpBridgeHeight - downBridgeHeight;
             }
         }
         /// <summary>
         /// 下梁高度
         /// </summary>
         /// 
-        [DisplayName("下梁高度h1")]
+        [DisplayName("导轨下板厚（d2）")]
         [Description("导轨")]
         public double DownBridgeHeight
         {
@@ -55,14 +72,16 @@ namespace KMP.Interface.Model.Container
             {
                 downBridgeHeight = value;
                 this.RaisePropertyChanged(() => this.DownBridgeHeight);
+                BraceHeight = TotalHeight - UpBridgeHeight - downBridgeHeight;
             }
         }
         /// <summary>
         /// 中间支撑高度
         /// </summary>
         /// 
-        [DisplayName("中间支撑高度h2")]
+        [DisplayName("中间支撑高度(h2)")]
         [Description("导轨")]
+        [Browsable(false)]
         public double BraceHeight
         {
             get
@@ -80,7 +99,7 @@ namespace KMP.Interface.Model.Container
         /// 上梁宽度
         /// </summary>
         /// 
-        [DisplayName("上梁宽度L1")]
+        [DisplayName("导轨上宽（L1）")]
         [Description("导轨")]
         public double UpBridgeWidth
         {
@@ -99,7 +118,7 @@ namespace KMP.Interface.Model.Container
         /// 下梁宽度
         /// </summary>
         /// 
-        [DisplayName("下梁宽度L3")]
+        [DisplayName("导轨下宽（L3）")]
         [Description("导轨")]
         public double DownBridgeWidth
         {
@@ -118,7 +137,7 @@ namespace KMP.Interface.Model.Container
         /// 中间支撑宽度
         /// </summary>
         /// 
-        [DisplayName("中间支撑宽度L2")]
+        [DisplayName("导轨腹板厚（d3）")]
         [Description("导轨")]
         public double BraceWidth
         {
@@ -138,7 +157,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("导轨长度")]
-
+        [Description("导轨")]
         public double RailLength
         {
             get
@@ -152,5 +171,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.RailLength);
             }
         }
+
+      
     }
 }

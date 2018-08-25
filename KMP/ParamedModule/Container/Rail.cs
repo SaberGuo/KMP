@@ -27,10 +27,11 @@ namespace ParamedModule.Container
             par.UpBridgeWidth = 80;
             par.UpBridgeHeight = 30;
             par.BraceWidth = 30;
-            par.BraceHeight = 100;
+           // par.BraceHeight = 100;
             par.DownBridgeHeight = 20;
             par.DownBridgeWidth = 120;
             par.RailLength = 5000;
+            par.TotalHeight = 150;
         }
      
         public override void CreateSub()

@@ -29,7 +29,7 @@ namespace ParamedModule.Container
             par.Width = 180;
             par.Thickness = 15;
             par.HoleCenterDistance = 10;
-            par.HoleRadius = 6.5;
+            par.HoleDiameter = 13;
             par.HoleSideEdgeDistance = 30;
             par.HoleTopEdgeDistance = 25;
         }
@@ -39,7 +39,7 @@ namespace ParamedModule.Container
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
             ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width), UsMM(par.Width), UsMM(par.Thickness),
-                   UsMM(par.HoleCenterDistance), UsMM(par.HoleTopEdgeDistance), UsMM(par.HoleSideEdgeDistance), UsMM(par.HoleRadius));
+                   UsMM(par.HoleCenterDistance), UsMM(par.HoleTopEdgeDistance), UsMM(par.HoleSideEdgeDistance), UsMM(par.HoleDiameter/2));
             box.Name = "CenterBoard";
 
 
@@ -56,17 +56,17 @@ namespace ParamedModule.Container
         }
         public override bool CheckParamete()
         {
-            if (par.HoleRadius >= par.Width / 4)
+            if (par.HoleDiameter >= par.Width / 2)
             {
                 ParErrorChanged(this, "螺丝孔太大");
                 return false;
             }
-            if (par.HoleSideEdgeDistance * 2 + par.HoleRadius * 4 > par.Width)
+            if (par.HoleSideEdgeDistance * 2 + par.HoleDiameter * 2 > par.Width)
             {
                 ParErrorChanged(this, "螺丝孔与板侧边距离过大");
                 return false;
             }
-            if (par.HoleTopEdgeDistance * 2 + par.HoleRadius * 4 > par.Width)
+            if (par.HoleTopEdgeDistance * 2 + par.HoleDiameter * 2 > par.Width)
             {
                 ParErrorChanged(this, "螺丝孔与板顶边距离过大");
                 return false;
