@@ -12,6 +12,11 @@ namespace KMP.Interface.Model
   [DisplayName("容器开孔")]
   public  class ParCylinderHole:NotificationObject
     {
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
         double positionAngle;
         double positionDistance;
        // double holeRadius;
