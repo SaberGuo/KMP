@@ -21,6 +21,7 @@ namespace KMP.Interface.Model
         {
             return this.Name;
         }
+
         double positionAngle;
         double positionDistance;
        // double holeRadius;
@@ -28,8 +29,10 @@ namespace KMP.Interface.Model
         double holeOffset;
         double pipeThickness;
         bool isHeatSinkHole;
+
+        private string _Name = "孔";
         [DisplayName("名称")]
-        public string Name { get; set; }
+        public string Name { get { return this._Name; } set { this._Name = value; } }
 
         ParFlanch parFlanch=new ParFlanch();
         [DisplayName("法兰公称通径")]
