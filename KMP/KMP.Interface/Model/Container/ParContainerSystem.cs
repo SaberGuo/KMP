@@ -37,7 +37,7 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        [DisplayName("容器直径d2")]
+        [DisplayName("容器直径（d2）")]
         [Description("容器系统")]
         /// <summary>
         /// 罐体半径
@@ -56,7 +56,7 @@ namespace KMP.Interface.Model.Container
             }
         }
 
-        [DisplayName("容器壁厚T1")]
+        [DisplayName("容器壁厚（T1）")]
         [Description("容器系统")]
         /// <summary>
         /// 罐体厚度

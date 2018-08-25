@@ -12,6 +12,10 @@ namespace KMP.Interface.Model
   [DisplayName("容器开孔")]
   public  class ParCylinderHole:NotificationObject
     {
+        public ParCylinderHole():base()
+        {
+            ServiceLocator.Current.GetAllInstances<ParFlanchDictProxy>();
+        }
 
         public override string ToString()
         {

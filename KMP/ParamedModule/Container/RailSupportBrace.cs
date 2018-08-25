@@ -28,7 +28,7 @@ namespace ParamedModule.Container
         void init()
         {
             par.Height = 245;
-            par.InRadius = 35;
+            par.InDiameter = 70;
             par.Thickness = 15;
         }
 
@@ -36,7 +36,7 @@ namespace ParamedModule.Container
         public override void CreateSub()
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-            ExtrudeFeature cyling = CreateCyling(osketch, UsMM(par.InRadius), UsMM(par.Thickness), UsMM(par.Height));
+            ExtrudeFeature cyling = CreateCyling(osketch, UsMM(par.InDiameter/2), UsMM(par.Thickness), UsMM(par.Height));
             cyling.Name = "Brace";
             Face sideface = InventorTool.GetFirstFromIEnumerator<Face>(cyling.SideFaces.GetEnumerator());
             WorkAxis axis = Definition.WorkAxes.AddByRevolvedFace(sideface);

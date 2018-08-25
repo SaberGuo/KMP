@@ -32,7 +32,10 @@ namespace ParamedModule.Container
         void init()
         {
          
-            par.PanelThickness = 12;
+           // par.PanelThickness = 12;
+            par.UnderBoardThinkness = 13;
+            par.BackBoardThinkness = 14;
+            par.PedestalThinkness = 15;
             par.UnderBoardingAngle = 120;
             par.PedestalLength = 2530;
             par.PedestalCenterDistance = 1692;
@@ -54,7 +57,7 @@ namespace ParamedModule.Container
             #region 创建圆
             SketchArc outArc, underBoardArc;
             SketchLine sublineCenter;
-            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter, UsMM(par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.PanelThickness));
+            CreateCycle(osketch, out outArc, out underBoardArc, out sublineCenter, UsMM(par.InRadius.Value), UsMM(par.Thickness.Value), UsMM(par.UnderBoardThinkness));
             #endregion
             #region 垫板堵头
             SketchLine line1 = osketch.SketchLines.AddByTwoPoints(underBoardArc.StartSketchPoint, GetCyclePoint(
@@ -69,7 +72,7 @@ namespace ParamedModule.Container
             TwoPointDistanceDimConstraint TwoPointDim1 = InventorTool.AddTwoPointDistance(osketch, pedestalLines[0].StartSketchPoint, pedestalLines[0].EndSketchPoint, -1, DimensionOrientationEnum.kAlignedDim);
             TwoPointDim1.Parameter.Value = UsMM(par.PedestalLength);
             TwoPointDistanceDimConstraint TwoPointDim2 = InventorTool.AddTwoPointDistance(osketch, pedestalLines[1].StartSketchPoint, pedestalLines[1].EndSketchPoint, 1, DimensionOrientationEnum.kAlignedDim);
-            TwoPointDim2.Parameter.Value = UsMM(par.PanelThickness);
+            TwoPointDim2.Parameter.Value = UsMM(par.PedestalThinkness);
             //osketch.GeometricConstraints.AddHorizontal((SketchEntity)lines[0]);
             osketch.DimensionConstraints.AddTwoPointDistance(sublineCenter.StartSketchPoint, pedestalLines[0].StartSketchPoint, DimensionOrientationEnum.kHorizontalDim, pedestalLines[0].StartSketchPoint.Geometry).Parameter.Value = TwoPointDim1.Parameter.Value / 2;
             osketch.DimensionConstraints.AddTwoPointDistance(underBoardArc.CenterSketchPoint, pedestalLines[2].StartSketchPoint, DimensionOrientationEnum.kVerticalDim, underBoardArc.CenterSketchPoint.Geometry).Parameter.Value = UsMM(par.PedestalCenterDistance);
@@ -175,7 +178,7 @@ namespace ParamedModule.Container
             osketch.AddByProjectingEntity(line2);
             Profile profile = osketch.Profiles.AddForSolid();
             ExtrudeDefinition ex = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(profile, PartFeatureOperationEnum.kNewBodyOperation);
-            ex.SetDistanceExtent(par.PanelThickness+"mm", PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
+            ex.SetDistanceExtent(UsMM(par.BackBoardThinkness), PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
            return  Definition.Features.ExtrudeFeatures.Add(ex);
         }
         /// <summary>
@@ -441,7 +444,7 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
         public override bool CheckParamete()
         {
             if (!CheckParZero()) return false;
-            double r = par.InRadius.Value + par.Thickness.Value + par.PanelThickness;
+            double r = par.InRadius.Value + par.Thickness.Value + par.UnderBoardThinkness;
             double temp = System.Math.Sin(Math.PI*par.UnderBoardingAngle/360);
             double length = r * temp * 2;//垫板平行长度
             if (par.UnderBoardingAngle > 140)
@@ -450,7 +453,7 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
                 return false;
             }
 
-            if ((par.FootBoardBetween + par.PanelThickness) * 5-par.FootBoardBetween >=length )
+            if ((par.FootBoardBetween + par.FootBoardThickness) * 5-par.FootBoardBetween >=length )
             {
                 ParErrorChanged(this, "竖板间距和厚度和大于垫板的水平长度");
                 return false;
@@ -465,7 +468,7 @@ Math.PI * 1.5 - par.UnderBoardingAngle / 360 * Math.PI, par.UnderBoardingAngle /
                 ParErrorChanged(this, "底板长度小与垫板的水平长度");
                 return false;
             }
-            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.PanelThickness >= par.UnderBoardWidth)
+            if (par.BackBoardMoveDistance + par.FootBoardWidth+par.BackBoardThinkness >= par.UnderBoardWidth)
             {
                 ParErrorChanged(this, "竖板的宽度与背板厚度和偏移距离总和大于垫板的宽度");
                 return false;

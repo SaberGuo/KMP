@@ -17,8 +17,8 @@ namespace KMP.Interface.Model.Container
         /// 板材厚度
         /// </summary>
         /// 
-        [DisplayName("厚度T")]
-        [Description("导轨下支持立板")]
+        [DisplayName("厚度（h）")]
+        [Description("导轨-下支持立板")]
         [ReadOnly(true)]
         public double Thickness
         {
@@ -37,8 +37,8 @@ namespace KMP.Interface.Model.Container
         /// 板材宽度
         /// </summary>
         /// 
-        [DisplayName("宽度h")]
-        [Description("导轨下支持立板")]
+        [DisplayName("宽度（T）")]
+        [Description("导轨-下支持立板")]
         public double Width
         {
             get
@@ -55,8 +55,8 @@ namespace KMP.Interface.Model.Container
         /// <summary>
         /// 板材长度
         /// </summary>
-        [DisplayName("长度L")]
-        [Description("导轨下支持立板")]
+        [DisplayName("长度（L)")]
+        [Description("导轨-下支持立板")]
         public double Length
         {
             get

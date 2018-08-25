@@ -15,6 +15,7 @@ namespace KMP.Interface.Model.Container
         PassedParameter cylinderInRadius;
         double offset;
         double heightOffset;
+        double railToCenterDistance;
         /// <summary>
         /// 导轨支架数量
         /// </summary>
@@ -37,6 +38,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("导轨系统总高度")]
+        [Browsable(false)]
         public double RailTotalHeight
         {
             get
@@ -70,7 +72,7 @@ namespace KMP.Interface.Model.Container
         /// 距罐体中心线平移
         /// </summary>
         /// 
-        [DisplayName("距罐体中心线平移R")]
+        [DisplayName("距罐体中心线平移(R1)")]
         [Description("导轨-支持")]
         public double Offset
         {
@@ -99,6 +101,25 @@ namespace KMP.Interface.Model.Container
             set
             {
                 heightOffset = value;
+            }
+        }
+        /// <summary>
+        /// 导轨到罐体中心高度
+        /// </summary>
+        [DisplayName("导轨到罐体中心高度(h1)")]
+        [Description("导轨-支持")]
+        public double RailToCenterDistance
+        {
+            get
+            {
+                return railToCenterDistance;
+            }
+
+            set
+            {
+                railToCenterDistance = value;
+                if(cylinderInRadius!=null)
+               RailTotalHeight= CylinderInRadius.Value - railToCenterDistance;
             }
         }
     }

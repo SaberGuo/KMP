@@ -41,7 +41,10 @@ namespace ParamedModule.Container
             par.SupportNum = 3;
            
             par.Offset = 400;
-            par.RailTotalHeight = 555;
+            par.RailToCenterDistance = 845;
+            if(par.CylinderInRadius!=null)
+            par.RailTotalHeight = par.CylinderInRadius.Value - par.RailToCenterDistance;
+          //  par.RailTotalHeight = 555;
             par.HeightOffset = 1;
         }
         public override bool CheckParamete()
