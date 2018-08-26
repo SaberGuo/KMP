@@ -86,6 +86,11 @@ namespace KMP.Parameterization
 
         private void TreeNodeGenExecuted(IParamedModule module)
         {
+            if(module == null)
+            {
+                this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("请选择模块进行生成！", ExceptionType.INFO));
+                return;
+            }
             this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator," + module.GetGeneratorCount().ToString());
          
             Task generatortask = new Task(()=> { module.CreateModule(); });
