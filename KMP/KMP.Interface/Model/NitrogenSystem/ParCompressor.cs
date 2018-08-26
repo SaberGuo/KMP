@@ -16,7 +16,8 @@ namespace KMP.Interface.Model.NitrogenSystem
         double winDepth;
         double distanceSF;
         double distanceTop;
-        [DisplayName("前后厚度")]
+        [DisplayName("厚度（T）")]
+        [Description("压缩机")]
         public double ThinckNess
         {
             get
@@ -29,7 +30,8 @@ namespace KMP.Interface.Model.NitrogenSystem
                 thinckness = value;
             }
         }
-        [DisplayName("宽度")]
+        [DisplayName("宽度（W）")]
+        [Description("压缩机")]
         public double Width
         {
             get
@@ -42,7 +44,8 @@ namespace KMP.Interface.Model.NitrogenSystem
                 width = value;
             }
         }
-        [DisplayName("高度")]
+        [DisplayName("高度（h）")]
+        [Description("压缩机")]
         public double Height
         {
             get
@@ -55,7 +58,9 @@ namespace KMP.Interface.Model.NitrogenSystem
                 height = value;
             }
         }
+        #region 面板
         [DisplayName("窗口高度")]
+        [Browsable(false)]
         public double WinHeight
         {
             get
@@ -69,6 +74,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("窗口宽度")]
+        [Browsable(false)]
         public double WinWidth
         {
             get
@@ -82,6 +88,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("窗口深度")]
+        [Browsable(false)]
         public double WinDepth
         {
             get
@@ -95,6 +102,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("窗口与压缩机侧边距离")]
+        [Browsable(false)]
         public double DistanceSF
         {
             get
@@ -108,6 +116,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("窗口与压缩机顶部距离")]
+        [Browsable(false)]
         public double DistanceTop
         {
             get
@@ -120,5 +129,6 @@ namespace KMP.Interface.Model.NitrogenSystem
                 distanceTop = value;
             }
         }
+        #endregion
     }
 }

@@ -41,7 +41,9 @@ namespace ParamedModule.NitrogenSystem
         }
         public override bool CheckParamete()
         {
-            if(par.GrooveBetween<=par.GrooveWidth)
+            par.WGrooveNum = Math.Floor((par.Width - par.GrooveStartWidth) / par.GrooveBetween);
+            par.HGrooveNum = Math.Floor((par.Length - par.GrooveStartWidth) / par.GrooveBetween);
+            if (par.GrooveBetween<=par.GrooveWidth)
             {
                 return false;
             }
