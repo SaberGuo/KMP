@@ -64,6 +64,7 @@
     <Compile Include="Container\RailSupportbaseBoard.cs" />
     <Compile Include="Container\RailSupportBrace.cs" />
     <Compile Include="Container\RailSupportCenterBoard.cs" />
+    <Compile Include="Container\PlaneTopPlate.cs" />
     <Compile Include="Container\RailSupportSidePlate.cs" />
     <Compile Include="Container\RailSupportTopBoard.cs" />
     <Compile Include="HeatSinkSystem\Cap.cs" />

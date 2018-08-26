@@ -11,6 +11,7 @@ namespace KMP.Interface.Model.Container
         int planeNumber;
         double totalHeight;
         PassedParameter cylinderInRadius;
+        double planeToCenterDistance;
         //double offset;
         double heightOffset;
 
@@ -32,6 +33,7 @@ namespace KMP.Interface.Model.Container
         /// </summary>
         /// 
         [DisplayName("内部踏板总高度")]
+        [Browsable(false)]
         public double TotalHeight
         {
             get
@@ -80,7 +82,8 @@ namespace KMP.Interface.Model.Container
         /// 高度上平移，不显示
         /// </summary>
         /// 
-        [DisplayName("高度上平移"), ReadOnly(true)]
+      //  [DisplayName("高度上平移"), ReadOnly(true)]
+      [Browsable(false)]
         public double HeightOffset
         {
             get
@@ -91,6 +94,20 @@ namespace KMP.Interface.Model.Container
             set
             {
                 heightOffset = value;
+            }
+        }
+        [Description("平板系统")]
+        [DisplayName("平板到罐体中心高度（H4）")]
+        public double PlaneToCenterDistance
+        {
+            get
+            {
+                return planeToCenterDistance;
+            }
+
+            set
+            {
+                planeToCenterDistance = value;
             }
         }
     }

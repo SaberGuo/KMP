@@ -23,7 +23,9 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 直径
         /// </summary>
+        [Category("电加热器参数")]
         [DisplayName("直径")]
+        [Description("电加热器1")]
         public double Dimension
         {
             get
@@ -40,7 +42,9 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// <summary>
         /// 高度
         /// </summary>
+        [Category("电加热器参数")]
         [DisplayName("高度")]
+        [Description("电加热器1")]
         public double Height
         {
             get
@@ -54,10 +58,13 @@ namespace KMP.Interface.Model.NitrogenSystem
                 this.RaisePropertyChanged(() => this.Height);
             }
         }
+        #region 管道
         /// <summary>
         /// 上下位置
         /// </summary>
-        [DisplayName("上下位置")]
+        [DisplayName("垂直与中心距离")]
+        [Category("管道")]
+        [Description("电加热器2")]
         public double PositionDistance
         {
             get
@@ -74,6 +81,8 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 管道长度
         /// </summary>
         [DisplayName("管道长度")]
+        [Category("管道")]
+        [Description("电加热器2")]
         public double PipeLenght
         {
             get
@@ -90,6 +99,8 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 管道厚度
         /// </summary>
         [DisplayName("管道厚度")]
+        [Category("管道")]
+        [Description("电加热器2")]
         public double PipeThickness
         {
             get
@@ -106,6 +117,8 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 法兰参数
         /// </summary>
         [DisplayName("法兰参数")]
+        [Category("管道")]
+        [Description("电加热器2")]
         public ParFlanch ParFlanch
         {
             get
@@ -119,6 +132,8 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("法兰公称通径")]
+        [Category("管道")]
+        [Description("电加热器2")]
         [ItemsSource(typeof(ParFlanchSource))]
         public double FlanchDN
         {
@@ -140,5 +155,6 @@ namespace KMP.Interface.Model.NitrogenSystem
                 }
             }
         }
+        #endregion
     }
 }

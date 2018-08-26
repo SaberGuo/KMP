@@ -16,7 +16,7 @@ namespace ParamedModule.Container
         public ParPlaneSystem par = new ParPlaneSystem();
 
         public PlaneSupport _planeSup;
-        public  RailSupportSidePlate _plane;
+        public PlaneTopPlate _plane;
         public PlaneSystem():base()
         {
 
@@ -27,7 +27,7 @@ namespace ParamedModule.Container
             this.Name = "容器平台";
             this.par.CylinderInRadius = InRadius;
             _planeSup = new PlaneSupport(InRadius);
-            _plane = new RailSupportSidePlate();
+            _plane = new PlaneTopPlate();
             this.SubParamedModules.AddModule(_plane);
             this.SubParamedModules.AddModule(_planeSup);
             _planeSup.Name = "平台支架";
@@ -40,6 +40,7 @@ namespace ParamedModule.Container
             _plane.par.Length = 1200;
             _plane.par.Width = 300;
             _plane.par.Thickness = 20;
+            par.PlaneToCenterDistance = 845;
         }
 
         public override bool CheckParamete()
@@ -48,9 +49,21 @@ namespace ParamedModule.Container
             if ((!_plane.CheckParamete()) || (!_planeSup.CheckParamete())) return false;
             ///平板总高度是平板组件高度之和
             ///平板偏移高度是平板偏移位置的高度/2-平板组件高度
-          par.TotalHeight=  _plane.par.Thickness + _planeSup.par.BrachHeight1 + _planeSup.par.BrachHeight2 + _planeSup.par.TopBoardThickness;
+            // par.TotalHeight=  _plane.par.Thickness + _planeSup.par.BrachHeight1 + _planeSup.par.BrachHeight2 + _planeSup.par.TopBoardThickness;
+          
             double offHeight = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(_planeSup.par.Offset, 2), 0.5);
-            if (offHeight <= par.TotalHeight) return false;
+            par.TotalHeight = offHeight - par.PlaneToCenterDistance;
+            _planeSup.par.BrachHeight1 = par.TotalHeight - _plane.par.Thickness - _planeSup.par.BrachHeight2 - _planeSup.par.TopBoardThickness;
+            if (_planeSup.par.BrachHeight1 <= 0)
+            {
+                ParErrorChanged(this, "平板支撑高度设置错误！");
+                return false;
+            } 
+            if (offHeight <= par.TotalHeight)
+            {
+                ParErrorChanged(this, "平板支撑高度设置错误");
+                return false;
+            }
             par.HeightOffset = offHeight - par.TotalHeight;
             if (!CheckParZero()) return false;
             return true;

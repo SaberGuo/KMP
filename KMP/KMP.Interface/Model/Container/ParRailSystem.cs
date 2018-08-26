@@ -11,7 +11,7 @@ namespace KMP.Interface.Model.Container
   public  class ParRailSystem:ParameterBase
     {
         double supportNum;
-        double railTotalHeight;
+        double railTotalHeight=1;
         PassedParameter cylinderInRadius;
         double offset;
         double heightOffset;

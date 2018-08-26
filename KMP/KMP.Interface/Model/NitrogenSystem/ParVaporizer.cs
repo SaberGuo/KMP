@@ -22,7 +22,8 @@ namespace KMP.Interface.Model.NitrogenSystem
         double hGrooveNum;
         double grooveBetween;
         [Category("汽化器参数")]
-        [DisplayName("高度")]
+        [DisplayName("高度(H1)")]
+        [Description("汽化器")]
         public double Height
         {
             get
@@ -36,7 +37,8 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [Category("汽化器参数")]
-        [DisplayName("宽度")]
+        [DisplayName("宽度(W)")]
+        [Description("汽化器")]
         public double Width
         {
             get
@@ -50,7 +52,8 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [Category("汽化器参数")]
-        [DisplayName("长度")]
+        [DisplayName("长度(T)")]
+        [Description("汽化器")]
         public double Length
         {
             get
@@ -63,8 +66,26 @@ namespace KMP.Interface.Model.NitrogenSystem
                 length = value;
             }
         }
+        [Category("支撑")]
+        [DisplayName("高度(H2)")]
+        [Description("汽化器")]
+        public double SurHeight
+        {
+            get
+            {
+                return surHeight;
+            }
+
+            set
+            {
+                surHeight = value;
+            }
+        }
+        #endregion
+        #region 槽参数
         [Category("槽参数")]
         [DisplayName("宽度")]
+        [Browsable(false)]
         public double GrooveWidth
         {
             get
@@ -79,6 +100,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("槽参数")]
         [DisplayName("深度")]
+        [Browsable(false)]
         public double GrooveDepth
         {
             get
@@ -93,6 +115,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("槽参数")]
         [DisplayName("起始宽度")]
+        [Browsable(false)]
         public double GrooveStartWidth
         {
             get
@@ -107,6 +130,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("槽参数")]
         [DisplayName("宽面阵列数量")]
+        [Browsable(false)]
         public double WGrooveNum
         {
             get
@@ -121,6 +145,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("槽参数")]
         [DisplayName("长面阵列数量")]
+        [Browsable(false)]
         public double HGrooveNum
         {
             get
@@ -135,6 +160,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("槽参数")]
         [DisplayName("间距")]
+        [Browsable(false)]
         public double GrooveBetween
         {
             get
@@ -149,13 +175,14 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
 
         #endregion
-        #region
+        #region  支撑参数
         double surWidth;
         double surWidth2;
         double surDistanceEdge;
         double surHeight;
         [Category("支撑参数")]
         [DisplayName("宽度")]
+        [Browsable(false)]
         public double SurWidth
         {
             get
@@ -170,6 +197,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("支撑参数")]
         [DisplayName("支撑底面宽度")]
+        [Browsable(false)]
         public double SurWidth2
         {
             get
@@ -184,6 +212,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         [Category("支撑参数")]
         [DisplayName("支撑与侧面距离")]
+        [Browsable(false)]
         public double SurDistanceEdge
         {
             get
@@ -196,20 +225,7 @@ namespace KMP.Interface.Model.NitrogenSystem
                 surDistanceEdge = value;
             }
         }
-        [Category("支撑")]
-        [DisplayName("高度")]
-        public double SurHeight
-        {
-            get
-            {
-                return surHeight;
-            }
-
-            set
-            {
-                surHeight = value;
-            }
-        }
+     
 
    
 
