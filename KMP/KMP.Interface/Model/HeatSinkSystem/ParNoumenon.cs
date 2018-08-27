@@ -7,6 +7,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
 {
   public  class ParNoumenon:ParameterBase
     {
+        public override string ToString()
+        {
+            return "热沉系统参数";
+        }
         #region
         PassedParameter inDiameter ;
         PassedParameter thickness;

@@ -11,6 +11,9 @@ namespace KMP.Interface.Model.Container
     /// </summary>
   public  class ParRailSupport : ParameterBase
     {
-      
+        public override string ToString()
+        {
+            return "导轨支架参数";
+        }
     }
 }

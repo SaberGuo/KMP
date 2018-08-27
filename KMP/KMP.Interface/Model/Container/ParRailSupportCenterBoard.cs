@@ -10,6 +10,10 @@ namespace KMP.Interface.Model.Container
     /// </summary>
   public  class ParRailSupportCenterBoard : ParameterBase
     {
+        public override string ToString()
+        {
+            return "导轨-下部支撑参数";
+        }
         double thickness;
         double width;
 

@@ -5,11 +5,16 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
+    
     /// <summary>
     /// 导轨支架侧板参数
     /// </summary>
-   public class ParPlaneTopPlate : ParameterBase
+    public class ParPlaneTopPlate : ParameterBase
     {
+        public override string ToString()
+        {
+            return "平板顶板参数";
+        }
         double thickness;
         double width;
         double length;

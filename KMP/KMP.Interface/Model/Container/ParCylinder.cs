@@ -25,7 +25,10 @@ namespace KMP.Interface.Model.Container
         double capRadius;
       
         double flanchWidth;
-      
+        public override string ToString()
+        {
+            return "容器筒体参数";
+        }
         #region 容器筒体
         [Category("a容器筒体")]
         [DisplayName("大门法兰宽度（H2）")]
@@ -268,7 +271,6 @@ namespace KMP.Interface.Model.Container
             {
                 return parHoles;
             }
-
             set
             {
                 parHoles = value;
@@ -289,7 +291,6 @@ namespace KMP.Interface.Model.Container
             {
                 return capTopHole;
             }
-
             set
             {
                 capTopHole = value;

@@ -8,6 +8,10 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParPedestal:ParameterBase
     {
+        public override string ToString()
+        {
+            return "底座参数";
+        }
         #region
         PassedParameter inRadius;
         PassedParameter thickness;

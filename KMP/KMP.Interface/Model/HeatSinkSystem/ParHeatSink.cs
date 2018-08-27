@@ -8,6 +8,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
 {
   public class ParHeatSink:ParameterBase
     {
+        public override string ToString()
+        {
+            return "热沉筒参数";
+        }
         PassedParameter inDiameter = new PassedParameter();
         PassedParameter thickness = new PassedParameter();
         [DisplayName("热沉内直径")]

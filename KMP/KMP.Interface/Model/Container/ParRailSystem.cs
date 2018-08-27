@@ -10,6 +10,10 @@ namespace KMP.Interface.Model.Container
     /// </summary>
   public  class ParRailSystem:ParameterBase
     {
+        public override string ToString()
+        {
+            return "导轨系统参数";
+        }
         double supportNum;
         double railTotalHeight=1;
         PassedParameter cylinderInRadius;

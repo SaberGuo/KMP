@@ -10,6 +10,10 @@ namespace KMP.Interface.Model.Container
     /// </summary>
   public  class ParRailSupportBrace : ParameterBase
     {
+        public override string ToString()
+        {
+            return "导轨-中部支撑参数";
+        }
         double inRadius;
         double thickness;
         double height;

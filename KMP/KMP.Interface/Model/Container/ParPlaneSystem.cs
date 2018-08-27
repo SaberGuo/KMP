@@ -8,6 +8,10 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParPlaneSystem:ParameterBase
     {
+        public override string ToString()
+        {
+            return "平板参数";
+        }
         int planeNumber;
         double totalHeight;
         PassedParameter cylinderInRadius;

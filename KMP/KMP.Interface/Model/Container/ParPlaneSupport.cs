@@ -8,6 +8,10 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParPlaneSupport:ParameterBase
     {
+        public override string ToString()
+        {
+            return "平板支撑参数";
+        }
         PassedParameter inRadius = new PassedParameter();
         double offset;
         double brachHeight1;

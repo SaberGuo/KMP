@@ -9,6 +9,10 @@ namespace KMP.Interface.Model.Container
 {
   public  class ParCylinderDoor:ParameterBase
     {
+        public override string ToString()
+        {
+            return "容器大门参数";
+        }
         PassedParameter inRadius;
         PassedParameter thickness;
       

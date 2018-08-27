@@ -14,6 +14,10 @@ namespace KMP.Interface.Model.Container
             
         }
 
+        public override string ToString()
+        {
+            return "容器参数";
+        }
         double pedestalNumber;
         PassedParameter inRadius=new PassedParameter();
         PassedParameter thickness = new PassedParameter();

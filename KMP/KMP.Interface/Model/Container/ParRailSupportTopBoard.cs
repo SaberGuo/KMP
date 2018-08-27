@@ -10,6 +10,10 @@ namespace KMP.Interface.Model.Container
     /// </summary>
   public  class ParRailSupportTopBoard : ParameterBase
     {
+        public override string ToString()
+        {
+            return "导轨-上底板";
+        }
         double thickness;
         double width;
        

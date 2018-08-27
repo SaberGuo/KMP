@@ -7,11 +7,17 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
+    
     /// <summary>
     /// 导轨参数
     /// </summary>
-   public class ParRail:ParameterBase
+    public class ParRail:ParameterBase
     {
+        public override string ToString()
+        {
+            return "导轨参数";
+        }
+
         double upBridgeHeight;
         double downBridgeHeight;
         double braceHeight;

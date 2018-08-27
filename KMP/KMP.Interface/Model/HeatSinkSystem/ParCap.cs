@@ -7,6 +7,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
 {
    public class ParCap:ParameterBase
     {
+        public override string ToString()
+        {
+            return "热沉盖参数";
+        }
         #region
         PassedParameter inDiameter ;
         PassedParameter thickness;
