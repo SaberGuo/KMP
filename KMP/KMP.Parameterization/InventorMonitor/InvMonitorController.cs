@@ -27,6 +27,14 @@ namespace KMP.Parameterization.InventorMonitor
             
             
         }
+
+        public void UpdateAll()
+        {
+            foreach (var item in this._documents)
+            {
+                item.FilePath = item.FilePath;
+            }
+        }
         private void OnAddDocument(IInvMonitorViewModel m)
         {
             _documents.Add(m);

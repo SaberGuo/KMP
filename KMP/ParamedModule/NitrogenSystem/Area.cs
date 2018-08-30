@@ -22,7 +22,10 @@ namespace ParamedModule.NitrogenSystem
         {
             return true;
         }
-
+        public override void InitModule()
+        {
+            base.InitModule();
+        }
         public override void CreateSub()
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);

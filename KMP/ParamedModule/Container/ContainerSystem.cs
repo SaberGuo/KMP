@@ -41,7 +41,16 @@ namespace ParamedModule.Container
             init();
             //this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
-        
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            SubParamedModules.AddModule(_cylinder);
+            SubParamedModules.AddModule(_cylinderDoor);
+            SubParamedModules.AddModule(_pedestal);
+            SubParamedModules.AddModule(_railSystem);
+            SubParamedModules.AddModule(_plane);
+            base.InitModule();
+        }
         void init()
         {
           

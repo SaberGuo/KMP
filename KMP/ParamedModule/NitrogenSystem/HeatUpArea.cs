@@ -28,8 +28,15 @@ namespace ParamedModule.NitrogenSystem
             _compressor = new Compressor();
             _heater = new ElectricHeater();
             this.Name = "室内氮气闭式回温模块";
-            this.SubParamedModules.Add(_compressor);
-            this.SubParamedModules.Add(_heater);
+            this.SubParamedModules.AddModule(_compressor);
+            this.SubParamedModules.AddModule(_heater);
+        }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            this.SubParamedModules.AddModule(_compressor);
+            this.SubParamedModules.AddModule(_heater);
+            base.InitModule();
         }
         public override bool CheckParamete()
         {

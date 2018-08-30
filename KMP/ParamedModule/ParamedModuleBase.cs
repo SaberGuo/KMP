@@ -28,7 +28,10 @@ namespace ParamedModule
         }
         public virtual void InitModule()
         {
-
+            foreach (var item in SubParamedModules)
+            {
+                item.InitModule();
+            }
         }
         public IParamedModule FindModule(string projType)
         {
@@ -131,6 +134,7 @@ namespace ParamedModule
        public event EventHandler<GeneratorEventArgs> ParErrorHappen;
         public void GeneratorProgress(object sender, string info)
         {
+            
             this.GeneratorChanged?.Invoke(sender, new GeneratorEventArgs { ProgressInfo = info });
         }
         public void ParErrorChanged(object sender, string info)

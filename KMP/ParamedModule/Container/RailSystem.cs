@@ -19,6 +19,13 @@ namespace ParamedModule.Container
         {
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "RailSystem.png");
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            SubParamedModules.AddModule(rail);
+            SubParamedModules.AddModule(support);
+            base.InitModule();
+        }
         public RailSystem(PassedParameter InRadius) :base()
         {
          

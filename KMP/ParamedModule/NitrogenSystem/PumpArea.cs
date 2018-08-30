@@ -23,6 +23,11 @@ namespace ParamedModule.NitrogenSystem
         {
             init();
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.PumpNum = 6;

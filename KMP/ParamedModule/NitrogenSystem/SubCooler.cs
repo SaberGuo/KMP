@@ -18,6 +18,10 @@ namespace ParamedModule.NitrogenSystem
         {
             throw new NotImplementedException();
         }
+        public override void InitModule()
+        {
+            base.InitModule();
+        }
 
         public override void CreateSub()
         {

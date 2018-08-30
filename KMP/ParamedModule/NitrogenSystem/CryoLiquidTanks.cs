@@ -39,10 +39,18 @@ namespace ParamedModule.NitrogenSystem
             LiquidTank.Name = "液氮储槽";
             GasTank.Name = "氮气储存罐";
             vaporizer.Name = "汽化器";
-            this.SubParamedModules.Add(GasTank);
-            this.SubParamedModules.Add(LiquidTank);
-            this.SubParamedModules.Add(vaporizer);
+            this.SubParamedModules.AddModule(GasTank);
+            this.SubParamedModules.AddModule(LiquidTank);
+            this.SubParamedModules.AddModule(vaporizer);
             init();
+        }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            this.SubParamedModules.AddModule(GasTank);
+            this.SubParamedModules.AddModule(LiquidTank);
+            this.SubParamedModules.AddModule(vaporizer);
+            base.InitModule();
         }
         void init()
         {

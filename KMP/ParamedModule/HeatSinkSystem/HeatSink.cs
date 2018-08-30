@@ -28,9 +28,17 @@ namespace ParamedModule.HeatSinkSystem
             _cap = new Cap(par.InDiameter,par.Thickness);
             _frontCap = new FrontCap(par.InDiameter, par.Thickness);
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
-            SubParamedModules.Add(_cap);
-            SubParamedModules.Add(_frontCap);
-            SubParamedModules.Add(_nomenon);
+            SubParamedModules.AddModule(_cap);
+            SubParamedModules.AddModule(_frontCap);
+            SubParamedModules.AddModule(_nomenon);
+        }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            SubParamedModules.AddModule(_cap);
+            SubParamedModules.AddModule(_frontCap);
+            SubParamedModules.AddModule(_nomenon);
+            base.InitModule();
         }
         public override bool CheckParamete()
         {

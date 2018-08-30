@@ -25,11 +25,21 @@ namespace ParamedModule.Other
         {
             this.Name = "真空系统";
             this.Parameter = par;
-            this.SubParamedModules.Add(_Cool);
-            this.SubParamedModules.Add(_Dry);
-            this.SubParamedModules.Add(_Molecular);
-            this.SubParamedModules.Add(_screwLine);
-            this.SubParamedModules.Add(_valve);
+            this.SubParamedModules.AddModule(_Cool);
+            this.SubParamedModules.AddModule(_Dry);
+            this.SubParamedModules.AddModule(_Molecular);
+            this.SubParamedModules.AddModule(_screwLine);
+            this.SubParamedModules.AddModule(_valve);
+        }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            this.SubParamedModules.AddModule(_Cool);
+            this.SubParamedModules.AddModule(_Dry);
+            this.SubParamedModules.AddModule(_Molecular);
+            this.SubParamedModules.AddModule(_screwLine);
+            this.SubParamedModules.AddModule(_valve);
+            base.InitModule();
         }
 
         public override bool CheckParamete()

@@ -25,6 +25,11 @@ namespace ParamedModule.NitrogenSystem
             init();
             this.Parameter = par;
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Capacity.Capacity = 3500;

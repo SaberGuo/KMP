@@ -10,6 +10,7 @@ namespace KMP.Parameterization.InventorMonitor
     {
 
         void UpdateInvModel(string filePath);
+        void UpdateAll();
 
         ObservableCollection<IInvMonitorViewModel> Documents { get; }
     }

@@ -24,6 +24,11 @@ namespace ParamedModule.Other
             this.Name = "分子泵";
             init();
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         private void init()
         {
             par.MAGW = 2200;

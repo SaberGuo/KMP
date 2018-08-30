@@ -33,28 +33,30 @@ namespace ParamedModule
         {
             if(_warehouse != null)
             {
-                this.SubParamedModules.Add(_warehouse);
+                this.SubParamedModules.AddModule(_warehouse);
             }
 
             if(_nitrogen != null)
             {
-                this.SubParamedModules.Add(_nitrogen);
+                this.SubParamedModules.AddModule(_nitrogen);
             }
 
             if(_vacuoSystem != null)
             {
-                this.SubParamedModules.Add(_vacuoSystem);
+                this.SubParamedModules.AddModule(_vacuoSystem);
             }
 
             if(_container != null)
             {
-                this.SubParamedModules.Add(_container);
+                this.SubParamedModules.AddModule(_container);
             }
 
             if(_heatSink != null)
             {
-                this.SubParamedModules.Add(_heatSink);
+                this.SubParamedModules.AddModule(_heatSink);
             }
+
+            base.InitModule();
 
         }
         public void InitProject(List<string> ProjectTypes)
@@ -63,21 +65,21 @@ namespace ParamedModule
             {
                 _nitrogen = new Nitrogen();
                 _nitrogen.ModelPath = this.ModelPath;
-                this.SubParamedModules.Add(_nitrogen);
+                this.SubParamedModules.AddModule(_nitrogen);
             }
 
             if (ProjectTypes.Contains("VacuoSystem"))
             {
                 _vacuoSystem = new VacuoSystem();
                 _vacuoSystem.ModelPath = this.ModelPath;
-                this.SubParamedModules.Add(_vacuoSystem);
+                this.SubParamedModules.AddModule(_vacuoSystem);
             }
 
             if (ProjectTypes.Contains("ContainerSystem")&& ProjectTypes.Contains("HeaterSystem"))
             {
                 _warehouse = new WareHouseEnvironment();
                 _warehouse.ModelPath = this.ModelPath;
-                this.SubParamedModules.Add(_warehouse);
+                this.SubParamedModules.AddModule(_warehouse);
             }
             else
             {
@@ -85,13 +87,13 @@ namespace ParamedModule
                 {
                     _container = new ContainerSystem();
                     _container.ModelPath = this.ModelPath;
-                    this.SubParamedModules.Add(_container);
+                    this.SubParamedModules.AddModule(_container);
                 }
                 if (ProjectTypes.Contains("HeaterSystem"))
                 {
                     _heatSink = new HeatSink();
                     _heatSink.ModelPath = this.ModelPath;
-                    this.SubParamedModules.Add(_heatSink);
+                    this.SubParamedModules.AddModule(_heatSink);
                 }
             }
             

@@ -30,6 +30,11 @@ namespace ParamedModule.Container
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "CylinderDoor.png");
 
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         private void init()
         {
 

@@ -35,6 +35,11 @@ namespace ParamedModule.Other
             par.VAC.TotolHeight = 560;
             this.Parameter = par;
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         public override bool CheckParamete()
         {
             if(par.VAC.TotolHeight<=par.VAC.Height)

@@ -24,6 +24,11 @@ namespace ParamedModule.Other
             this.Name = "干泵SP";
             init();
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Lenth = 1300;

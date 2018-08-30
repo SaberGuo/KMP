@@ -20,6 +20,11 @@ namespace ParamedModule.HeatSinkSystem
         {
 
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         public FrontCap(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;

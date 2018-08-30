@@ -22,6 +22,12 @@ namespace ParamedModule.Container
             this.Parameter = par;
             this.Name = "导轨";
         }
+
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.UpBridgeWidth = 80;

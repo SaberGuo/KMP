@@ -21,6 +21,13 @@ namespace ParamedModule.Container
         {
 
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            this.SubParamedModules.AddModule(_plane);
+            this.SubParamedModules.AddModule(_planeSup);
+            base.InitModule();
+        }
         public PlaneSystem(PassedParameter InRadius) :base()
         {
            this.Parameter = par;

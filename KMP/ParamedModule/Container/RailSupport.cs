@@ -39,6 +39,16 @@ namespace ParamedModule.Container
 
             this.Name = "导轨支架";
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            SubParamedModules.AddModule(topBoard);
+            SubParamedModules.AddModule(brace);
+            SubParamedModules.AddModule(centerBoard);
+            SubParamedModules.AddModule(baseBoard);
+            SubParamedModules.AddModule(sidePlate);
+            base.InitModule();
+        }
 
         public override bool CheckParamete()
         {

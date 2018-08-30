@@ -38,7 +38,11 @@ namespace ParamedModule.Container
         {
             throw new NotImplementedException();
         }
-
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         private void init()
         {
             this.Name = "容器筒体";

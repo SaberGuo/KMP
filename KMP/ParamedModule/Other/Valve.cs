@@ -39,6 +39,11 @@ namespace ParamedModule.Other
             par.ValveType.Flanch.N = 10;
             par.ValveType.Flanch.C = 10;
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         public override bool CheckParamete()
         {
             return true;

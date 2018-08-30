@@ -427,7 +427,8 @@ namespace KMP.Parameterization
             //gDelegate.BeginInvoke(GenerateCallback, null);
             Task generatortask = new Task(GenerateModules);
             generatortask.ContinueWith((result)=> {
-                _invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+                //_invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
+                _invMonitorController.UpdateAll();
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
                 //this._childWindViewModel.GeneratorWinState = "Close";
                 //this.IsGenerating = false;

@@ -24,9 +24,17 @@ namespace ParamedModule.NitrogenSystem
         {
             this.Name = "低温系统";
             this.Parameter = par;
-            this.SubParamedModules.Add(tanks);
-            this.SubParamedModules.Add(heatUps);
-            this.SubParamedModules.Add(pumps);
+            this.SubParamedModules.AddModule(tanks);
+            this.SubParamedModules.AddModule(heatUps);
+            this.SubParamedModules.AddModule(pumps);
+        }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            this.SubParamedModules.AddModule(tanks);
+            this.SubParamedModules.AddModule(heatUps);
+            this.SubParamedModules.AddModule(pumps);
+            base.InitModule();
         }
         public override bool CheckParamete()
         {

@@ -26,6 +26,11 @@ namespace ParamedModule.Container
 
             this.Name = "导轨支架顶板";
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Width = 120;

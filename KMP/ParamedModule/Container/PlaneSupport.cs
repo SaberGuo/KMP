@@ -18,6 +18,11 @@ namespace ParamedModule.Container
         {
             
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         public PlaneSupport(PassedParameter InRadius):base()
         {
             this.Parameter = par;

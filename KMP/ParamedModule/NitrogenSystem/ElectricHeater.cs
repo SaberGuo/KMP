@@ -26,6 +26,11 @@ namespace ParamedModule.NitrogenSystem
             init();
             this.Parameter = par;
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Dimension = 300;

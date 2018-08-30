@@ -23,8 +23,8 @@ namespace KMP.StatusBar
         {
             _eventAggregator = eventAggregator;
             _logger = logger;
-            _eventAggregator.GetEvent<GeneratorEvent>().Subscribe(this.OnGeneratorChanged);
-            _eventAggregator.GetEvent<InfoEvent>().Subscribe(this.OnInfoExecuted);
+            _eventAggregator.GetEvent<GeneratorEvent>().Subscribe(this.OnGeneratorChanged,ThreadOption.BackgroundThread);
+            _eventAggregator.GetEvent<InfoEvent>().Subscribe(this.OnInfoExecuted, ThreadOption.BackgroundThread);
         }
 
         virtual protected void OnInfoExecuted(Exception e)

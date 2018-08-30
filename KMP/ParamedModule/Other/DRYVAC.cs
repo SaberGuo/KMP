@@ -25,6 +25,11 @@ namespace ParamedModule.Other
             this.Name = "干泵DVR";
             init();
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Lenth = 1330;

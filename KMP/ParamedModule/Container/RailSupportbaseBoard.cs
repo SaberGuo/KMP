@@ -32,6 +32,11 @@ namespace ParamedModule.Container
             par.Width = 220;
             par.Thickness = 15;
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         public override bool CheckParamete()
         {
             if (!CheckParZero()) return false;

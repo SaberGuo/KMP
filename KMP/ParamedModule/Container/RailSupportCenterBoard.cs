@@ -24,6 +24,11 @@ namespace ParamedModule.Container
 
             this.Name = "导轨支架立柱下钣金";
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Width = 180;

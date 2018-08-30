@@ -24,6 +24,11 @@ namespace ParamedModule.Container
 
             this.Name = "踏板";
         }
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            base.InitModule();
+        }
         void init()
         {
             par.Width = 40;
