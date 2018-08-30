@@ -50,7 +50,7 @@
                                 <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                     <StackPanel Orientation="Vertical">
                                         <ToolBar>
-                                            <xctk:IconButton Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="32" Height="32">
+                                            <xctk:IconButton Command="{Binding TreeNodeGenCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
                                                 <xctk:IconButton.Icon>
                                                     <Image Source="./Resources/Image/reload.png"/>
                                                 </xctk:IconButton.Icon>
