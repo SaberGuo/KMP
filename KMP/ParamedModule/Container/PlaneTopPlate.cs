@@ -22,7 +22,7 @@ namespace ParamedModule.Container
             this.Parameter = par;
             init();
 
-            this.Name = "容器平板";
+            this.Name = "踏板";
         }
         void init()
         {

@@ -46,10 +46,12 @@ namespace ParamedModule.Container
             par.CapRadius = 700;
 
             par.Length = 5000;
-            par.RibWidth = 4;
-            par.RibHeight = 4;
-            par.RibBraceHeight = 2;
+            par.RibWidth = 10;
+            par.RibHeight = 8;
+            // par.RibBraceHeight = 2;
+            par.RibTopThinkness = 2;
             par.RibBraceWidth = 2;
+            
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
@@ -69,7 +71,7 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
             #region 堵头顶孔
-            ParCylinderHole CapHole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
+            ParTopHole CapHole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.CapTopHole = CapHole;
@@ -80,8 +82,8 @@ namespace ParamedModule.Container
             //  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             // ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
             //  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole4 = new ParCylinderHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole5 = new ParCylinderHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole4 = new ParSideHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             //   ParSideHole.ParFlanch = sideFlanch;
             //  ParSideHole1.ParFlanch = sideFlanch;
             //   ParSideHole2.ParFlanch = sideFlanch;
@@ -321,7 +323,7 @@ namespace ParamedModule.Container
                 SketchLine L;
                 CreateRib(osketch, out L);
                 osketch.GeometricConstraints.AddCollinear((SketchEntity)line, (SketchEntity)L);
-                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance * i + RibFirstDistance);
+                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance * i + RibFirstDistance-UsMM(par.RibWidth/2));
 
             }
         }
@@ -388,7 +390,7 @@ namespace ParamedModule.Container
 
             CreateTwoPointDistanceConstraint(osketch, L6.StartSketchPoint, L6.EndSketchPoint, UsMM(par.RibWidth));
             CreateTwoPointDistanceConstraint(osketch, L6.EndSketchPoint, L11.EndSketchPoint, UsMM(par.RibHeight));
-            CreateTwoPointDistanceConstraint(osketch, L3.StartSketchPoint, L3.EndSketchPoint, UsMM(par.RibBraceHeight));
+            CreateTwoPointDistanceConstraint(osketch, L1.StartSketchPoint, L1.EndSketchPoint, UsMM(par.RibTopThinkness));
             CreateTwoPointDistanceConstraint(osketch, L2.EndSketchPoint, L10.StartSketchPoint, UsMM(par.RibBraceWidth));
         }
         /// <summary>
@@ -885,7 +887,7 @@ namespace ParamedModule.Container
         /// <param name="DistanceFace">堵头底部平面</param>
         /// <param name="axis">堵头轴线</param>
         /// <param name="parHole">孔参数</param>
-        private void CreateCapSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole)
+        private void CreateCapSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParSideHole parHole)
         {
             #region
             double x, y;
@@ -944,7 +946,7 @@ namespace ParamedModule.Container
         /// <param name="plane">孔平面</param>
         /// <param name="holeCenter">孔中心点</param>
         /// <param name="parHole">孔参数</param>
-        private void CreateCapSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParCylinderHole parHole)
+        private void CreateCapSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParSideHole parHole)
         {
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             osketch.Visible = false;
@@ -1045,9 +1047,9 @@ namespace ParamedModule.Container
                 ParErrorChanged(this, "加强筋上下面宽度必须大于中部支柱宽度");
                 return false;
             }
-            if (par.RibHeight <= par.RibBraceHeight)
+            if (par.RibHeight <= par.RibTopThinkness*2)
             {
-                ParErrorChanged(this, "加强筋总高度必须大于中部支柱高度");
+                ParErrorChanged(this, "加强筋总高度必须大于加强筋两端厚度和");
                 return false;
             }
             for (int i = 0; i < par.ParHoles.Count; i++)

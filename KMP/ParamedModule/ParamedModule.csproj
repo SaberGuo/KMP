@@ -67,6 +67,7 @@
     <Compile Include="Container\PlaneTopPlate.cs" />
     <Compile Include="Container\RailSupportSidePlate.cs" />
     <Compile Include="Container\RailSupportTopBoard.cs" />
+    <Compile Include="HeatSinkSystem\FrontCap.cs" />
     <Compile Include="HeatSinkSystem\Cap.cs" />
     <Compile Include="NitrogenSystem\Area.cs" />
     <Compile Include="NitrogenSystem\Compressor.cs" />

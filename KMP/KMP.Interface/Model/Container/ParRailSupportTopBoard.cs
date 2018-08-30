@@ -37,7 +37,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-        [DisplayName("宽度（L1）")]
+        [DisplayName("宽度（W1）")]
         [Description("导轨-上底板")]
         public double Width
         {
@@ -97,7 +97,7 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.HoleSideEdgeDistance);
             }
         }
-        [DisplayName("螺丝孔中心到钣金顶边距离（L3）")]
+        [DisplayName("孔中心到顶边距离（L3）")]
         [Description("导轨-上底板")]
         public double HoleTopEdgeDistance
         {
@@ -110,6 +110,26 @@ namespace KMP.Interface.Model.Container
             {
                 holeTopEdgeDistance = value;
                 this.RaisePropertyChanged(() => this.HoleTopEdgeDistance);
+            }
+        }
+        double length;
+        /// <summary>
+        /// 长度
+        /// </summary>
+        /// 
+        [DisplayName("长度（L1）")]
+        [Description("导轨-下底板")]
+        public double Length
+        {
+            get
+            {
+                return length;
+            }
+
+            set
+            {
+                length = value;
+                this.RaisePropertyChanged(() => this.Length);
             }
         }
     }

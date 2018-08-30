@@ -40,9 +40,23 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.PedestalNumber);
             }
         }
-
+        PassedParameter inDiameter = new PassedParameter();
         [DisplayName("容器直径（d2）")]
-        [Description("容器系统")]
+        [Description("容器内直径")]
+        public PassedParameter InDiameter
+        {
+            get
+            {
+                return inDiameter;
+            }
+
+            set
+            {
+                inDiameter = value;
+            }
+        }
+
+        [Browsable(false)]
         /// <summary>
         /// 罐体半径
         /// </summary>
@@ -61,7 +75,7 @@ namespace KMP.Interface.Model.Container
         }
 
         [DisplayName("容器壁厚（T1）")]
-        [Description("容器系统")]
+        [Description("容器内直径")]
         /// <summary>
         /// 罐体厚度
         /// </summary>
@@ -78,5 +92,16 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
+        [DisplayName("踏板距罐口距离")]
+        [Description("容器系统")]
+        /// <summary>
+        /// 罐体厚度
+        /// </summary>
+     public double PlaneOffset { get; set; }
+        [DisplayName("导轨距罐口距离")]
+        [Description("容器系统")]
+        public double RailOffset { get; set; }
+
+     
     }
 }

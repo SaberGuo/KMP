@@ -74,7 +74,7 @@ namespace KMP.Interface.Model.Container
         }
         [Category("a容器筒体")]
         [DisplayName("后封头深度（d1）")]
-        [Description("容器系统")]
+        [Description("容器内直径")]
         /// <summary>
         /// 罐封头长度内半径
         /// </summary>
@@ -140,7 +140,7 @@ namespace KMP.Interface.Model.Container
         double ribHeight;
         double ribFirstDistance;
         double ribBraceWidth;
-        double ribBraceHeight;
+       // double ribBraceHeight;
 
         [Category("加强筋")]
         [DisplayName("加强筋宽度（L3）")]
@@ -238,28 +238,32 @@ namespace KMP.Interface.Model.Container
             }
         }
         [Category("加强筋")]
-        [DisplayName("腹板高度（H3）")]
+        [DisplayName("加强筋顶板厚度（T3）")]
         [Description("容器系统")]
-        /// <summary>
-        /// 加强筋支柱的高度
-        /// </summary>
-        public double RibBraceHeight
-        {
-            get
-            {
-                return ribBraceHeight;
-            }
+        public double RibTopThinkness { get; set;}
+        //[Category("加强筋")]
+        //[DisplayName("腹板高度（H3）")]
+        //[Description("容器系统")]
+        ///// <summary>
+        ///// 加强筋支柱的高度
+        ///// </summary>
+        //public double RibBraceHeight
+        //{
+        //    get
+        //    {
+        //        return ribBraceHeight;
+        //    }
 
-            set
-            {
-                ribBraceHeight = value;
-                this.RaisePropertyChanged(() => this.RibBraceHeight);
-            }
-        }
+        //    set
+        //    {
+        //        ribBraceHeight = value;
+        //        this.RaisePropertyChanged(() => this.RibBraceHeight);
+        //    }
+        //}
         #endregion
         #region 开孔
-        ParCylinderHole capTopHole = new ParCylinderHole();
-        ObservableCollection<ParCylinderHole> capSideHoles = new ObservableCollection<ParCylinderHole>();
+        ParTopHole capTopHole = new ParTopHole();
+        ObservableCollection<ParSideHole> capSideHoles = new ObservableCollection<ParSideHole>();
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
 
         [Category("开孔")]
@@ -285,7 +289,7 @@ namespace KMP.Interface.Model.Container
         [DisplayName("后封头轴向孔")]
         [Description("容器-后封头轴向孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ParCylinderHole CapTopHole
+        public ParTopHole CapTopHole
         {
             get
             {
@@ -304,7 +308,7 @@ namespace KMP.Interface.Model.Container
         [Category("开孔")]
         [DisplayName("后封头侧孔")]
         [Description("容器-后封头侧孔")]   
-        public ObservableCollection<ParCylinderHole> CapSideHoles
+        public ObservableCollection<ParSideHole> CapSideHoles
         {
             get
             {

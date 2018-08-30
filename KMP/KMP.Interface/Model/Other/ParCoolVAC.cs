@@ -116,6 +116,14 @@ namespace KMP.Interface.Model.Other
                 TotolHeight = 787
 
             });
+            //VACDict.Add("DN630", new ParVAC
+            //{
+
+            //    Flanch = ParFlanchDict.FlanchDict["DN630"],
+            //    Height = 608,
+            //    TotolHeight = 787
+
+            //});
         }
         public Dictionary<string, ParVAC> VACDict
         {

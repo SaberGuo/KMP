@@ -115,6 +115,7 @@
     <Compile Include="IReportWindow.cs" />
     <Compile Include="Model\Container\ParContainerSystem.cs" />
     <Compile Include="Model\Container\ParPlaneTopPlate.cs" />
+    <Compile Include="Model\HeatSinkSystem\ParFrontCap.cs" />
     <Compile Include="Model\NitrogenSystem\ParCompressor.cs" />
     <Compile Include="Model\NitrogenSystem\ParElectricHeater.cs" />
     <Compile Include="Model\NitrogenSystem\ParHeatUpArea.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Model\Container\ParRailSupportSidePlate.cs" />
     <Compile Include="Model\Container\ParRailSupportTopBoard.cs" />
     <Compile Include="Model\Container\ParRailSystem.cs" />
+    <Compile Include="Model\ParSideHole.cs" />
+    <Compile Include="Model\ParTopHole.cs" />
     <Compile Include="Model\ParWareHouseEnvironment.cs" />
     <Compile Include="Model\PassedParameter.cs" />
     <Compile Include="Model\HeatSinkSystem\ParCap.cs" />

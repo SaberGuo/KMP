@@ -29,6 +29,7 @@ namespace ParamedModule.Container
         void init()
         {
             par.Width = 120;
+            par.Length = 140;
             par.Thickness = 20;
             par.HoleCenterDistance = 10;
             par.HoleDiameter = 11;
@@ -41,7 +42,7 @@ namespace ParamedModule.Container
         public override void CreateSub()
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
-            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width), UsMM(par.Width), UsMM(par.Thickness),
+            ExtrudeFeature box = InventorTool.CreateBoxWithHole(Definition, osketch, UsMM(par.Width), UsMM(par.Length), UsMM(par.Thickness),
                 UsMM(par.HoleCenterDistance), UsMM(par.HoleTopEdgeDistance), UsMM(par.HoleSideEdgeDistance), UsMM(par.HoleDiameter / 2));
 
             #region 支架装配
