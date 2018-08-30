@@ -25,6 +25,7 @@
             </MenuItem>
             <MenuItem Header="另存为 ..." IsEnabled="{Binding HasProject}" InputGestureText="Ctrl+A" Command="{x:Static cmd:FileCommands.SaveAsFileCommand}"/>
             <Separator />
+            <MenuItem Header="关闭工程" IsEnabled="{Binding HasProject}"  Command="{x:Static cmd:FileCommands.CloseCommand}"></MenuItem>
             <MenuItem Header="退出" InputGestureText="Ctrl+X" Command="{x:Static cmd:FileCommands.ExitCommand}">
             </MenuItem>
         </MenuItem>

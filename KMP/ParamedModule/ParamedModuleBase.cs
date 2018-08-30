@@ -26,7 +26,10 @@ namespace ParamedModule
         {
             this.SubParamedModules.Root = this;
         }
+        public virtual void InitModule()
+        {
 
+        }
         public IParamedModule FindModule(string projType)
         {
             IParamedModule res = null;
@@ -206,11 +209,16 @@ namespace ParamedModule
         {
             XMLDeserializerHelper.Serialization<ParamedModule.ParamedModuleBase>(this, path);
         }
-        public void DeSerialization(string path= "")
+        public IParamedModule DeSerialization(string path= "")
         {
           ParamedModuleBase module=  XMLDeserializerHelper.Deserialization<ParamedModule.ParamedModuleBase>(this, path);
-          if(module!=null)
-            SetValue(module, this);
+            if (module != null)
+            {
+                SetValue(module, this);
+                
+            }
+            return module;
+          
         }
         public void GetSubField()
         {
@@ -298,6 +306,10 @@ namespace ParamedModule
 
         public void SetValue(object a, object b)
         {
+            if(a == null ||b == null)
+            {
+                return;
+            }
             Type objType = a.GetType();
             PropertyInfo[] propertys = objType.GetProperties();
             FieldInfo[] fields = objType.GetFields();

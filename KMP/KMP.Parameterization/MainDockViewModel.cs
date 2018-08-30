@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Controls;
+using ParamedModule;
 
 namespace KMP.Parameterization
 {
@@ -201,7 +202,23 @@ namespace KMP.Parameterization
             this._fileCommandProxy.OpenFileCommand = new DelegateCommand(this.OpenFileExecuted);
             this._fileCommandProxy.NewFileCommand = new DelegateCommand(this.NewFileExecuted);
             this._fileCommandProxy.ExitCommand = new DelegateCommand(this.ExistExecuted);
+            this._fileCommandProxy.CloseCommand = new DelegateCommand(this.CloseExecuted);
             this._childWindViewModel.NewModelHandler += OnNewModelHandler;
+        }
+        private void CloseExecuted()
+        {
+            if (this.Modules.Count > 0 && this.Modules.IsChanged)
+            {
+                if(DialogResult.OK == System.Windows.Forms.MessageBox.Show("是否保存当前文件？", "保存文件", MessageBoxButtons.OKCancel))
+                {
+                    this.SaveFile();
+                }
+            }
+
+            if (this.Modules.Count > 0)
+            {
+                this.Modules.RemoveAt(0);
+            }
         }
         private void ExistExecuted()
         {
@@ -232,7 +249,7 @@ namespace KMP.Parameterization
                 {
                     this.Modules.Clear();
                 }
-                
+
                 IParamedModule module = _moduleService.OpenProject(fdlg.FileName);
                 if(module == null)
                 {
@@ -240,7 +257,7 @@ namespace KMP.Parameterization
                     this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
                     return;
                 }
-                
+                module.InitModule();
                 this.Modules.ProjInfo.IsEditing = true;
                 this.Modules.ProjInfo.Path = fdlg.FileName;
                 this.Modules.ProjInfo.Name = module.Name;
@@ -279,24 +296,21 @@ namespace KMP.Parameterization
             //save current module
 
             //create model
-            IParamedModule module = _moduleService.CreateProject("ProjectSystem", System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
-            foreach (var item in e.ProjectTypes)
-            {
-                IParamedModule SubModule = _moduleService.CreateProject(item, System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
-             //   module.AddModule(SubModule);
-                module.SubParamedModules.Add(SubModule);
-            }
-            if(e.ProjectTypes.Contains("ContainerSystem") && e.ProjectTypes.Contains("HeaterSystem"))
-            {
-                IParamedModule SubModule = _moduleService.CreateProject("WareHouseEnvironment", System.IO.Path.Combine(e.ProjectDir, e.ProjectName));
-                module.SubParamedModules.Add(SubModule);
-                IProject project = SubModule as IProject;
-                project.AddSubModule(module.SubParamedModules.Where(a => a.ProjectType == "ContainerSystem").FirstOrDefault());
-                project.AddSubModule(module.SubParamedModules.Where(a => a.ProjectType == "HeaterSystem").FirstOrDefault());
-            }
+            ProjectSystem module = _moduleService.CreateProject("ProjectSystem", System.IO.Path.Combine(e.ProjectDir, e.ProjectName)) as ProjectSystem;
+            module.InitProject(e.ProjectTypes);
+            
            
             module.Name = e.ProjectName;
             string projDir = System.IO.Path.Combine(e.ProjectDir, e.ProjectName);
+            //check curent project exit?
+            if(this.Modules.Count>0 && this.Modules.IsChanged)
+            {
+                if(DialogResult.OK == System.Windows.Forms.MessageBox.Show("当前工程是否保存？", "工程保存", MessageBoxButtons.OKCancel))
+                {
+                    this.SaveFile();
+                }
+                this.Modules.RemoveAt(0);
+            }
             this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName + ".kmp");
             this.Modules.ProjInfo.IsEditing = true;
             this.Modules.ProjInfo.Path = this.Modules.ProjectPath;
@@ -305,6 +319,7 @@ namespace KMP.Parameterization
             this.Modules.ProjInfo.CreatedAt = DateTime.Now;
 
             this.Modules.AddModule(module);
+            this.Modules.IsChanged = true;
             this.Modules.First().GeneratorChanged += OnGeneratorChanged;
 
             this._eventAggregator.GetEvent<ProjectChangedEvent>().Publish(this.Modules.ProjectPath);

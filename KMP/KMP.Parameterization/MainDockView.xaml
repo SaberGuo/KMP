@@ -96,8 +96,8 @@
                                     <TreeView.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="生成模型" Name="TreeMenuGenerate" Command="{Binding TreeNodeGenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                            <MenuItem Header="保存" Name="TreeMenuSave" Command="{Binding TreeNodeSaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                            <MenuItem Header="关闭" Name="TreeMenuClose" Command="{Binding TreeNodeCloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                            <!--<MenuItem Header="保存" Name="TreeMenuSave" Command="{Binding TreeNodeSaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />-->
+                                            <!--<MenuItem Header="关闭" Name="TreeMenuClose" Command="{Binding TreeNodeCloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />-->
                                         </ContextMenu>
                                     </TreeView.ContextMenu>
                                     <i:Interaction.Triggers>

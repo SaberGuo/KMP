@@ -14,8 +14,14 @@ namespace Infranstructure.Commands
         static DelegateCommand _NewFileCommand;
         static DelegateCommand _SaveAsFileCommand;
         static DelegateCommand _ExitCommand;
+        static DelegateCommand _CloseCommand;
         static CompositeCommand _SaveAllFileCommand = new CompositeCommand();
 
+        public static DelegateCommand CloseCommand
+        {
+            get { return _CloseCommand; }
+            set { _CloseCommand = value; }
+        }
         public static DelegateCommand OpenFileCommand
         {
             get { return _OpenFileCommand; }
@@ -58,6 +64,12 @@ namespace Infranstructure.Commands
         {
             get { return FileCommands.OpenFileCommand; }
             set { FileCommands.OpenFileCommand = value; }
+        }
+
+        public virtual DelegateCommand CloseCommand
+        {
+            get { return FileCommands.CloseCommand; }
+            set { FileCommands.CloseCommand = value; }
         }
 
         public virtual DelegateCommand NewFileCommand

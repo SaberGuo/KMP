@@ -41,6 +41,7 @@ namespace ParamedModule.Container
             init();
             //this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
+        
         void init()
         {
             par.PedestalNumber = 3;

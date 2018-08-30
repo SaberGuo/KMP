@@ -117,7 +117,7 @@ namespace ParameterService
             if (projType != "")
             {
                 IParamedModule module = ServiceLocator.Current.GetInstance<IParamedModule>(projType);
-                module.DeSerialization(projPath);
+                module = module.DeSerialization(projPath);
                 module.ModelPath = System.IO.Path.GetDirectoryName(projPath);
                 return module;
             }

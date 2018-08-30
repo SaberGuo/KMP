@@ -12,6 +12,7 @@ namespace KMP.Interface
 {
   public  interface IParamedModule
     {
+
         ParameterBase Parameter { get; set; }
         string ModelPath { get; set; }
         string ProjectType { get; set; }
@@ -25,6 +26,10 @@ namespace KMP.Interface
         bool AddModule(IParamedModule pm);
         void CreateModule();
         bool CheckParamete();
+        void InitModule();
+
+
+
 
         event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,7 +38,7 @@ namespace KMP.Interface
         void GeneratorProgress(object sender, string info);
         void Serialization();
         void Serialization(string path);
-        void DeSerialization(string path);
+        IParamedModule DeSerialization(string path);
         int GetGeneratorCount();
     }
 }

@@ -16,7 +16,7 @@ namespace ParamedModule
 {
     [Export("WareHouseEnvironment", typeof(IParamedModule))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class WareHouseEnvironment:AssembleModuleBase,IProject
+    public class WareHouseEnvironment:AssembleModuleBase
     {
         public ParWareHouseEnvironment par = new ParWareHouseEnvironment();
         public ContainerSystem _container;
@@ -26,11 +26,14 @@ namespace ParamedModule
             this.Parameter = par;
             this.Name = "环境仓";
             this.ProjectType = "WareHouseEnvironment";
-          
-            //SubParamedModules.Add(_container);
-            //SubParamedModules.Add(_heatSink);
+            _container = new ContainerSystem();
+            _heatSink = new HeatSink();
+            SubParamedModules.Add(_container);
+            SubParamedModules.Add(_heatSink);
             par.OffSet = 0;
         }
+
+
         public override bool CheckParamete()
         {
             if (!_container.CheckParamete() ||(! _heatSink.CheckParamete()))
