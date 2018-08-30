@@ -43,14 +43,18 @@ namespace ParamedModule.Container
         }
         void init()
         {
+          
+            par.InDiameter.Value = 2800;
             par.PedestalNumber = 3;
             par.InRadius.Value = 1400;
             par.Thickness.Value = 24;
+            par.RailOffset = 50;
+            par.PlaneOffset = 50;
             this.Name = "容器系统";
         }
         public override bool CheckParamete()
         {
-         
+            par.InRadius.Value = par.InDiameter.Value/2;
             if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
                 (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()) || (!_plane.CheckParamete()))
                 return false;
@@ -125,8 +129,8 @@ namespace ParamedModule.Container
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[11], UsMM(_railSystem.par.HeightOffset));
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF1[0], UsMM(-_railSystem.par.Offset - _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, railSF2[10], UsMM(_railSystem.par.Offset - _railSystem.rail.par.UpBridgeWidth / 2));//导轨顶侧面
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, 0); //导轨横截面
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, 0);
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, UsMM(-par.RailOffset)); //导轨横截面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, UsMM(-par.RailOffset));
             #endregion
             #region
             oPos.SetToRotateTo(InventorTool.TranGeo.CreateVector(0, 0, 1), InventorTool.TranGeo.CreateVector(0, 1, 0));
@@ -144,8 +148,8 @@ namespace ParamedModule.Container
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.EndFace, UsMM(_plane.par.PlaneToCenterDistance));
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane1.SideFaces[1], UsMM(-_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
             Definition.Constraints.AddMateConstraint(cylinderAxisProxy, OccPlane2.SideFaces[3], UsMM(_plane._planeSup.par.Offset - _plane._plane.par.Width / 2));//导轨顶侧面
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2], 0); //导轨横截面
-            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane2.SideFaces[0], 0);
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane1.SideFaces[2], UsMM(-par.PlaneOffset)); //导轨横截面
+            Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, OccPlane2.SideFaces[0], UsMM(-par.PlaneOffset));
             #endregion
            // GeneratorProgress(this, "完成创建容器系统");
         }

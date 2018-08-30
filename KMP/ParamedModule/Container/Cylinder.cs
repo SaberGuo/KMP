@@ -46,10 +46,12 @@ namespace ParamedModule.Container
             par.CapRadius = 700;
 
             par.Length = 5000;
-            par.RibWidth = 4;
-            par.RibHeight = 4;
-            par.RibBraceHeight = 2;
+            par.RibWidth = 10;
+            par.RibHeight = 8;
+            // par.RibBraceHeight = 2;
+            par.RibTopThinkness = 2;
             par.RibBraceWidth = 2;
+            
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
             par.FlanchWidth = 40;
@@ -321,7 +323,7 @@ namespace ParamedModule.Container
                 SketchLine L;
                 CreateRib(osketch, out L);
                 osketch.GeometricConstraints.AddCollinear((SketchEntity)line, (SketchEntity)L);
-                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance * i + RibFirstDistance);
+                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance * i + RibFirstDistance-UsMM(par.RibWidth/2));
 
             }
         }
@@ -388,7 +390,7 @@ namespace ParamedModule.Container
 
             CreateTwoPointDistanceConstraint(osketch, L6.StartSketchPoint, L6.EndSketchPoint, UsMM(par.RibWidth));
             CreateTwoPointDistanceConstraint(osketch, L6.EndSketchPoint, L11.EndSketchPoint, UsMM(par.RibHeight));
-            CreateTwoPointDistanceConstraint(osketch, L3.StartSketchPoint, L3.EndSketchPoint, UsMM(par.RibBraceHeight));
+            CreateTwoPointDistanceConstraint(osketch, L1.StartSketchPoint, L1.EndSketchPoint, UsMM(par.RibTopThinkness));
             CreateTwoPointDistanceConstraint(osketch, L2.EndSketchPoint, L10.StartSketchPoint, UsMM(par.RibBraceWidth));
         }
         /// <summary>
@@ -1045,9 +1047,9 @@ namespace ParamedModule.Container
                 ParErrorChanged(this, "加强筋上下面宽度必须大于中部支柱宽度");
                 return false;
             }
-            if (par.RibHeight <= par.RibBraceHeight)
+            if (par.RibHeight <= par.RibTopThinkness*2)
             {
-                ParErrorChanged(this, "加强筋总高度必须大于中部支柱高度");
+                ParErrorChanged(this, "加强筋总高度必须大于加强筋两端厚度和");
                 return false;
             }
             for (int i = 0; i < par.ParHoles.Count; i++)

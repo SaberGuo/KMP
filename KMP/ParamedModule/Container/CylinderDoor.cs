@@ -36,6 +36,7 @@ namespace ParamedModule.Container
             par.DoorRadius = 700;
             par.FlanchWidth = 40;
             par.FlanchThinkness=30;
+            par.StraightLength = 25;
             ParCylinderHole hole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
@@ -136,7 +137,7 @@ namespace ParamedModule.Container
             Point2d p = InventorTool.TranGeo.CreatePoint2d((Line1.StartSketchPoint.Geometry.X + Line1.EndSketchPoint.Geometry.X) / 2 + 1, (Line1.StartSketchPoint.Geometry.Y + Line1.EndSketchPoint.Geometry.Y) / 2 + 1);
             osketch.DimensionConstraints.AddTwoPointDistance(Line1.StartSketchPoint, Line1.EndSketchPoint, DimensionOrientationEnum.kAlignedDim, p);
 
-            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, thickness, thickness);
+            SketchEntitiesEnumerator entities = InventorTool.CreateRangle(osketch, UsMM(par.StraightLength), thickness);
             SketchEntitiesEnumerator entities1 = InventorTool.CreateRangle(osketch, UsMM(par.FlanchThinkness), UsMM(par.FlanchWidth));
             List<SketchLine> lines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities.GetEnumerator());
             List<SketchLine> flanchLines = InventorTool.GetCollectionFromIEnumerator<SketchLine>(entities1.GetEnumerator());

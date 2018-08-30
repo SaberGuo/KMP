@@ -12,7 +12,7 @@ namespace KMP.Interface.Model.Container
     {
         double thickness;
         double width;
-
+        double length;
         double holeRadius;
         double holeCenterDistance;
         double holeSideEdgeDistance;
@@ -37,10 +37,25 @@ namespace KMP.Interface.Model.Container
             }
         }
         /// <summary>
-        /// 宽度
+        /// 长度
         /// </summary>
         /// 
-        [DisplayName("宽度（L1）")]
+        [DisplayName("长度（L1）")]
+        [Description("导轨-下底板")]
+        public double Length
+        {
+            get
+            {
+                return length;
+            }
+
+            set
+            {
+                length = value;
+                this.RaisePropertyChanged(() => this.Length);
+            }
+        }
+        [DisplayName("宽度（W1）")]
         [Description("导轨-下底板")]
         public double Width
         {

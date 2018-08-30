@@ -95,6 +95,10 @@ namespace KMP.Interface.Model.Container
         [DisplayName("大门法兰厚度（T2）")]
         [Description("容器大门")]
         public double FlanchThinkness { get; set; }
+        [Category("容器大门")]
+        [DisplayName("直筒段长度（T3）")]
+        [Description("容器大门")]
+        public double StraightLength { get; set; }
         [Category("开孔")]
         [DisplayName("大门轴向孔")]
         [Description("容器-后封头轴向孔")]

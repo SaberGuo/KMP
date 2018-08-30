@@ -24,13 +24,13 @@ namespace ParamedModule.Container
         public PlaneSystem(PassedParameter InRadius) :base()
         {
            this.Parameter = par;
-            this.Name = "容器平台";
+            this.Name = "人行踏板 ";
             this.par.CylinderInRadius = InRadius;
             _planeSup = new PlaneSupport(InRadius);
             _plane = new PlaneTopPlate();
             this.SubParamedModules.AddModule(_plane);
             this.SubParamedModules.AddModule(_planeSup);
-            _planeSup.Name = "平台支架";
+            _planeSup.Name = "踏板支架";
           
             init();
         }

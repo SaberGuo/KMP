@@ -17,6 +17,7 @@ namespace ParamedModule.HeatSinkSystem
         [XmlElement]
       public  ParHeatSink par = new ParHeatSink();
         public Cap _cap;
+        public FrontCap _frontCap;
         public Noumenon _nomenon;
         [ImportingConstructor]
         public HeatSink():base()
@@ -25,13 +26,15 @@ namespace ParamedModule.HeatSinkSystem
             this.Name = "热沉系统";
             this.ProjectType = "HeaterSystem";
             _cap = new Cap(par.InDiameter,par.Thickness);
+            _frontCap = new FrontCap(par.InDiameter, par.Thickness);
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
             SubParamedModules.Add(_cap);
+            SubParamedModules.Add(_frontCap);
             SubParamedModules.Add(_nomenon);
         }
         public override bool CheckParamete()
         {
-            if (!_cap.CheckParamete() || (!_nomenon.CheckParamete()))
+            if (!_cap.CheckParamete()||(!_frontCap.CheckParamete()) || (!_nomenon.CheckParamete()))
                 return false;
             return true;
         }
@@ -40,10 +43,11 @@ namespace ParamedModule.HeatSinkSystem
         public override void CreateSub()
         {
             _cap.CreateModule();
+            _frontCap.CreateModule();
             _nomenon.CreateModule();
             ComponentOccurrence COnomenon = LoadOccurrence((ComponentDefinition)_nomenon.Doc.ComponentDefinition);
             ComponentOccurrence COcap1 = LoadOccurrence((ComponentDefinition)_cap.Doc.ComponentDefinition);
-            ComponentOccurrence COcap2 = LoadOccurrence((ComponentDefinition)_cap.Doc.ComponentDefinition);
+            ComponentOccurrence COcap2 = LoadOccurrence((ComponentDefinition)_frontCap.Doc.ComponentDefinition);
             List<iMateDefinition> NomenoniMates = InventorTool.GetCollectionFromIEnumerator<iMateDefinition>(COnomenon.iMateDefinitions.GetEnumerator());
             iMateDefinition nomenonAxis = NomenoniMates.Where(a => a.Name == "Axis").FirstOrDefault();
             iMateDefinition StartFace = NomenoniMates.Where(a => a.Name == "StartFace").FirstOrDefault();

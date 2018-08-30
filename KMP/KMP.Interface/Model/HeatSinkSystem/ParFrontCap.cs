@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-   public class ParCap:ParameterBase
+   public class ParFrontCap : ParameterBase
     {
         #region
         PassedParameter inDiameter ;
@@ -120,6 +120,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotOffset = value;
             }
         }
+        [Category("槽")]
+        [DisplayName("内环槽直径")]
+        [Description("热沉盖-槽")]
+        public double InSlotDiameter { get; set; }
         #endregion
         #region 管道
         double pipeAngle;

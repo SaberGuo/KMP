@@ -24,7 +24,7 @@ namespace ParamedModule.HeatSinkSystem
         public Noumenon(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;
-            this.Name = "热沉罐";
+            this.Name = "筒体热沉";
             par.InDiameter = inDiameter;
             par.Thickness = thickness;
             init();
@@ -45,14 +45,15 @@ namespace ParamedModule.HeatSinkSystem
             par.PipeSurThickness = 2;
             par.PipeSurDiameter = 10;
             par.PipeSurNum = 10;
-            par.TBrachHeight = 8;
-            par.TBrachWidth = 5;
-            par.TTopHeight = 3;
-            par.TTopWidth = 12;
+            par.TBrachHeight = 50;
+            par.TBrachWidth = 15;
+            par.TTopHeight = 10;
+            par.TTopWidth = 30;
             par.THoopOffset = 100;
             par.THoopNumber = 5;
             par.EndLongAngle = 30;
             par.EndLongNumber = 4;
+            par.TAndCYDiatance = 20;
         }
         public override void DisPose()
         {
@@ -88,6 +89,11 @@ namespace ParamedModule.HeatSinkSystem
                 ParErrorChanged(this, "管长度放不下"+par.PipeSurNum+"个支架！");
                 return false;
             }
+             if(par.TBrachHeight<=par.TTopHeight)
+            {
+                ParErrorChanged(this, "T字钢支撑高度不能小于T字钢顶部厚度！");
+                return false;
+            }
             
             return true;
         }
@@ -111,7 +117,7 @@ namespace ParamedModule.HeatSinkSystem
 
             RevolveFeature Hoop = CreateHoop(CSideFace[1], axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth), UsMM(par.TTopHeight), UsMM(par.THoopOffset), par.THoopNumber, UsMM(par.Length));
             double endloopLength = UsMM(par.Length - par.THoopOffset * 2) / (par.THoopNumber - 1) - UsMM(par.TBrachWidth);
-            ExtrudeFeature endLong = CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight), UsMM(par.TTopWidth),
+            ExtrudeFeature endLong = CreateEndLong(Hoop, outCircle, axis, UsMM(par.TBrachWidth), UsMM(par.TBrachHeight-par.TTopHeight), UsMM(par.TTopWidth),
                 UsMM(par.TTopHeight), par.EndLongAngle, UsMM(par.InDiameter.Value / 2 + par.Thickness.Value), endloopLength);
             CreateEndLondMirror(endLong, axis, UsMM(par.TBrachWidth), par.EndLongNumber, par.THoopNumber, endloopLength);
 
@@ -292,13 +298,15 @@ namespace ParamedModule.HeatSinkSystem
             SketchLine line2 = (SketchLine)osketch.AddByProjectingEntity(edges[1]);
             SketchLine line3 = osketch.SketchLines.AddByTwoPoints(line1.StartSketchPoint, line2.StartSketchPoint);
           List<SketchLine> lines=  CreateTSteel(osketch, braceWidth, braceHeight, topWidth, topHeight);
-            osketch.GeometricConstraints.AddCollinear((SketchEntity)line3, (SketchEntity)lines[2]);
+            // osketch.GeometricConstraints.AddCollinear((SketchEntity)line3, (SketchEntity)lines[2]);
+          
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             foreach (var item in lines)
             {
                 objc.Add(item);
             }
             osketch.MoveSketchObjects(objc, InventorTool.TranGeo.CreateVector2d(-100, -100));
+            InventorTool.AddTwoPointDistance(osketch, lines[2].StartSketchPoint, line3.EndSketchPoint, 0, DimensionOrientationEnum.kVerticalDim).Parameter.Value = UsMM(par.TAndCYDiatance);
             InventorTool.AddTwoPointDistance(osketch, line3.EndSketchPoint, lines[2].StartSketchPoint, 0, DimensionOrientationEnum.kHorizontalDim).Parameter.Value = TOffset;
             Profile pro = osketch.Profiles.AddForSolid();
             RevolveFeature T = Definition.Features.RevolveFeatures.AddFull(pro, axis, PartFeatureOperationEnum.kNewBodyOperation);
@@ -339,18 +347,20 @@ namespace ParamedModule.HeatSinkSystem
             PlanarSketch osketch = Definition.Sketches.Add(HoopFaces[2]);
             SketchCircle outCircle = (SketchCircle)osketch.AddByProjectingEntity(COutCircle);
             outCircle.Construction = true;
+            SketchCircle BigCir = osketch.SketchCircles.AddByCenterRadius(outCircle.CenterSketchPoint, outCircle.Radius + UsMM(par.TAndCYDiatance));
+            BigCir.Construction = true;
            List<SketchLine> lines= CreateTSteel(osketch, braceWidth, braceHeight, topWidth, topHeight);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             foreach (var item in lines)
             {
                 objc.Add(item);
             }
-            Point2d p1 = InventorTool.CreatePoint2d(topWidth / 2, CRadius);
+            Point2d p1 = InventorTool.CreatePoint2d(topWidth / 2, CRadius+UsMM(par.TAndCYDiatance));
             Point2d p2 = lines[4].EndSketchPoint.Geometry;
            // Vector2d V = InventorTool.TranGeo.CreateVector2d(p1.X - p2.X, p1.Y - p2.Y);
             // osketch.MoveSketchObjects(objc,V);
             lines[4].EndSketchPoint.MoveTo(p1);
-             osketch.GeometricConstraints.AddTangent((SketchEntity)outCircle, (SketchEntity)lines[4]);
+             osketch.GeometricConstraints.AddTangent((SketchEntity)BigCir, (SketchEntity)lines[4]);
             osketch.RotateSketchObjects(objc, outCircle.CenterSketchPoint.Geometry, Angle/180*Math.PI-Math.PI/2);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);

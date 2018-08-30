@@ -32,10 +32,10 @@ namespace ParamedModule.Container
             brace = new RailSupportBrace();
             baseBoard = new RailSupportbaseBoard();
             SubParamedModules.AddModule(topBoard);
-            SubParamedModules.AddModule(sidePlate);
-            SubParamedModules.AddModule(centerBoard);
             SubParamedModules.AddModule(brace);
+            SubParamedModules.AddModule(centerBoard);
             SubParamedModules.AddModule(baseBoard);
+            SubParamedModules.AddModule(sidePlate);
 
             this.Name = "导轨支架";
         }
@@ -68,9 +68,9 @@ namespace ParamedModule.Container
             List<Face> topBoardSF = GetSideFaces(COtopBoard, "TopBoard");
             List<WorkAxis> braceAxises = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)CObrace.Definition).WorkAxes.GetEnumerator());
             WorkAxis braceAxis = braceAxises.Where(a => a.Name == "BraceAxis").FirstOrDefault();
-            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE",UsMM( -centerBoard.par.Width)*10 / 2);
+            SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[0], "mateE",UsMM( -centerBoard.par.Length)*10 / 2);
             SetMateiMate(CObrace, braceAxis, COcenterBoad, centerBoardSF[1], "mateF", UsMM(-centerBoard.par.Width) * 10 / 2);
-            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[0], "mateG", UsMM(-topBoard.par.Width) * 10 / 2);
+            SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[0], "mateG", UsMM(-topBoard.par.Length) * 10 / 2);
             SetMateiMate(CObrace, braceAxis, COtopBoard, topBoardSF[1], "mateH", UsMM(-topBoard.par.Width) * 10 / 2);
             SetFlushiMate(CObaseBoad, baseBoardSideFaces[0], COsidePlate, sidePlateSideFaces[0], "flushA", -UsMM(baseBoard.par.Length - sidePlate.par.Length) * 10 / 2);
             SetFlushiMate(COcenterBoad, centerBoardSF[3], CObaseBoad, baseBoardSideFaces[0], "flushD", -UsMM(baseBoard.par.Length - centerBoard.par.Width) * 10 / 2);

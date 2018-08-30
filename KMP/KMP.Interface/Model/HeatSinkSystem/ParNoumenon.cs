@@ -245,6 +245,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double tHoopOffset;
         int tHoopNumber;
         double endLongAngle;
+        double tAndCYDiatance;
         int endLongNumber;
         [Category("骨架")]
         [DisplayName("T字钢支撑高度（H2）")]
@@ -292,7 +293,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢顶部高度（H1）")]
+        [DisplayName("T字钢顶部厚度（H1）")]
         [Description("热沉罐-T字钢")]
         public double TTopHeight
         {
@@ -307,7 +308,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢与罐口距离（L1）")]
+        [DisplayName("环梁T字钢与两侧胀板距离（L1）")]
         [Description("热沉罐-T字钢")]
         public double THoopOffset
         {
@@ -322,7 +323,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("骨架")]
-        [DisplayName("T字钢箍数量")]
+        [DisplayName("环梁T字钢数量")]
         [Description("热沉罐-T字钢")]
         public int THoopNumber
         {
@@ -366,7 +367,22 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 endLongNumber = value;
             }
         }
+        [Category("骨架")]
+        [DisplayName("T字钢到罐体距离")]
+        [Description("热沉罐-纵梁")]
+        public double TAndCYDiatance
+        {
+            get
+            {
+                return tAndCYDiatance;
+            }
+
+            set
+            {
+                tAndCYDiatance = value;
+            }
+        }
         #endregion
-     
+
     }
 }
