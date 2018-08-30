@@ -71,7 +71,7 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
             #region 堵头顶孔
-            ParCylinderHole CapHole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
+            ParTopHole CapHole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.CapTopHole = CapHole;
@@ -82,8 +82,8 @@ namespace ParamedModule.Container
             //  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             // ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
             //  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole4 = new ParCylinderHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole5 = new ParCylinderHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole4 = new ParSideHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             //   ParSideHole.ParFlanch = sideFlanch;
             //  ParSideHole1.ParFlanch = sideFlanch;
             //   ParSideHole2.ParFlanch = sideFlanch;
@@ -887,7 +887,7 @@ namespace ParamedModule.Container
         /// <param name="DistanceFace">堵头底部平面</param>
         /// <param name="axis">堵头轴线</param>
         /// <param name="parHole">孔参数</param>
-        private void CreateCapSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole)
+        private void CreateCapSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParSideHole parHole)
         {
             #region
             double x, y;
@@ -946,7 +946,7 @@ namespace ParamedModule.Container
         /// <param name="plane">孔平面</param>
         /// <param name="holeCenter">孔中心点</param>
         /// <param name="parHole">孔参数</param>
-        private void CreateCapSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParCylinderHole parHole)
+        private void CreateCapSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParSideHole parHole)
         {
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             osketch.Visible = false;

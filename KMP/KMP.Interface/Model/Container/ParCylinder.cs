@@ -259,8 +259,8 @@ namespace KMP.Interface.Model.Container
         //}
         #endregion
         #region 开孔
-        ParCylinderHole capTopHole = new ParCylinderHole();
-        ObservableCollection<ParCylinderHole> capSideHoles = new ObservableCollection<ParCylinderHole>();
+        ParTopHole capTopHole = new ParTopHole();
+        ObservableCollection<ParSideHole> capSideHoles = new ObservableCollection<ParSideHole>();
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
 
         [Category("开孔")]
@@ -287,7 +287,7 @@ namespace KMP.Interface.Model.Container
         [DisplayName("后封头轴向孔")]
         [Description("容器-后封头轴向孔")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ParCylinderHole CapTopHole
+        public ParTopHole CapTopHole
         {
             get
             {
@@ -307,7 +307,7 @@ namespace KMP.Interface.Model.Container
         [Category("开孔")]
         [DisplayName("后封头侧孔")]
         [Description("容器-后封头侧孔")]   
-        public ObservableCollection<ParCylinderHole> CapSideHoles
+        public ObservableCollection<ParSideHole> CapSideHoles
         {
             get
             {

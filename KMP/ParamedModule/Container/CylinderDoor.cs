@@ -37,7 +37,7 @@ namespace ParamedModule.Container
             par.FlanchWidth = 40;
             par.FlanchThinkness=30;
             par.StraightLength = 25;
-            ParCylinderHole hole = new ParCylinderHole() {  PipeLenght = 300, PipeThickness = 4 };
+            ParTopHole hole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.TopHole = hole;
@@ -45,9 +45,9 @@ namespace ParamedModule.Container
             // ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300,PipeThickness=10 ,PipeLenght=200};
             // ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             //  ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
-            ParCylinderHole ParSideHole3 = new ParCylinderHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole4 = new ParCylinderHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParCylinderHole ParSideHole5 = new ParCylinderHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole3 = new ParSideHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole4 = new ParSideHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             // ParSideHole.ParFlanch = sideFlanch;
             // ParSideHole1.ParFlanch = sideFlanch;
             //  ParSideHole2.ParFlanch = sideFlanch;
@@ -354,7 +354,7 @@ namespace ParamedModule.Container
             }
         }
 
-        private void CreateSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParCylinderHole parHole)
+        private void CreateSideHole(WorkPlane plane, Face DistanceFace, WorkAxis axis, ParSideHole parHole)
         {
             #region
             double x, y;
@@ -407,7 +407,7 @@ namespace ParamedModule.Container
             //  PlanarSketch pipeSketch = Definition.Sketches.AddWithOrientation(pipePlane, positionLine, true, false, holeCenter, true);
             //  CreateSideHolePipe(pipeSketch, edges[1]);
         }
-        private void CreateSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParCylinderHole parHole)
+        private void CreateSideHolePipe(WorkPlane plane, SketchPoint holeCenter, ParSideHole parHole)
         {
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             osketch.Visible = false;
