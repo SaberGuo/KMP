@@ -9,7 +9,7 @@ using Inventor;
 using KMP.Interface;
 using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
-
+using KMP.Interface.Model;
 namespace ParamedModule.Container
 {
     [Export("Cylinder", typeof(IParamedModule))]
@@ -62,6 +62,7 @@ namespace ParamedModule.Container
             par.FlanchWidth = 40;
             par.FlanchThinckness = 40;
             par.CapLineLength = 10;
+            #region 罐体孔
             ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
             ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
             ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
@@ -75,12 +76,15 @@ namespace ParamedModule.Container
             par.ParHoles.Add(hole1);
             par.ParHoles.Add(hole2);
             par.ParHoles.Add(hole3);
+            #endregion
             #region 堵头顶孔
             ParTopHole CapHole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
-            par.CapTopHole = CapHole;
-            par.CapTopHole.ParFlanch = flanch;
+          //  par.CapTopHole = CapHole;
+            CapHole.ParFlanch = flanch;
+           // par.CapTopHole.ParFlanch = flanch;
+            par.TopHoles.Add(CapHole);
             #endregion
             #region 堵头侧孔
             //  ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
@@ -137,7 +141,7 @@ namespace ParamedModule.Container
             ClearResidue(sideFaces[3], UsMM(par.Length));
             #endregion
             #region 堵头顶孔
-            CreteTopHole(cap, sideFaces[1], Arc1);
+            CreateTopHoles(cap, sideFaces[1], Arc1);
            
             #endregion
             #region 创建堵头侧孔
@@ -155,39 +159,7 @@ namespace ParamedModule.Container
             CreateCapClear(Arc1);
             #endregion
         }
-        /// <summary>
-        /// 创建顶孔
-        /// </summary>
-        /// <param name="cap">罐顶头特性</param>
-        /// <param name="OutFace">罐体横截面</param>
-        private void CreteTopHole(RevolveFeature cap, Face OutFace, SketchEllipticalArc Arc1)
-        {
-            WorkPlane topHolePlane;
-            SketchCircle CapTopInCircle;
-            CreateTopHole(cap, OutFace, UsMM(par.CapRadius), UsMM(par.Thickness.Value), UsMM(par.CapTopHole.ParFlanch.D6/2), out topHolePlane, out CapTopInCircle,UsMM(par.CapTopHole.PositionDistance),UsMM(par.CapTopHole.HoleOffset));
-            double length;
-            if(par.CapTopHole.HoleOffset==0)
-            {
-                length = par.CapTopHole.PositionDistance;
-            }
-            else if(par.CapTopHole.PositionDistance==0)
-            {
-                length = par.CapTopHole.HoleOffset;
-            }
-            else
-            {
-                length = Math.Pow(Math.Pow(par.CapTopHole.PositionDistance, 2) + Math.Pow(par.CapTopHole.HoleOffset, 2), 0.5);
-            }
-            double Height =par.CapRadius- Math.Pow ((1 - Math.Pow(length, 2) / Math.Pow(par.InRadius.Value, 2))* Math.Pow(par.CapRadius, 2),0.5);
-            //double Height = length /(par.InRadius.Value / par.CapRadius);
-           
-            ExtrudeFeature TopPipe = CreateTopHolePipe(topHolePlane, CapTopInCircle, UsMM(par.CapTopHole.PipeLenght), UsMM(par.CapTopHole.PipeThickness),UsMM(Height), Arc1);
-            Face topPipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopPipe.EndFaces.GetEnumerator());
-            ExtrudeFeature TopFlance = CreateTopFlance(topPipeEndFace, CapTopInCircle, UsMM(par.CapTopHole.ParFlanch.D1 / 2), UsMM(par.CapTopHole.ParFlanch.H));
-            Face topFlanceEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopFlance.EndFaces.GetEnumerator());
-            CreateFlanceGroove(topFlanceEndFace, CapTopInCircle, UsMM(par.CapTopHole.ParFlanch.D2 / 2));
-            CreateFlanceScrew(topFlanceEndFace, CapTopInCircle, par.CapTopHole.ParFlanch.N, UsMM(par.CapTopHole.ParFlanch.C / 2), UsMM(par.CapTopHole.ParFlanch.D0 / 2), UsMM(par.CapTopHole.ParFlanch.H / 2));
-        }
+      
         #region 创建本体
         /// <summary>
         /// 创建罐本体和加强筋
@@ -728,6 +700,51 @@ namespace ParamedModule.Container
         }
         #endregion
         #region 顶部开孔
+        private void CreateTopHoles(RevolveFeature cap, Face OutFace, SketchEllipticalArc Arc1)
+        {
+            WorkPlane topHolePlane;
+            List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.Faces.GetEnumerator());
+            Face capPlane = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
+            Edge capEdge = InventorTool.GetFirstFromIEnumerator<Edge>(capPlane.Edges.GetEnumerator());
+            topHolePlane = Definition.WorkPlanes.AddByPlaneAndOffset(capPlane, -UsMM(par.CapRadius+par.Thickness.Value), true);
+            foreach (var item in par.TopHoles)
+            {
+                CreteTopHole(topHolePlane, capEdge, item, Arc1);
+            }
+        }
+        /// <summary>
+        /// 创建顶孔
+        /// </summary>
+        /// <param name="cap">罐顶头特性</param>
+        /// <param name="OutFace">罐体横截面</param>
+        private void CreteTopHole( WorkPlane topHolePlane,Edge capEdge,ParTopHole ParHole, SketchEllipticalArc Arc1)
+        {
+            
+            SketchCircle CapTopInCircle;
+            CreateTopHole( UsMM(ParHole.ParFlanch.D6 / 2),  topHolePlane, capEdge, out CapTopInCircle, UsMM(ParHole.PositionDistance), UsMM(ParHole.HoleOffset));
+            double length;
+            if (ParHole.HoleOffset == 0)
+            {
+                length = ParHole.PositionDistance;
+            }
+            else if (ParHole.PositionDistance == 0)
+            {
+                length = ParHole.HoleOffset;
+            }
+            else
+            {
+                length = Math.Pow(Math.Pow(ParHole.PositionDistance, 2) + Math.Pow(ParHole.HoleOffset, 2), 0.5);
+            }
+            double Height = par.CapRadius - Math.Pow((1 - Math.Pow(length, 2) / Math.Pow(par.InRadius.Value, 2)) * Math.Pow(par.CapRadius, 2), 0.5);
+            //double Height = length /(par.InRadius.Value / par.CapRadius);
+
+            ExtrudeFeature TopPipe = CreateTopHolePipe(topHolePlane, CapTopInCircle, UsMM(ParHole.PipeLenght), UsMM(ParHole.PipeThickness), UsMM(Height), Arc1);
+            Face topPipeEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopPipe.EndFaces.GetEnumerator());
+            ExtrudeFeature TopFlance = CreateTopFlance(topPipeEndFace, CapTopInCircle, UsMM(ParHole.ParFlanch.D1 / 2), UsMM(ParHole.ParFlanch.H));
+            Face topFlanceEndFace = InventorTool.GetFirstFromIEnumerator<Face>(TopFlance.EndFaces.GetEnumerator());
+            CreateFlanceGroove(topFlanceEndFace, CapTopInCircle, UsMM(ParHole.ParFlanch.D2 / 2));
+            CreateFlanceScrew(topFlanceEndFace, CapTopInCircle, ParHole.ParFlanch.N, UsMM(ParHole.ParFlanch.C / 2), UsMM(ParHole.ParFlanch.D0 / 2), UsMM(ParHole.ParFlanch.H / 2));
+        }
         /// <summary>
         /// 顶部开孔
         /// </summary>
@@ -738,12 +755,12 @@ namespace ParamedModule.Container
         /// <param name="holeRadius">孔半径</param>
         /// <param name="topHolePlane">孔平面</param>
         /// <param name="topSketchCircle">罐口界面圆草图</param>
-        private void CreateTopHole(RevolveFeature cap, Face outFace, double capRadius, double thickness, double holeRadius, out WorkPlane topHolePlane, out SketchCircle topSketchCircle,double positionX,double positionY)
+        private void CreateTopHole(   double holeRadius,  WorkPlane topHolePlane,Edge capEdge, out SketchCircle topSketchCircle,double positionX,double positionY)
         {
-            List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.Faces.GetEnumerator());
-            Face capPlane = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
-            Edge capEdge = InventorTool.GetFirstFromIEnumerator<Edge>(capPlane.Edges.GetEnumerator());
-            topHolePlane = Definition.WorkPlanes.AddByPlaneAndOffset(capPlane, -capRadius - thickness, true);
+            //List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(cap.Faces.GetEnumerator());
+            //Face capPlane = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
+            //Edge capEdge = InventorTool.GetFirstFromIEnumerator<Edge>(capPlane.Edges.GetEnumerator());
+            //topHolePlane = Definition.WorkPlanes.AddByPlaneAndOffset(capPlane, -capRadius - thickness, true);
             PlanarSketch osketch = Definition.Sketches.Add(topHolePlane);
             SketchCircle circle = (SketchCircle)osketch.AddByProjectingEntity(capEdge);
             circle.Construction = true;
@@ -1091,36 +1108,6 @@ namespace ParamedModule.Container
             }
             return true;
         }
-        ///// <summary>
-        ///// 创建两条线关联
-        ///// </summary>
-        ///// <param name="osketch"></param>
-        ///// <param name="line1">开始点</param>
-        ///// <param name="line2">结束点</param>
-        //void CreateTwoPointCoinCident(PlanarSketch osketch,SketchLine line1,SketchLine line2)
-        //{
-        //    if(line1.StartSketchPoint.Geometry.X==line2.StartSketchPoint.Geometry.X&& line1.StartSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
-        //    {
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
-        //    }
-        //    else if(line1.EndSketchPoint.Geometry.X == line2.StartSketchPoint.Geometry.X && line1.EndSketchPoint.Geometry.Y == line2.StartSketchPoint.Geometry.Y)
-        //    {
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.StartSketchPoint);
-        //    }
-        //    else if(line1.StartSketchPoint.Geometry.X == line2.EndSketchPoint.Geometry.X && line1.StartSketchPoint.Geometry.Y == line2.EndSketchPoint.Geometry.Y)
-        //    {
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.StartSketchPoint, (SketchEntity)line2);
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
-        //    }
-        //    else
-        //    {
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1.EndSketchPoint, (SketchEntity)line2);
-        //        osketch.GeometricConstraints.AddCoincident((SketchEntity)line1, (SketchEntity)line2.EndSketchPoint);
-        //    }
-
-
-        //}
+      
     }
 }
