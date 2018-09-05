@@ -101,6 +101,12 @@ namespace KMP.Interface.Model.Container
         [DisplayName("导轨距罐口距离")]
         [Description("容器系统")]
         public double RailOffset { get; set; }
+        [DisplayName("首个容器底座到罐口距离")]
+        [Description("容器系统")]
+        public double PedestalFirstOffset { get; set; }
+        [DisplayName("容器底座间隔")]
+        [Description("容器系统")]
+        public double PedestalSpace { get; set; }
 
      
     }

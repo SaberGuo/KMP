@@ -140,6 +140,7 @@ namespace KMP.Interface.Model.Container
         double ribHeight;
         double ribFirstDistance;
         double ribBraceWidth;
+        double ribSpace;
        // double ribBraceHeight;
 
         [Category("加强筋")]
@@ -241,6 +242,21 @@ namespace KMP.Interface.Model.Container
         [DisplayName("加强筋顶板厚度（T3）")]
         [Description("容器系统")]
         public double RibTopThinkness { get; set;}
+        [Category("加强筋")]
+        [DisplayName("加强筋间距")]
+        [Description("容器系统")]
+        public double RibSpace
+        {
+            get
+            {
+                return ribSpace;
+            }
+
+            set
+            {
+                ribSpace = value;
+            }
+        }
         //[Category("加强筋")]
         //[DisplayName("腹板高度（H3）")]
         //[Description("容器系统")]
@@ -321,6 +337,8 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.CapSideHoles);
             }
         }
+
+      
         #endregion
     }
 }

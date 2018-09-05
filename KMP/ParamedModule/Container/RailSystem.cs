@@ -46,11 +46,13 @@ namespace ParamedModule.Container
         }
         void init()
         {
-            par.SupportNum = 3;
+            par.SupportNum = 5;
            
             par.Offset = 400;
             par.RailToCenterDistance = 845;
-            if(par.CylinderInRadius!=null)
+            par.SurFirstOffset = 300;
+           
+          //  if(par.CylinderInRadius!=null)
            
           //  par.RailTotalHeight = 555;
             par.HeightOffset = 1;
@@ -111,8 +113,8 @@ namespace ParamedModule.Container
             ExtrudeFeature railFeature = GetFeature<ExtrudeFeature>(CORail, "Rail", ObjectTypeEnum.kExtrudeFeatureObject);
             Face railEndFace = InventorTool.GetFirstFromIEnumerator<Face>(railFeature.EndFaces.GetEnumerator());
             if (railSideFaces == null) return;
-            double interval = UsMM(rail.par.RailLength) / par.SupportNum;
-            double offset = rail.par.DownBridgeWidth - support.topBoard.par.Width;
+            double interval = (rail.par.RailLength-par.SurFirstOffset*2) /( par.SupportNum-1);
+          //  double offset = rail.par.DownBridgeWidth - support.topBoard.par.Width;
             for (int i = 0; i < par.SupportNum; i++)
             {
                 ComponentOccurrence COSupport = LoadOccurrence((ComponentDefinition)support.Doc.ComponentDefinition);
@@ -125,7 +127,7 @@ namespace ParamedModule.Container
                 object railSideproxy;
                 CORail.CreateGeometryProxy(railEndFace, out railSideproxy);
                 Definition.Constraints.AddMateConstraint(railSideFaces[5], supportTopFace, 0);
-                Definition.Constraints.AddFlushConstraint(supportSF[0], railSideproxy, i * interval + interval / 2);
+                Definition.Constraints.AddFlushConstraint(supportSF[0], railSideproxy,  UsMM(i* interval + par.SurFirstOffset-support.topBoard.par.Length/2));
                 Definition.Constraints.AddFlushConstraint(supportSF[1], railSideFaces[6], 0);
              
 

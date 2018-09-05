@@ -50,6 +50,7 @@ namespace ParamedModule.Container
             par.CapRadius = 700;
 
             par.Length = 5000;
+            par.RibSpace = 1000;
             par.RibWidth = 10;
             par.RibHeight = 8;
             // par.RibBraceHeight = 2;
@@ -321,13 +322,13 @@ namespace ParamedModule.Container
         /// <param name="line"></param>
         private void CreateRibs(PlanarSketch osketch, SketchLine line, double length, double RibFirstDistance)
         {
-            double distance = (length - RibFirstDistance) / par.RibNumber;
+            //double distance = (length - RibFirstDistance) / par.RibNumber;
             for (int i = 0; i < par.RibNumber; i++)
             {
                 SketchLine L;
                 CreateRib(osketch, out L);
                 osketch.GeometricConstraints.AddCollinear((SketchEntity)line, (SketchEntity)L);
-                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, distance * i + RibFirstDistance-UsMM(par.RibWidth/2));
+                CreateTwoPointDistanceConstraint(osketch, line.EndSketchPoint, L.EndSketchPoint, UsMM(par.RibSpace) * i + RibFirstDistance-UsMM(par.RibWidth/2));
 
             }
         }
