@@ -28,7 +28,7 @@ namespace ParamedModule.HeatSinkSystem
         public FrontCap(PassedParameter inDiameter, PassedParameter thickness) : base()
         {
             this.Parameter = par;
-            this.Name = "尾部热沉";
+            this.Name = "端部热沉";
             this.ProjectType = "Cap";
             par.InDiameter = inDiameter;
             par.Thickness = thickness;

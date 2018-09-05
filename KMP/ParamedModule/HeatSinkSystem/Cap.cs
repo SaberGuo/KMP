@@ -64,6 +64,19 @@ namespace ParamedModule.HeatSinkSystem
             par.PlugLenght=100;
             par.PlugHoleDiameter = 30;
             par.PlugHoleDistance = 30;
+
+            par.LiqPipeTurnDiameter = 114;
+            par.LiqPipeThickness = 2.5;
+            par.LiqPipeInDiameter = 40;
+            par.LiqPipeIsCreate = true;
+            par.LiqPipeDirection = true;
+            par.LiqPipeHeight = 143;
+            par.LiqPipeLength2.Add(286);
+            par.LiqPipeLength2.Add(286);
+            par.LiqPipeLength2.Add(200);
+            par.LiqPipeLength2.Add(600);
+            par.LiqPipeLength1.Add(486);
+            par.LiqPipeLength1.Add(943);
         }
         public override bool CheckParamete()
         {
@@ -138,9 +151,12 @@ namespace ParamedModule.HeatSinkSystem
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
             CreateTitle(SlotOutFace, CapCircle, Axis, UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
             CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight), UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
-         
+            if(par.LiqPipeIsCreate)
+            {
+                CreateLiquidPipe(capStartFace, CapCircle,true);
+            }
         }
-        #region 创建槽
+        #region 创建槽钢
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[1]);
@@ -258,7 +274,7 @@ namespace ParamedModule.HeatSinkSystem
             return lines;
         }
         #endregion
-        #region 创建管
+        #region 创建汇总管
         /// <summary>
         /// 创建管道
         /// </summary>
@@ -372,7 +388,7 @@ namespace ParamedModule.HeatSinkSystem
             #endregion
         }
         #endregion
-        #region 创建两头
+        #region 创建连接板和上吊板
         void CreateTitle(Face surFace, SketchCircle BigCircle,WorkAxis Axis, double width, double height, double offset, double length)
         {
             Point p = InventorTool.TranGeo.CreatePoint(0, 10, 0);
@@ -419,6 +435,192 @@ namespace ParamedModule.HeatSinkSystem
             //{
             //    Definition.iMateDefinitions.AddMateiMateDefinition(lines[i], 0).Name = "b" + i;
             //}
+        }
+        #endregion
+        #region 创建进出液管
+        private void  CreateLiquidPipe(Face EF,SketchCircle CapCir,bool direct)
+        {
+            WorkPlane plane = Definition.WorkPlanes.AddByPlaneAndOffset(EF, UsMM(par.PipeXOffset),true);
+            SketchPoint EndPoint1, EndPoint2;
+          SweepFeature sweep1=  CreateVerticalLiqPipe(CapCir, true, plane,out EndPoint1);
+            SweepFeature sweep2 = CreateVerticalLiqPipe(CapCir, false, plane,out EndPoint2);
+            Face EF1 = InventorTool.GetFirstFromIEnumerator<Face>(sweep1.EndFaces.GetEnumerator());
+            Face EF2 = InventorTool.GetFirstFromIEnumerator<Face>(sweep2.EndFaces.GetEnumerator());
+            WorkPlane plane2 = Definition.WorkPlanes.AddByPlaneAndOffset(plane, UsMM(par.LiqPipeHeight + par.LiqPipeTurnDiameter / 2),true);
+            CreateLiqPipe1(EF1, plane2,CapCir, EndPoint1,par.LiqPipeDirection);
+            CreateLiqPipe2(EF2, plane2, CapCir, EndPoint2, par.LiqPipeDirection);
+        }
+
+        private SweepFeature CreateVerticalLiqPipe(SketchCircle CapCir, bool direct, WorkPlane plane,out SketchPoint endPoint)
+        {
+            PlanarSketch osketch = Definition.Sketches.AddWithOrientation(plane, Definition.WorkAxes[3], true, true, CapCir.CenterSketchPoint);
+            SketchCircle cir1;
+            if(direct)
+            {
+                cir1 = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, UsMM(par.InDiameter.Value / 2 + par.Thickness.Value - par.PipeYOffset)), UsMM(par.LiqPipeInDiameter / 2));
+            }
+            else
+            {
+                cir1 = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, -UsMM(par.InDiameter.Value / 2 + par.Thickness.Value - par.PipeYOffset)), UsMM(par.LiqPipeInDiameter / 2));
+            }
+            osketch.SketchCircles.AddByCenterRadius(cir1.CenterSketchPoint, UsMM(par.LiqPipeInDiameter / 2 + par.LiqPipeThickness));
+            Profile pro = osketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+            SketchPoint StartPoint = (SketchPoint)tsketch.AddByProjectingEntity(cir1.CenterSketchPoint);
+            Point2d p = InventorTool.CreatePoint2d(StartPoint.Geometry.X - UsMM(par.LiqPipeHeight), StartPoint.Geometry.Y);
+            SketchLine line = tsketch.SketchLines.AddByTwoPoints(StartPoint, p);
+            Point2d center;
+            if (direct)
+            {
+                center = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X, line.EndSketchPoint.Geometry.Y - UsMM(par.LiqPipeTurnDiameter / 2));
+
+            }
+            else
+            {
+                center = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X, line.EndSketchPoint.Geometry.Y + UsMM(par.LiqPipeTurnDiameter / 2));
+            }
+            Point2d EndPoint = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X - UsMM(par.LiqPipeTurnDiameter / 2), center.Y);
+
+
+          SketchArc arc=  tsketch.SketchArcs.AddByCenterStartEndPoint(center, line.EndSketchPoint, EndPoint,direct);
+            endPoint =direct==true? arc.EndSketchPoint:arc.StartSketchPoint;
+            Path pPath = Definition.Features.CreatePath(line);
+          return   Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kNewBodyOperation);
+        }
+        private SweepFeature CreateLiqPipe1(object plane1,object plane2,SketchCircle CapCir,SketchPoint endpoint,bool direct)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane1, true);
+            Profile pro = osketch.Profiles.AddForSolid();
+        
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.AddWithOrientation(plane2,Definition.WorkAxes[3],true,true,CapCir.CenterSketchPoint);
+            SketchPoint start = (SketchPoint)tsketch.AddByProjectingEntity(endpoint);
+            SketchLine line1= tsketch.SketchLines.AddByTwoPoints(start, InventorTool.CreatePoint2d(start.Geometry.X, start.Geometry.Y - UsMM(par.LiqPipeLength1[0])));
+            if(direct)
+            {
+             CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2),UsMM(par.LiqPipeLength1[1]), 0);
+            }
+            else
+            {
+                CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength1[1]), 1);
+            }
+            Path pPath = Definition.Features.CreatePath(line1);
+            return Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kJoinOperation);
+
+        }
+        private SweepFeature CreateLiqPipe2(object plane1, object plane2, SketchCircle CapCir, SketchPoint endpoint, bool direct)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane1, true);
+            Profile pro = osketch.Profiles.AddForSolid();
+
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.AddWithOrientation(plane2, Definition.WorkAxes[3], true, true, CapCir.CenterSketchPoint);
+            SketchPoint start = (SketchPoint)tsketch.AddByProjectingEntity(endpoint);
+            SketchLine line1 = tsketch.SketchLines.AddByTwoPoints(start, InventorTool.CreatePoint2d(start.Geometry.X, start.Geometry.Y + UsMM(par.LiqPipeLength2[0])));
+            SketchPoint p;
+            if (direct)
+            {
+             p=   CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[1]), 2);
+             p=   CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[2]), 4);
+                  CreateSketchArc(tsketch,p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[3]), 2);
+            }
+            else
+            {
+                p = CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[1]), 3);
+                p = CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[2]), 5);
+                CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[3]), 3);
+            }
+            Path pPath = Definition.Features.CreatePath(line1);
+            return Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kJoinOperation);
+
+        }
+        private SketchPoint CreateSketchArc(PlanarSketch osketch,Point2d startP,double radius,double LineLength,int ract)
+        {
+            Point2d centerP, endP;
+            SketchArc arc = null;
+            Point2d lineEnd = null;
+            SketchLine line=null;
+            switch (ract)
+            {
+                case 0://右下逆时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X+radius, startP.Y);
+                    endP= InventorTool.CreatePoint2d(centerP.X, centerP.Y-radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                     lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X+LineLength, arc.EndSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 1://左下顺时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X - radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y - radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP,false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X - LineLength, arc.StartSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                case 2://右上顺时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X + radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y + radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X + LineLength, arc.StartSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                case 3://左上逆时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X - radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y + radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                    lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X - LineLength, arc.EndSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 4://右上逆时针 水平相切
+                    centerP = InventorTool.CreatePoint2d(startP.X , startP.Y + radius);
+                    endP = InventorTool.CreatePoint2d(centerP.X + radius, centerP.Y );
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                    lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X, arc.EndSketchPoint.Geometry.Y + LineLength);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 5://左上顺时针 水平相切
+                    centerP = InventorTool.CreatePoint2d(startP.X , startP.Y + radius);
+                    endP = InventorTool.CreatePoint2d(centerP.X - radius, centerP.Y );
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X , arc.StartSketchPoint.Geometry.Y + LineLength);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                default:
+                    break;
+               
+            }
+         
+            return line.EndSketchPoint;
         }
         #endregion
 
