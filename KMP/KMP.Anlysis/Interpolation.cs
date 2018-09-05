@@ -14,6 +14,7 @@ namespace KMP.Anlysis
 
         Dictionary<int, Dictionary<int, double>> _originMap = new Dictionary<int, Dictionary<int, double>>();
 
+        Dictionary<double, double> _originMap1d = new Dictionary<double, double>();
         public Interpolation()
         {
             Dictionary<int, double> tmp4 = new Dictionary<int, double> { {220,0.0959 },
@@ -146,8 +147,16 @@ namespace KMP.Anlysis
             this._originMap.Add(600, tmp600);
             this._originMap.Add(800, tmp800);
             this._originMap.Add(1000, tmp1000);
+
+            _originMap1d.Add(0.00001, 1.29);
+            _originMap1d.Add(0.000463, 60);
+            _originMap1d.Add(0.0015, 97.3);
+            _originMap1d.Add(2, 105);
+            _originMap1d.Add(3, 115);
+            _originMap1d.Add(0.01, 131);
+            _originMap1d.Add(0.1, 147);
         }
-        public double executed(int x, int y)
+        public double executed2D(int x, int y)
         {
             int[] keys = _originMap.Keys.ToArray();
             int x1 = 4, x2= 4;
@@ -171,6 +180,27 @@ namespace KMP.Anlysis
 
 
 
+        }
+        public double executed1d(double a)
+        {
+            double k1 = _originMap1d.First().Key;
+            double k2 = k1;
+            double v1 = _originMap1d.First().Value;
+            double v2 = v1;
+            foreach (var item in _originMap1d)
+            {
+                if (a <= item.Key)
+                {
+                    k1 = item.Key;
+                    v1 = item.Value;
+                }
+                if (a > item.Key)
+                {
+                    k2 = item.Key;
+                    v2 = item.Value;
+                }
+            }
+            return (a - k1) / (k2 - k1) * v2 + (k2 - a) / (k2 - k1) * v1;
         }
 
         private void getRange(int[] keys,int x, ref int x1, ref int x2)
