@@ -64,6 +64,7 @@ namespace ParamedModule.HeatSinkSystem
             par.PlugLenght=100;
             par.PlugHoleDiameter = 30;
             par.PlugHoleDistance = 30;
+            par.InSlotDiameter = 50;
 
             par.LiqPipeTurnDiameter = 114;
             par.LiqPipeThickness = 2.5;
@@ -122,7 +123,11 @@ namespace ParamedModule.HeatSinkSystem
                 ParErrorChanged(this, "槽宽度和槽与门边的距离和大于盖半径！");
                 return false;
             }
-
+            if (par.InSlotDiameter / 2 + par.SlotThickness * 2 + par.SlotOffset >= par.InDiameter.Value + par.Thickness.Value - 1)
+            {
+                ParErrorChanged(this, "内部环形骨架与外部环形骨架重叠！");
+                return false;
+            }
             return true;
         }
 
@@ -144,19 +149,19 @@ namespace ParamedModule.HeatSinkSystem
             Face capSideFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(capSideFace);
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "Axis";
-            Face SlotOutFace = CreateSlots(CapCircle, Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight));
+            Face SlotOutFace = CreateSlots(CapCircle, Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight), UsMM(par.InSlotDiameter / 2));
             RevolveFeature pipe = CreatePipe(Axis, Definition.WorkPlanes[3], CapCircle, par.PipeAngle, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset), out pipePlane);
             SweepFeature pipeSur = CreatePipeSup(pipe, Axis, pipePlane, CapCircle, par.PipeSurDistance, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),
                    UsMM(par.PipeSurLength), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurDiameter / 2), UsMM(par.PipeSurThickness), capStartFace);
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
             CreateTitle(SlotOutFace, CapCircle, Axis, UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
             CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight), UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
-            if(par.LiqPipeIsCreate)
+
+            if (par.LiqPipeIsCreate)
             {
                 CreateLiquidPipe(capStartFace, CapCircle,true);
             }
         }
-        #region 创建槽钢
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[1]);
@@ -168,7 +173,86 @@ namespace ParamedModule.HeatSinkSystem
             return feature;
 
         }
-        Face CreateSlots(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight)
+        #region 创建槽钢
+
+        /// <summary>
+        /// 创建骨架
+        /// </summary>
+        /// <param name="capCircle">大门圆草图</param>
+        /// <param name="Axis">大门中心轴</param>
+        /// <param name="SlotOffset">外环槽到边距离</param>
+        /// <param name="slotThickness">槽厚度</param>
+        /// <param name="slotWidth">槽宽度</param>
+        /// <param name="slotHeight">槽高度</param>
+        /// <returns></returns>
+        Face CreateSlots(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight, double inSlotRadius)
+        {
+            RevolveFeature Slot = CreateCircleSlot(capCircle, Axis, SlotOffset, slotThickness, slotWidth, slotHeight);
+            List<Face> slotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Slot.SideFaces.GetEnumerator());
+
+            if (inSlotRadius <= 0)
+            {
+                CreateCrossSlots(capCircle, slotThickness, slotWidth, slotHeight, slotSF);
+            }
+            else
+            {
+                RevolveFeature InSlot = CreateCircleSlot(capCircle, Axis, capCircle.Radius - inSlotRadius - slotWidth, slotThickness, slotWidth, slotHeight);
+                List<Face> InSlotSF = InventorTool.GetCollectionFromIEnumerator<Face>(InSlot.SideFaces.GetEnumerator());
+                //for (int i = 0; i < InSlotSF.Count; i++)
+                //{
+                //    Definition.iMateDefinitions.AddMateiMateDefinition(InSlotSF[i], 0).Name = "a" + i;
+                //}
+                //InSlotSF[6] 外面
+                WorkPlane p1 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[2], inSlotRadius + slotWidth + 1, true);
+                WorkPlane p2 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[2], -inSlotRadius - slotWidth - 1, true);
+                WorkPlane p3 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], inSlotRadius + slotWidth + 1, true);
+                WorkPlane p4 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], -inSlotRadius - slotWidth - 1, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p1, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p1, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p2, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p2, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p3, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p3, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p4, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p4, false);
+            }
+            return slotSF[6];
+
+        }
+        /// <summary>
+        /// 创建十字架骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <param name="slotSF"></param>
+        private void CreateCrossSlots(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, List<Face> slotSF)
+        {
+            ExtrudeFeature Xslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], Definition.WorkPlanes[2], true);
+            Face XslotFace = InventorTool.GetFirstFromIEnumerator<Face>(Xslot1.StartFaces.GetEnumerator());
+            List<Face> XslotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Xslot1.SideFaces.GetEnumerator());
+
+            ExtrudeFeature Xslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotFace, true);
+            //for (int i = 0; i < XslotSF.Count; i++)
+            //{
+            //    Definition.iMateDefinitions.AddMateiMateDefinition(XslotSF[i], 0).Name = "a" + i;
+            //}
+            ExtrudeFeature Yslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[4], true);
+            ExtrudeFeature Yslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[6], true);
+        }
+
+        /// <summary>
+        /// 创建环型骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="Axis"></param>
+        /// <param name="SlotOffset"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <returns></returns>
+        private RevolveFeature CreateCircleSlot(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
             SketchLine line = (SketchLine)osketch.AddByProjectingEntity(capCircle);
@@ -181,27 +265,33 @@ namespace ParamedModule.HeatSinkSystem
             {
                 item.AddsMaterial = true;
             }
+            //创建环型骨架
             RevolveFeature Slot = Definition.Features.RevolveFeatures.AddFull(pro, Axis, PartFeatureOperationEnum.kNewBodyOperation);
-            List<Face> slotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Slot.SideFaces.GetEnumerator());
-            //for (int i = 0; i < slotSF.Count; i++)
-            //{
-            //    Definition.iMateDefinitions.AddMateiMateDefinition(slotSF[i], 0).Name = "a" + i;
-            //}
-            ExtrudeFeature Xslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], Definition.WorkPlanes[2], true);
-            Face XslotFace = InventorTool.GetFirstFromIEnumerator<Face>(Xslot1.StartFaces.GetEnumerator());
-            List<Face> XslotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Xslot1.SideFaces.GetEnumerator());
-
-            ExtrudeFeature Xslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotFace, true);
-            //for (int i = 0; i < XslotSF.Count; i++)
-            //{
-            //    Definition.iMateDefinitions.AddMateiMateDefinition(XslotSF[i], 0).Name = "a" + i;
-            //}
-            ExtrudeFeature Yslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[4], true);
-            ExtrudeFeature Yslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[6], true);
-            return slotSF[6];
-           
+            return Slot;
         }
-
+        private ExtrudeFeature CreateSubSlot(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, object plane, object fromFace, object toFace)
+        {
+            PlanarSketch Xsketch = Definition.Sketches.Add(plane);
+            List<SketchLine> Xlines = CreateSlot(Xsketch, slotWidth, slotHeight, slotThickness, new XY(0, 0));
+            SketchLine Xline = (SketchLine)Xsketch.AddByProjectingEntity(capCircle);
+            Xsketch.GeometricConstraints.AddCollinear((SketchEntity)Xline, (SketchEntity)Xlines[0]);
+            InventorTool.AddTwoPointDistance(Xsketch, Xline.EndSketchPoint, Xlines[0].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = Xline.Length / 2 - slotWidth / 2;
+            Profile Xpro = Xsketch.Profiles.AddForSolid();
+            ExtrudeDefinition Xdef = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(Xpro, PartFeatureOperationEnum.kJoinOperation);
+            Xdef.SetFromToExtent(fromFace, false, toFace, false);
+            return Definition.Features.ExtrudeFeatures.Add(Xdef);
+        }
+        /// <summary>
+        /// 创建单个骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <param name="slotSF"></param>
+        /// <param name="plane"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
         private ExtrudeFeature CreateSubSlot(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, Face slotSF, object plane, bool direct)
         {
             PlanarSketch Xsketch = Definition.Sketches.Add(plane);
@@ -222,7 +312,15 @@ namespace ParamedModule.HeatSinkSystem
 
             return Definition.Features.ExtrudeFeatures.Add(Xdef);
         }
-
+        /// <summary>
+        /// 创建单个骨架草图
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="thickness"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         List<SketchLine> CreateSlot(PlanarSketch osketch, double width, double height, double thickness, XY point)
         {
             //SketchEntitiesEnumerator entity1=  InventorTool.CreateRangle(osketch, thickness, width);

@@ -17,7 +17,7 @@ namespace ParamedModule.HeatSinkSystem
         [XmlElement]
       public  ParHeatSink par = new ParHeatSink();
         public Cap _cap;
-        public FrontCap _frontCap;
+        public Cap _frontCap;
         public Noumenon _nomenon;
         [ImportingConstructor]
         public HeatSink():base()
@@ -26,7 +26,8 @@ namespace ParamedModule.HeatSinkSystem
             this.Name = "热沉系统";
             this.ProjectType = "HeaterSystem";
             _cap = new Cap(par.InDiameter,par.Thickness);
-            _frontCap = new FrontCap(par.InDiameter, par.Thickness);
+            _frontCap = new Cap(par.InDiameter, par.Thickness);
+            _frontCap.Name = "端部热沉";
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
             SubParamedModules.AddModule(_cap);
             SubParamedModules.AddModule(_frontCap);

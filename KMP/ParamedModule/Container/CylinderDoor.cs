@@ -46,22 +46,17 @@ namespace ParamedModule.Container
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
             par.TopHole = hole;
+            par.TopHoles.Add(hole);
             par.TopHole.ParFlanch = flanch;
-            // ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300,PipeThickness=10 ,PipeLenght=200};
-            // ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            //  ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
+           
             ParSideHole ParSideHole3 = new ParSideHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             ParSideHole ParSideHole4 = new ParSideHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            // ParSideHole.ParFlanch = sideFlanch;
-            // ParSideHole1.ParFlanch = sideFlanch;
-            //  ParSideHole2.ParFlanch = sideFlanch;
+          
             ParSideHole3.ParFlanch = sideFlanch;
             ParSideHole4.ParFlanch = sideFlanch;
             ParSideHole5.ParFlanch = sideFlanch;
-            //  par.SideHoles.Add(ParSideHole);
-            //  par.SideHoles.Add(ParSideHole1);
-            //  par.SideHoles.Add(ParSideHole2);
+          
             par.SideHoles.Add(ParSideHole3);
             par.SideHoles.Add(ParSideHole4);
             par.SideHoles.Add(ParSideHole5);

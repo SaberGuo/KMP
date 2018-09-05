@@ -125,6 +125,11 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotOffset = value;
             }
         }
+
+        [Category("槽钢")]
+        [DisplayName("内环槽钢直径")]
+        [Description("热沉盖-槽")]
+        public double InSlotDiameter { get; set; }
         #endregion
         #region 汇总管
         double pipeAngle;
