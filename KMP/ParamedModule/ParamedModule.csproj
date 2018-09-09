@@ -82,6 +82,7 @@
     <Compile Include="Other\CoolVAC.cs" />
     <Compile Include="NitrogenSystem\CryoLiquidTank.cs" />
     <Compile Include="NitrogenSystem\CryoLiquidTanks.cs" />
+    <Compile Include="Other\CoolVAC1.cs" />
     <Compile Include="Other\DRYVAC.cs" />
     <Compile Include="Other\MolecularPump.cs" />
     <Compile Include="Other\ScrewLine.cs" />

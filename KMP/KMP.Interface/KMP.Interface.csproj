@@ -126,6 +126,7 @@
     <Compile Include="Model\Other\ParCoolVAC.cs" />
     <Compile Include="Model\NitrogenSystem\ParCryoLiquidTank.cs" />
     <Compile Include="Model\NitrogenSystem\ParCryoLiquidTanks.cs" />
+    <Compile Include="Model\Other\ParCoolVAC1.cs" />
     <Compile Include="Model\Other\ParDRYVAC.cs" />
     <Compile Include="Model\Other\ParMolecularPump.cs" />
     <Compile Include="Model\Other\ParScrewLine.cs" />
