@@ -55,6 +55,11 @@
                                                     <Image Source="./Resources/Image/reload.png"/>
                                                 </xctk:IconButton.Icon>
                                             </xctk:IconButton>
+                                            <xctk:IconButton Command="{Binding TreeNodeCheckCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
+                                                <xctk:IconButton.Icon>
+                                                    <Image Source="./Resources/Image/generate.png"/>
+                                                </xctk:IconButton.Icon>
+                                            </xctk:IconButton>
                                         </ToolBar>
                                         <xctk:PropertyGrid NameColumnWidth="110"
                                          SelectedPropertyItemChanged="PropertyGrid_SelectedPropertyItemChanged"

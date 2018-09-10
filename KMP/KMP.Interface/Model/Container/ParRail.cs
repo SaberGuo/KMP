@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
-    
+    [DisplayName("导轨参数")]
     /// <summary>
     /// 导轨参数
     /// </summary>

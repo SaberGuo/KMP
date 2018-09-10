@@ -6,10 +6,11 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
+    [DisplayName("导轨支架参数")]
     /// <summary>
     /// 导轨支架参数
     /// </summary>
-  public  class ParRailSupport : ParameterBase
+    public  class ParRailSupport : ParameterBase
     {
         public override string ToString()
         {

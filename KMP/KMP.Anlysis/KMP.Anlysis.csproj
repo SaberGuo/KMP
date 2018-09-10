@@ -48,6 +48,7 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\libs\prism4\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -91,10 +92,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnlysisViewModel.cs" />
-    <Compile Include="HeliumView.xaml.cs">
-      <DependentUpon>HeliumView.xaml</DependentUpon>
+    <Compile Include="ContainerView.xaml.cs">
+      <DependentUpon>ContainerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HeliumViewModel.cs" />
+    <Compile Include="ContainerViewModel.cs" />
+    <Compile Include="DefaultDocViewer.cs" />
+    <Compile Include="HeateSinkView.xaml.cs">
+      <DependentUpon>HeateSinkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeateSinkViewModel.cs" />
     <Compile Include="Interpolation.cs" />
     <Compile Include="VaccumViewModel.cs" />
     <Compile Include="VacuumView.xaml.cs">
@@ -107,7 +113,11 @@
     <Compile Include="AnlysisWindow.xaml.cs">
       <DependentUpon>AnlysisWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="HeliumView.xaml">
+    <Page Include="ContainerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeateSinkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,6 +150,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="resources\容器系统计算.xps" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infranstructure\Infranstructure.csproj">
@@ -149,6 +160,10 @@
     <ProjectReference Include="..\KMP.Interface\KMP.Interface.csproj">
       <Project>{dd1a63eb-aade-470b-8517-275f62c3fe3f}</Project>
       <Name>KMP.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParamedModule\ParamedModule.csproj">
+      <Project>{594c6d71-14aa-4240-be04-d0ffebcd31a4}</Project>
+      <Name>ParamedModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +186,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Module\" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)KMP\bin\$(ConfigurationName)\Module\" /Y
+copy "$(ProjectDir)\resources\*" "$(SolutionDir)KMP\bin\$(ConfigurationName)\preview\" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,8 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-  public  class ParNoumenon:ParameterBase
+    [DisplayName("热沉系统参数")]
+    public  class ParNoumenon:ParameterBase
     {
         public override string ToString()
         {
@@ -66,7 +67,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         double pipeLength;
         double pipeDistance;
         double pipeOffset;
-        [Category("管道")]
+        [Category("汇总管")]
         [DisplayName("管直径（d1）")]
         [Description("热沉罐-总汇管")]
         public double PipeDiameter
@@ -81,7 +82,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeDiameter = value;
             }
         }
-        [Category("管道")]
+        [Category("汇总管")]
         [DisplayName("管厚度（t）")]
         [Description("热沉罐-总汇管")]
         public double PipeThickness
@@ -96,7 +97,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeThickness = value;
             }
         }
-        [Category("管道")]
+        [Category("汇总管")]
         [DisplayName("管长度（L2）")]
         [Description("热沉罐-总汇管")]
         public double PipeLength
@@ -111,7 +112,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeLength = value;
             }
         }
-        [Category("管道")]
+        [Category("汇总管")]
         [DisplayName("管与罐口距离（L1）")]
         [Description("热沉罐-总汇管")]
         public double PipeDistance
@@ -126,7 +127,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeDistance = value;
             }
         }
-        [Category("管道")]
+        [Category("汇总管")]
         [DisplayName("管与罐中心距离（h1）")]
         [Description("热沉罐-总汇管")]
         public double PipeOffset
@@ -142,9 +143,9 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region 罐内管支撑
-        [Category("管支撑")]
-        [DisplayName("管支撑直径（d）")]
+        #region 罐内支管
+        [Category("支管")]
+        [DisplayName("支管直径（d）")]
         [Description("热沉罐-支持管")]
         public double PipeSurDiameter
         {
@@ -158,8 +159,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDiameter = value;
             }
         }
-        [Category("管支撑")]
-        [DisplayName("管支撑厚度（t）")]
+        [Category("支管")]
+        [DisplayName("支管厚度（t）")]
         [Description("热沉罐-支持管")]
         public double PipeSurThickness
         {
@@ -173,8 +174,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurThickness = value;
             }
         }
-        [Category("管支撑")]
-        [DisplayName("管支撑与管口距离（L1）")]
+        [Category("支管")]
+        [DisplayName("支管与管口距离（L1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurDistance
         {
@@ -188,8 +189,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurDistance = value;
             }
         }
-        [Category("管支撑")]
-        [DisplayName("管支撑水平距离（h1）")]
+        [Category("支管")]
+        [DisplayName("支管水平距离（h1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurLength
         {
@@ -203,8 +204,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurLength = value;
             }
         }
-        [Category("管支撑")]
-        [DisplayName("管支撑弯曲半径（d1）")]
+        [Category("支管")]
+        [DisplayName("支管弯曲半径（d1）")]
         [Description("热沉罐-支持管")]
         public double PipeSurCurveRadius
         {
@@ -218,8 +219,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 pipeSurCurveRadius = value;
             }
         }
-        [Category("管支撑")]
-        [DisplayName("管支撑数量")]
+        [Category("支管")]
+        [DisplayName("支管数量")]
         [Description("热沉罐-支持管")]
         public int PipeSurNum
         {
@@ -371,8 +372,9 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 endLongNumber = value;
             }
         }
+
         [Category("骨架")]
-        [DisplayName("T字钢到罐体距离")]
+        [DisplayName("T字钢到胀板距离（H3）")]
         [Description("热沉罐-纵梁")]
         public double TAndCYDiatance
         {

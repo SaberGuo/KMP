@@ -6,7 +6,8 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.Container
 {
-  public  class ParPedestal:ParameterBase
+    [DisplayName("底座参数")]
+    public  class ParPedestal:ParameterBase
     {
         public override string ToString()
         {

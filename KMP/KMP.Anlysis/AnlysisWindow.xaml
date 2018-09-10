@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Closing="Window_Closing"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="AnlysisWindow" Height="600" Width="800">
-    <!--<Window.Resources>
+        Title="AnlysisWindow" Height="600" Width="900">
+    <Window.Resources>
         <sys:Double x:Key="TabItemShadowRadius">6</sys:Double>
         <Color x:Key="AyTabItem.Static.Shadow.Color1">#7F000000</Color>
         <Color x:Key="AyTabItem.Static.Shadow.Color2">#00000000</Color>
@@ -217,19 +217,33 @@
 
         </Style>
 
-    </Window.Resources>-->
-    <TabControl BorderThickness="1,0,1,1"  HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" TabStripPlacement="Top" >
+    </Window.Resources>
+    <TabControl BorderThickness="1,0,1,1"  HorizontalAlignment="Left" Margin="10,10,10,0" VerticalAlignment="Top" TabStripPlacement="Top" Width="850" >
+        <TabItem Header="容器系统">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <local:ContainerView DataContext="{Binding ContainerSys}" >
+                </local:ContainerView>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="热沉系统">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <local:ContainerView DataContext="{Binding HeateSinkSys}" />
+                    <local:HeateSinkView DataContext="{Binding HeateSinkSys}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
         <TabItem Header="真空系统">
             <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <local:VacuumView DataContext="{Binding VaccumViewModel}" />
+                <local:ContainerView DataContext="{Binding VacuoSys}" />
             </ScrollViewer>
-            
+
         </TabItem>
         <TabItem Header="氮气系统">
             <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <local:HeliumView DataContext="{Binding HeliumViewModel}" />
+                <local:ContainerView DataContext="{Binding NitrogenSys}" />
             </ScrollViewer>
         </TabItem>
     </TabControl>
-    
+
 </Window>

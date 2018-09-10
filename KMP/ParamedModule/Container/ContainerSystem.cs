@@ -7,6 +7,8 @@ using Inventor;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.Container;
+using KMP.Interface.ComParam;
+
 namespace ParamedModule.Container
 {
     [Export("ContainerSystem", typeof(IParamedModule))]
@@ -20,7 +22,14 @@ namespace ParamedModule.Container
         public RailSystem _railSystem;
         public PlaneSystem _plane;
 
-        
+        private ContainerParam _cPar = new ContainerParam();
+        public ContainerParam cPar
+        {
+            get
+            {
+                return this._cPar;
+            }
+        }
         [ImportingConstructor]
         public ContainerSystem():base()
         {

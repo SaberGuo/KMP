@@ -11,17 +11,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Xps.Packaging;
 
 namespace KMP.Anlysis
 {
     /// <summary>
-    /// HeliumView.xaml 的交互逻辑
+    /// CantainerView.xaml 的交互逻辑
     /// </summary>
-    public partial class HeliumView : UserControl
+    public partial class ContainerView : UserControl
     {
-        public HeliumView()
+        public ContainerView()
         {
             InitializeComponent();
+            //string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview\\容器系统计算.xps");
+            //XpsDocument doc = new XpsDocument(path, System.IO.FileAccess.Read);
+            //docviewer.Document = doc.GetFixedDocumentSequence();
         }
+
+        
     }
 }

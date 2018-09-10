@@ -7,7 +7,8 @@ using System.Collections.ObjectModel;
 using KMP.Interface.Model;
 namespace KMP.Interface.Model.Container
 {
-  public  class ParCylinderDoor:ParameterBase
+    [DisplayName("容器大门参数")]
+    public  class ParCylinderDoor:ParameterBase
     {
         public override string ToString()
         {
@@ -100,7 +101,7 @@ namespace KMP.Interface.Model.Container
         [Description("容器大门")]
         public double FlanchThinkness { get; set; }
         [Category("容器大门")]
-        [DisplayName("直筒段长度（T3）")]
+        [DisplayName("直边长度（T3）")]
         [Description("容器大门")]
         public double StraightLength { get; set; }
         [Category("开孔")]

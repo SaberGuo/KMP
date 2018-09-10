@@ -36,6 +36,7 @@ namespace KMP.Parameterization
         IDatabaseService _databaseService;
         FileCommandProxy _fileCommandProxy;
         ModelCommandProxy _modelCommandProxy;
+        SystemCommandProxy _systemCommandProxy;
         DatabaseCommandProxy _databaseCommandProxy;
         ChildWinViewModel _childWindViewModel;
         public ICommand SelectTreeNodeCommand { get; set; }
@@ -47,6 +48,7 @@ namespace KMP.Parameterization
             ChildWinViewModel childWinViewModel,
             FileCommandProxy fileCommandProxy,
             ModelCommandProxy modelCommandProxy,
+            SystemCommandProxy systemCommandProxy,
             DatabaseCommandProxy databaseCommandProxy)
         {
             _eventAggregator = eventAggregator;
@@ -56,6 +58,7 @@ namespace KMP.Parameterization
             _fileCommandProxy = fileCommandProxy;
             _modelCommandProxy = modelCommandProxy;
             _databaseCommandProxy = databaseCommandProxy;
+            _systemCommandProxy = systemCommandProxy;
             Modules = new ModuleProject();
             _childWindViewModel = childWinViewModel;
             
@@ -68,8 +71,9 @@ namespace KMP.Parameterization
             TreeNodeGenCommand = new DelegateCommand<IParamedModule>(TreeNodeGenExecuted);
             TreeNodeSaveCommand = new DelegateCommand<IParamedModule>(TreeNodeSaveExecuted);
             TreeNodeCloseCommand = new DelegateCommand<IParamedModule>(TreeNodeCloseExecuted);
+            TreeNodeCheckCommand = new DelegateCommand<IParamedModule>(TreeNodeCheckExecuted);
 
-
+            _systemCommandProxy.AnlysisCommand = new DelegateCommand(AnlysisBrowserExecuted);
         }
 
         private void SelectTreeNodeCommandExec(RoutedEventArgs e)
@@ -80,11 +84,30 @@ namespace KMP.Parameterization
             treeViewItem.Focus();
             e.Handled = true;
         }
-
+        void AnlysisBrowserExecuted()
+        {
+            IAnalysisWindow t = ServiceLocator.Current.GetInstance<IAnalysisWindow>();
+            t.BaseModule = this.Modules.First();
+            Window win = t as Window;
+            win.Owner = System.Windows.Application.Current.MainWindow;
+            win.ShowDialog();
+        }
         public ICommand TreeNodeGenCommand { get; set; }
         public ICommand TreeNodeSaveCommand { get; set; }
         public ICommand TreeNodeCloseCommand { get; set; }
 
+        public ICommand TreeNodeCheckCommand { get; set; }
+
+        private void TreeNodeCheckExecuted(IParamedModule module)
+        {
+            if(module == null)
+            {
+                this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("请选择模块进行生成！", ExceptionType.INFO));
+
+                return;
+            }
+            module.CheckParamete();
+        }
         private void TreeNodeGenExecuted(IParamedModule module)
         {
             if(module == null)
@@ -92,6 +115,7 @@ namespace KMP.Parameterization
                 this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("请选择模块进行生成！", ExceptionType.INFO));
                 return;
             }
+            this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("模型开始生成！", ExceptionType.INFO));
             this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator," + module.GetGeneratorCount().ToString());
          
             Task generatortask = new Task(()=> { module.CreateModule(); });
@@ -107,19 +131,26 @@ namespace KMP.Parameterization
                 }
                 
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
-                //this._childWindViewModel.GeneratorWinState = "Close";
-                //this.IsGenerating = false;
+                this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("模型生成完成！", ExceptionType.INFO));
             });
             generatortask.Start();
         }
 
         private void TreeNodeSaveExecuted(IParamedModule module)
         {
+            if(module == null)
+            {
+                return;
+            }
             module.Serialization();
         }
 
         private void TreeNodeCloseExecuted(IParamedModule module)
         {
+            if (module == null)
+            {
+                return;
+            }
             module.Serialization();
             this.Modules.Remove(module);
         }
@@ -422,6 +453,8 @@ namespace KMP.Parameterization
             }
             //this.IsGenerating = true;
             //this._childWindViewModel.GeneratorWinState = "Open";
+
+            this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("模型开始生成！", ExceptionType.INFO));
             this._eventAggregator.GetEvent<GeneratorEvent>().Publish("start_generator,"+this.Modules.First().GetGeneratorCount().ToString());
             //GeneratorDelegate gDelegate = new GeneratorDelegate(GenerateModules);
             //gDelegate.BeginInvoke(GenerateCallback, null);
@@ -430,6 +463,7 @@ namespace KMP.Parameterization
                 //_invMonitorController.UpdateInvModel(this.Modules.First().FullPath);
                 
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
+                this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("模型生成完成！", ExceptionType.INFO));
                 _invMonitorController.UpdateAll();
                 //this._childWindViewModel.GeneratorWinState = "Close";
                 //this.IsGenerating = false;
@@ -453,14 +487,13 @@ namespace KMP.Parameterization
         {
             try
             {
+                //添加提示refresh
                 this.Modules.Create();
             }
             catch (Exception e)
             {
-
                 this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
             }
-            
         }
         private void GenerateCallback()
         {
@@ -472,7 +505,6 @@ namespace KMP.Parameterization
                 }
                 catch (Exception e)
                 {
-
                     this._eventAggregator.GetEvent<InfoEvent>().Publish(e);
                 }
                
