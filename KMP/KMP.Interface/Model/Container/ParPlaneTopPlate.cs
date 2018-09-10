@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
-    
+    [DisplayName("平板顶板参数")]
     /// <summary>
     /// 导轨支架侧板参数
     /// </summary>

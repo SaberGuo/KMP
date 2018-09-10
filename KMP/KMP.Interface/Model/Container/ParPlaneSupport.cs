@@ -6,7 +6,8 @@ using System.Text;
 
 namespace KMP.Interface.Model.Container
 {
-  public  class ParPlaneSupport:ParameterBase
+    [DisplayName("平板支撑参数")]
+    public  class ParPlaneSupport:ParameterBase
     {
         public override string ToString()
         {

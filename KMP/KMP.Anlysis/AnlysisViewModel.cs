@@ -1,5 +1,10 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using KMP.Interface;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
+using ParamedModule.Container;
+using ParamedModule.HeatSinkSystem;
+using ParamedModule.NitrogenSystem;
+using ParamedModule.Other;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -12,38 +17,84 @@ namespace KMP.Anlysis
     public class AnalysisViewModel: NotificationObject
     {
         private IEventAggregator _eventAggregator;
-        private VaccumViewModel _vaccumViewModel;
-        private HeliumViewModel _heliumViewModel;
 
+
+        private IParamedModule _baseModule;
         [ImportingConstructor]
         public AnalysisViewModel(IEventAggregator eventAggregator)
         {
             this._eventAggregator = eventAggregator;
-            VaccumViewModel = new VaccumViewModel();
+
         }
 
-        public VaccumViewModel VaccumViewModel
+        public IParamedModule BaseModule
         {
             get
             {
-                return this._vaccumViewModel;
+                return _baseModule;
             }
             set
             {
-                this._vaccumViewModel = value;
+                this._baseModule = value;
+                this.ContainerSys = this.GetSubModule(typeof(ContainerSystem), this._baseModule) as ContainerSystem;
             }
         }
 
-        public HeliumViewModel HeliumViewModel
+        private ContainerSystem _ContainerSys;
+        public ContainerSystem ContainerSys
         {
             get
             {
-                return this._heliumViewModel;
+                return this._ContainerSys;
             }
             set
             {
-                this._heliumViewModel = value;
+                this._ContainerSys = value;
+                RaisePropertyChanged(() => ContainerSys);
             }
         }
+
+        public HeatSink HeateSinkSys
+        {
+            get
+            {
+                return this.GetSubModule(typeof(HeatSink), this._baseModule) as HeatSink;
+            }
+        }
+
+        //
+        public Nitrogen NitrogenSys
+        {
+            get
+            {
+                return this.GetSubModule(typeof(Nitrogen), this._baseModule) as Nitrogen;
+            }
+        }
+
+        public VacuoSystem VacuoSys
+        {
+            get
+            {
+                return this.GetSubModule(typeof(VacuoSystem), this._baseModule) as VacuoSystem;
+            }
+        }
+        private IParamedModule GetSubModule(Type t, IParamedModule parent)
+        {
+            foreach (var item in _baseModule.SubParamedModules)
+            {
+                if(item.GetType() == t)
+                {
+                    return item;
+                }
+                IParamedModule sub = GetSubModule(t, item);
+                if (sub != null)
+                {
+                    return sub;
+                }
+            }
+            return null;
+        }
+
+    
     }
 }

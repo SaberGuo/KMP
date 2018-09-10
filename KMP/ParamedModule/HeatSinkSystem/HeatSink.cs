@@ -8,6 +8,8 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.HeatSinkSystem;
 using System.Xml.Serialization;
+using KMP.Interface.ComParam;
+
 namespace ParamedModule.HeatSinkSystem
 {
     [Export("HeaterSystem", typeof(IParamedModule))]
@@ -15,10 +17,20 @@ namespace ParamedModule.HeatSinkSystem
     public class HeatSink : AssembleModuleBase
     {
         [XmlElement]
-      public  ParHeatSink par = new ParHeatSink();
+        public  ParHeatSink par = new ParHeatSink();
         public Cap _cap;
         public Cap _frontCap;
         public Noumenon _nomenon;
+
+        private HeatSinkParam _cPar = new HeatSinkParam();
+        public HeatSinkParam cPar
+        {
+            get
+            {
+                return this._cPar;
+            }
+        }
+
         [ImportingConstructor]
         public HeatSink():base()
         {

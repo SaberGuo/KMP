@@ -105,6 +105,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComParam\ContainerParam.cs" />
+    <Compile Include="ComParam\HeatSinkParam.cs" />
+    <Compile Include="ComParam\IComParam.cs" />
+    <Compile Include="ComParam\NitrogenParam.cs" />
+    <Compile Include="ComParam\VacuoParam.cs" />
     <Compile Include="IAnalysisWindow.cs" />
     <Compile Include="IBrowserWindow.cs" />
     <Compile Include="IConfigWindow.cs" />
@@ -159,6 +164,7 @@
     <Compile Include="ModuleCollection.cs" />
     <Compile Include="ModuleProject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\Interpolation.cs" />
     <Compile Include="Tools\PassedParamConverter.cs" />
   </ItemGroup>
   <ItemGroup>

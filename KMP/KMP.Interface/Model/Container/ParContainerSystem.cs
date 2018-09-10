@@ -7,7 +7,8 @@ using System.Text;
 
 namespace KMP.Interface.Model.Container
 {
-   public class ParContainerSystem:ParameterBase
+    [DisplayName("容器参数")]
+    public class ParContainerSystem:ParameterBase
     {
         public ParContainerSystem()
         {

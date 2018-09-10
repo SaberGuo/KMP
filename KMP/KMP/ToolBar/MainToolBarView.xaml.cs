@@ -1,4 +1,5 @@
 ﻿using Infranstructure.Behaviors;
+using KMP.Menus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -29,6 +30,15 @@ namespace KMP.ToolBar
             InitializeComponent();
 
             
+        }
+
+        [Import]
+        MainMenuViewModel _viewModel
+        {
+            set
+            {
+                this.DataContext = value;
+            }
         }
     }
 }

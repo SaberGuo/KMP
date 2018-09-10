@@ -7,7 +7,8 @@ using System.Collections.ObjectModel;
 using KMP.Interface.Model;
 namespace KMP.Interface.Model.Container
 {
-  public  class ParCylinderDoor:ParameterBase
+    [DisplayName("容器大门参数")]
+    public  class ParCylinderDoor:ParameterBase
     {
         public override string ToString()
         {

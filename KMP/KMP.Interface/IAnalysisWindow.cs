@@ -7,5 +7,7 @@ namespace KMP.Interface
 {
     public interface IAnalysisWindow
     {
+
+        IParamedModule BaseModule { set; }
     }
 }

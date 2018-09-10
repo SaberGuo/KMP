@@ -16,7 +16,9 @@ namespace KMP.Interface.Model.Container
     /// <summary>
     /// 大门法兰厚度T2 增加 后封头直边长度L4 增加
     /// </summary>
-  public  class ParCylinder:ParameterBase
+    /// 
+    [DisplayName("容器筒体参数")]
+    public  class ParCylinder:ParameterBase
     {
 
         PassedParameter inRadius;

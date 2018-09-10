@@ -46,7 +46,7 @@ namespace KMP.Menus
             _dbCommandProxy.BrowserCommand = new DelegateCommand(DBBrowserExecuted);
             _systemCommandProxy.ReportCommand = new DelegateCommand(ReportBrowserExecuted);
             _systemCommandProxy.ConfigCommand = new DelegateCommand(ConfigBrowserExecuted);
-            _systemCommandProxy.AnlysisCommand = new DelegateCommand(AnlysisBrowserExecuted);
+           
         }
         void DBBrowserExecuted()
         {
@@ -66,12 +66,7 @@ namespace KMP.Menus
 
         }
 
-        void AnlysisBrowserExecuted()
-        {
-            Window t = (Window)ServiceLocator.Current.GetInstance<IAnalysisWindow>();
-            t.Owner = System.Windows.Application.Current.MainWindow;
-            t.ShowDialog();
-        }
+        
         void OnProjectChanged(string projectPath)
         {
             if(projectPath == "")

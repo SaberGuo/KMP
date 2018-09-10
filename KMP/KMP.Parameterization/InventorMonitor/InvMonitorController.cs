@@ -38,6 +38,7 @@ namespace KMP.Parameterization.InventorMonitor
         private void OnAddDocument(IInvMonitorViewModel m)
         {
             _documents.Add(m);
+            
         }
         private IInvMonitorViewModel FindInvMonitorVM(string filePath)
         {

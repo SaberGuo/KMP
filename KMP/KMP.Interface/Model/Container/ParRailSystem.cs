@@ -5,10 +5,11 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
+    [DisplayName("导轨系统参数")]
     /// <summary>
     /// 导轨面距中心高度 总高度修改
     /// </summary>
-  public  class ParRailSystem:ParameterBase
+    public  class ParRailSystem:ParameterBase
     {
         public override string ToString()
         {

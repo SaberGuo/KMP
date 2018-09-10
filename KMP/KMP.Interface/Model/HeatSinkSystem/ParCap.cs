@@ -6,7 +6,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-   public class ParCap:ParameterBase
+    [DisplayName("后端参数")]
+    public class ParCap:ParameterBase
     {
         public override string ToString()
         {
@@ -49,8 +50,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [DisplayName("门厚度T2")]
-        [Description("热沉盖-汇总管")]
-        [Category("热沉盖参数")]
+        [Description("胀板-汇总管")]
+        [Category("胀板参数")]
         public double CapThickness
         {
             get
@@ -231,7 +232,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑厚度（t）")]
+        [DisplayName("支管厚度（t）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurThickness
         {
@@ -261,7 +262,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑水平距离（h1）")]
+        [DisplayName("支管水平距离（h1）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurLength
         {
@@ -276,7 +277,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑弯曲半径（d2）")]
+        [DisplayName("支管弯曲半径（d2）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurCurveRadius
         {
@@ -291,7 +292,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("管支架")]
-        [DisplayName("管支撑数量")]
+        [DisplayName("支管数量")]
         [Description("热沉盖-支撑管")]
         public int PipeSurNum
         {

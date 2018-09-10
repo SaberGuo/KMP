@@ -5,10 +5,11 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.Container
 {
+    [DisplayName("导轨-下部支撑参数")]
     /// <summary>
     /// 导轨支架支撑下边板
     /// </summary>
-  public  class ParRailSupportCenterBoard : ParameterBase
+    public  class ParRailSupportCenterBoard : ParameterBase
     {
         public override string ToString()
         {

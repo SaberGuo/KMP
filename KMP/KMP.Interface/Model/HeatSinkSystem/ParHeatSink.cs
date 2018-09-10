@@ -6,7 +6,8 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-  public class ParHeatSink:ParameterBase
+    [DisplayName("热沉筒参数")]
+    public class ParHeatSink:ParameterBase
     {
         public override string ToString()
         {

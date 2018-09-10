@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="KMP.Anlysis.ContainerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KMP.Anlysis"
+              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignWidth="1000">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <local:DefaultDocViewer x:Name="docviewer" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" DocumentPath="{Binding cPar.DocPath}"/>
+        <xctk:PropertyGrid NameColumnWidth="110" Grid.Row="1" Grid.Column="0"
+             SelectedObject="{Binding Path=cPar.inputs}"/>
+        <Button Grid.Row="1" Grid.Column="1" Margin="10" Height="40" Width="100" Command="{Binding Path=cPar.ComputeCommand}">计算>></Button>
+        <xctk:PropertyGrid NameColumnWidth="110" Grid.Row="1" Grid.Column="2"
+             SelectedObject="{Binding Path=cPar.outputs}"/>
+    </Grid>
+</UserControl>

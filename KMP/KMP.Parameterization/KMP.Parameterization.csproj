@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="ChildWinViewModel.cs" />
     <Compile Include="Events\ProjectEvent.cs" />
+    <Compile Include="HasModuleConvertor.cs" />
     <Compile Include="IChildWinViewModel.cs" />
     <Compile Include="ParamsManager\FlanchEditor.xaml.cs">
       <DependentUpon>FlanchEditor.xaml</DependentUpon>
@@ -241,6 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Image\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\generate.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
