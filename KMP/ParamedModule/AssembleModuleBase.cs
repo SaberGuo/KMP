@@ -413,7 +413,9 @@ namespace ParamedModule
         
             freeiMates.Clear();
         }
-
+        /// <summary>
+        /// 单个零件的所有面、零件和代理结构
+        /// </summary>
         public struct OccStruct
         {
             public ComponentOccurrence Occurrence;

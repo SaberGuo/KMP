@@ -253,6 +253,97 @@ namespace KMP.Interface.Model
                 D = 12,
                 N = 16
             });
+            FlanchDict.Add("DN630", new ParFlanch
+            {
+                DN = 630,
+                D6 = 651,
+                D0 = 720,
+                D1 = 750,
+                D2 = 690,
+                H = 24,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 20
+            });
+            FlanchDict.Add("DN800", new ParFlanch
+            {
+                DN = 800,
+                D6 = 800,
+                D0 = 890,
+                D1 = 920,
+                D2 = 860,
+                H = 24,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 24
+            });
+            FlanchDict.Add("DN1000", new ParFlanch
+            {
+                DN = 1000,
+                D6 = 1000,
+                D0 = 1090,
+                D1 = 1120,
+                D2 = 1060,
+                H = 24,
+                C = 14,
+                X = 2,
+                D = 12,
+                N = 32
+            });
+            FlanchDict.Add("DN1250", new ParFlanch
+            {
+                DN = 1250,
+                D6 = 1250,
+                D0 = 1404,
+                D1 = 1440,
+                D2 = 1340,
+                H = 28,
+                C = 19,
+                X = 2.5,
+                D = 16,
+                N = 32
+            });
+            FlanchDict.Add("DN1600", new ParFlanch
+            {
+                DN = 1600,
+                D6 = 1600,
+                D0 = 1755,
+                D1 = 1790,
+                D2 = 1705,
+                H = 30,
+                C = 19,
+                X = 2.5,
+                D = 16,
+                N = 32
+            });
+            FlanchDict.Add("DN1800", new ParFlanch
+            {
+                DN = 1800,
+                D6 = 1800,
+                D0 = 1940,
+                D1 = 1980,
+                D2 = 1920,
+                H = 32,
+                C = 24,
+                X = 2.5,
+                D = 20,
+                N = 32
+            });
+            FlanchDict.Add("DN2000", new ParFlanch
+            {
+                DN = 2000,
+                D6 = 2000,
+                D0 = 2205,
+                D1 = 2245,
+                D2 = 2140,
+                H = 32,
+                C = 24,
+                X = 2.5,
+                D = 20,
+                N = 32
+            });
         }
         public Dictionary<string, ParFlanch> FlanchDict
         {

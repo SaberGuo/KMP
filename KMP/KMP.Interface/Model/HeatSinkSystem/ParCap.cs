@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
     [DisplayName("后端参数")]
@@ -12,7 +13,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         {
             return "热沉盖参数";
         }
-        #region
+        #region 罐参数
         PassedParameter inDiameter ;
         PassedParameter thickness;
         double capThickness;
@@ -64,8 +65,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region 槽
-        [Category("骨架")]
+        #region 槽钢
+        [Category("槽钢")]
         [DisplayName("槽钢厚度（T）")]
         [Description("热沉盖-槽")]
         public double SlotThickness
@@ -80,7 +81,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotThickness = value;
             }
         }
-        [Category("骨架")]
+        [Category("槽钢")]
         [DisplayName("槽钢高度（H）")]
         [Description("热沉盖-槽")]
         public double SlotHight
@@ -95,7 +96,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotHight = value;
             }
         }
-        [Category("骨架")]
+        [Category("槽钢")]
         [DisplayName("槽钢宽度（D）")]
         [Description("热沉盖-槽")]
         public double SlotWide
@@ -110,8 +111,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotWide = value;
             }
         }
-        [Category("骨架")]
-        [DisplayName("圆型槽钢与门边距离（L）")]
+        [Category("槽钢")]
+        [DisplayName("圆槽钢与胀板边距离（L）")]
         [Description("热沉盖-槽")]
         public double SlotOffset
         {
@@ -125,6 +126,11 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotOffset = value;
             }
         }
+
+        [Category("槽钢")]
+        [DisplayName("内环槽钢直径")]
+        [Description("热沉盖-槽")]
+        public double InSlotDiameter { get; set; }
         #endregion
         #region 汇总管
         double pipeAngle;
@@ -178,7 +184,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("汇总管")]
-        [DisplayName("管中心与门边距离（L）")]
+        [DisplayName("管中心与胀板边距离（L）")]
         [Description("热沉盖-汇总管")]
         public double PipeYOffset
         {
@@ -193,7 +199,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("汇总管")]
-        [DisplayName("管中心与门面距离（h）")]
+        [DisplayName("管中心与胀板距离（h）")]
         [Description("热沉盖-汇总管")]
         public double PipeXOffset
         {
@@ -208,10 +214,10 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region 支管
+        #region 管支架
 
-        [Category("支管")]
-        [DisplayName("支管直径（d1）")]
+        [Category("管支架")]
+        [DisplayName("管支撑直径（d1）")]
         [Description("热沉盖-支撑管")]
         public double PipeSurDiameter
         {
@@ -346,7 +352,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("连接板")]
-        [DisplayName("与骨架边缘距离（T1）")]
+        [DisplayName("与胀板距离）（T1）")]
         [Description("热沉盖-独板")]
         public double TitleOffset
         {
@@ -416,7 +422,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         [Category("上吊板")]
-        [DisplayName("两片间距离（T1）")]
+        [DisplayName("上吊板间距离（T1）")]
         [Description("热沉盖-插销2")]
         public double PlugOffset
         {
@@ -475,6 +481,59 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 plugLenght = value;
             }
         }
+        #endregion
+        #region 进出液管参数
+        [Category("进出液管")]
+        [DisplayName("液管内直径")]
+        public double LiqPipeInDiameter { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管厚度")]
+        public double LiqPipeThickness { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管转角直径")]
+        public double LiqPipeTurnDiameter { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管与胀板距离")]
+        public double LiqPipeHeight { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管是否生成")]
+        public bool LiqPipeIsCreate { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管方向")]
+        public bool LiqPipeDirection { get; set; }
+        [Category("进出液管")]
+        [DisplayName("液管1各段长度")]
+        public ObservableCollection<double> LiqPipeLength1
+        {
+            get
+            {
+                return liqPipeLength1;
+            }
+
+            set
+            {
+                liqPipeLength1 = value;
+            }
+        }
+
+        private ObservableCollection<double> liqPipeLength1=new ObservableCollection<double>();
+        [Category("进出液管")]
+        [DisplayName("液管2各段长度")]
+        public ObservableCollection<double> LiqPipeLength2
+        {
+            get
+            {
+                return liqPipeLength2;
+            }
+
+            set
+            {
+                liqPipeLength2 = value;
+            }
+        }
+
+        private ObservableCollection<double> liqPipeLength2 = new ObservableCollection<double>();
+
         #endregion
     }
 }

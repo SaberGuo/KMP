@@ -64,6 +64,20 @@ namespace ParamedModule.HeatSinkSystem
             par.PlugLenght=100;
             par.PlugHoleDiameter = 30;
             par.PlugHoleDistance = 30;
+            par.InSlotDiameter = 50;
+
+            par.LiqPipeTurnDiameter = 114;
+            par.LiqPipeThickness = 2.5;
+            par.LiqPipeInDiameter = 40;
+            par.LiqPipeIsCreate = true;
+            par.LiqPipeDirection = true;
+            par.LiqPipeHeight = 143;
+            par.LiqPipeLength2.Add(286);
+            par.LiqPipeLength2.Add(286);
+            par.LiqPipeLength2.Add(200);
+            par.LiqPipeLength2.Add(600);
+            par.LiqPipeLength1.Add(486);
+            par.LiqPipeLength1.Add(943);
         }
         public override bool CheckParamete()
         {
@@ -109,7 +123,11 @@ namespace ParamedModule.HeatSinkSystem
                 ParErrorChanged(this, "槽宽度和槽与门边的距离和大于盖半径！");
                 return false;
             }
-
+            if (par.InSlotDiameter / 2 + par.SlotThickness * 2 + par.SlotOffset >= par.InDiameter.Value + par.Thickness.Value - 1)
+            {
+                ParErrorChanged(this, "内部环形骨架与外部环形骨架重叠！");
+                return false;
+            }
             return true;
         }
 
@@ -131,16 +149,19 @@ namespace ParamedModule.HeatSinkSystem
             Face capSideFace = InventorTool.GetFirstFromIEnumerator<Face>(cap.SideFaces.GetEnumerator());
             WorkAxis Axis = Definition.WorkAxes.AddByRevolvedFace(capSideFace);
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "Axis";
-            Face SlotOutFace = CreateSlots(CapCircle, Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight));
+            Face SlotOutFace = CreateSlots(CapCircle, Axis, UsMM(par.SlotOffset), UsMM(par.SlotThickness), UsMM(par.SlotWide), UsMM(par.SlotHight), UsMM(par.InSlotDiameter / 2));
             RevolveFeature pipe = CreatePipe(Axis, Definition.WorkPlanes[3], CapCircle, par.PipeAngle, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset), out pipePlane);
             SweepFeature pipeSur = CreatePipeSup(pipe, Axis, pipePlane, CapCircle, par.PipeSurDistance, UsMM(par.PipeDiameter / 2), UsMM(par.PipeThickness), UsMM(par.PipeXOffset), UsMM(par.PipeYOffset),
                    UsMM(par.PipeSurLength), UsMM(par.PipeSurCurveRadius), UsMM(par.PipeSurDiameter / 2), UsMM(par.PipeSurThickness), capStartFace);
             CreatePipeSurMirror(pipe, pipeSur, Axis, par.PipeAngle, par.PipeSurDistance, par.PipeSurNum);
             CreateTitle(SlotOutFace, CapCircle, Axis, UsMM(par.TitleWidth), UsMM(par.TitleHeigh), UsMM(par.TitleOffset), UsMM(par.TitleLength));
             CreatePlug(SlotOutFace, UsMM(par.PlugWidth), UsMM(par.PlugHeight), UsMM(par.PlugLenght), UsMM(par.PlugOffset / 2), UsMM(par.PlugHoleDiameter / 2), UsMM(par.PlugHoleDistance));
-         
+
+            if (par.LiqPipeIsCreate)
+            {
+                CreateLiquidPipe(capStartFace, CapCircle,true);
+            }
         }
-        #region 创建槽
         ExtrudeFeature CreateCap(double radius, double thickness, out Face StartFace, out SketchCircle circle)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[1]);
@@ -152,7 +173,86 @@ namespace ParamedModule.HeatSinkSystem
             return feature;
 
         }
-        Face CreateSlots(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight)
+        #region 创建槽钢
+
+        /// <summary>
+        /// 创建骨架
+        /// </summary>
+        /// <param name="capCircle">大门圆草图</param>
+        /// <param name="Axis">大门中心轴</param>
+        /// <param name="SlotOffset">外环槽到边距离</param>
+        /// <param name="slotThickness">槽厚度</param>
+        /// <param name="slotWidth">槽宽度</param>
+        /// <param name="slotHeight">槽高度</param>
+        /// <returns></returns>
+        Face CreateSlots(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight, double inSlotRadius)
+        {
+            RevolveFeature Slot = CreateCircleSlot(capCircle, Axis, SlotOffset, slotThickness, slotWidth, slotHeight);
+            List<Face> slotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Slot.SideFaces.GetEnumerator());
+
+            if (inSlotRadius <= 0)
+            {
+                CreateCrossSlots(capCircle, slotThickness, slotWidth, slotHeight, slotSF);
+            }
+            else
+            {
+                RevolveFeature InSlot = CreateCircleSlot(capCircle, Axis, capCircle.Radius - inSlotRadius - slotWidth, slotThickness, slotWidth, slotHeight);
+                List<Face> InSlotSF = InventorTool.GetCollectionFromIEnumerator<Face>(InSlot.SideFaces.GetEnumerator());
+                //for (int i = 0; i < InSlotSF.Count; i++)
+                //{
+                //    Definition.iMateDefinitions.AddMateiMateDefinition(InSlotSF[i], 0).Name = "a" + i;
+                //}
+                //InSlotSF[6] 外面
+                WorkPlane p1 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[2], inSlotRadius + slotWidth + 1, true);
+                WorkPlane p2 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[2], -inSlotRadius - slotWidth - 1, true);
+                WorkPlane p3 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], inSlotRadius + slotWidth + 1, true);
+                WorkPlane p4 = Definition.WorkPlanes.AddByPlaneAndOffset(Definition.WorkPlanes[3], -inSlotRadius - slotWidth - 1, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p1, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p1, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p2, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p2, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p3, false);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p3, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, InSlotSF[6], p4, true);
+                CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], p4, false);
+            }
+            return slotSF[6];
+
+        }
+        /// <summary>
+        /// 创建十字架骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <param name="slotSF"></param>
+        private void CreateCrossSlots(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, List<Face> slotSF)
+        {
+            ExtrudeFeature Xslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], Definition.WorkPlanes[2], true);
+            Face XslotFace = InventorTool.GetFirstFromIEnumerator<Face>(Xslot1.StartFaces.GetEnumerator());
+            List<Face> XslotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Xslot1.SideFaces.GetEnumerator());
+
+            ExtrudeFeature Xslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotFace, true);
+            //for (int i = 0; i < XslotSF.Count; i++)
+            //{
+            //    Definition.iMateDefinitions.AddMateiMateDefinition(XslotSF[i], 0).Name = "a" + i;
+            //}
+            ExtrudeFeature Yslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[4], true);
+            ExtrudeFeature Yslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[6], true);
+        }
+
+        /// <summary>
+        /// 创建环型骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="Axis"></param>
+        /// <param name="SlotOffset"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <returns></returns>
+        private RevolveFeature CreateCircleSlot(SketchCircle capCircle, WorkAxis Axis, double SlotOffset, double slotThickness, double slotWidth, double slotHeight)
         {
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
             SketchLine line = (SketchLine)osketch.AddByProjectingEntity(capCircle);
@@ -165,27 +265,33 @@ namespace ParamedModule.HeatSinkSystem
             {
                 item.AddsMaterial = true;
             }
+            //创建环型骨架
             RevolveFeature Slot = Definition.Features.RevolveFeatures.AddFull(pro, Axis, PartFeatureOperationEnum.kNewBodyOperation);
-            List<Face> slotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Slot.SideFaces.GetEnumerator());
-            //for (int i = 0; i < slotSF.Count; i++)
-            //{
-            //    Definition.iMateDefinitions.AddMateiMateDefinition(slotSF[i], 0).Name = "a" + i;
-            //}
-            ExtrudeFeature Xslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], Definition.WorkPlanes[2], true);
-            Face XslotFace = InventorTool.GetFirstFromIEnumerator<Face>(Xslot1.StartFaces.GetEnumerator());
-            List<Face> XslotSF = InventorTool.GetCollectionFromIEnumerator<Face>(Xslot1.SideFaces.GetEnumerator());
-
-            ExtrudeFeature Xslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotFace, true);
-            //for (int i = 0; i < XslotSF.Count; i++)
-            //{
-            //    Definition.iMateDefinitions.AddMateiMateDefinition(XslotSF[i], 0).Name = "a" + i;
-            //}
-            ExtrudeFeature Yslot1 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[4], true);
-            ExtrudeFeature Yslot2 = CreateSubSlot(capCircle, slotThickness, slotWidth, slotHeight, slotSF[6], XslotSF[6], true);
-            return slotSF[6];
-           
+            return Slot;
         }
-
+        private ExtrudeFeature CreateSubSlot(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, object plane, object fromFace, object toFace)
+        {
+            PlanarSketch Xsketch = Definition.Sketches.Add(plane);
+            List<SketchLine> Xlines = CreateSlot(Xsketch, slotWidth, slotHeight, slotThickness, new XY(0, 0));
+            SketchLine Xline = (SketchLine)Xsketch.AddByProjectingEntity(capCircle);
+            Xsketch.GeometricConstraints.AddCollinear((SketchEntity)Xline, (SketchEntity)Xlines[0]);
+            InventorTool.AddTwoPointDistance(Xsketch, Xline.EndSketchPoint, Xlines[0].EndSketchPoint, 0, DimensionOrientationEnum.kAlignedDim).Parameter.Value = Xline.Length / 2 - slotWidth / 2;
+            Profile Xpro = Xsketch.Profiles.AddForSolid();
+            ExtrudeDefinition Xdef = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(Xpro, PartFeatureOperationEnum.kJoinOperation);
+            Xdef.SetFromToExtent(fromFace, false, toFace, false);
+            return Definition.Features.ExtrudeFeatures.Add(Xdef);
+        }
+        /// <summary>
+        /// 创建单个骨架
+        /// </summary>
+        /// <param name="capCircle"></param>
+        /// <param name="slotThickness"></param>
+        /// <param name="slotWidth"></param>
+        /// <param name="slotHeight"></param>
+        /// <param name="slotSF"></param>
+        /// <param name="plane"></param>
+        /// <param name="direct"></param>
+        /// <returns></returns>
         private ExtrudeFeature CreateSubSlot(SketchCircle capCircle, double slotThickness, double slotWidth, double slotHeight, Face slotSF, object plane, bool direct)
         {
             PlanarSketch Xsketch = Definition.Sketches.Add(plane);
@@ -206,7 +312,15 @@ namespace ParamedModule.HeatSinkSystem
 
             return Definition.Features.ExtrudeFeatures.Add(Xdef);
         }
-
+        /// <summary>
+        /// 创建单个骨架草图
+        /// </summary>
+        /// <param name="osketch"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="thickness"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         List<SketchLine> CreateSlot(PlanarSketch osketch, double width, double height, double thickness, XY point)
         {
             //SketchEntitiesEnumerator entity1=  InventorTool.CreateRangle(osketch, thickness, width);
@@ -258,7 +372,7 @@ namespace ParamedModule.HeatSinkSystem
             return lines;
         }
         #endregion
-        #region 创建管
+        #region 创建汇总管
         /// <summary>
         /// 创建管道
         /// </summary>
@@ -372,7 +486,7 @@ namespace ParamedModule.HeatSinkSystem
             #endregion
         }
         #endregion
-        #region 创建两头
+        #region 创建连接板和上吊板
         void CreateTitle(Face surFace, SketchCircle BigCircle,WorkAxis Axis, double width, double height, double offset, double length)
         {
             Point p = InventorTool.TranGeo.CreatePoint(0, 10, 0);
@@ -419,6 +533,192 @@ namespace ParamedModule.HeatSinkSystem
             //{
             //    Definition.iMateDefinitions.AddMateiMateDefinition(lines[i], 0).Name = "b" + i;
             //}
+        }
+        #endregion
+        #region 创建进出液管
+        private void  CreateLiquidPipe(Face EF,SketchCircle CapCir,bool direct)
+        {
+            WorkPlane plane = Definition.WorkPlanes.AddByPlaneAndOffset(EF, UsMM(par.PipeXOffset),true);
+            SketchPoint EndPoint1, EndPoint2;
+          SweepFeature sweep1=  CreateVerticalLiqPipe(CapCir, true, plane,out EndPoint1);
+            SweepFeature sweep2 = CreateVerticalLiqPipe(CapCir, false, plane,out EndPoint2);
+            Face EF1 = InventorTool.GetFirstFromIEnumerator<Face>(sweep1.EndFaces.GetEnumerator());
+            Face EF2 = InventorTool.GetFirstFromIEnumerator<Face>(sweep2.EndFaces.GetEnumerator());
+            WorkPlane plane2 = Definition.WorkPlanes.AddByPlaneAndOffset(plane, UsMM(par.LiqPipeHeight + par.LiqPipeTurnDiameter / 2),true);
+            CreateLiqPipe1(EF1, plane2,CapCir, EndPoint1,par.LiqPipeDirection);
+            CreateLiqPipe2(EF2, plane2, CapCir, EndPoint2, par.LiqPipeDirection);
+        }
+
+        private SweepFeature CreateVerticalLiqPipe(SketchCircle CapCir, bool direct, WorkPlane plane,out SketchPoint endPoint)
+        {
+            PlanarSketch osketch = Definition.Sketches.AddWithOrientation(plane, Definition.WorkAxes[3], true, true, CapCir.CenterSketchPoint);
+            SketchCircle cir1;
+            if(direct)
+            {
+                cir1 = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, UsMM(par.InDiameter.Value / 2 + par.Thickness.Value - par.PipeYOffset)), UsMM(par.LiqPipeInDiameter / 2));
+            }
+            else
+            {
+                cir1 = osketch.SketchCircles.AddByCenterRadius(InventorTool.CreatePoint2d(0, -UsMM(par.InDiameter.Value / 2 + par.Thickness.Value - par.PipeYOffset)), UsMM(par.LiqPipeInDiameter / 2));
+            }
+            osketch.SketchCircles.AddByCenterRadius(cir1.CenterSketchPoint, UsMM(par.LiqPipeInDiameter / 2 + par.LiqPipeThickness));
+            Profile pro = osketch.Profiles.AddForSolid();
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.Add(Definition.WorkPlanes[3]);
+            SketchPoint StartPoint = (SketchPoint)tsketch.AddByProjectingEntity(cir1.CenterSketchPoint);
+            Point2d p = InventorTool.CreatePoint2d(StartPoint.Geometry.X - UsMM(par.LiqPipeHeight), StartPoint.Geometry.Y);
+            SketchLine line = tsketch.SketchLines.AddByTwoPoints(StartPoint, p);
+            Point2d center;
+            if (direct)
+            {
+                center = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X, line.EndSketchPoint.Geometry.Y - UsMM(par.LiqPipeTurnDiameter / 2));
+
+            }
+            else
+            {
+                center = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X, line.EndSketchPoint.Geometry.Y + UsMM(par.LiqPipeTurnDiameter / 2));
+            }
+            Point2d EndPoint = InventorTool.CreatePoint2d(line.EndSketchPoint.Geometry.X - UsMM(par.LiqPipeTurnDiameter / 2), center.Y);
+
+
+          SketchArc arc=  tsketch.SketchArcs.AddByCenterStartEndPoint(center, line.EndSketchPoint, EndPoint,direct);
+            endPoint =direct==true? arc.EndSketchPoint:arc.StartSketchPoint;
+            Path pPath = Definition.Features.CreatePath(line);
+          return   Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kNewBodyOperation);
+        }
+        private SweepFeature CreateLiqPipe1(object plane1,object plane2,SketchCircle CapCir,SketchPoint endpoint,bool direct)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane1, true);
+            Profile pro = osketch.Profiles.AddForSolid();
+        
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.AddWithOrientation(plane2,Definition.WorkAxes[3],true,true,CapCir.CenterSketchPoint);
+            SketchPoint start = (SketchPoint)tsketch.AddByProjectingEntity(endpoint);
+            SketchLine line1= tsketch.SketchLines.AddByTwoPoints(start, InventorTool.CreatePoint2d(start.Geometry.X, start.Geometry.Y - UsMM(par.LiqPipeLength1[0])));
+            if(direct)
+            {
+             CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2),UsMM(par.LiqPipeLength1[1]), 0);
+            }
+            else
+            {
+                CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength1[1]), 1);
+            }
+            Path pPath = Definition.Features.CreatePath(line1);
+            return Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kJoinOperation);
+
+        }
+        private SweepFeature CreateLiqPipe2(object plane1, object plane2, SketchCircle CapCir, SketchPoint endpoint, bool direct)
+        {
+            PlanarSketch osketch = Definition.Sketches.Add(plane1, true);
+            Profile pro = osketch.Profiles.AddForSolid();
+
+            foreach (ProfilePath item in pro)
+            {
+                if (item.Count > 1)
+                {
+                    item.AddsMaterial = true;
+                }
+                else
+                {
+                    item.AddsMaterial = false;
+                }
+            }
+            PlanarSketch tsketch = Definition.Sketches.AddWithOrientation(plane2, Definition.WorkAxes[3], true, true, CapCir.CenterSketchPoint);
+            SketchPoint start = (SketchPoint)tsketch.AddByProjectingEntity(endpoint);
+            SketchLine line1 = tsketch.SketchLines.AddByTwoPoints(start, InventorTool.CreatePoint2d(start.Geometry.X, start.Geometry.Y + UsMM(par.LiqPipeLength2[0])));
+            SketchPoint p;
+            if (direct)
+            {
+             p=   CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[1]), 2);
+             p=   CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[2]), 4);
+                  CreateSketchArc(tsketch,p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[3]), 2);
+            }
+            else
+            {
+                p = CreateSketchArc(tsketch, line1.EndSketchPoint.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[1]), 3);
+                p = CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[2]), 5);
+                CreateSketchArc(tsketch, p.Geometry, UsMM(par.LiqPipeTurnDiameter / 2), UsMM(par.LiqPipeLength2[3]), 3);
+            }
+            Path pPath = Definition.Features.CreatePath(line1);
+            return Definition.Features.SweepFeatures.AddUsingPath(pro, pPath, PartFeatureOperationEnum.kJoinOperation);
+
+        }
+        private SketchPoint CreateSketchArc(PlanarSketch osketch,Point2d startP,double radius,double LineLength,int ract)
+        {
+            Point2d centerP, endP;
+            SketchArc arc = null;
+            Point2d lineEnd = null;
+            SketchLine line=null;
+            switch (ract)
+            {
+                case 0://右下逆时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X+radius, startP.Y);
+                    endP= InventorTool.CreatePoint2d(centerP.X, centerP.Y-radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                     lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X+LineLength, arc.EndSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 1://左下顺时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X - radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y - radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP,false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X - LineLength, arc.StartSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                case 2://右上顺时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X + radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y + radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X + LineLength, arc.StartSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                case 3://左上逆时针 垂直相切
+                    centerP = InventorTool.CreatePoint2d(startP.X - radius, startP.Y);
+                    endP = InventorTool.CreatePoint2d(centerP.X, centerP.Y + radius);
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                    lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X - LineLength, arc.EndSketchPoint.Geometry.Y);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 4://右上逆时针 水平相切
+                    centerP = InventorTool.CreatePoint2d(startP.X , startP.Y + radius);
+                    endP = InventorTool.CreatePoint2d(centerP.X + radius, centerP.Y );
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, true);
+                    lineEnd = InventorTool.CreatePoint2d(arc.EndSketchPoint.Geometry.X, arc.EndSketchPoint.Geometry.Y + LineLength);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.EndSketchPoint, lineEnd);
+                    break;
+                case 5://左上顺时针 水平相切
+                    centerP = InventorTool.CreatePoint2d(startP.X , startP.Y + radius);
+                    endP = InventorTool.CreatePoint2d(centerP.X - radius, centerP.Y );
+                    arc = osketch.SketchArcs.AddByCenterStartEndPoint(centerP, startP, endP, false);
+                    lineEnd = InventorTool.CreatePoint2d(arc.StartSketchPoint.Geometry.X , arc.StartSketchPoint.Geometry.Y + LineLength);
+                    line = osketch.SketchLines.AddByTwoPoints(arc.StartSketchPoint, lineEnd);
+                    break;
+                default:
+                    break;
+               
+            }
+         
+            return line.EndSketchPoint;
         }
         #endregion
 

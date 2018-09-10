@@ -60,8 +60,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
             }
         }
         #endregion
-        #region 骨架"
-        [Category("骨架")]
+        #region 槽
+        [Category("槽钢")]
         [DisplayName("槽厚度（T）")]
         [Description("热沉盖-槽")]
         public double SlotThickness
@@ -76,8 +76,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotThickness = value;
             }
         }
-        [Category("骨架")]
-        [DisplayName("槽钢高度（H）")]
+        [Category("槽钢")]
+        [DisplayName("槽高度（H）")]
         [Description("热沉盖-槽")]
         public double SlotHight
         {
@@ -91,7 +91,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotHight = value;
             }
         }
-        [Category("槽")]
+        [Category("槽钢")]
         [DisplayName("槽宽度（D）")]
         [Description("热沉盖-槽")]
         public double SlotWide
@@ -106,7 +106,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotWide = value;
             }
         }
-        [Category("骨架")]
+        [Category("槽钢")]
         [DisplayName("圆槽与门边距离（L）")]
         [Description("热沉盖-槽")]
         public double SlotOffset
@@ -121,7 +121,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
                 slotOffset = value;
             }
         }
-        [Category("骨架")]
+        [Category("槽钢")]
         [DisplayName("内环槽钢直径")]
         [Description("热沉盖-槽")]
         public double InSlotDiameter { get; set; }

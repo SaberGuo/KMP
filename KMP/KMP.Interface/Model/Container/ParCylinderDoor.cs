@@ -21,7 +21,7 @@ namespace KMP.Interface.Model.Container
         double flanchWidth;
         ParTopHole topHole = new ParTopHole();
         ObservableCollection<ParSideHole> sideHoles = new ObservableCollection<ParSideHole>();
-       
+        ObservableCollection<ParTopHole> topHoles = new ObservableCollection<ParTopHole>();
         /// <summary>
         /// 容器内半径 不显示
         /// </summary>
@@ -101,26 +101,26 @@ namespace KMP.Interface.Model.Container
         [Description("容器大门")]
         public double FlanchThinkness { get; set; }
         [Category("容器大门")]
-        [DisplayName("直边长度（T3）")]
+        [DisplayName("大门直边长度（T3）")]
         [Description("容器大门")]
         public double StraightLength { get; set; }
-        [Category("开孔")]
-        [DisplayName("大门轴向孔")]
-        [Description("容器-后封头轴向孔")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ParTopHole TopHole
-        {
-            get
-            {
-                return topHole;
-            }
+        //[Category("开孔")]
+        //[DisplayName("大门轴向孔")]
+        //[Description("容器-后封头轴向孔")]
+        //[TypeConverter(typeof(ExpandableObjectConverter))]
+        //public ParTopHole TopHole
+        //{
+        //    get
+        //    {
+        //        return topHole;
+        //    }
 
-            set
-            {
-                topHole = value;
-                this.RaisePropertyChanged(() => this.TopHole);
-            }
-        }
+        //    set
+        //    {
+        //        topHole = value;
+        //        this.RaisePropertyChanged(() => this.TopHole);
+        //    }
+        //}
         [Category("开孔")]
         [DisplayName("大门侧孔")]
         [Description("容器大门—侧孔")]
@@ -134,6 +134,21 @@ namespace KMP.Interface.Model.Container
             set
             {
                 sideHoles = value;
+            }
+        }
+        [Category("开孔")]
+        [DisplayName("大门轴向孔")]
+        [Description("容器-后封头轴向孔")]
+        public ObservableCollection<ParTopHole> TopHoles
+        {
+            get
+            {
+                return topHoles;
+            }
+
+            set
+            {
+                topHoles = value;
             }
         }
     }

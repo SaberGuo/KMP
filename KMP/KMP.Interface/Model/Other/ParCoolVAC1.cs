@@ -14,17 +14,17 @@ namespace KMP.Interface.Model.Other
     /// <summary>
     /// 低温泵
     /// </summary>
-   public class ParCoolVAC:ParameterBase
+    public class ParCoolVAC1 : ParameterBase
     {
-        public ParCoolVAC()
+        public ParCoolVAC1()
         {
-            ServiceLocator.Current.GetInstance<ParVACDictProxy>();
-            
+            ServiceLocator.Current.GetInstance<ParVACDictProxy1>();
+
         }
-        private ParVAC _vac=new ParVAC();
+        private ParVAC1 _vac = new ParVAC1();
         private double _vacDN;
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ParVAC VAC
+        public ParVAC1 VAC
         {
             get
             {
@@ -38,7 +38,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("泵类型")]
-        [ItemsSource(typeof(ParVACSource))]
+        [ItemsSource(typeof(ParVACSource1))]
         public double VacDN
         {
             get
@@ -50,9 +50,9 @@ namespace KMP.Interface.Model.Other
             {
                 this._vacDN = value;
                 this.RaisePropertyChanged(() => this.VacDN);
-                ParVAC vac = ServiceLocator.Current.GetInstance<ParVACDictProxy>().VACDict["DN" + value.ToString()];
-               // ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
-                Type T = typeof(ParVAC);
+                ParVAC1 vac = ServiceLocator.Current.GetInstance<ParVACDictProxy1>().VACDict["DN" + value.ToString()];
+                // ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
+                Type T = typeof(ParVAC1);
                 PropertyInfo[] propertys = T.GetProperties();
                 foreach (var item in propertys)
                 {
@@ -62,13 +62,13 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
-   
+      
 
     }
-    public static class ParVACDict
+    public static class ParVACDict1
     {
-        static Dictionary<string, ParVAC> _VACDict = new Dictionary<string, ParVAC>();
-        public static Dictionary<string, ParVAC> VACDict
+        static Dictionary<string, ParVAC1> _VACDict = new Dictionary<string, ParVAC1>();
+        public static Dictionary<string, ParVAC1> VACDict
         {
             get
             {
@@ -77,108 +77,21 @@ namespace KMP.Interface.Model.Other
         }
 
     }
-    [Export(typeof(ParVACDictProxy))]
+    [Export(typeof(ParVACDictProxy1))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ParVACDictProxy
+    public class ParVACDictProxy1
     {
         [ImportingConstructor]
-         public ParVACDictProxy()
+        public ParVACDictProxy1()
         {
-            VACDict.Add("DN250", new ParVAC
-            {
 
-                Flanch = ParFlanchDict.FlanchDict["DN250"],
-                Manfacturer = CoolVacManufacturer.德国莱宝,
-                Height = 301,
-                TotolHeight = 560,
-                PumpingSpeedH2O = 7000,
-                PumpingSpeedAr = 1600,
-                PumpingSpeedN2 = 2100,
-                PumpingSpeedH2 = 3200,
-                CoolDownTime = 70,
-                CrossoverValue = 250,
-                Weight = 32,
-                InN2DN = 16,
-                OutN2DN = 16
-
-            });
-            VACDict.Add("DN320", new ParVAC
-            {
-                
-                Flanch = ParFlanchDict.FlanchDict["DN320"],
-                Manfacturer = CoolVacManufacturer.德国莱宝,
-                Height = 343,
-                TotolHeight = 662,
-               PumpingSpeedH2O = 10500,
-                PumpingSpeedAr = 2500,
-                PumpingSpeedN2 = 3000,
-                PumpingSpeedH2 = 6000,
-                CoolDownTime = 100,
-                CrossoverValue = 500,
-                Weight = 46,
-                InN2DN = 16,
-                OutN2DN = 16
-            });
-            VACDict.Add("DN400", new ParVAC
-            {
-               
-                Flanch = ParFlanchDict.FlanchDict["DN400"],
-                Manfacturer = CoolVacManufacturer.德国莱宝,
-                Height = 430,
-                TotolHeight = 712,
-                  PumpingSpeedH2O = 18000,
-                PumpingSpeedAr = 4000,
-                PumpingSpeedN2 = 5200,
-                PumpingSpeedH2 = 6200,
-                CoolDownTime = 100,
-                CrossoverValue = 700,
-                Weight = 54,
-                InN2DN = 25,
-                OutN2DN = 25
-            });
-            VACDict.Add("DN500", new ParVAC
-            {
-               
-                Flanch = ParFlanchDict.FlanchDict["DN500"],
-                Manfacturer = CoolVacManufacturer.德国莱宝,
-                Height = 516,
-                TotolHeight = 787,
-                  PumpingSpeedH2O = 30000,
-                PumpingSpeedAr = 8400,
-                PumpingSpeedN2 = 10000,
-                PumpingSpeedH2 = 12000,
-                CoolDownTime = 150,
-                CrossoverValue = 800,
-                Weight = 70,
-                InN2DN = 25,
-                OutN2DN = 25
-            });
-            VACDict.Add("DN630", new ParVAC
-            {
-
-                Flanch = ParFlanchDict.FlanchDict["DN630"],
-                Manfacturer = CoolVacManufacturer.德国莱宝,
-                Height = 608,
-                TotolHeight = 787,
-                PumpingSpeedH2O=46000,
-                PumpingSpeedAr=13500,
-                PumpingSpeedN2=18000,
-                PumpingSpeedH2=14000,
-                PumpingSpeedHe=4000,
-                CrossoverValue=850,
-                CoolDownTime=180,
-                Weight=65,
-                InN2DN = 63,
-                OutN2DN = 63
-
-            });
-            VACDict.Add("DN1000", new ParVAC
+            VACDict.Add("DN1000", new ParVAC1
             {
 
                 Flanch = ParFlanchDict.FlanchDict["DN1000"],
                 Manfacturer = CoolVacManufacturer.自研低温泵,
-                Height = 787,
-                TotolHeight = 886,
+                Height = 879,
+              
                 PumpingSpeedH2O = 93000,
                 PumpingSpeedAr = 25000,
                 PumpingSpeedN2 = 30000,
@@ -190,14 +103,15 @@ namespace KMP.Interface.Model.Other
                 InN2DN = 63,
                 OutN2DN = 63
 
+
             });
-            VACDict.Add("DN1250", new ParVAC
+            VACDict.Add("DN1250", new ParVAC1
             {
 
                 Flanch = ParFlanchDict.FlanchDict["DN1250"],
                 Manfacturer = CoolVacManufacturer.自研低温泵,
-                Height = 829,
-                TotolHeight = 950,
+                Height = 1000,
+
                 PumpingSpeedH2O = 180000,
                 PumpingSpeedAr = 47000,
                 PumpingSpeedN2 = 57000,
@@ -208,22 +122,21 @@ namespace KMP.Interface.Model.Other
                 Weight = 450,
                 InN2DN = 63,
                 OutN2DN = 63
-
             });
         }
-        public Dictionary<string, ParVAC> VACDict
+        public Dictionary<string, ParVAC1> VACDict
         {
-            get { return ParVACDict.VACDict; }
+            get { return ParVACDict1.VACDict; }
         }
 
     }
-    public class ParVACSource : IItemsSource
+    public class ParVACSource1 : IItemsSource
     {
 
         public ItemCollection GetValues()
         {
             ItemCollection VACs = new ItemCollection();
-            foreach (var item in ParVACDict.VACDict)
+            foreach (var item in ParVACDict1.VACDict)
             {
                 VACs.Add(item.Value.Flanch.DN, item.Key);
             }
@@ -231,9 +144,9 @@ namespace KMP.Interface.Model.Other
         }
     }
     [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("泵参数")]
-    public class ParVAC : ParameterBase
+    public class ParVAC1 : ParameterBase
     {
-        public ParVAC()
+        public ParVAC1()
         {
             ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
         }
@@ -257,7 +170,7 @@ namespace KMP.Interface.Model.Other
         }
 
 
-        [DisplayName("泵主体高度")]
+        [DisplayName("泵主体长度")]
         public double Height
         {
             get
@@ -271,20 +184,20 @@ namespace KMP.Interface.Model.Other
                 this.RaisePropertyChanged(() => this.Height);
             }
         }
-        [DisplayName("泵总高度")]
-        public double TotolHeight
-        {
-            get
-            {
-                return totolHeight;
-            }
+        //[DisplayName("泵总高度")]
+        //public double TotolHeight
+        //{
+        //    get
+        //    {
+        //        return totolHeight;
+        //    }
 
-            set
-            {
-                totolHeight = value;
-                this.RaisePropertyChanged(() => this.TotolHeight);
-            }
-        }
+        //    set
+        //    {
+        //        totolHeight = value;
+        //        this.RaisePropertyChanged(() => this.TotolHeight);
+        //    }
+        //}
         private double pumpingSpeedH2O;
         private double pumpingSpeedAr;
         private double pumpingSpeedN2;
@@ -296,7 +209,7 @@ namespace KMP.Interface.Model.Other
         private ParFlanch outN2 = new ParFlanch();
         private double inN2DN=63;
         private double outN2DN=63;
-  
+
         private double weight;
         [DisplayName("Weight(Kg)")]
         public double Weight
@@ -410,8 +323,8 @@ namespace KMP.Interface.Model.Other
                 this.RaisePropertyChanged(() => this.CoolDownTime);
             }
         }
-        [ReadOnly(true)]
         [DisplayName("生产厂家")]
+        [ReadOnly(true)]
         public CoolVacManufacturer Manfacturer { get; set; }
         [DisplayName("液氮进口法兰尺寸")]
         public ParFlanch InN2
@@ -486,10 +399,7 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
+      
     }
-    public enum CoolVacManufacturer
-    {
-        德国莱宝=0,
-        自研低温泵=1
-    }
+ 
 }

@@ -142,6 +142,7 @@ namespace KMP.Interface.Model.Container
         double ribHeight;
         double ribFirstDistance;
         double ribBraceWidth;
+        double ribSpace;
        // double ribBraceHeight;
 
         [Category("加强筋")]
@@ -243,6 +244,21 @@ namespace KMP.Interface.Model.Container
         [DisplayName("加强筋顶板厚度（T3）")]
         [Description("容器系统")]
         public double RibTopThinkness { get; set;}
+        [Category("加强筋")]
+        [DisplayName("加强筋间距")]
+        [Description("容器系统")]
+        public double RibSpace
+        {
+            get
+            {
+                return ribSpace;
+            }
+
+            set
+            {
+                ribSpace = value;
+            }
+        }
         //[Category("加强筋")]
         //[DisplayName("腹板高度（H3）")]
         //[Description("容器系统")]
@@ -265,6 +281,7 @@ namespace KMP.Interface.Model.Container
         #endregion
         #region 开孔
         ParTopHole capTopHole = new ParTopHole();
+        ObservableCollection<ParTopHole> topHoles = new ObservableCollection<ParTopHole>();
         ObservableCollection<ParSideHole> capSideHoles = new ObservableCollection<ParSideHole>();
         ObservableCollection<ParCylinderHole> parHoles = new ObservableCollection<ParCylinderHole>();
 
@@ -287,22 +304,22 @@ namespace KMP.Interface.Model.Container
         /// 堵头顶孔
         /// </summary>
         /// 
-        [Category("开孔")]
-        [DisplayName("后封头轴向孔")]
-        [Description("容器-后封头轴向孔")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ParTopHole CapTopHole
-        {
-            get
-            {
-                return capTopHole;
-            }
-            set
-            {
-                capTopHole = value;
-                this.RaisePropertyChanged(() => this.CapTopHole);
-            }
-        }
+        //[Category("开孔")]
+        //[DisplayName("后封头轴向孔")]
+        //[Description("容器-后封头轴向孔")]
+        //[TypeConverter(typeof(ExpandableObjectConverter))]
+        //public ParTopHole CapTopHole
+        //{
+        //    get
+        //    {
+        //        return capTopHole;
+        //    }
+        //    set
+        //    {
+        //        capTopHole = value;
+        //        this.RaisePropertyChanged(() => this.CapTopHole);
+        //    }
+        //}
         /// <summary>
         /// 堵头侧边孔集合
         /// </summary>
@@ -323,6 +340,23 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.CapSideHoles);
             }
         }
+        [Category("开孔")]
+        [DisplayName("后封头轴向孔")]
+        [Description("容器-后封头轴向孔")]
+        public ObservableCollection<ParTopHole> TopHoles
+        {
+            get
+            {
+                return topHoles;
+            }
+
+            set
+            {
+                topHoles = value;
+            }
+        }
+
+
         #endregion
     }
 }

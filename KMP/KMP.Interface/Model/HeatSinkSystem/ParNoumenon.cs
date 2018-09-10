@@ -374,7 +374,7 @@ namespace KMP.Interface.Model.HeatSinkSystem
         }
 
         [Category("骨架")]
-        [DisplayName("T字钢到胀板距离（H3）")]
+        [DisplayName("T字钢到胀板外侧距离（H3）")]
         [Description("热沉罐-纵梁")]
         public double TAndCYDiatance
         {

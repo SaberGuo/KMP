@@ -21,6 +21,8 @@ namespace KMP.Interface.Model.Container
         double offset;
         double heightOffset;
         double railToCenterDistance;
+        double surFirstOffset;
+      
         /// <summary>
         /// 导轨支架数量
         /// </summary>
@@ -127,5 +129,20 @@ namespace KMP.Interface.Model.Container
                RailTotalHeight= CylinderInRadius.Value - railToCenterDistance;
             }
         }
+        [DisplayName("首个支架到罐体口距离")]
+        [Description("导轨-支持")]
+        public double SurFirstOffset
+        {
+            get
+            {
+                return surFirstOffset;
+            }
+
+            set
+            {
+                surFirstOffset = value;
+            }
+        }
+     
     }
 }

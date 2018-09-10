@@ -30,6 +30,7 @@ namespace ParamedModule
             _heatSink = new HeatSink();
             SubParamedModules.Add(_container);
             SubParamedModules.Add(_heatSink);
+           
             par.OffSet = 0;
         }
 
@@ -62,8 +63,8 @@ namespace ParamedModule
         {
           //  InventorTool.Inventor.Documents.CloseAll();
             CreateDoc();
-            //_container.CreateModule();
-            //_heatSink.CreateModule();
+            _container.CreateModule();
+            _heatSink.CreateModule();
             ComponentOccurrence COcontainer = LoadOccurrence((ComponentDefinition)_container.Doc.ComponentDefinition);
             ComponentOccurrence COheatSink = LoadOccurrence((ComponentDefinition)_heatSink.Doc.ComponentDefinition);
             WorkAxis CylinderAxis = GetAxisProxy(COcontainer, "CylinderAxis");

@@ -69,6 +69,8 @@ namespace ParamedModule.Container
             par.Thickness.Value = 24;
             par.RailOffset = 50;
             par.PlaneOffset = 50;
+            par.PedestalFirstOffset = 600;
+            par.PedestalSpace = 1000;
             this.Name = "容器系统";
         }
         public override bool CheckParamete()
@@ -99,7 +101,7 @@ namespace ParamedModule.Container
             SetiMateResult(COcylinder);
             SetiMateResult(COcylinderDoor);
            // List<Face> cylinderSF = GetSideFaces(COcylinder, "Cylinder");
-            double distance = UsMM(_cylinder.par.Length) / (par.PedestalNumber + 1);
+           // double distance = UsMM(_cylinder.par.Length) / (par.PedestalNumber + 1);
             iMateDefinition cylinderAxisMate = Getimate(COcylinder, "mateH");//罐体轴
                                                                              //  WorkAxis aixs = ((MateiMateDefinition)cylinderAxisMate).Entity;
             List<WorkAxis> cylinderAxes = InventorTool.GetCollectionFromIEnumerator<WorkAxis>(((PartComponentDefinition)COcylinder.Definition).WorkAxes.GetEnumerator());
@@ -126,8 +128,8 @@ namespace ParamedModule.Container
                 PartFeature feature = features.Where(d => d.Name == "UnderBoard").FirstOrDefault();
                 Face startFace = InventorTool.GetFirstFromIEnumerator<Face>(((ExtrudeFeature)feature).StartFaces.GetEnumerator());
 
-                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, (-i * distance - distance) ).Name = "mateG" + i;
-                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, (-i * distance - distance) ).Name = "mateG" + i;
+                ((PartComponentDefinition)COcylinder.Definition).iMateDefinitions.AddFlushiMateDefinition(cylinderOutageFace, -UsMM(par.PedestalFirstOffset+i*par.PedestalSpace) ).Name = "mateG" + i;
+                ((PartComponentDefinition)COpedestal.Definition).iMateDefinitions.AddFlushiMateDefinition(startFace, -UsMM(par.PedestalFirstOffset + i * par.PedestalSpace)).Name = "mateG" + i;
 
                 Definition.iMateResults.AddByTwoiMates(Getimate(COcylinder, "mateG" + i), Getimate(COpedestal, "mateG" + i));
                 #endregion
@@ -151,14 +153,14 @@ namespace ParamedModule.Container
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railEndFace1, UsMM(-par.RailOffset)); //导轨横截面
             Definition.Constraints.AddFlushConstraint(cylinderOutageFaceProxy, railStartFace2, UsMM(-par.RailOffset));
             #endregion
-            #region
+            #region 平台组件安装
             oPos.SetToRotateTo(InventorTool.TranGeo.CreateVector(0, 0, 1), InventorTool.TranGeo.CreateVector(0, 1, 0));
 
             ComponentOccurrence COPlane1 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
 
             ComponentOccurrence COPlane2 = LoadOccurrence((ComponentDefinition)_plane.Doc.ComponentDefinition);
 
-            OccStruct OccPlane1 = GetOccStruct(COPlane1, "RailSidePlate", _plane.par.PlaneNumber - 1);
+            OccStruct OccPlane1 = GetOccStruct(COPlane1, "RailSidePlate", 0);
             OccStruct OccPlane2 = GetOccStruct(COPlane2, "RailSidePlate", 0);
             Definition.Constraints.AddAngleConstraint(OccPlane1.SideFaces[2], OccPlane2.SideFaces[2], Math.PI);
             //Definition.Constraints.AddAngleConstraint(railSF1[11], OccPlane1.EndFace, 0);

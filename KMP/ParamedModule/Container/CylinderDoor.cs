@@ -45,23 +45,19 @@ namespace ParamedModule.Container
             ParTopHole hole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
             ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
             ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
-            par.TopHole = hole;
-            par.TopHole.ParFlanch = flanch;
-            // ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300,PipeThickness=10 ,PipeLenght=200};
-            // ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            //  ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
+            //  par.TopHole = hole;
+            hole.ParFlanch = flanch;
+            par.TopHoles.Add(hole);
+           // par.TopHole.ParFlanch = flanch;
+           
             ParSideHole ParSideHole3 = new ParSideHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             ParSideHole ParSideHole4 = new ParSideHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
             ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            // ParSideHole.ParFlanch = sideFlanch;
-            // ParSideHole1.ParFlanch = sideFlanch;
-            //  ParSideHole2.ParFlanch = sideFlanch;
+          
             ParSideHole3.ParFlanch = sideFlanch;
             ParSideHole4.ParFlanch = sideFlanch;
             ParSideHole5.ParFlanch = sideFlanch;
-            //  par.SideHoles.Add(ParSideHole);
-            //  par.SideHoles.Add(ParSideHole1);
-            //  par.SideHoles.Add(ParSideHole2);
+          
             par.SideHoles.Add(ParSideHole3);
             par.SideHoles.Add(ParSideHole4);
             par.SideHoles.Add(ParSideHole5);
@@ -83,33 +79,7 @@ namespace ParamedModule.Container
             
             Definition.iMateDefinitions.AddMateiMateDefinition(Axis, 0).Name = "mateH";
             Definition.iMateDefinitions.AddMateiMateDefinition(sideFace[3], 0).Name = "mateK";
-            #region 做顶部孔
-            WorkPlane topHolePlane;//顶部孔的工作面
-            Face topHoleFace;//顶部孔的侧面
-            SketchCircle topInCircle;//顶部孔的草图圆
-            CreateTopHole(revolve, UsMM(par.TopHole.ParFlanch.D6 / 2), out topHolePlane, out topHoleFace, out topInCircle,UsMM(par.TopHole.HoleOffset),UsMM(par.TopHole.PositionDistance));
-
-            double length;
-            if (par.TopHole.HoleOffset == 0)
-            {
-                length = par.TopHole.PositionDistance;
-            }
-            else if (par.TopHole.PositionDistance == 0)
-            {
-                length = par.TopHole.HoleOffset;
-            }
-            else
-            {
-                length = Math.Pow(Math.Pow(par.TopHole.PositionDistance, 2) + Math.Pow(par.TopHole.HoleOffset, 2), 0.5);
-            }
-            double Height = par.DoorRadius - Math.Pow((1 - Math.Pow(length, 2) / Math.Pow(par.InRadius.Value, 2)) * Math.Pow(par.DoorRadius, 2), 0.5);
-            ExtrudeFeature topHolePipe = CreateTopHolePipe(topHolePlane, topHoleFace, UsMM(par.TopHole.PipeLenght), UsMM(par.TopHole.PipeThickness),UsMM(Height));
-            Face topHoleEndFace = InventorTool.GetCollectionFromIEnumerator<Face>(topHolePipe.EndFaces.GetEnumerator()).Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
-            ExtrudeFeature flach = CreateTopFlance(topHoleEndFace, topInCircle, UsMM(par.TopHole.ParFlanch.D1 / 2), UsMM(par.TopHole.ParFlanch.H));
-            Face flachEndFace = InventorTool.GetFirstFromIEnumerator<Face>(flach.EndFaces.GetEnumerator());
-            CreateFlanceGroove(flachEndFace, topInCircle, UsMM(par.TopHole.ParFlanch.D2 / 2));
-            CreateFlanceScrew(flachEndFace, topInCircle, par.TopHole.ParFlanch.N, UsMM(par.TopHole.ParFlanch.C / 2), UsMM(par.TopHole.ParFlanch.D0 / 2), UsMM(par.TopHole.ParFlanch.H));
-            #endregion
+            CreateTopHoles(revolve);
             List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(revolve.Faces.GetEnumerator());
             Face PlaneFace = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
             List<Face> CylinderFace = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kCylinderSurface).ToList();
@@ -158,6 +128,42 @@ namespace ParamedModule.Container
         }
         #region 创建孔
         #region 创建顶孔
+        private void CreateTopHoles(RevolveFeature door)
+        {
+            WorkPlane topHolePlane;
+            List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(door.Faces.GetEnumerator());
+            Face cylinderFace = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kCylinderSurface).FirstOrDefault();
+            Edge cylinderEdge = InventorTool.GetFirstFromIEnumerator<Edge>(cylinderFace.Edges.GetEnumerator()); //大门法兰内边
+            topHolePlane = Definition.WorkPlanes.AddByPlaneAndOffset(InventorTool.GetFirstFromIEnumerator<WorkPlane>(Definition.WorkPlanes.GetEnumerator()), -UsMM(par.DoorRadius + par.Thickness.Value), true);
+            foreach (var item in par.TopHoles)
+            {
+                Face topHoleFace;
+                SketchCircle topSketchCircle;
+                CreateTopHole(UsMM(item.ParFlanch.D6 / 2), topHolePlane, cylinderEdge, out topHoleFace, out topSketchCircle, UsMM(item.HoleOffset),UsMM(item.PositionDistance));
+                #region 管长度
+                double length;
+                if (item.HoleOffset == 0)
+                {
+                    length = item.PositionDistance;
+                }
+                else if (item.PositionDistance == 0)
+                {
+                    length = item.HoleOffset;
+                }
+                else
+                {
+                    length = Math.Pow(Math.Pow(item.PositionDistance, 2) + Math.Pow(item.HoleOffset, 2), 0.5);
+                }
+                double Height = par.DoorRadius - Math.Pow((1 - Math.Pow(length, 2) / Math.Pow(par.InRadius.Value, 2)) * Math.Pow(par.DoorRadius, 2), 0.5);
+                #endregion
+                ExtrudeFeature topHolePipe = CreateTopHolePipe(topHolePlane, topHoleFace, UsMM(item.PipeLenght), UsMM(item.PipeThickness), UsMM(Height));
+                Face topHoleEndFace = InventorTool.GetCollectionFromIEnumerator<Face>(topHolePipe.EndFaces.GetEnumerator()).Where(a => a.SurfaceType == SurfaceTypeEnum.kPlaneSurface).FirstOrDefault();
+                ExtrudeFeature flach = CreateTopFlance(topHoleEndFace, topSketchCircle, UsMM(item.ParFlanch.D1 / 2), UsMM(item.ParFlanch.H));
+                Face flachEndFace = InventorTool.GetFirstFromIEnumerator<Face>(flach.EndFaces.GetEnumerator());
+                CreateFlanceGroove(flachEndFace, topSketchCircle, UsMM(item.ParFlanch.D2 / 2));
+                CreateFlanceScrew(flachEndFace, topSketchCircle, item.ParFlanch.N, UsMM(item.ParFlanch.C / 2), UsMM(item.ParFlanch.D0 / 2), UsMM(item.ParFlanch.H));
+            }
+        }
         /// <summary>
         /// 顶部开孔
         /// </summary>
@@ -166,14 +172,9 @@ namespace ParamedModule.Container
         /// <param name="topHolePlane">顶孔面</param>
         /// <param name="topHoleFace">孔的侧边</param>
         /// <param name="topSketchCircle">孔草图</param>
-        private void CreateTopHole(RevolveFeature door, double holeRadius, out WorkPlane topHolePlane, out Face topHoleFace, out SketchCircle topSketchCircle,double positionX,double postionY)
+        private void CreateTopHole( double holeRadius, WorkPlane topHolePlane,Edge cylinderEdge, out Face topHoleFace, out SketchCircle topSketchCircle,double positionX,double postionY)
         {
-            List<Face> faces = InventorTool.GetCollectionFromIEnumerator<Face>(door.Faces.GetEnumerator());
-            Face cylinderFace = faces.Where(a => a.SurfaceType == SurfaceTypeEnum.kCylinderSurface).FirstOrDefault();
-            Edge cylinderEdge = InventorTool.GetFirstFromIEnumerator<Edge>(cylinderFace.Edges.GetEnumerator());
-
-
-            topHolePlane = Definition.WorkPlanes.AddByPlaneAndOffset(InventorTool.GetFirstFromIEnumerator<WorkPlane>(Definition.WorkPlanes.GetEnumerator()), -UsMM(par.DoorRadius + par.Thickness.Value), true);
+         
             PlanarSketch osketch = Definition.Sketches.Add(topHolePlane);
             SketchCircle circle = (SketchCircle)osketch.AddByProjectingEntity(cylinderEdge);
             Point2d p = circle.CenterSketchPoint.Geometry;

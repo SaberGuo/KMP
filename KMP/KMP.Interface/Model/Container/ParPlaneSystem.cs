@@ -19,8 +19,10 @@ namespace KMP.Interface.Model.Container
         double planeToCenterDistance;
         //double offset;
         double heightOffset;
+        double surFirstOffset;
+       
 
-        [DisplayName("平板数量")]
+        [DisplayName("支架数量")]
         public int PlaneNumber
         {
             get
@@ -115,5 +117,20 @@ namespace KMP.Interface.Model.Container
                 planeToCenterDistance = value;
             }
         }
+        [Description("平板系统")]
+        [DisplayName("首个支架到踏板截面距离")]
+        public double SurFirstOffset
+        {
+            get
+            {
+                return surFirstOffset;
+            }
+
+            set
+            {
+                surFirstOffset = value;
+            }
+        }
+   
     }
 }

@@ -17,28 +17,30 @@ namespace ParamedModule.Other
     {
         ParVocuoSystem par = new ParVocuoSystem();
         CoolVAC _Cool= new CoolVAC();
+        CoolVAC1 _Cool1 = new CoolVAC1();
         DRYVAC _Dry = new DRYVAC();
+        GXS _gxs = new GXS();
         MolecularPump _Molecular = new MolecularPump();
         ScrewLine _screwLine = new ScrewLine();
         Valve _valve = new Valve();
         public VacuoSystem():base()
         {
             this.Name = "真空系统";
-            this.Parameter = par;
-            this.SubParamedModules.AddModule(_Cool);
-            this.SubParamedModules.AddModule(_Dry);
-            this.SubParamedModules.AddModule(_Molecular);
-            this.SubParamedModules.AddModule(_screwLine);
-            this.SubParamedModules.AddModule(_valve);
+
+            InitModule();
+         
         }
         public override void InitModule()
         {
             this.Parameter = par;
             this.SubParamedModules.AddModule(_Cool);
+            this.SubParamedModules.AddModule(_Cool1);
             this.SubParamedModules.AddModule(_Dry);
+            this.SubParamedModules.Add(_gxs);
             this.SubParamedModules.AddModule(_Molecular);
             this.SubParamedModules.AddModule(_screwLine);
             this.SubParamedModules.AddModule(_valve);
+          
             base.InitModule();
         }
 
@@ -61,7 +63,9 @@ namespace ParamedModule.Other
           
             if (!CheckParamete()) return;
             _Cool.CreateModule();
+            _Cool1.CreateModule();
             _Dry.CreateModule();
+            _gxs.CreateModule();
             _Molecular.CreateModule();
             _screwLine.CreateModule();
             _valve.CreateModule();
