@@ -15,6 +15,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <local:PathToImageConvertor x:Key="previewConverter"></local:PathToImageConvertor>
+        <local:HasModuleConvertor x:Key="hasModuleConverter"></local:HasModuleConvertor>
     </UserControl.Resources>
     <Grid>
         <xcad:DockingManager AllowMixedOrientation="True"
@@ -50,12 +51,12 @@
                                 <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                     <StackPanel Orientation="Vertical">
                                         <ToolBar>
-                                            <xctk:IconButton Command="{Binding TreeNodeGenCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
+                                            <xctk:IconButton IsEnabled="{Binding ElementName=_moduleTree, Path=SelectedItem, Converter={StaticResource hasModuleConverter}}"  Command="{Binding TreeNodeGenCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
                                                 <xctk:IconButton.Icon>
                                                     <Image Source="./Resources/Image/reload.png"/>
                                                 </xctk:IconButton.Icon>
                                             </xctk:IconButton>
-                                            <xctk:IconButton Command="{Binding TreeNodeCheckCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
+                                            <xctk:IconButton IsEnabled="{Binding ElementName=_moduleTree, Path=SelectedItem, Converter={StaticResource hasModuleConverter}}" Command="{Binding TreeNodeCheckCommand}" CommandParameter="{Binding ElementName=_moduleTree, Path=SelectedItem}"  Width="32" Height="32">
                                                 <xctk:IconButton.Icon>
                                                     <Image Source="./Resources/Image/generate.png"/>
                                                 </xctk:IconButton.Icon>

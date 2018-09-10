@@ -10,7 +10,7 @@
              >
     <DockPanel>
         <ToolBar>
-            <xctk:IconButton Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="32" Height="32">
+            <xctk:IconButton IsEnabled="{Binding HasProject}" Command="{x:Static cmd:ModelCommands.GenModelCommand }" Width="32" Height="32">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/reload.png"/>
                 </xctk:IconButton.Icon>
@@ -61,7 +61,7 @@
                     <Image Source="../Resources/open.png"/>
                 </xctk:IconButton.Icon>
             </xctk:IconButton>
-            <xctk:IconButton Width="32" Height="32" ToolTip="保存" Command="{x:Static cmd:ModelCommands.SaveCommand}">
+            <xctk:IconButton Width="32" Height="32" ToolTip="保存" IsEnabled="{Binding HasProject}" Command="{x:Static cmd:ModelCommands.SaveCommand}">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/save.png"/>
                 </xctk:IconButton.Icon>
@@ -74,7 +74,7 @@
             </xctk:IconButton>
         </ToolBar>
         <ToolBar>
-            <xctk:IconButton Width="32" Height="32" ToolTip="分析">
+            <xctk:IconButton Width="32" Height="32" ToolTip="分析" IsEnabled="{Binding HasProject}" Command="{x:Static cmd:SystemCommands.AnlysisCommand}">
                 <xctk:IconButton.Icon>
                     <Image Source="../Resources/barchart.png"/>
                 </xctk:IconButton.Icon>
