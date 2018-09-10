@@ -31,56 +31,57 @@ namespace ParamedModule.Other
         }
         void init()
         {
-            par.Lenth = 1300;
-            par.Width = 442;
-            par.Height = 627;
+            par.Dn = "SP 250";
+            //par.Lenth = 1300;
+            //par.Width = 442;
+            //par.Height = 627;
 
-            par.SideFlanchX = 525;
-            par.SideFlanchY = 115;
-            par.SideDN = 63;
+            //par.SideFlanchX = 525;
+            //par.SideFlanchY = 115;
+            //par.SideDN = 63;
 
-            par.HandleX1 = 490;
-            par.HandleY1 = 44;
-            par.HandleY2 = 44;
-            par.HandleX2 = 1158;
+            //par.HandleX1 = 490;
+            //par.HandleY1 = 44;
+            //par.HandleY2 = 44;
+            //par.HandleX2 = 1158;
 
-            par.HandleWidth = 120;
-            par.HandleLength = 65;
-            par.HandleDepth = 20;
+            //par.HandleWidth = 120;
+            //par.HandleLength = 65;
+            //par.HandleDepth = 20;
 
-            par.BottomHeight = 166;
+            //par.BottomHeight = 166;
 
 
-            par.TopHoleDepth = 173;
-            par.TopHoleX = 442;
-            par.TopHoleY = par.Width / 2;
-            par.FlanchDiameter = 190;
-            par.FlanchIndiameter3 = 65;
-            par.FlanchIndiameter2 = 70;
-            par.FlanchInDiameter1 = 90;
-            par.FlanchInDepth1 = 4;
-            par.FlanchInDepth2 = 5;
-            par.FlanchInDepth3 = 26;
-            par.ScrewDiameter1 = 13.5;
-            par.ScrewDiameter2 = 19;
-            par.ScrewRangeDiameter1 = 130;
-            par.ScrewRangeDiameter2 = 152;
+            //par.TopHoleDepth = 173;
+            //par.TopHoleX = 442;
+            //par.TopHoleY = par.Width / 2;
+            //par.FlanchDiameter = 190;
+            //par.FlanchIndiameter3 = 65;
+            //par.FlanchIndiameter2 = 70;
+            //par.FlanchInDiameter1 = 90;
+            //par.FlanchInDepth1 = 4;
+            //par.FlanchInDepth2 = 5;
+            //par.FlanchInDepth3 = 26;
+            //par.ScrewDiameter1 = 13.5;
+            //par.ScrewDiameter2 = 19;
+            //par.ScrewRangeDiameter1 = 130;
+            //par.ScrewRangeDiameter2 = 152;
 
-            par.FlanchCYDiameter = 4;
-            par.FlanchRactWith = 5;
-            par.FlanchRactHeight = 1;
+            //par.FlanchCYDiameter = 4;
+            //par.FlanchRactWith = 5;
+            //par.FlanchRactHeight = 1;
 
-            par.AirHeight = 315;
-            par.AirWidth = 243;
-            par.ForX = 88;
-            par.ForY = 435;
-            par.SideY = 590;
+            //par.AirHeight = 315;
+            //par.AirWidth = 243;
+            //par.ForX = 88;
+            //par.ForY = 435;
+            //par.SideY = 590;
 
         }
         public override bool CheckParamete()
         {
-            if (par.SideFlanchX <= par.SideFlanch.D6 || par.SideFlanchY <= par.SideFlanch.D6 || par.Height - par.SideFlanch.D6 <= par.SideFlanchY
-                || par.Lenth - par.SideFlanch.D6 <= par.SideFlanchX)
+            if (par.Par.SideFlanchX <= par.Par.SideFlanch.D6 || par.Par.SideFlanchY <= par.Par.SideFlanch.D6 || par.Par.Height - par.Par.SideFlanch.D6 <= par.Par.SideFlanchY
+                || par.Par.Lenth - par.Par.SideFlanch.D6 <= par.Par.SideFlanchX)
             {
                 ParErrorChanged(this, "侧边孔位置超出范围！");
                 return false;
@@ -93,7 +94,7 @@ namespace ParamedModule.Other
         public override void CreateSub()
         {
             PlanarSketch BoxSketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
-            ExtrudeFeature box = CreateBox(BoxSketch, UsMM(par.Lenth), UsMM(par.Width), UsMM(par.Height));
+            ExtrudeFeature box = CreateBox(BoxSketch, UsMM(par.Par.Lenth), UsMM(par.Par.Width), UsMM(par.Par.Height));
             Face BoxEF = InventorTool.GetFirstFromIEnumerator<Face>(box.EndFaces.GetEnumerator());
             List<Face> BoxSF = InventorTool.GetCollectionFromIEnumerator<Face>(box.SideFaces.GetEnumerator());
             Face BoxStartF = InventorTool.GetFirstFromIEnumerator<Face>(box.StartFaces.GetEnumerator());
@@ -118,21 +119,21 @@ namespace ParamedModule.Other
         private void CreateTopFlanch(Face plane,WorkPlane planeY)
         {
             SketchCircle cir;
-            WorkPlane holePlane = Definition.WorkPlanes.AddByPlaneAndOffset(plane, -UsMM(par.TopHoleDepth), true);
-            CreateTopHole(holePlane, UsMM(par.TopHoleX), -UsMM(par.TopHoleY), UsMM(par.FlanchDiameter + 50), UsMM(par.TopHoleDepth - 3), out cir);
-            ExtrudeFeature hole = CreateTopHole(holePlane, UsMM(par.TopHoleX), -UsMM(par.TopHoleY), UsMM(par.FlanchDiameter), UsMM(par.TopHoleDepth), out cir);
+            WorkPlane holePlane = Definition.WorkPlanes.AddByPlaneAndOffset(plane, -UsMM(par.Par.TopHoleDepth), true);
+            CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.Width/2), UsMM(par.Par.FlanchDiameter + 50), UsMM(par.Par.TopHoleDepth - 3), out cir);
+            ExtrudeFeature hole = CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.Width/2), UsMM(par.Par.FlanchDiameter), UsMM(par.Par.TopHoleDepth), out cir);
             //  Face holeStartF = InventorTool.GetFirstFromIEnumerator<Face>(hole.Faces.GetEnumerator());
-            ExtrudeFeature flanchConcave = CreateTopCY(holePlane, cir, UsMM(par.FlanchIndiameter3), UsMM(par.FlanchInDepth3));
+            ExtrudeFeature flanchConcave = CreateTopCY(holePlane, cir, UsMM(par.Par.FlanchIndiameter3), UsMM(par.Par.FlanchInDepth3));
             Face flanchConcaveEF = InventorTool.GetFirstFromIEnumerator<Face>(flanchConcave.EndFaces.GetEnumerator());
-            ExtrudeFeature flanch1 = CreateTopCY(flanchConcaveEF, cir, UsMM(par.FlanchIndiameter2), UsMM(par.FlanchInDepth2));
+            ExtrudeFeature flanch1 = CreateTopCY(flanchConcaveEF, cir, UsMM(par.Par.FlanchIndiameter2), UsMM(par.Par.FlanchInDepth2));
             Face flanch1EF = InventorTool.GetFirstFromIEnumerator<Face>(flanch1.EndFaces.GetEnumerator());
-            ExtrudeFeature flanch2 = CreateTopCY(flanch1EF, cir, UsMM(par.FlanchInDiameter1), UsMM(par.FlanchInDepth1 ));
+            ExtrudeFeature flanch2 = CreateTopCY(flanch1EF, cir, UsMM(par.Par.FlanchInDiameter1), UsMM(par.Par.FlanchInDepth1 ));
             Face flanch2EF = InventorTool.GetFirstFromIEnumerator<Face>(flanch2.EndFaces.GetEnumerator());
             // Face flanchEF = InventorTool.GetFirstFromIEnumerator<Face>(flanch.EndFaces.GetEnumerator());
-              CreateFlanceScrew(flanch2EF, cir, 4, UsMM(par.ScrewDiameter1/2), UsMM(par.ScrewRangeDiameter1/2), UsMM(par.FlanchInDepth1+par.FlanchInDepth2+par.FlanchInDepth3),0);
-            CreateFlanceScrew(flanch2EF, cir, 4, UsMM(par.ScrewDiameter2 / 2), UsMM(par.ScrewRangeDiameter2 / 2), UsMM(par.FlanchInDepth1 + par.FlanchInDepth2 + par.FlanchInDepth3),Math.PI/4);
-            CreateCyCircle(planeY, cir,UsMM(par.FlanchInDepth2+par.FlanchInDepth3),UsMM(par.FlanchInDiameter1/2-par.FlanchCYDiameter/2),UsMM(par.FlanchCYDiameter),
-                UsMM(par.FlanchInDiameter1/2-par.FlanchCYDiameter-1-par.FlanchRactWith),UsMM(par.FlanchRactWith),UsMM(par.FlanchRactHeight));
+              CreateFlanceScrew(flanch2EF, cir, 4, UsMM(par.Par.ScrewDiameter1/2), UsMM(par.Par.ScrewRangeDiameter1/2), UsMM(par.Par.FlanchInDepth1+par.Par.FlanchInDepth2+par.Par.FlanchInDepth3),0);
+            CreateFlanceScrew(flanch2EF, cir, 4, UsMM(par.Par.ScrewDiameter2 / 2), UsMM(par.Par.ScrewRangeDiameter2 / 2), UsMM(par.Par.FlanchInDepth1 + par.Par.FlanchInDepth2 + par.Par.FlanchInDepth3),Math.PI/4);
+            CreateCyCircle(planeY, cir,UsMM(par.Par.FlanchInDepth2+par.Par.FlanchInDepth3),UsMM(par.Par.FlanchInDiameter1/2-par.Par.FlanchCYDiameter/2),UsMM(par.Par.FlanchCYDiameter),
+                UsMM(par.Par.FlanchInDiameter1/2-par.Par.FlanchCYDiameter-1-par.Par.FlanchRactWith),UsMM(par.Par.FlanchRactWith),UsMM(par.Par.FlanchRactHeight));
         }
         private void CreateCyCircle(WorkPlane plane,SketchCircle cir,double Y,double cirX,double Dia,double ractX,double ractWidth,double ractHeight)
         {
@@ -209,7 +210,7 @@ namespace ParamedModule.Other
         private void CreateBottom(Face plane, WorkPlane planeX, WorkPlane planeY)
         {
           
-            ExtrudeFeature Beam = CreateBottomBeam(plane, par.Width - 37 * 2, 58, 34, 190, 37);
+            ExtrudeFeature Beam = CreateBottomBeam(plane, par.Par.Width - 37 * 2, 58, 34, 190, 37);
             Face BeamEF = InventorTool.GetFirstFromIEnumerator<Face>(Beam.EndFaces.GetEnumerator());
             ExtrudeFeature BeamSur = CreateBeamSur(BeamEF, 30, 29, 15, 78);
             Face BeamSurEF = InventorTool.GetFirstFromIEnumerator<Face>(BeamSur.EndFaces.GetEnumerator());
@@ -260,10 +261,10 @@ namespace ParamedModule.Other
         private void CreateSidePart(Face plane,WorkPlane midir)
         {
             CreateHandle(plane, midir);
-            ExtrudeFeature cyling = CreateHole(plane, par.SideFlanchX, par.SideFlanchY, par.SideFlanch.D6, 5, 47);
+            ExtrudeFeature cyling = CreateHole(plane, par.Par.SideFlanchX, par.Par.SideFlanchY, par.Par.SideFlanch.D6, 5, 47);
             Face CyEF = InventorTool.GetFirstFromIEnumerator<Face>(cyling.EndFaces.GetEnumerator());
            
-            CreateSideFlanch(CyEF, par.SideFlanch);
+            CreateSideFlanch(CyEF, par.Par.SideFlanch);
            
         }
         private ExtrudeFeature CreateHole(Face plane, double sideX, double sideY, double diameter, double thinkness, double Height)
@@ -305,10 +306,12 @@ namespace ParamedModule.Other
         private void CreateHandle(Face plane, WorkPlane midd)
         {
             List<Edge> edges = InventorTool.GetCollectionFromIEnumerator<Edge>(plane.Edges.GetEnumerator());
-            double Y1 = par.Height - par.HandleY1-par.HandleLength;
-            double Y2 = par.Height - par.HandleY2-par.HandleLength;
-          ExtrudeFeature hole1=  CreateRactHole(plane,edges[2], par.HandleX1, Y1, par.HandleWidth, par.HandleLength, par.HandleDepth);
-          ExtrudeFeature hole2=  CreateRactHole(plane,edges[2], par.HandleX2, Y1, par.HandleWidth, par.HandleLength, par.HandleDepth);
+            double Y1 = par.Par.Height -par.Par.HandleLength-20;
+            double Y2 = par.Par.Height -par.Par.HandleLength;
+            double x1 = par.Par.Lenth - par.Par.HandleWidth - 20;
+            double x2 = par.Par.Lenth / 2 - par.Par.HandleWidth / 2;
+          ExtrudeFeature hole1=  CreateRactHole(plane,edges[2],x1, Y1, par.Par.HandleWidth, par.Par.HandleLength, par.Par.HandleDepth);
+          ExtrudeFeature hole2=  CreateRactHole(plane,edges[2], x2, Y1, par.Par.HandleWidth, par.Par.HandleLength, par.Par.HandleDepth);
             ObjectCollection objc = InventorTool.CreateObjectCollection();
             objc.Add(hole1);
             objc.Add(hole2);
@@ -330,9 +333,9 @@ namespace ParamedModule.Other
         #region 创建透风窗口
         private void CreateAir(Face ForFace,Face SideFace,WorkPlane planeY)
         {
-          ObjectCollection objc=  CreateAirW(ForFace, UsMM(par.ForX), UsMM(par.ForY), UsMM(par.AirWidth), UsMM(par.AirHeight));
+          ObjectCollection objc=  CreateAirW(ForFace, UsMM(par.Par.ForX), UsMM(par.Par.ForY), UsMM(par.Par.AirWidth), UsMM(par.Par.AirHeight));
             Definition.Features.MirrorFeatures.Add(objc, planeY,false,PatternComputeTypeEnum.kAdjustToModelCompute);
-            CreateAirW(SideFace, UsMM(par.Width - par.AirWidth) / 2, UsMM(par.SideY), UsMM(par.AirWidth), UsMM(par.AirHeight));
+            CreateAirW(SideFace, UsMM(par.Par.Width - par.Par.AirWidth) / 2, UsMM(par.Par.SideY), UsMM(par.Par.AirWidth), UsMM(par.Par.AirHeight));
         }
         private ObjectCollection CreateAirW(Face plane,double positionX,double positionY,double width,double height)
         {

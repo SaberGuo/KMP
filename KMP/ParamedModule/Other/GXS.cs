@@ -70,8 +70,8 @@ namespace ParamedModule.Other
         {
             SketchCircle cir;
             WorkPlane holePlane = Definition.WorkPlanes.AddByPlaneAndOffset(plane, -UsMM(par.Par.TopHoleDepth), true);
-            CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.TopHoleY), UsMM(par.Par.TopFlanch.D1 + 50), UsMM(par.Par.TopHoleDepth - 3), out cir);
-            ExtrudeFeature hole = CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.TopHoleY), UsMM(par.Par.TopFlanch.D1), UsMM(par.Par.TopHoleDepth), out cir);
+            CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.Width/2), UsMM(par.Par.TopFlanch.D1 + 50), UsMM(par.Par.TopHoleDepth - 3), out cir);
+            ExtrudeFeature hole = CreateTopHole(holePlane, UsMM(par.Par.TopHoleX), -UsMM(par.Par.Width/2), UsMM(par.Par.TopFlanch.D1), UsMM(par.Par.TopHoleDepth), out cir);
             //  Face holeStartF = InventorTool.GetFirstFromIEnumerator<Face>(hole.Faces.GetEnumerator());
             ExtrudeFeature flanchConcave = CreateTopCY(holePlane, cir, UsMM(par.Par.TopFlanch.D6), UsMM(2));
             Face flanchConcaveEF = InventorTool.GetFirstFromIEnumerator<Face>(flanchConcave.EndFaces.GetEnumerator());
