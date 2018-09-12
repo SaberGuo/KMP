@@ -31,9 +31,9 @@ namespace ParamedModule.Container
         }
         void init()
         {
-            par.Width = 40;
+            par.Width = 300;
             par.Thickness = 20;
-            par.Length = 240;
+            par.Length = 4800;
         }
         public override bool CheckParamete()
         {

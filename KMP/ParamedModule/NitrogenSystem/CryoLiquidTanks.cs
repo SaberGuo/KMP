@@ -131,6 +131,7 @@ namespace ParamedModule.NitrogenSystem
 
             Area area = new Area();
             area.Name = "液体储槽地面";
+            area.ModelPath = this.ModelPath;
             area.Length = offset + UsMM(par.Offsets[0]);
             area.CreateModule();
             ComponentOccurrence COArea = LoadOccurrence((ComponentDefinition)area.Doc.ComponentDefinition);
@@ -140,6 +141,8 @@ namespace ParamedModule.NitrogenSystem
             Definition.Constraints.AddMateConstraint(SurEF[2], TrainEF,0);
             Definition.Constraints.AddFlushConstraint(plane, TrainSF[1], area.Length/4);
             Definition.Constraints.AddMateConstraint(planeMate, TrainSF[0], -UsMM(par.Offsets[0]/2));
+           
+            
             // ComponentOccurrence COLiquidTank1 = LoadOccurrence((ComponentDefinition)LiquidTank.Doc.ComponentDefinition);
 
 

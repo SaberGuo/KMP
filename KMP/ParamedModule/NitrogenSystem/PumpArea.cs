@@ -95,15 +95,15 @@ namespace ParamedModule.NitrogenSystem
             }
             #region 将部件另存为
             PartDocument pump = ((PartComponentDefinition)PumpCOs[0].Definition).Document;
-            string FullName = System.IO.Path.Combine(ModelPath, "液压泵.ipt");
-            if (System.IO.File.Exists(FullName))
+            string PathName = System.IO.Path.Combine(ModelPath, "液压泵.ipt");
+            if (System.IO.File.Exists(PathName))
             {
-                System.IO.File.Delete(FullName);
+                System.IO.File.Delete(PathName);
             }
-            pump.SaveAs(FullName,false);
+            pump.SaveAs(PathName, false);
 
             PartDocument subCool = ((PartComponentDefinition)PumpCOs[0].Definition).Document;
-             FullName = System.IO.Path.Combine(ModelPath, "过冷器.ipt");
+          string   FullName = System.IO.Path.Combine(ModelPath, "过冷器.ipt");
             if (System.IO.File.Exists(FullName))
             {
                 System.IO.File.Delete(FullName);
@@ -113,6 +113,7 @@ namespace ParamedModule.NitrogenSystem
 
             Area area = new Area();
             area.Name = "泵区地面";
+            area.ModelPath = this.ModelPath;
             double length1=0, length2=0;
             par.PumpOffsets.ToList().ForEach(a => length1 += a);
             par.SubCoolerOffsets.ToList().ForEach(a => length2 += a);

@@ -63,14 +63,14 @@ namespace ParamedModule.Container
         void init()
         {
           
-            par.InDiameter.Value = 2800;
-            par.PedestalNumber = 3;
-            par.InRadius.Value = 1400;
-            par.Thickness.Value = 24;
+            par.InDiameter.Value = 3400;
+            par.PedestalNumber = 2;
+           // par.InRadius.Value = 1400;
+            par.Thickness.Value = 14;
             par.RailOffset = 50;
             par.PlaneOffset = 50;
             par.PedestalFirstOffset = 600;
-            par.PedestalSpace = 1000;
+            par.PedestalSpace = 3800;
             this.Name = "容器系统";
         }
         public override bool CheckParamete()

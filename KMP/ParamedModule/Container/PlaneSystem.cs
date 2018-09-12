@@ -47,7 +47,7 @@ namespace ParamedModule.Container
             _plane.par.Length = 4800;
             _plane.par.Width = 300;
             _plane.par.Thickness = 20;
-            par.PlaneToCenterDistance = 845;
+            par.PlaneToCenterDistance = 1000;
             par.SurFirstOffset = 300;
           
         }

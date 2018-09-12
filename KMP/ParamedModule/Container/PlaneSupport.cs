@@ -43,7 +43,7 @@ namespace ParamedModule.Container
         {
           
             par.BrachHeight1 = 100;
-            par.BrachHeight2 = 200;
+            par.BrachHeight2 = 400;
             par.BrachDiameter1 = 200;
             par.BrachDiameter2 = 100;
             par.Offset = 800;

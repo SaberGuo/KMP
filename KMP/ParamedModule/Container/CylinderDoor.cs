@@ -38,29 +38,29 @@ namespace ParamedModule.Container
         private void init()
         {
 
-            par.DoorRadius = 700;
-            par.FlanchWidth = 40;
-            par.FlanchThinkness=30;
-            par.StraightLength = 25;
-            ParTopHole hole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
-            ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
-            ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
-            //  par.TopHole = hole;
-            hole.ParFlanch = flanch;
-            par.TopHoles.Add(hole);
+            par.DoorRadius = 850;
+            par.FlanchWidth = 80;
+            par.FlanchThinkness=60;
+            par.StraightLength = 40;
+            //ParTopHole hole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
+            //ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
+            //ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
+            ////  par.TopHole = hole;
+            //hole.ParFlanch = flanch;
+            //par.TopHoles.Add(hole);
            // par.TopHole.ParFlanch = flanch;
            
-            ParSideHole ParSideHole3 = new ParSideHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParSideHole ParSideHole4 = new ParSideHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //ParSideHole ParSideHole3 = new ParSideHole() {  HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //ParSideHole ParSideHole4 = new ParSideHole() { HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 1, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
           
-            ParSideHole3.ParFlanch = sideFlanch;
-            ParSideHole4.ParFlanch = sideFlanch;
-            ParSideHole5.ParFlanch = sideFlanch;
+            //ParSideHole3.ParFlanch = sideFlanch;
+            //ParSideHole4.ParFlanch = sideFlanch;
+            //ParSideHole5.ParFlanch = sideFlanch;
           
-            par.SideHoles.Add(ParSideHole3);
-            par.SideHoles.Add(ParSideHole4);
-            par.SideHoles.Add(ParSideHole5);
+            //par.SideHoles.Add(ParSideHole3);
+            //par.SideHoles.Add(ParSideHole4);
+            //par.SideHoles.Add(ParSideHole5);
 
             this.Name = "容器大门";
         }
@@ -92,6 +92,7 @@ namespace ParamedModule.Container
                 CreateSideHole(plane, PlaneFace, Axis, item);
 
             }
+            if (par.SideHoles.Count == 0 && par.TopHoles.Count == 0) return;
             CreateClear(InArc);
         }
         private RevolveFeature CreateDoor(double thickness, double inRadius, double doorRadius, out SketchEllipticalArc Arc1, out SketchEllipticalArc Arc2)

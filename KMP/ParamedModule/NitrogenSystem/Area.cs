@@ -28,6 +28,7 @@ namespace ParamedModule.NitrogenSystem
         }
         public override void CreateSub()
         {
+            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.Name + ".ipt");
             PlanarSketch osketch = Definition.Sketches.Add(Definition.WorkPlanes[2]);
            ExtrudeFeature box;
             if(width>0)

@@ -36,8 +36,7 @@ namespace ParamedModule.HeatSinkSystem
         }
         void init()
         {
-            par.InDiameter.Value = 2000;
-            par.Thickness.Value = 24;
+         
             par.CapThickness = 30;
             par.SlotOffset = 200;
             par.SlotHight = 50;

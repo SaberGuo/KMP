@@ -22,7 +22,7 @@ namespace ParamedModule.Container
             this.Parameter = par;
             init();
 
-            this.Name = "导轨支架立柱下钣金";
+            this.Name = "导轨下部支撑";
         }
         public override void InitModule()
         {

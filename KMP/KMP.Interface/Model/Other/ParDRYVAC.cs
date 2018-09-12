@@ -10,18 +10,314 @@ using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
 namespace KMP.Interface.Model.Other
 {
-   public class ParDRYVAC:ParameterBase
+    public class ParDRYVAC : ParameterBase
     {
-        public ParDRYVAC():base()
+        public ParDRYVAC() : base()
+        {
+            ServiceLocator.Current.GetInstance<ParDryPumpDictProxy>();
+        }
+        private ParDRY par = new ParDRY();
+        private string dn = "DV450-i";
+        [DisplayName("干泵参数")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public ParDRY Par
+        {
+            get
+            {
+                return par;
+            }
+
+            set
+            {
+                par = value;
+                this.RaisePropertyChanged(() => this.Par);
+            }
+        }
+        [DisplayName("干泵型号")]
+        [ItemsSource(typeof(ParDRYSource))]
+        public string Dn
+        {
+            get
+            {
+                return dn;
+            }
+
+            set
+            {
+                dn = value;
+                this.RaisePropertyChanged(() => this.Dn);
+
+
+                ParDRY vac = ServiceLocator.Current.GetInstance<ParDRYDictProxy>().Dict[value.ToString()];
+                // ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
+                Type T = typeof(ParDRY);
+                PropertyInfo[] propertys = T.GetProperties();
+                foreach (var item in propertys)
+                {
+                    object c = item.GetValue(vac, null);
+                    //object d = item.GetValue(this.ParFlanch, null);
+                    item.SetValue(this.Par, c, null);
+                }
+            }
+        }
+    }
+    public static class ParDRYDict
+    {
+        static Dictionary<string, ParDRY> _Dict = new Dictionary<string, ParDRY>();
+        public static Dictionary<string, ParDRY> Dict
+        {
+            get
+            {
+                return _Dict;
+            }
+        }
+
+    }
+    [Export(typeof(ParDRYDictProxy))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class ParDRYDictProxy
+    {
+        [ImportingConstructor]
+        public ParDRYDictProxy()
+        {
+            Dict.Add("DV450-i", new ParDRY()
+            {
+                PartType = "DV450-i",
+                Manfacturer="德国莱宝",
+                Width=677,
+                Length=1339,
+                Height=600,
+                MaxPumpingSeed=450,
+                IntakeFlange=100,
+                Mass=790,
+                NominalFlow=6,
+
+                TopDN = 250,
+                TopHoleDepth = 47,
+                TopHoleX = 442,
+                TopHoleY = 395,
+
+                ScreenX = 46,
+                ScreenY = 25,
+                ScreenLength = 160,
+                ScreenHeight1 = 66,
+                ScreenHeight2 = 82,
+                ScreenWidth = 240,
+                BottomHeight = 120,
+
+                FanX = 112,
+                FanY = 25,
+                FanWidth = 116,
+
+                PumpHeight = 107,
+                PumpLenght = 131,
+                PumpWidth = 55,
+                PumpX = 32,
+                PumpY = 214,
+
+                SideFlanchX = 88,
+                SideFlanchY = 190,
+                SideDN = 63,
+
+                SideHoleDia = 27,
+                SideHoleThinkness = 2.4,
+                SideHoleX1 = 165,
+                SideHoleX2 = 215,
+                SideHoleY1 = 100,
+                SideHoleY2 = 100,
+
+                ValveInDia = 17.5,
+                ValveThinkness = 2.3,
+                ValveX = 60,
+                ValveY = 395,
+            });
+            Dict.Add("DV650-i", new ParDRY()
+            {
+                Width = 677,
+                Length = 1339,
+                Height = 600,
+                   PartType = "DV650-i",
+                Manfacturer = "德国莱宝",
+                MaxPumpingSeed = 650,
+                IntakeFlange = 100,
+                Mass = 750,
+                NominalFlow = 7.5,
+                TopDN = 250,
+                TopHoleDepth = 47,
+                TopHoleX = 442,
+                TopHoleY = 395,
+
+                ScreenX = 46,
+                ScreenY = 25,
+                ScreenLength = 160,
+                ScreenHeight1 = 66,
+                ScreenHeight2 = 82,
+                ScreenWidth = 240,
+                BottomHeight = 120,
+
+                FanX = 112,
+                FanY = 25,
+                FanWidth = 116,
+
+                PumpHeight = 107,
+                PumpLenght = 131,
+                PumpWidth = 55,
+                PumpX = 32,
+                PumpY = 214,
+
+                SideFlanchX = 88,
+                SideFlanchY = 190,
+                SideDN = 63,
+
+                SideHoleDia = 27,
+                SideHoleThinkness = 2.4,
+                SideHoleX1 = 165,
+                SideHoleX2 = 215,
+                SideHoleY1 = 100,
+                SideHoleY2 = 100,
+
+                ValveInDia = 17.5,
+                ValveThinkness = 2.3,
+                ValveX = 60,
+                ValveY = 395,
+            });
+            Dict.Add("DV1200-i", new ParDRY()
+            {
+                Width = 677,
+                Length = 1339,
+                Height = 1024,
+                   PartType = "DV1200-i",
+                Manfacturer = "德国莱宝",
+                MaxPumpingSeed = 1250,
+                IntakeFlange = 100,
+                Mass = 1400,
+                NominalFlow = 15,
+                TopDN = 250,
+                TopHoleDepth = 47,
+                TopHoleX = 442,
+                TopHoleY = 395,
+
+                ScreenX = 46,
+                ScreenY = 25,
+                ScreenLength = 160,
+                ScreenHeight1 = 66,
+                ScreenHeight2 = 82,
+                ScreenWidth = 240,
+                BottomHeight = 120,
+
+                FanX = 112,
+                FanY = 25,
+                FanWidth = 116,
+
+                PumpHeight = 107,
+                PumpLenght = 131,
+                PumpWidth = 55,
+                PumpX = 32,
+                PumpY = 214,
+
+                SideFlanchX = 88,
+                SideFlanchY = 190,
+                SideDN = 63,
+
+                SideHoleDia = 27,
+                SideHoleThinkness = 2.4,
+                SideHoleX1 = 165,
+                SideHoleX2 = 215,
+                SideHoleY1 = 100,
+                SideHoleY2 = 100,
+
+                ValveInDia = 17.5,
+                ValveThinkness = 2.3,
+                ValveX = 60,
+                ValveY = 395,
+            });
+            Dict.Add("DV5000-i", new ParDRY()
+            {
+                PartType = "DV5000-i",
+                Manfacturer = "德国莱宝",
+                Width = 677,
+                Length = 1339,
+                Height = 1024,
+                MaxPumpingSeed = 3800,
+                IntakeFlange = 250,
+                Mass = 1200,
+                NominalFlow = 11,
+
+
+                TopDN = 250,
+            TopHoleDepth = 47,
+            TopHoleX = 442,
+            TopHoleY = 395,
+
+            ScreenX = 46,
+            ScreenY = 25,
+            ScreenLength = 160,
+            ScreenHeight1 = 66,
+            ScreenHeight2 = 82,
+            ScreenWidth = 240,
+            BottomHeight = 120,
+
+            FanX = 112,
+            FanY = 25,
+            FanWidth = 116,
+
+            PumpHeight = 107,
+            PumpLenght = 131,
+            PumpWidth = 55,
+            PumpX = 32,
+            PumpY = 214,
+
+            SideFlanchX = 88,
+            SideFlanchY = 190,
+            SideDN = 63,
+
+            SideHoleDia = 27,
+            SideHoleThinkness = 2.4,
+            SideHoleX1 = 165,
+            SideHoleX2 = 215,
+            SideHoleY1 = 100,
+            SideHoleY2 = 100,
+
+            ValveInDia = 17.5,
+            ValveThinkness = 2.3,
+            ValveX = 60,
+            ValveY = 395,
+        });
+        }
+        public Dictionary<string, ParDRY> Dict
+        {
+            get { return ParDRYDict.Dict; }
+        }
+
+    }
+
+    public class ParDRYSource : IItemsSource
+    {
+
+        public ItemCollection GetValues()
+        {
+            ItemCollection VACs = new ItemCollection();
+            foreach (var item in ParDRYDict.Dict)
+            {
+                VACs.Add(item.Value.PartType, item.Key);
+            }
+            return VACs;
+        }
+    }
+    [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("干泵参数")]
+    public class ParDRY : ParameterBase
+    {
+        public ParDRY()
         {
             ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
         }
+
         #region
         private double lenth;
         private double width;
         private double height;
         private double topDN;
-        private ParFlanch topFlanch=new ParFlanch();
+        private ParFlanch topFlanch = new ParFlanch();
         private double topHoleDepth;
         private double topHoleX;
         private double topHoleY;
@@ -56,9 +352,9 @@ namespace KMP.Interface.Model.Other
         private double bottomHeight;
         #endregion
         #region 干泵长宽高
-        [Category("干泵参数")]
+        [Category("干泵结构参数")]
         [DisplayName("泵长")]
-        public double Lenth
+        public double Length
         {
             get
             {
@@ -68,9 +364,10 @@ namespace KMP.Interface.Model.Other
             set
             {
                 lenth = value;
+                this.RaisePropertyChanged(() => this.Length);
             }
         }
-        [Category("干泵参数")]
+        [Category("干泵结构参数")]
         [DisplayName("泵宽")]
         public double Width
         {
@@ -82,9 +379,10 @@ namespace KMP.Interface.Model.Other
             set
             {
                 width = value;
+                this.RaisePropertyChanged(() => this.Width);
             }
         }
-        [Category("干泵参数")]
+        [Category("干泵结构参数")]
         [DisplayName("泵高")]
         public double Height
         {
@@ -96,12 +394,13 @@ namespace KMP.Interface.Model.Other
             set
             {
                 height = value;
+                this.RaisePropertyChanged(() => this.Height);
             }
         }
         #endregion
         #region 顶部接口法兰
-        [Category("顶部接口")]
-        [DisplayName("法兰参数")]
+        [Category("干泵结构参数")]
+        [DisplayName("顶部接口法兰参数")]
         public ParFlanch TopFlanch
         {
             get
@@ -112,10 +411,11 @@ namespace KMP.Interface.Model.Other
             set
             {
                 topFlanch = value;
+                this.RaisePropertyChanged(() => this.TopFlanch);
             }
         }
-        [Category("顶部接口")]
-        [DisplayName("法兰DN")]
+        [Category("干泵结构参数")]
+        [DisplayName("顶部接口法兰DN")]
         public double TopDN
         {
             get
@@ -139,8 +439,10 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
-        [Category("顶部接口")]
-        [DisplayName("接口深度")]
+        /// <summary>
+        /// 顶部接口深度
+        /// </summary>
+        [Browsable(false)]
         public double TopHoleDepth
         {
             get
@@ -153,8 +455,10 @@ namespace KMP.Interface.Model.Other
                 topHoleDepth = value;
             }
         }
-        [Category("顶部接口")]
-        [DisplayName("接口X位置")]
+        /// <summary>
+        /// 顶部接口X位置
+        /// </summary>
+        [Browsable(false)]
         public double TopHoleX
         {
             get
@@ -167,8 +471,10 @@ namespace KMP.Interface.Model.Other
                 topHoleX = value;
             }
         }
-        [Category("顶部接口")]
-        [DisplayName("接口Y位置")]
+        /// <summary>
+        /// 顶部接口Y位置
+        /// </summary>
+        [Browsable(false)]
         public double TopHoleY
         {
             get
@@ -183,8 +489,10 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 顶部触摸屏
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏长度")]
+        /// <summary>
+        /// 顶部触摸屏长度
+        /// </summary>
+        [Browsable(false)]
         public double ScreenLength
         {
             get
@@ -197,8 +505,10 @@ namespace KMP.Interface.Model.Other
                 screenLength = value;
             }
         }
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏宽度")]
+        /// <summary>
+        /// 顶部触摸屏宽度
+        /// </summary>
+        [Browsable(false)]
         public double ScreenWidth
         {
             get
@@ -211,8 +521,10 @@ namespace KMP.Interface.Model.Other
                 screenWidth = value;
             }
         }
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏左侧高")]
+        /// <summary>
+        /// 顶部触摸屏左侧高
+        /// </summary>
+        [Browsable(false)]
         public double ScreenHeight1
         {
             get
@@ -225,8 +537,10 @@ namespace KMP.Interface.Model.Other
                 screenHeight1 = value;
             }
         }
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏右侧高")]
+        /// <summary>
+        /// 顶部触摸屏右侧高度
+        /// </summary>
+        [Browsable(false)]
         public double ScreenHeight2
         {
             get
@@ -239,8 +553,11 @@ namespace KMP.Interface.Model.Other
                 screenHeight2 = value;
             }
         }
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏X位置")]
+        /// <summary>
+        /// 顶部触摸屏x位置
+        /// </summary>
+        [Browsable(false)]
+
         public double ScreenX
         {
             get
@@ -253,8 +570,10 @@ namespace KMP.Interface.Model.Other
                 screenX = value;
             }
         }
-        [Category("顶部触摸屏")]
-        [DisplayName("触摸屏Y位置")]
+        /// <summary>
+        /// 顶部触摸屏Y位置
+        /// </summary>
+        [Browsable(false)]
         public double ScreenY
         {
             get
@@ -269,8 +588,10 @@ namespace KMP.Interface.Model.Other
         }
         #endregion
         #region 风扇参数
-        [Category("风扇")]
-        [DisplayName("宽度")]
+        /// <summary>
+        /// 风扇宽度
+        /// </summary>
+        [Browsable(false)]
         public double FanWidth
         {
             get
@@ -283,8 +604,10 @@ namespace KMP.Interface.Model.Other
                 fanWidth = value;
             }
         }
-        [Category("风扇")]
-        [DisplayName("X位置")]
+        /// <summary>
+        /// 风扇x位置
+        /// </summary>
+        [Browsable(false)]
         public double FanX
         {
             get
@@ -297,8 +620,10 @@ namespace KMP.Interface.Model.Other
                 fanX = value;
             }
         }
-        [Category("风扇")]
-        [DisplayName("Y位置")]
+        /// <summary>
+        /// 风扇Y位置
+        /// </summary>
+        [Browsable(false)]
         public double FanY
         {
             get
@@ -325,6 +650,7 @@ namespace KMP.Interface.Model.Other
             set
             {
                 valveX = value;
+                this.RaisePropertyChanged(() => this.ValveX);
             }
         }
         [Category("侧边阀门")]
@@ -339,6 +665,7 @@ namespace KMP.Interface.Model.Other
             set
             {
                 valveY = value;
+                this.RaisePropertyChanged(() => this.ValveY);
             }
         }
         [Category("侧边阀门")]
@@ -353,6 +680,7 @@ namespace KMP.Interface.Model.Other
             set
             {
                 valveInDia = value;
+                this.RaisePropertyChanged(() => this.ValveInDia);
             }
         }
         [Category("侧边阀门")]
@@ -367,6 +695,7 @@ namespace KMP.Interface.Model.Other
             set
             {
                 valveThinkness = value;
+                this.RaisePropertyChanged(() => this.ValveThinkness);
             }
         }
         #endregion
@@ -440,6 +769,7 @@ namespace KMP.Interface.Model.Other
         #region 侧边接口参数
         [Category("侧边接口")]
         [DisplayName("法兰参数")]
+        [Browsable(false)]
         public ParFlanch SideFlanch
         {
             get
@@ -450,10 +780,12 @@ namespace KMP.Interface.Model.Other
             set
             {
                 sideFlanch = value;
+                this.RaisePropertyChanged(() => this.SideFlanch);
             }
         }
         [Category("侧边接口")]
         [DisplayName("法兰DN")]
+        [Browsable(false)]
         public double SideDN
         {
             get
@@ -479,6 +811,7 @@ namespace KMP.Interface.Model.Other
         }
         [Category("侧边接口")]
         [DisplayName("X位置")]
+        [Browsable(false)]
         public double SideFlanchX
         {
             get
@@ -489,8 +822,10 @@ namespace KMP.Interface.Model.Other
             set
             {
                 sideFlanchX = value;
+                this.RaisePropertyChanged(() => this.SideFlanchX);
             }
         }
+        [Browsable(false)]
         [Category("侧边接口")]
         [DisplayName("Y位置")]
         public double SideFlanchY
@@ -503,10 +838,12 @@ namespace KMP.Interface.Model.Other
             set
             {
                 sideFlanchY = value;
+                this.RaisePropertyChanged(() => this.SideFlanchY);
             }
         }
         #endregion
         #region 侧边两个小孔接口参数
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔直径")]
         public double SideHoleDia
@@ -521,6 +858,7 @@ namespace KMP.Interface.Model.Other
                 sideHoleDia = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔壁厚度")]
         public double SideHoleThinkness
@@ -535,6 +873,7 @@ namespace KMP.Interface.Model.Other
                 sideHoleThinkness = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔1X位置")]
         public double SideHoleX1
@@ -549,6 +888,7 @@ namespace KMP.Interface.Model.Other
                 sideHoleX1 = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔2X位置")]
         public double SideHoleX2
@@ -563,6 +903,7 @@ namespace KMP.Interface.Model.Other
                 sideHoleX2 = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔1Y位置")]
         public double SideHoleY1
@@ -577,6 +918,7 @@ namespace KMP.Interface.Model.Other
                 sideHoleY1 = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("孔2Y位置")]
         public double SideHoleY2
@@ -594,7 +936,10 @@ namespace KMP.Interface.Model.Other
 
 
         #endregion
-        [DisplayName("底部支撑高度")]
+        /// <summary>
+        /// 底部支撑高度
+        /// </summary>
+        [Browsable(false)]
         public double BottomHeight
         {
             get
@@ -607,5 +952,110 @@ namespace KMP.Interface.Model.Other
                 bottomHeight = value;
             }
         }
+
+
+        #region 工艺参数
+        double maxPumpingSeed;
+        double mass;
+        double intakeFlange;
+        double nominalFlow;
+
+        [Category("干泵工艺参数")]
+        [DisplayName("重量（Kg）")]
+        public double Mass
+        {
+            get
+            {
+                return mass;
+            }
+
+            set
+            {
+                mass = value;
+                this.RaisePropertyChanged(() => this.Mass);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("Max pumping speed w/o gas ballast（m3/h）")]
+        public double MaxPumpingSeed
+        {
+            get
+            {
+                return maxPumpingSeed;
+            }
+
+            set
+            {
+                maxPumpingSeed = value;
+                this.RaisePropertyChanged(() => this.MaxPumpingSeed);
+            }
+        }
+
+
+        [Category("干泵工艺参数")]
+        [DisplayName("IntakeFlange（DN）")]
+        public double IntakeFlange
+        {
+            get
+            {
+                return intakeFlange;
+            }
+
+            set
+            {
+                intakeFlange = value;
+                this.RaisePropertyChanged(() => this.IntakeFlange);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("Nominal Flow（I/min）")]
+        public double NominalFlow
+        {
+            get
+            {
+                return nominalFlow;
+            }
+
+            set
+            {
+                nominalFlow = value;
+                this.RaisePropertyChanged(() => this.NominalFlow);
+            }
+        }
+        #endregion
+        private string manfacturer;
+        private string partType;
+        [ReadOnly(true)]
+        [DisplayName("生产厂家")]
+        public string Manfacturer
+        {
+            get
+            {
+                return manfacturer;
+            }
+
+            set
+            {
+                manfacturer = value;
+                this.RaisePropertyChanged(() => this.Manfacturer);
+            }
+        }
+        [ReadOnly(true)]
+        [DisplayName("产品型号")]
+        public string PartType
+        {
+            get
+            {
+                return partType;
+            }
+
+            set
+            {
+                partType = value;
+                this.RaisePropertyChanged(() => this.PartType);
+            }
+        }
+
+
     }
 }

@@ -353,6 +353,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 topHoles = value;
+                this.RaisePropertyChanged(() => this.TopHoles);
             }
         }
 

@@ -32,7 +32,7 @@ namespace ParamedModule.Container
         }
         void init()
         {
-            par.Height = 245;
+            par.Height = 400;
             par.InDiameter = 70;
             par.Thickness = 15;
         }
