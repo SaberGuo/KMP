@@ -88,7 +88,7 @@ namespace KMP.Anlysis
         }
         private IParamedModule GetSubModule(Type t, IParamedModule parent)
         {
-            foreach (var item in _baseModule.SubParamedModules)
+            foreach (var item in parent.SubParamedModules)
             {
                 if(item.GetType() == t)
                 {
