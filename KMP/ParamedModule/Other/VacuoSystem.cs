@@ -79,7 +79,7 @@ namespace ParamedModule.Other
 
         internal override void CloseSameNameDocment()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

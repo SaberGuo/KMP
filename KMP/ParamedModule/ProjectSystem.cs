@@ -11,7 +11,7 @@ using ParamedModule.NitrogenSystem;
 using ParamedModule.Other;
 using ParamedModule.Container;
 using ParamedModule.HeatSinkSystem;
-
+using ParamedModule.MeasureMentControl;
 namespace ParamedModule
 {
     [Export("ProjectSystem", typeof(IParamedModule))]
@@ -23,6 +23,7 @@ namespace ParamedModule
         public VacuoSystem _vacuoSystem;
         public ContainerSystem _container;
         public HeatSink _heatSink;
+        public Cabinets _Cabinets;
         [ImportingConstructor]
         public ProjectSystem():base()
         {
@@ -61,19 +62,7 @@ namespace ParamedModule
         }
         public void InitProject(List<string> ProjectTypes)
         {
-            if (ProjectTypes.Contains("Nitrogen"))
-            {
-                _nitrogen = new Nitrogen();
-                _nitrogen.ModelPath = this.ModelPath;
-                this.SubParamedModules.AddModule(_nitrogen);
-            }
-
-            if (ProjectTypes.Contains("VacuoSystem"))
-            {
-                _vacuoSystem = new VacuoSystem();
-                _vacuoSystem.ModelPath = this.ModelPath;
-                this.SubParamedModules.AddModule(_vacuoSystem);
-            }
+          
 
             if (ProjectTypes.Contains("ContainerSystem")&& ProjectTypes.Contains("HeaterSystem"))
             {
@@ -96,7 +85,25 @@ namespace ParamedModule
                     this.SubParamedModules.AddModule(_heatSink);
                 }
             }
-            
+            if (ProjectTypes.Contains("Nitrogen"))
+            {
+                _nitrogen = new Nitrogen();
+                _nitrogen.ModelPath = this.ModelPath;
+                this.SubParamedModules.AddModule(_nitrogen);
+            }
+
+            if (ProjectTypes.Contains("VacuoSystem"))
+            {
+                _vacuoSystem = new VacuoSystem();
+                _vacuoSystem.ModelPath = this.ModelPath;
+                this.SubParamedModules.AddModule(_vacuoSystem);
+            }
+            if (ProjectTypes.Contains("Cabinets"))
+            {
+                _Cabinets = new Cabinets();
+                _Cabinets.ModelPath = this.ModelPath;
+                this.SubParamedModules.AddModule(_Cabinets);
+            }
         }
 
         public override bool CheckParamete()

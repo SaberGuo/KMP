@@ -94,14 +94,16 @@ namespace KMP.Parameterization
             ProjectSource.Add("热沉系统", "HeaterSystem");
             ProjectSource.Add("低温系统", "Nitrogen");
             ProjectSource.Add("真空系统", "VacuoSystem");
-            SelectProjects.Add("容器系统", "ContainerSystem");
+            ProjectSource.Add("测控系统", "Cabinets");
+          //  SelectProjects.Add("容器系统", "ContainerSystem"); 
 
-            ProjectTypes = new List<ProjectT>();
+             ProjectTypes = new List<ProjectT>();
             ProjectTypes.Add(new ProjectT { Description = "容器系统", TypeValue = "ContainerSystem" });
             ProjectTypes.Add(new ProjectT { Description = "热沉系统", TypeValue = "HeaterSystem" });
             ProjectTypes.Add(new ProjectT { Description = "环境箱", TypeValue = "WareHouseEnvironment" });
             ProjectTypes.Add(new ProjectT { Description = "氮系统", TypeValue = "Nitrogen" });
             ProjectTypes.Add(new ProjectT { Description = "真空系统", TypeValue = "VacuoSystem" });
+            ProjectTypes.Add(new ProjectT { Description = "测控系统", TypeValue = "Cabinets" });
             //ProjectTypes.Add(new ProjectT { Description = "阀门", TypeValue = "Valve" });
             //ProjectTypes.Add(new ProjectT { Description = "低温泵", TypeValue = "CoolVAC" });
             //ProjectTypes.Add(new ProjectT { Description = "低温液体储槽阵列", TypeValue = "CryoLiquidTanks" });

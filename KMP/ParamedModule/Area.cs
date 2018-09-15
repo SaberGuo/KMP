@@ -7,7 +7,7 @@ using Inventor;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.NitrogenSystem;
-namespace ParamedModule.NitrogenSystem
+namespace ParamedModule
 {
    public  class Area:PartModulebase
     {
