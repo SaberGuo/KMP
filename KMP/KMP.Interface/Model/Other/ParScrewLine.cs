@@ -14,6 +14,7 @@ namespace KMP.Interface.Model.Other
     /// <summary>
     /// 干泵SP
     /// </summary>
+    [DisplayName("干泵SP")]
     public class ParScrewLine:ParameterBase
     {
         public ParScrewLine()
@@ -23,6 +24,7 @@ namespace KMP.Interface.Model.Other
         private ParDryPumpSP par = new ParDryPumpSP();
         private string dn = "GXS 160";
         [DisplayName("干泵参数")]
+        [Description("干泵SP")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParDryPumpSP Par
         {
@@ -38,6 +40,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("干泵型号")]
+        [Description("干泵SP")]
         [ItemsSource(typeof(ParDryPumpSPSource))]
         public string Dn
         {

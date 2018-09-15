@@ -6,8 +6,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.NitrogenSystem
 {
-
-  public  class ParCryoLiquidTanks:ParameterBase
+    [DisplayName("低温液体储槽阵列")]
+    public  class ParCryoLiquidTanks:ParameterBase
     {
         //int _number=1;
         //double _offset;
@@ -42,6 +42,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         //    }
         //}
         [DisplayName("阵列距离集合")]
+        [Description("低温液体储槽阵列")]
         public ObservableCollection<double> Offsets
         {
             get
@@ -58,6 +59,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 液氮储槽数量
         /// </summary>
         [DisplayName("液氮储槽数量")]
+        [Description("低温液体储槽阵列")]
         public int LiquidTankNum
         {
             get
@@ -75,6 +77,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 氮气储罐数量
         /// </summary>
         [DisplayName("氮气储罐数量")]
+        [Description("低温液体储槽阵列")]
         public int NitrogenTankNum
         {
             get
@@ -92,6 +95,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         /// 汽化器数量
         /// </summary>
         [DisplayName("汽化器数量")]
+        [Description("低温液体储槽阵列")]
         public int VaporizerNum
         {
             get

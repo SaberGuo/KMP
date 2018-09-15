@@ -6,13 +6,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 namespace KMP.Interface.Model.NitrogenSystem
 {
-    
-   public class ParHeatUpArea : ParameterBase
+    [DisplayName("室内氮气闭式回温模块")]
+    public class ParHeatUpArea : ParameterBase
     {
         int electricHeaterNum;
         int compressorNum;
         ObservableCollection<double> offsets = new ObservableCollection<double>();
         [DisplayName("模型间距离")]
+        [Description("室内氮气闭式回温模块")]
         public ObservableCollection<double> Offsets
         {
             get
@@ -26,6 +27,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("电加热器数量")]
+        [Description("室内氮气闭式回温模块")]
         public int ElectricHeaterNum
         {
             get
@@ -40,6 +42,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("压缩机数量")]
+        [Description("室内氮气闭式回温模块")]
         public int CompressorNum
         {
             get

@@ -14,6 +14,7 @@ namespace KMP.Interface.Model.Other
     /// <summary>
     /// 低温泵
     /// </summary>
+    [DisplayName("低温泵")]
    public class ParCoolVAC:ParameterBase
     {
         public ParCoolVAC()
@@ -24,6 +25,7 @@ namespace KMP.Interface.Model.Other
         private ParVAC _vac=new ParVAC();
         private double _vacDN;
         [TypeConverter(typeof(ExpandableObjectConverter))]
+        [Description("低温泵")]
         public ParVAC VAC
         {
             get
@@ -38,6 +40,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("泵类型")]
+        [Description("低温泵")]
         [ItemsSource(typeof(ParVACSource))]
         public double VacDN
         {

@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
 namespace KMP.Interface.Model.Other
 {
+    [DisplayName("干泵GXS")]
     public class ParGXS : ParameterBase
     {
         public ParGXS() : base()
@@ -19,6 +20,7 @@ namespace KMP.Interface.Model.Other
         private ParDryPump par = new ParDryPump();
         private string dn = "GXS 160";
         [DisplayName("干泵参数")]
+        [Description("干泵GXS")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParDryPump Par
         {
@@ -34,6 +36,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("干泵型号")]
+        [Description("干泵GXS")]
         [ItemsSource(typeof(ParDryPumpSource))]
         public string Dn
         {

@@ -9,7 +9,8 @@ using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
 namespace KMP.Interface.Model.NitrogenSystem
 {
-   public class ParElectricHeater : ParameterBase
+    [DisplayName("电加热器")]
+    public class ParElectricHeater : ParameterBase
     {
       
         double _dimension;

@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
 namespace KMP.Interface.Model.Other
 {
+    [DisplayName("干泵DV")]
     public class ParDRYVAC : ParameterBase
     {
         public ParDRYVAC() : base()
@@ -19,6 +20,7 @@ namespace KMP.Interface.Model.Other
         private ParDRY par = new ParDRY();
         private string dn = "DV450-i";
         [DisplayName("干泵参数")]
+        [Description("干泵GXS")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParDRY Par
         {
@@ -34,6 +36,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("干泵型号")]
+        [Description("干泵GXS")]
         [ItemsSource(typeof(ParDRYSource))]
         public string Dn
         {

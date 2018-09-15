@@ -8,6 +8,7 @@ namespace KMP.Interface.Model.NitrogenSystem
     /// <summary>
     /// 汽化器参数
     /// </summary>
+    [DisplayName("汽化器")]
   public  class ParVaporizer : ParameterBase
     {
         #region 汽化器主体参数
