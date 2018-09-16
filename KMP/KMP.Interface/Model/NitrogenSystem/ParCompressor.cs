@@ -6,7 +6,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 namespace KMP.Interface.Model.NitrogenSystem
 {
-   public class ParCompressor : ParameterBase
+    [DisplayName("压缩机")]
+    public class ParCompressor : ParameterBase
     {
         double thinckness;
         double width;

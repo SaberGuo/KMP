@@ -2,18 +2,213 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.ServiceLocation;
-using System.Reflection;
 using System.ComponentModel;
+using System.Reflection;
+using Microsoft.Practices.Prism.ViewModel;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.ComponentModel.Composition;
+using Microsoft.Practices.ServiceLocation;
 
 namespace KMP.Interface.Model.Other
 {
     /// <summary>
     /// 干泵SP
     /// </summary>
+    [DisplayName("干泵SP")]
     public class ParScrewLine:ParameterBase
     {
         public ParScrewLine()
+        {
+            ServiceLocator.Current.GetInstance<ParDryPumpSPDictProxy>();
+        }
+        private ParDryPumpSP par = new ParDryPumpSP();
+        private string dn = "GXS 160";
+        [DisplayName("干泵参数")]
+        [Description("干泵SP")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public ParDryPumpSP Par
+        {
+            get
+            {
+                return par;
+            }
+
+            set
+            {
+                par = value;
+                this.RaisePropertyChanged(() => this.Par);
+            }
+        }
+        [DisplayName("干泵型号")]
+        [Description("干泵SP")]
+        [ItemsSource(typeof(ParDryPumpSPSource))]
+        public string Dn
+        {
+            get
+            {
+                return dn;
+            }
+
+            set
+            {
+                dn = value;
+                this.RaisePropertyChanged(() => this.Dn);
+
+
+                ParDryPumpSP vac = ServiceLocator.Current.GetInstance<ParDryPumpSPDictProxy>().Dict[value.ToString()];
+                // ParFlanch franch = ServiceLocator.Current.GetInstance<ParFlanchDictProxy>().FlanchDict["DN" + this.flanchDN.ToString()];
+                Type T = typeof(ParDryPumpSP);
+                PropertyInfo[] propertys = T.GetProperties();
+                foreach (var item in propertys)
+                {
+                    object c = item.GetValue(vac, null);
+                    //object d = item.GetValue(this.ParFlanch, null);
+                    item.SetValue(this.Par, c, null);
+                }
+            }
+        }
+    }
+    public static class ParDryPumpSPDict
+    {
+        static Dictionary<string, ParDryPumpSP> _Dict = new Dictionary<string, ParDryPumpSP>();
+        public static Dictionary<string, ParDryPumpSP> Dict
+        {
+            get
+            {
+                return _Dict;
+            }
+        }
+
+    }
+    [Export(typeof(ParDryPumpSPDictProxy))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class ParDryPumpSPDictProxy
+    {
+        [ImportingConstructor]
+        public ParDryPumpSPDictProxy()
+        {
+            Dict.Add("SP 250", new ParDryPumpSP()
+            {
+                PartType = "SP 250",
+                Manfacturer="德国莱宝",
+                EffectivePumpingSpeed = 270,
+                UItimatePressure = "≤0.01",
+                Mass = 450,
+                NominalPowerRating = 7.5,
+                Cooling = "Air",
+                Width=450,
+                Lenth=1348,
+                Height=646,
+                SideFlanchX = 525,
+            SideFlanchY = 115,
+            SideDN = 63,
+
+
+            HandleWidth = 120,
+            HandleLength = 65,
+            HandleDepth = 20,
+
+            BottomHeight = 166,
+
+
+            TopHoleDepth = 173,
+            TopHoleX = 442,
+           // TopHoleY = Width / 2,
+            FlanchDiameter = 190,
+            FlanchIndiameter3 = 65,
+            FlanchIndiameter2 = 70,
+            FlanchInDiameter1 = 90,
+            FlanchInDepth1 = 4,
+            FlanchInDepth2 = 5,
+            FlanchInDepth3 = 26,
+            ScrewDiameter1 = 13.5,
+            ScrewDiameter2 = 19,
+            ScrewRangeDiameter1 = 130,
+            ScrewRangeDiameter2 = 152,
+
+            FlanchCYDiameter = 4,
+            FlanchRactWith = 5,
+            FlanchRactHeight = 1,
+
+            AirHeight = 315,
+            AirWidth = 243,
+            ForX = 88,
+            ForY = 435,
+            SideY = 590,
+        });
+            Dict.Add("SP 630", new ParDryPumpSP()
+            {
+                PartType = "SP 630",
+                Manfacturer = "德国莱宝",
+                EffectivePumpingSpeed = 630,
+                UItimatePressure = "≤0.01",
+                Mass = 530,
+                NominalPowerRating = 15,
+                Cooling = "Air",
+                Width = 550,
+                Lenth = 1220,
+                Height = 806,
+                SideFlanchX = 525,
+                SideFlanchY = 115,
+                SideDN = 63,
+
+                HandleWidth = 120,
+                HandleLength = 65,
+                HandleDepth = 20,
+
+                BottomHeight = 166,
+
+
+                TopHoleDepth = 173,
+                TopHoleX = 442,
+                // TopHoleY = Width / 2,
+                FlanchDiameter = 190,
+                FlanchIndiameter3 = 65,
+                FlanchIndiameter2 = 70,
+                FlanchInDiameter1 = 90,
+                FlanchInDepth1 = 4,
+                FlanchInDepth2 = 5,
+                FlanchInDepth3 = 26,
+                ScrewDiameter1 = 13.5,
+                ScrewDiameter2 = 19,
+                ScrewRangeDiameter1 = 130,
+                ScrewRangeDiameter2 = 152,
+
+                FlanchCYDiameter = 4,
+                FlanchRactWith = 5,
+                FlanchRactHeight = 1,
+
+                AirHeight = 315,
+                AirWidth = 243,
+                ForX = 88,
+                ForY = 435,
+                SideY = 590,
+            });
+        }
+        public Dictionary<string, ParDryPumpSP> Dict
+        {
+            get { return ParDryPumpSPDict.Dict; }
+        }
+
+    }
+    public class ParDryPumpSPSource : IItemsSource
+    {
+
+        public ItemCollection GetValues()
+        {
+            ItemCollection VACs = new ItemCollection();
+            foreach (var item in ParDryPumpSPDict.Dict)
+            {
+                VACs.Add(item.Value.PartType, item.Key);
+            }
+            return VACs;
+        }
+    }
+
+    [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("干泵参数")]
+    public class ParDryPumpSP:ParameterBase
+    {
+        public ParDryPumpSP()
         {
             ServiceLocator.Current.GetInstance<ParFlanchDictProxy>();
         }
@@ -22,7 +217,7 @@ namespace KMP.Interface.Model.Other
         private double width;
         private double height;
 
-    
+
 
         private double sideDN;
         private ParFlanch sideFlanch = new ParFlanch();
@@ -34,11 +229,9 @@ namespace KMP.Interface.Model.Other
         private double handleLength;
         private double handleWidth;
         private double handleDepth;
-        private double handleX1;
-        private double handleX2;
-        private double handleY1;
-        private double handleY2;
-
+ 
+        [Category("干泵结构参数")]
+        [DisplayName("干泵长度")]
         public double Lenth
         {
             get
@@ -49,9 +242,11 @@ namespace KMP.Interface.Model.Other
             set
             {
                 lenth = value;
+                this.RaisePropertyChanged(() => this.Lenth);
             }
         }
-
+        [Category("干泵结构参数")]
+        [DisplayName("干泵宽度")]
         public double Width
         {
             get
@@ -62,9 +257,11 @@ namespace KMP.Interface.Model.Other
             set
             {
                 width = value;
+                this.RaisePropertyChanged(() => this.Width);
             }
         }
-
+        [Category("干泵结构参数")]
+        [DisplayName("干泵高度")]
         public double Height
         {
             get
@@ -75,11 +272,12 @@ namespace KMP.Interface.Model.Other
             set
             {
                 height = value;
+                this.RaisePropertyChanged(() => this.Height);
             }
         }
 
 
-     
+
         private double topHoleDepth;
         private double topHoleX;
         private double topHoleY;
@@ -100,6 +298,7 @@ namespace KMP.Interface.Model.Other
         private double flanchRactHeight;
         #endregion
         #region 顶部孔参数
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("深度")]
         public double TopHoleDepth
@@ -112,8 +311,10 @@ namespace KMP.Interface.Model.Other
             set
             {
                 topHoleDepth = value;
+                this.RaisePropertyChanged(() => this.TopHoleDepth);
             }
         }
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("X位置")]
         public double TopHoleX
@@ -126,11 +327,13 @@ namespace KMP.Interface.Model.Other
             set
             {
                 topHoleX = value;
+                this.RaisePropertyChanged(() => this.TopHoleX);
             }
         }
         /// <summary>
         /// Y坐标，不显示
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("Y位置")]
         public double TopHoleY
@@ -166,6 +369,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰厚度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰厚度")]
         public double FlanchThinkness
@@ -269,7 +473,7 @@ namespace KMP.Interface.Model.Other
         /// 法兰内部孔2 直径
         /// </summary>
         [Category("顶部孔")]
-         [DisplayName("法兰内部孔2 直径")]
+        [DisplayName("法兰内部孔2 直径")]
         public double FlanchIndiameter2
         {
             get
@@ -302,6 +506,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔1深度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰内部孔1深度")]
         public double FlanchInDepth1
@@ -319,6 +524,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔2 深度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰内部孔2 深度")]
         public double FlanchInDepth2
@@ -336,6 +542,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰内部孔 3 深度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰内部孔 3 深度")]
         public double FlanchInDepth3
@@ -370,6 +577,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰旋绕长方体宽度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰旋绕长方体宽度")]
         public double FlanchRactWith
@@ -387,6 +595,7 @@ namespace KMP.Interface.Model.Other
         /// <summary>
         /// 法兰旋绕长方体高度
         /// </summary>
+        [Browsable(false)]
         [Category("顶部孔")]
         [DisplayName("法兰旋绕长方体高度")]
         public double FlanchRactHeight
@@ -415,6 +624,7 @@ namespace KMP.Interface.Model.Other
             set
             {
                 sideFlanch = value;
+                this.RaisePropertyChanged(() => this.SideFlanch);
             }
         }
         [Category("侧边孔")]
@@ -442,6 +652,7 @@ namespace KMP.Interface.Model.Other
                 }
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("法兰X位置")]
         public double SideFlanchX
@@ -456,6 +667,7 @@ namespace KMP.Interface.Model.Other
                 sideFlanchX = value;
             }
         }
+        [Browsable(false)]
         [Category("侧边孔")]
         [DisplayName("法兰Y位置")]
         public double SideFlanchY
@@ -471,7 +683,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         #endregion
-
+        [Browsable(false)]
         public double BottomHeight
         {
             get
@@ -485,8 +697,10 @@ namespace KMP.Interface.Model.Other
             }
         }
         #region 把手参数
-        [Category("把手")]
-        [DisplayName("长度")]
+        /// <summary>
+        /// 把手长度
+        /// </summary>
+        [Browsable(false)]
         public double HandleLength
         {
             get
@@ -499,8 +713,10 @@ namespace KMP.Interface.Model.Other
                 handleLength = value;
             }
         }
-        [Category("把手")]
-        [DisplayName("宽度")]
+        /// <summary>
+        /// 把手宽度
+        /// </summary>
+        [Browsable(false)]
         public double HandleWidth
         {
             get
@@ -513,8 +729,10 @@ namespace KMP.Interface.Model.Other
                 handleWidth = value;
             }
         }
-        [Category("把手")]
-        [DisplayName("深度")]
+        /// <summary>
+        /// 把手深度
+        /// </summary>
+        [Browsable(false)]
         public double HandleDepth
         {
             get
@@ -527,68 +745,12 @@ namespace KMP.Interface.Model.Other
                 handleDepth = value;
             }
         }
-        [Category("把手")]
-        [DisplayName("把手1 X位置")]
-        public double HandleX1
-        {
-            get
-            {
-                return handleX1;
-            }
-
-            set
-            {
-                handleX1 = value;
-            }
-        }
-        [Category("把手")]
-        [DisplayName("把手2 X位置")]
-        public double HandleX2
-        {
-            get
-            {
-                return handleX2;
-            }
-
-            set
-            {
-                handleX2 = value;
-            }
-        }
-        [Category("把手")]
-        [DisplayName("把手1 Y位置")]
-        public double HandleY1
-        {
-            get
-            {
-                return handleY1;
-            }
-
-            set
-            {
-                handleY1 = value;
-            }
-        }
-        [Category("把手")]
-        [DisplayName("把手2 Y位置")]
-        public double HandleY2
-        {
-            get
-            {
-                return handleY2;
-            }
-
-            set
-            {
-                handleY2 = value;
-            }
-        }
+    
 
 
 
 
         #endregion
-
         #region 透风窗口参数
         private double airWidth;
         private double airHeight;
@@ -596,10 +758,9 @@ namespace KMP.Interface.Model.Other
         private double forY;
         private double sideY;
         /// <summary>
-        /// 宽
+        /// 窗口宽度
         /// </summary>
-        [Category("窗口")]
-        [DisplayName("宽度")]
+        [Browsable(false)]
         public double AirWidth
         {
             get
@@ -613,10 +774,9 @@ namespace KMP.Interface.Model.Other
             }
         }
         /// <summary>
-        /// 高
+        /// 窗口高度
         /// </summary>
-        [Category("窗口")]
-        [DisplayName("高度")]
+        [Browsable(false)]
         public double AirHeight
         {
             get
@@ -630,10 +790,9 @@ namespace KMP.Interface.Model.Other
             }
         }
         /// <summary>
-        /// 前面水平位置
+        /// 窗口前面水平位置
         /// </summary>
-        [Category("窗口")]
-        [DisplayName("前部距边位置")]
+        [Browsable(false)]
         public double ForX
         {
             get
@@ -647,10 +806,9 @@ namespace KMP.Interface.Model.Other
             }
         }
         /// <summary>
-        /// 前面高位置
+        /// 窗口前面高位置
         /// </summary>
-        [Category("窗口")]
-        [DisplayName("前部距顶端位置")]
+        [Browsable(false)]
         public double ForY
         {
             get
@@ -664,10 +822,9 @@ namespace KMP.Interface.Model.Other
             }
         }
         /// <summary>
-        /// 侧边高位置
+        /// 窗口侧边高位置
         /// </summary>
-        [Category("窗口")]
-        [DisplayName("侧边距顶部高")]
+        [Browsable(false)]
         public double SideY
         {
             get
@@ -678,6 +835,121 @@ namespace KMP.Interface.Model.Other
             set
             {
                 sideY = value;
+            }
+        }
+        #endregion
+
+        #region 工艺参数
+        private string manfacturer;
+        private string partType;
+        double mass;
+        double effectivePumpingSpeed;
+        string uItimatePressure;
+        double nominalPowerRating;
+        string cooling;
+        [ReadOnly(true)]
+        [DisplayName("生产厂家")]
+        public string Manfacturer
+        {
+            get
+            {
+                return manfacturer;
+            }
+
+            set
+            {
+                manfacturer = value;
+                this.RaisePropertyChanged(() => this.Manfacturer);
+            }
+        }
+        [ReadOnly(true)]
+        [DisplayName("产品型号")]
+        public string PartType
+        {
+            get
+            {
+                return partType;
+            }
+
+            set
+            {
+                partType = value;
+                this.RaisePropertyChanged(() => this.PartType);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("重量（Kg）")]
+        public double Mass
+        {
+            get
+            {
+                return mass;
+            }
+
+            set
+            {
+                mass = value;
+                this.RaisePropertyChanged(() => this.Mass);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("Effective Pumping Speed（m3*h-1）")]
+        public double EffectivePumpingSpeed
+        {
+            get
+            {
+                return effectivePumpingSpeed;
+            }
+
+            set
+            {
+                effectivePumpingSpeed = value;
+                this.RaisePropertyChanged(() => this.EffectivePumpingSpeed);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("UItimate Pressure,total（mbar）")]
+        public string UItimatePressure
+        {
+            get
+            {
+                return uItimatePressure;
+            }
+
+            set
+            {
+                uItimatePressure = value;
+                this.RaisePropertyChanged(() => this.UItimatePressure);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("Nominal Power Rating(KW)")]
+        public double NominalPowerRating
+        {
+            get
+            {
+                return nominalPowerRating;
+            }
+
+            set
+            {
+                nominalPowerRating = value;
+                this.RaisePropertyChanged(() => this.NominalPowerRating);
+            }
+        }
+        [Category("干泵工艺参数")]
+        [DisplayName("Cooling")]
+        public string Cooling
+        {
+            get
+            {
+                return cooling;
+            }
+
+            set
+            {
+                cooling = value;
+                this.RaisePropertyChanged(() => this.Cooling);
             }
         }
         #endregion

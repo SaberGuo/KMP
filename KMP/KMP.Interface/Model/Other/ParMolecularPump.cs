@@ -13,6 +13,7 @@ namespace KMP.Interface.Model.Other
     /// <summary>
     /// 分子泵参数
     /// </summary>
+   [DisplayName("分子泵")]
    public class ParMolecularPump:ParameterBase
     {
         public ParMolecularPump():base()
@@ -22,6 +23,7 @@ namespace KMP.Interface.Model.Other
         private double mAGW;
 
         [DisplayName("分子泵型号选择")]
+        [Description("分子泵")]
         [ItemsSource(typeof(ParMolecularSource))]
         public double MAGW
         {
@@ -46,6 +48,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("分子泵参数")]
+        [Description("分子泵")]
         public ParMolecular Molecular
         {
             get

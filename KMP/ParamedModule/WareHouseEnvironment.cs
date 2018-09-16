@@ -24,7 +24,7 @@ namespace ParamedModule
         public WareHouseEnvironment():base()
         {
             this.Parameter = par;
-            this.Name = "环境仓";
+            this.Name = "容器及热沉系统";
             this.ProjectType = "WareHouseEnvironment";
             _container = new ContainerSystem();
             _heatSink = new HeatSink();

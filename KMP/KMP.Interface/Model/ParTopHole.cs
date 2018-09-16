@@ -15,6 +15,7 @@ namespace KMP.Interface.Model
         public ParTopHole():base()
         {
             ServiceLocator.Current.GetAllInstances<ParFlanchDictProxy>();
+            this.FlanchDN = 10;
         }
 
         public override string ToString()
@@ -105,7 +106,7 @@ namespace KMP.Interface.Model
             }
         }
 
-        private double flanchDN = 10;
+        private double flanchDN ;
         [DisplayName("法兰公称通径")]
         [ItemsSource(typeof(ParFlanchSource))]
         public double FlanchDN

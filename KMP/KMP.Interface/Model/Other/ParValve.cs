@@ -11,6 +11,7 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace KMP.Interface.Model.Other
 {
+    [DisplayName("插板阀")]
    public class ParValve:ParameterBase
     {
         public ParValve()
@@ -20,6 +21,7 @@ namespace KMP.Interface.Model.Other
         double dn;
         ParValveType valveType = new ParValveType();
         [DisplayName("阀类型")]
+        [Description("插板阀")]
         [ItemsSource(typeof(ParValveTypeSource))]
         public double DN
         {
@@ -45,6 +47,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("阀参数")]
+        [Description("插板阀")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParValveType ValveType
         {

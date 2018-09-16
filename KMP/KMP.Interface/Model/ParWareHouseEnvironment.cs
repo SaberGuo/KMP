@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model
 {
+    [DisplayName("容器及热沉系统")]
   public  class ParWareHouseEnvironment:ParameterBase
     {
         double offSet;

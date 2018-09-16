@@ -99,6 +99,7 @@ namespace ParamedModule.NitrogenSystem
 
             Area area = new Area();
             area.Name = "回温模块地面";
+            area.ModelPath = this.ModelPath;
             area.Length = UsMM(offset) + UsMM(par.Offsets[0]*2);
             area.CreateModule();
             ComponentOccurrence COArea = LoadOccurrence((ComponentDefinition)area.Doc.ComponentDefinition);

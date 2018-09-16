@@ -6,12 +6,12 @@ using System.ComponentModel;
 
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-    [DisplayName("热沉筒参数")]
+    [DisplayName("热沉参数")]
     public class ParHeatSink:ParameterBase
     {
         public override string ToString()
         {
-            return "热沉筒参数";
+            return "热沉参数";
         }
         PassedParameter inDiameter = new PassedParameter();
         PassedParameter thickness = new PassedParameter();

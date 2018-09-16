@@ -15,6 +15,7 @@ namespace KMP.Interface.Model
         public ParCylinderHole():base()
         {
             ServiceLocator.Current.GetAllInstances<ParFlanchDictProxy>();
+            this.FlanchDN = 10;
         }
 
         public override string ToString()
@@ -144,7 +145,7 @@ namespace KMP.Interface.Model
             }
         }
 
-        private double flanchDN = 10;
+        private double flanchDN ;
 
         [DisplayName("法兰")]
         //[ItemsSource(typeof(ParFlanchSource))]

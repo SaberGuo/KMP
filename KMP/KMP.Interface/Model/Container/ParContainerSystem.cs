@@ -93,20 +93,20 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.Thickness);
             }
         }
-        [DisplayName("踏板距罐口距离")]
-        [Description("容器系统")]
+        [DisplayName("踏板距罐口距离(L1)")]
+        [Description("容器-罐口距离")]
         /// <summary>
         /// 罐体厚度
         /// </summary>
      public double PlaneOffset { get; set; }
-        [DisplayName("导轨距罐口距离")]
-        [Description("容器系统")]
+        [DisplayName("导轨距罐口距离(L2)")]
+        [Description("容器-罐口距离")]
         public double RailOffset { get; set; }
-        [DisplayName("首个容器底座到罐口距离")]
-        [Description("容器系统")]
+        [DisplayName("首个容器底座到罐口距离(L3)")]
+        [Description("容器-罐口距离")]
         public double PedestalFirstOffset { get; set; }
-        [DisplayName("容器底座间隔")]
-        [Description("容器系统")]
+        [DisplayName("容器底座间隔(L4)")]
+        [Description("容器-罐口距离")]
         public double PedestalSpace { get; set; }
 
      

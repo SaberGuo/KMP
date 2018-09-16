@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using Microsoft.Practices.ServiceLocation;
 namespace KMP.Interface.Model.Other
 {
+    [DisplayName("干泵GXS")]
     public class ParGXS : ParameterBase
     {
         public ParGXS() : base()
@@ -19,6 +20,7 @@ namespace KMP.Interface.Model.Other
         private ParDryPump par = new ParDryPump();
         private string dn = "GXS 160";
         [DisplayName("干泵参数")]
+        [Description("干泵GXS")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParDryPump Par
         {
@@ -34,6 +36,7 @@ namespace KMP.Interface.Model.Other
             }
         }
         [DisplayName("干泵型号")]
+        [Description("干泵GXS")]
         [ItemsSource(typeof(ParDryPumpSource))]
         public string Dn
         {
@@ -83,10 +86,11 @@ namespace KMP.Interface.Model.Other
             Dict.Add("GXS 160", new ParDryPump()
             {
                 PartType = "GXS 160",
+               
                 Length = 1111,
                 Width = 390,
                 Height = 568,
-                Mass = 305,
+                
                 #region
                 TopDN = 250,
              TopHoleDepth = 47,
@@ -127,7 +131,16 @@ namespace KMP.Interface.Model.Other
              ValveX = 60,
              ValveY = 395,
                 #endregion
-
+                Manfacturer = "爱德华",
+                Mass = 305,
+                PumpInletFlange=63,
+                ExhaustGasOutlet=40,
+                TypicalPeakPumpingSpeed=160,
+                UItimate= "<1*10﹣²",
+                DryPumpMotorRating=7.5,
+  
+                MinimumFlowRateRequired=4,
+                MinimumRequiredPressure=1
             });
             Dict.Add("GXS 160/1750", new ParDryPump()
             {
@@ -175,6 +188,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 475,
+                PumpInletFlange =100,
+                ExhaustGasOutlet =40,
+                TypicalPeakPumpingSpeed =1160,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =7.5,
+                MechanicalBoosterMotorRating =4.5,
+                MinimumFlowRateRequired =7,
+                MinimumRequiredPressure =1
             });
             Dict.Add("GXS 250", new ParDryPump()
             {
@@ -222,6 +245,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 305,
+                PumpInletFlange =63,
+                ExhaustGasOutlet =40,
+                TypicalPeakPumpingSpeed =250,
+                UItimate ="< 1 * 10﹣²",
+                DryPumpMotorRating =7.5,
+                
+                MinimumFlowRateRequired =4,
+                MinimumRequiredPressure =1
             });
             Dict.Add("GXS 250/2600", new ParDryPump()
             {
@@ -269,6 +302,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 515,
+                PumpInletFlange =160,
+                ExhaustGasOutlet =40,
+                TypicalPeakPumpingSpeed =1900,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =7.5,
+                MechanicalBoosterMotorRating =4.5,
+                MinimumFlowRateRequired =7,
+                MinimumRequiredPressure =1
             });
             Dict.Add("GXS 450", new ParDryPump()
             {
@@ -316,6 +359,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 546,
+                PumpInletFlange =100,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =450,
+                UItimate = "<1*10﹣²",
+                DryPumpMotorRating =11,
+                
+                MinimumFlowRateRequired =6,
+                MinimumRequiredPressure =1
             });
             Dict.Add("GXS 450/2600", new ParDryPump()
             {
@@ -363,6 +416,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 760,
+                PumpInletFlange =160,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =2200,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =11,
+                MechanicalBoosterMotorRating =7.5,
+                MinimumFlowRateRequired =12,
+                MinimumRequiredPressure =1.5
             });
             Dict.Add("GXS 450/4200", new ParDryPump()
             {
@@ -410,6 +473,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 818,
+                PumpInletFlange =160,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =3026,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =11,
+                MechanicalBoosterMotorRating =7.5,
+                MinimumFlowRateRequired =12,
+                MinimumRequiredPressure =1.5
             });
             Dict.Add("GXS 750", new ParDryPump()
             {
@@ -457,6 +530,15 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 679,
+                PumpInletFlange =100,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =740,
+                UItimate = "<1*10﹣²",
+                
+                MinimumFlowRateRequired =10,
+                MinimumRequiredPressure =2
             });
             Dict.Add("GXS 750/2600", new ParDryPump()
             {
@@ -504,10 +586,20 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 918,
+                PumpInletFlange =160,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =2300,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =22,
+                MechanicalBoosterMotorRating =7.5,
+                MinimumFlowRateRequired =12,
+                MinimumRequiredPressure =2.5
             });
             Dict.Add("GXS 750/4200", new ParDryPump()
             {
-                PartType = "GXS 4200",
+                PartType = "GXS 750/4200",
                 Length = 1641,
                 Width = 517,
                 Height = 1030.5,
@@ -551,6 +643,16 @@ namespace KMP.Interface.Model.Other
                 ValveX = 60,
                 ValveY = 395,
                 #endregion
+                Manfacturer = "爱德华",
+                Mass = 976,
+                PumpInletFlange =160,
+                ExhaustGasOutlet =50,
+                TypicalPeakPumpingSpeed =3450,
+                UItimate = "<1*10﹣³",
+                DryPumpMotorRating =22,
+                MechanicalBoosterMotorRating =7.5,
+                MinimumFlowRateRequired =12,
+                MinimumRequiredPressure =2.5
             });
 
         }

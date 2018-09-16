@@ -9,6 +9,7 @@ using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
 namespace KMP.Interface.Model.NitrogenSystem
 {
+    [DisplayName("泵区")]
   public  class ParPumpArea : ParameterBase
     {
         int pumpNum;
@@ -17,6 +18,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         ObservableCollection<double> pumpOffsets = new ObservableCollection<double>();
         ObservableCollection<double> subCoolerOffsets = new ObservableCollection<double>();
         [DisplayName("液压泵数量")]
+        [Description("泵区")]
         public int PumpNum
         {
             get
@@ -31,6 +33,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("过冷器数量")]
+        [Description("泵区")]
         public int SubCoolerNum
         {
             get
@@ -47,6 +50,7 @@ namespace KMP.Interface.Model.NitrogenSystem
 
         //[ItemsSource(typeof(double))]
         [DisplayName("液压泵间距参数")]
+        [Description("泵区")]
         public ObservableCollection<double> PumpOffsets
         {
             get
@@ -61,6 +65,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         }
         //[ItemsSource(typeof(double))]
         [DisplayName("过冷器间距参数")]
+        [Description("泵区")]
         public ObservableCollection<double> SubCoolerOffsets
         {
             get
@@ -74,6 +79,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("液压泵与过冷器间距")]
+        [Description("泵区")]
         public double Distance
         {
             get

@@ -47,64 +47,64 @@ namespace ParamedModule.Container
         {
             this.Name = "容器筒体";
            // par.InRadius.Value = 1400;
-            par.CapRadius = 700;
+            par.CapRadius = 850;
 
             par.Length = 5000;
-            par.RibSpace = 1000;
-            par.RibWidth = 10;
-            par.RibHeight = 8;
+            par.RibSpace = 1500;
+            par.RibWidth = 140;
+            par.RibHeight = 200;
             // par.RibBraceHeight = 2;
-            par.RibTopThinkness = 2;
-            par.RibBraceWidth = 2;
+            par.RibTopThinkness = 12;
+            par.RibBraceWidth = 12;
             
             par.RibNumber = 3;
             par.RibFirstDistance = 1000;
-            par.FlanchWidth = 40;
-            par.FlanchThinckness = 40;
-            par.CapLineLength = 10;
+            par.FlanchWidth = 80;
+            par.FlanchThinckness = 60;
+            par.CapLineLength = 40;
             #region 罐体孔
-            ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
-            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
-            ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
-            ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, PipeThickness = 2 };
-            ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300,  PipeThickness = 2 };
-            hole.ParFlanch = parflanch1;
-            hole1.ParFlanch = parflanch1;
-            hole2.ParFlanch = parflanch1;
-            hole3.ParFlanch = parflanch1;
-            par.ParHoles.Add(hole);
-            par.ParHoles.Add(hole1);
-            par.ParHoles.Add(hole2);
-            par.ParHoles.Add(hole3);
+          //  ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
+            //ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
+            //ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
+            //ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, PipeThickness = 2 };
+            //ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300,  PipeThickness = 2 };
+            //hole.ParFlanch = parflanch1;
+            //hole1.ParFlanch = parflanch1;
+            //hole2.ParFlanch = parflanch1;
+            //hole3.ParFlanch = parflanch1;
+            //par.ParHoles.Add(hole);
+            //par.ParHoles.Add(hole1);
+            //par.ParHoles.Add(hole2);
+            //par.ParHoles.Add(hole3);
             #endregion
             #region 堵头顶孔
-            ParTopHole CapHole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
-            ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
-            ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
-          //  par.CapTopHole = CapHole;
-            CapHole.ParFlanch = flanch;
-           // par.CapTopHole.ParFlanch = flanch;
-            par.TopHoles.Add(CapHole);
+          //  ParTopHole CapHole = new ParTopHole() {  PipeLenght = 300, PipeThickness = 4 };
+          //  ParFlanch flanch = new ParFlanch() { D6 = 400, D1 = 520, H = 20, D2 = 450, D0 = 480, C = 10, N = 6 };
+          //  ParFlanch sideFlanch = new ParFlanch() { D6 = 100, D1 = 320, H = 20, D2 = 250, D0 = 280, C = 10, N = 6 };
+          ////  par.CapTopHole = CapHole;
+          //  CapHole.ParFlanch = flanch;
+          // // par.CapTopHole.ParFlanch = flanch;
+          //  par.TopHoles.Add(CapHole);
             #endregion
             #region 堵头侧孔
-            //  ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            //  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            // ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
-            //  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParSideHole ParSideHole4 = new ParSideHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
-            //   ParSideHole.ParFlanch = sideFlanch;
-            //  ParSideHole1.ParFlanch = sideFlanch;
-            //   ParSideHole2.ParFlanch = sideFlanch;
-            //   ParSideHole3.ParFlanch = sideFlanch;
-            ParSideHole4.ParFlanch = sideFlanch;
-            ParSideHole5.ParFlanch = sideFlanch;
-            //  par.CapSideHoles.Add(ParSideHole);
-            //   par.CapSideHoles.Add(ParSideHole1);
-            //  par.CapSideHoles.Add(ParSideHole2);
-            //   par.CapSideHoles.Add(ParSideHole3);
-            par.CapSideHoles.Add(ParSideHole4);
-            par.CapSideHoles.Add(ParSideHole5);
+            ////  ParCylinderHole ParSideHole = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 90, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ////  ParCylinderHole ParSideHole1 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 180, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //// ParCylinderHole ParSideHole2 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 100, PositionAngle = 270, PositionDistance = 300, PipeThickness = 10, PipeLenght = 300 };
+            ////  ParCylinderHole ParSideHole3 = new ParCylinderHole() { HoleRadius = 100, HoleOffset = 0, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //ParSideHole ParSideHole4 = new ParSideHole() {  HoleOffset = -400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            //ParSideHole ParSideHole5 = new ParSideHole() {  HoleOffset = 400, PositionAngle = 0, PositionDistance = 300, PipeThickness = 10, PipeLenght = 200 };
+            ////   ParSideHole.ParFlanch = sideFlanch;
+            ////  ParSideHole1.ParFlanch = sideFlanch;
+            ////   ParSideHole2.ParFlanch = sideFlanch;
+            ////   ParSideHole3.ParFlanch = sideFlanch;
+            //ParSideHole4.ParFlanch = sideFlanch;
+            //ParSideHole5.ParFlanch = sideFlanch;
+            ////  par.CapSideHoles.Add(ParSideHole);
+            ////   par.CapSideHoles.Add(ParSideHole1);
+            ////  par.CapSideHoles.Add(ParSideHole2);
+            ////   par.CapSideHoles.Add(ParSideHole3);
+            //par.CapSideHoles.Add(ParSideHole4);
+            //par.CapSideHoles.Add(ParSideHole5);
             #endregion
         }
         public override void DisPose()

@@ -36,7 +36,7 @@ namespace ParamedModule.Container
            // par.BraceHeight = 100;
             par.DownBridgeHeight = 20;
             par.DownBridgeWidth = 120;
-            par.RailLength = 5000;
+            par.RailLength = 4800;
             par.TotalHeight = 150;
         }
      

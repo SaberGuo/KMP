@@ -96,14 +96,40 @@ namespace KMP.Interface.Model.Container
                 this.RaisePropertyChanged(() => this.FlanchWidth);
             }
         }
+        private double flanchThinkness;
         [Category("容器大门")]
         [DisplayName("大门法兰厚度（T2）")]
         [Description("容器大门")]
-        public double FlanchThinkness { get; set; }
+        public double FlanchThinkness
+        {
+            get
+            {
+                return flanchThinkness;
+            }
+
+            set
+            {
+                flanchThinkness = value;
+                this.RaisePropertyChanged(() => this.FlanchThinkness);
+            }
+        }
+        private double straightLength;
         [Category("容器大门")]
         [DisplayName("大门直边长度（T3）")]
         [Description("容器大门")]
-        public double StraightLength { get; set; }
+        public double StraightLength
+        {
+            get
+            {
+                return straightLength;
+            }
+
+            set
+            {
+                straightLength = value;
+                this.RaisePropertyChanged(() => this.StraightLength);
+            }
+        }
         //[Category("开孔")]
         //[DisplayName("大门轴向孔")]
         //[Description("容器-后封头轴向孔")]
@@ -134,6 +160,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 sideHoles = value;
+                this.RaisePropertyChanged(() => this.SideHoles);
             }
         }
         [Category("开孔")]
@@ -149,6 +176,7 @@ namespace KMP.Interface.Model.Container
             set
             {
                 topHoles = value;
+                this.RaisePropertyChanged(() => this.TopHoles);
             }
         }
     }

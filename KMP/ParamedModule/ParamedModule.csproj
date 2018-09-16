@@ -69,7 +69,9 @@
     <Compile Include="Container\RailSupportTopBoard.cs" />
     <Compile Include="HeatSinkSystem\FrontCap.cs" />
     <Compile Include="HeatSinkSystem\Cap.cs" />
-    <Compile Include="NitrogenSystem\Area.cs" />
+    <Compile Include="Area.cs" />
+    <Compile Include="MeasureMentControl\Cabinets.cs" />
+    <Compile Include="MeasureMentControl\ControlCabinet.cs" />
     <Compile Include="NitrogenSystem\Compressor.cs" />
     <Compile Include="NitrogenSystem\ElectricHeater.cs" />
     <Compile Include="HeatSinkSystem\HeatSink.cs" />
@@ -85,7 +87,9 @@
     <Compile Include="Other\CoolVAC1.cs" />
     <Compile Include="Other\DRYVAC.cs" />
     <Compile Include="Other\GXS.cs" />
+    <Compile Include="Other\LargeGateValve.cs" />
     <Compile Include="Other\MolecularPump.cs" />
+    <Compile Include="Other\ParLargeGateValve.cs" />
     <Compile Include="Other\ScrewLine.cs" />
     <Compile Include="Other\VacuoSystem.cs" />
     <Compile Include="Other\Valve.cs" />

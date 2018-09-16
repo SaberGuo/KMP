@@ -5,6 +5,7 @@ using ParamedModule.Container;
 using ParamedModule.HeatSinkSystem;
 using ParamedModule.NitrogenSystem;
 using ParamedModule.Other;
+using ParamedModule.MeasureMentControl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -78,9 +79,16 @@ namespace KMP.Anlysis
                 return this.GetSubModule(typeof(VacuoSystem), this._baseModule) as VacuoSystem;
             }
         }
+        public Cabinets CabinetSys
+        {
+            get
+            {
+                return this.GetSubModule(typeof(Cabinets), this._baseModule) as Cabinets;
+            }
+        }
         private IParamedModule GetSubModule(Type t, IParamedModule parent)
         {
-            foreach (var item in _baseModule.SubParamedModules)
+            foreach (var item in parent.SubParamedModules)
             {
                 if(item.GetType() == t)
                 {

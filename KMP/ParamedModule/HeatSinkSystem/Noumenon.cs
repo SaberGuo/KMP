@@ -36,28 +36,31 @@ namespace ParamedModule.HeatSinkSystem
         }
         void init()
         {
-            par.InDiameter.Value =2000;
+            par.InDiameter.Value =3000;
             par.Thickness.Value = 24;
-            par.Length = 4000;
-            par.PipeDistance = 200;
-            par.PipeOffset = 700;
-            par.PipeDiameter = 200;
-            par.PipeThickness = 10;
+            par.Length = 5000;
+
+            par.PipeDistance = 100;
+            par.PipeOffset = 1400;
+            par.PipeDiameter = 50;
+            par.PipeThickness = 3.5;
             par.PipeLength = 3000;
+
             par.PipeSurLength = 20;
             par.PipeSurDistance = 100;
             par.PipeSurCurveRadius = 40;
             par.PipeSurThickness = 2;
-            par.PipeSurDiameter = 10;
+            par.PipeSurDiameter = 25;
             par.PipeSurNum = 10;
-            par.TBrachHeight = 50;
-            par.TBrachWidth = 15;
+
+            par.TBrachHeight = 60;
+            par.TBrachWidth = 10;
             par.TTopHeight = 10;
-            par.TTopWidth = 30;
+            par.TTopWidth = 70;
             par.THoopOffset = 100;
-            par.THoopNumber = 5;
+            par.THoopNumber = 4;
             par.EndLongAngle = 30;
-            par.EndLongNumber = 4;
+            par.EndLongNumber = 3;
             par.TAndCYDiatance = 20;
         }
         public override void DisPose()
@@ -347,9 +350,9 @@ namespace ParamedModule.HeatSinkSystem
             List<Face> HoopFaces = InventorTool.GetCollectionFromIEnumerator<Face>(Hoop.SideFaces.GetEnumerator());
             //for (int i = 0; i < HoopFaces.Count; i++)
             //{
-            //    Definition.iMateDefinitions.AddMateiMateDefinition(HoopFaces[i], 0).Name="a"+i;
+            //    Definition.iMateDefinitions.AddMateiMateDefinition(HoopFaces[i], 0).Name = "a" + i;
             //}
-            PlanarSketch osketch = Definition.Sketches.Add(HoopFaces[2]);
+            PlanarSketch osketch = Definition.Sketches.Add(HoopFaces[5]);
             SketchCircle outCircle = (SketchCircle)osketch.AddByProjectingEntity(COutCircle);
             outCircle.Construction = true;
             SketchCircle BigCir = osketch.SketchCircles.AddByCenterRadius(outCircle.CenterSketchPoint, outCircle.Radius + UsMM(par.TAndCYDiatance));
@@ -369,7 +372,7 @@ namespace ParamedModule.HeatSinkSystem
             osketch.RotateSketchObjects(objc, outCircle.CenterSketchPoint.Geometry, Angle/180*Math.PI-Math.PI/2);
             Profile pro = osketch.Profiles.AddForSolid();
             ExtrudeDefinition def = Definition.Features.ExtrudeFeatures.CreateExtrudeDefinition(pro, PartFeatureOperationEnum.kJoinOperation);
-            def.SetDistanceExtent(EndLongLength, PartFeatureExtentDirectionEnum.kNegativeExtentDirection);
+            def.SetDistanceExtent(EndLongLength, PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
           return  Definition.Features.ExtrudeFeatures.Add(def);
         }
         void CreateEndLondMirror(ExtrudeFeature EndLong,WorkAxis Axis, double braceWidth,int EndLongNumber,int HoopNumber,double endloopLength)

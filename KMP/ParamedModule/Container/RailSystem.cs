@@ -48,8 +48,8 @@ namespace ParamedModule.Container
         {
             par.SupportNum = 5;
            
-            par.Offset = 400;
-            par.RailToCenterDistance = 845;
+            par.Offset = 500;
+            par.RailToCenterDistance = 1000;
             par.SurFirstOffset = 300;
            
           //  if(par.CylinderInRadius!=null)

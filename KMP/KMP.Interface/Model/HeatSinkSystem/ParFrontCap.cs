@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-    [DisplayName("大门参数")]
+    [DisplayName("大门热沉参数")]
     public class ParFrontCap : ParameterBase
     {
         #region

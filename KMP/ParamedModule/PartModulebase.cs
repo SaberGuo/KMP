@@ -48,10 +48,12 @@ namespace ParamedModule
         }
         public override void CreateModule()
         {
+           
             GeneratorProgress(this, "开始创建零件" + this.Name);
             DisPose();
             CloseSameNameDocment();
             CreateDoc();
+            Doc.FullFileName = System.IO.Path.Combine(ModelPath, this.Name + ".ipt");
             CreateSub();
             SaveDoc();
             GeneratorProgress(this, "结束创建零件" + this.Name);

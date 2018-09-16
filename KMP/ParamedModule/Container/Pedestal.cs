@@ -38,13 +38,13 @@ namespace ParamedModule.Container
         {
          
            // par.PanelThickness = 12;
-            par.UnderBoardThinkness = 13;
+            par.UnderBoardThinkness = 12;
             par.BackBoardThinkness = 14;
-            par.PedestalThinkness = 15;
+            par.PedestalThinkness = 20;
             par.UnderBoardingAngle = 120;
-            par.PedestalLength = 2530;
-            par.PedestalCenterDistance = 1692;
-            par.FootBoardBetween=500;
+            par.PedestalLength = 3200;
+            par.PedestalCenterDistance = 2000;
+            par.FootBoardBetween=700;
             par.FootBoardNum = 5;
             par.FootBoardThickness = 30;
             par.FootBoardWidth = 260;

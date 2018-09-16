@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 namespace KMP.Interface.Model.HeatSinkSystem
 {
-    [DisplayName("后端参数")]
+    [DisplayName("端部热沉参数")]
     public class ParCap:ParameterBase
     {
         public override string ToString()
@@ -484,16 +484,20 @@ namespace KMP.Interface.Model.HeatSinkSystem
         #endregion
         #region 进出液管参数
         [Category("进出液管")]
-        [DisplayName("液管内直径")]
+        [DisplayName("液管内直径(d)")]
+        [Description("热沉盖-进出液管")]
         public double LiqPipeInDiameter { get; set; }
         [Category("进出液管")]
-        [DisplayName("液管厚度")]
+        [DisplayName("液管厚度(T1)")]
+        [Description("热沉盖-进出液管")]
         public double LiqPipeThickness { get; set; }
         [Category("进出液管")]
-        [DisplayName("液管转角直径")]
+        [DisplayName("液管转角直径(d3)")]
+        [Description("热沉盖-进出液管")]
         public double LiqPipeTurnDiameter { get; set; }
         [Category("进出液管")]
-        [DisplayName("液管与胀板距离")]
+        [DisplayName("液管与胀板距离(h)")]
+        [Description("热沉盖-进出液管")]
         public double LiqPipeHeight { get; set; }
         [Category("进出液管")]
         [DisplayName("液管是否生成")]
@@ -502,7 +506,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
         [DisplayName("液管方向")]
         public bool LiqPipeDirection { get; set; }
         [Category("进出液管")]
-        [DisplayName("液管1各段长度")]
+        [DisplayName("液管1各段长度(L)")]
+        [Description("热沉盖-进出液管")]
         public ObservableCollection<double> LiqPipeLength1
         {
             get
@@ -518,7 +523,8 @@ namespace KMP.Interface.Model.HeatSinkSystem
 
         private ObservableCollection<double> liqPipeLength1=new ObservableCollection<double>();
         [Category("进出液管")]
-        [DisplayName("液管2各段长度")]
+        [DisplayName("液管2各段长度(L)")]
+        [Description("热沉盖-进出液管")]
         public ObservableCollection<double> LiqPipeLength2
         {
             get

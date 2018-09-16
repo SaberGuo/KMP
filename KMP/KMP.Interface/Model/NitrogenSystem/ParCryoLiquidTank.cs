@@ -26,6 +26,7 @@ namespace KMP.Interface.Model.NitrogenSystem
 
 
     }
+
     [Export(typeof(ParTankCapacityDictProxy))]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class ParTankCapacityDictProxy 
@@ -147,6 +148,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             get { return ParTankCapacityDict.TankCapacityDict; }
         }
     }
+
     public class ParTankCapacitySource : IItemsSource
     {
         public ItemCollection GetValues()
@@ -161,6 +163,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             return flanches;
         }
     }
+
     [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("液体储槽参数")]
     public class ParCryoLiquidTank:ParameterBase
     {
@@ -171,6 +174,7 @@ namespace KMP.Interface.Model.NitrogenSystem
         ParTankCapacity capacity=new ParTankCapacity();
         double capacityDN = 1200;
         [DisplayName("容积参数")]
+        [Description("储槽")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ParTankCapacity Capacity
         {
@@ -185,6 +189,7 @@ namespace KMP.Interface.Model.NitrogenSystem
             }
         }
         [DisplayName("有效容积")]
+        [Description("储槽")]
         [ItemsSource(typeof(ParTankCapacitySource))]
         public double CapacityDN
         {
@@ -210,6 +215,7 @@ namespace KMP.Interface.Model.NitrogenSystem
     /// <summary>
     /// 储槽罐参数
     /// </summary>
+    [DisplayName("储槽罐")]
     [TypeConverterAttribute(typeof(ExpandableObjectConverter)), Description("储槽罐参数")]
     public class ParTankCapacity:ParameterBase
     {
