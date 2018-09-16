@@ -13,5 +13,7 @@ namespace KMP.Parameterization.InventorMonitor
         void UpdateAll();
 
         ObservableCollection<IInvMonitorViewModel> Documents { get; }
+
+        void captureImages();
     }
 }

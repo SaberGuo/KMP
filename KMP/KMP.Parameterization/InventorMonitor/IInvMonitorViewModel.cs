@@ -52,5 +52,7 @@ namespace KMP.Parameterization.InventorMonitor
         void OnSizeChanged(object sender, EventArgs e);
 
         void CloseDocument();
+
+        void CaptureImage(string path);
     }
 }

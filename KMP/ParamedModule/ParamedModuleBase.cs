@@ -12,6 +12,8 @@ using Infranstructure.Tool;
 using System.Xml.Serialization;
 using System.Reflection;
 using KMP.Interface.Model.Container;
+using System.ComponentModel;
+
 namespace ParamedModule
 {
     public abstract class ParamedModuleBase :NotificationObject, IParamedModule
@@ -36,9 +38,18 @@ namespace ParamedModule
         public IParamedModule FindModule(string projType)
         {
             IParamedModule res = null;
+            string pt;
             foreach (var subModule in this.subParameModules)
             {
-                if(subModule.ProjectType == projectType)
+                if (subModule.ProjectType != "")
+                {
+                    pt = subModule.ProjectType;
+                }
+                else
+                {
+                    pt = subModule.GetType().ToString();
+                }
+                if(pt == projectType)
                 {
                     return subModule;
                 }
@@ -381,7 +392,46 @@ namespace ParamedModule
             }
         }
         internal abstract void CloseSameNameDocment();
-       
+
+
+        public string GetValueByDisplayName(IParamedModule module, string displayName,string parName)
+        {
+            FieldInfo fi = module.GetType().GetField(parName);
+            Type type = fi.GetValue(this).GetType();
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            foreach (var pi in propertyInfos)
+            {
+                if(GetPropertyDisplayName(pi) == displayName)
+                {
+                    return pi.GetValue(parameter, null).ToString();
+                }
+                
+            }
+            foreach (var sub in this.SubParamedModules)
+            {
+                string tmp = sub.GetValueByDisplayName(sub,displayName, parName);
+                if(tmp != null)
+                {
+                    return tmp;
+                }
+            }
+            return null;
+        }
+
+        private string GetPropertyDisplayName(PropertyInfo pi)
+        {
+            FieldInfo  fi = parameter.GetType().GetField(pi.ToString());
+            DisplayNameAttribute[] attributes = (DisplayNameAttribute[])fi.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            if (attributes != null && attributes.Length>0)
+            {
+                return attributes[0].DisplayName;
+            }
+            else
+            {
+                return pi.ToString();
+            }
+        }
+
 
 
 

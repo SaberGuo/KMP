@@ -9,6 +9,13 @@ namespace Infranstructure.Commands
 {
     public static class ModelCommands
     {
+        static DelegateCommand _GenImagesCommand;
+        public static DelegateCommand GenImagesCommand
+        {
+            get { return _GenImagesCommand; }
+            set { _GenImagesCommand = value; }
+        }
+
         static DelegateCommand _GenModelCommand;
         public static DelegateCommand GenModelCommand
         {
@@ -146,6 +153,12 @@ namespace Infranstructure.Commands
         {
             get { return ModelCommands.UploadCommand; }
             set { ModelCommands.UploadCommand = value; }
+        }
+
+        public virtual DelegateCommand GenImagesCommand
+        {
+            get { return ModelCommands.GenImagesCommand; }
+            set { ModelCommands.GenImagesCommand = value; }
         }
     }
 }

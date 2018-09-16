@@ -33,6 +33,7 @@
 
         </MenuItem>
         <MenuItem Header="项目">
+            <MenuItem Header="抓取图片" Command="{x:Static cmd:ModelCommands.GenImagesCommand}"/>
             <MenuItem Header="生成模型" Command="{x:Static cmd:ModelCommands.GenModelCommand }"/>
             <MenuItem Header="从文件添加..." Command="{x:Static cmd:ModelCommands.AddModelCommand}"/>
             <!--<MenuItem Header="从数据库添加..." Command="{x:Static cmd:ModelCommands.AddModelFromDatabaseCommand}"/>-->

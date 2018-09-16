@@ -159,6 +159,7 @@ namespace KMP.Parameterization.InventorMonitor
             {
                 _oview = _odocument.ClientViews.Add(this.HWnd);
                 _ocamera = _oview.Camera;
+                _oview.DisplayMode = DisplayModeEnum.kRealisticRendering;
                 _ocamera.Fit();
                 _ocamera.Apply();
                 _ocamera.ViewOrientationType = ViewOrientationTypeEnum.kBackViewOrientation;
@@ -292,7 +293,13 @@ namespace KMP.Parameterization.InventorMonitor
             }
         }
         #endregion
-
+        public void CaptureImage(string path)
+        {
+            if (_oserver != null && _oview != null)
+            {
+                _oview.Camera.SaveAsBitmap(path, 640, 480, System.Windows.Media.Color.FromRgb(176, 196, 222), System.Windows.Media.Color.FromRgb(255,255,255));
+            }
+        }
 
 
     }

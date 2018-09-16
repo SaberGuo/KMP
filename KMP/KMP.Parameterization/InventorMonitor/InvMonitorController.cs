@@ -58,5 +58,13 @@ namespace KMP.Parameterization.InventorMonitor
                 return _documents;
             }
         }
+
+        public void captureImages()
+        {
+            foreach (var item in _documents)
+            {
+                item.CaptureImage(System.IO.Path.Combine(item.FilePath,".bmp"));
+            }
+        }
     }
 }

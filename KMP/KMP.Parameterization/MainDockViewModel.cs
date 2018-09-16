@@ -369,6 +369,7 @@ namespace KMP.Parameterization
             _modelCommandProxy.AddModelCommand = new DelegateCommand(AddModelExecuted);
             _modelCommandProxy.AddModelFromDatabaseCommand = new DelegateCommand(AddModelFromDatabaseExecuted);
             _modelCommandProxy.UploadCommand = new DelegateCommand(UploadModelExecuted);
+            _modelCommandProxy.GenImagesCommand = new DelegateCommand(captureImages);
         }
         private void UploadModelExecuted()
         {
@@ -523,6 +524,10 @@ namespace KMP.Parameterization
         
         #endregion
 
+        public void captureImages()
+        {
+            _invMonitorController.captureImages();
+        }
         public void ShowModule(IParamedModule m)
         {
             try
