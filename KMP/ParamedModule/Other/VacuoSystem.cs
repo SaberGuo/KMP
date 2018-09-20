@@ -6,6 +6,8 @@ using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.Other;
 using KMP.Interface.Model.NitrogenSystem;
+using KMP.Interface.ComParam;
+
 namespace ParamedModule.Other
 {
     /// <summary>
@@ -30,6 +32,15 @@ namespace ParamedModule.Other
             InitModule();
          
         }
+        private VacuoParam _cPar = new VacuoParam();
+        public VacuoParam cPar
+        {
+            get
+            {
+                return this._cPar;
+            }
+        }
+
         public override void InitModule()
         {
             this.Parameter = par;

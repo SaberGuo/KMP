@@ -52,6 +52,7 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\libs\prism4\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -68,6 +69,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultDocViewer.cs" />
+    <Compile Include="ReportViewModel.cs" />
     <Compile Include="WordHelper.cs" />
     <Page Include="ReportWindow.xaml">
       <SubType>Designer</SubType>
@@ -110,6 +113,10 @@
     <ProjectReference Include="..\KMP.Interface\KMP.Interface.csproj">
       <Project>{dd1a63eb-aade-470b-8517-275f62c3fe3f}</Project>
       <Name>KMP.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParamedModule\ParamedModule.csproj">
+      <Project>{594C6D71-14AA-4240-BE04-D0FFEBCD31A4}</Project>
+      <Name>ParamedModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

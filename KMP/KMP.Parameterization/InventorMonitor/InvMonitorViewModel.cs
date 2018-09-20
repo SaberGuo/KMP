@@ -1,4 +1,5 @@
 ﻿using Infranstructure;
+using Infranstructure.Tool;
 using Inventor;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
@@ -297,9 +298,15 @@ namespace KMP.Parameterization.InventorMonitor
         {
             if (_oserver != null && _oview != null)
             {
-                _oview.Camera.SaveAsBitmap(path, 640, 480, System.Windows.Media.Color.FromRgb(176, 196, 222), System.Windows.Media.Color.FromRgb(255,255,255));
+                Inventor.Color top = InventorTool.Inventor.TransientObjects.CreateColor(255, 255, 255);
+                Inventor.Color buttom = InventorTool.Inventor.TransientObjects.CreateColor(255, 255, 255);
+                Inventor.View v = InventorTool.Inventor.ActiveView;
+                v.Camera.SaveAsBitmap(path, v.Width, v.Height, top, buttom);
+                //_oview.Camera.SaveAsBitmap(path, 640, 480, top, buttom);
             }
         }
+
+        
 
 
     }

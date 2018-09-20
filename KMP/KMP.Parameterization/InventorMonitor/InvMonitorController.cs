@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infranstructure.Tool;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -34,6 +35,7 @@ namespace KMP.Parameterization.InventorMonitor
             {
                 item.FilePath = item.FilePath;
             }
+            captureImages();
         }
         private void OnAddDocument(IInvMonitorViewModel m)
         {
@@ -58,13 +60,34 @@ namespace KMP.Parameterization.InventorMonitor
                 return _documents;
             }
         }
-
+        Inventor.Color top = InventorTool.Inventor.TransientObjects.CreateColor(255, 255, 255);
+        Inventor.Color buttom = InventorTool.Inventor.TransientObjects.CreateColor(255, 255, 255);
+        private void captureSingleViewImage(Inventor.Document doc, Inventor.ViewOrientationTypeEnum vot)
+        {
+            Inventor.View v = doc.Views[1];
+            v.DisplayMode = Inventor.DisplayModeEnum.kShadedWithEdgesRendering;
+            Inventor.Camera c = v.Camera;
+            c.ViewOrientationType = vot;
+            c.Fit();
+            c.Apply();
+            v.Update();
+            c.SaveAsBitmap(doc.FullFileName + vot.ToString()+ ".bmp", 640, 480, top, buttom);
+        }
         public void captureImages()
         {
-            foreach (var item in _documents)
+            foreach (Inventor.Document doc in InventorTool.Inventor.Documents)
             {
-                item.CaptureImage(System.IO.Path.Combine(item.FilePath,".bmp"));
+
+                captureSingleViewImage(doc, Inventor.ViewOrientationTypeEnum.kFrontViewOrientation);
+                captureSingleViewImage(doc, Inventor.ViewOrientationTypeEnum.kTopViewOrientation);
+                captureSingleViewImage(doc, Inventor.ViewOrientationTypeEnum.kLeftViewOrientation);
+                captureSingleViewImage(doc, Inventor.ViewOrientationTypeEnum.kIsoTopRightViewOrientation);
+
             }
+            /*foreach (var item in _documents)
+            {
+                item.CaptureImage(item.FilePath+".bmp");
+            }*/
         }
     }
 }

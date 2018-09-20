@@ -382,7 +382,6 @@ namespace KMP.Interface.ComParam
             {
                 return this._noumenonMaterials;
             }
-            
         }
 
         public List<HeatSinkMaterial> capMaterials

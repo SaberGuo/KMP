@@ -19,7 +19,7 @@ namespace ParamedModule.HeatSinkSystem
         Dictionary<double, WorkPlane> _HolePlanes = new Dictionary<double, WorkPlane>();
         public Noumenon():base()
         {
-
+            this.ProjectType = "NOU";
         }
         public override void InitModule()
         {

@@ -18,6 +18,7 @@ using System.Xml;
 namespace KMP.Anlysis
 {
     [Export(typeof(IAnalysisWindow))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     /// <summary>
     /// AnlysisWindow.xaml 的交互逻辑
     /// </summary>

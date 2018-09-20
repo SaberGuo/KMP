@@ -7,5 +7,6 @@ namespace KMP.Interface
 {
     public interface IReportWindow
     {
+        string Path { get; set; }
     }
 }

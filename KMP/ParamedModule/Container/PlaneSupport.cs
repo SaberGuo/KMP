@@ -16,7 +16,7 @@ namespace ParamedModule.Container
         public ParPlaneSupport par = new ParPlaneSupport();
         public PlaneSupport():base()
         {
-            
+            this.ProjectType = "PS";
         }
         public override void InitModule()
         {

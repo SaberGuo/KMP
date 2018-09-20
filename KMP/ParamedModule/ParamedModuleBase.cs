@@ -393,7 +393,22 @@ namespace ParamedModule
         }
         internal abstract void CloseSameNameDocment();
 
+        public string GetValueByDisplayName(IParamedModule module, string displayName, string parName, string member)
+        {
+            FieldInfo fi = module.GetType().GetField(parName);
+            PropertyInfo[] ffi = fi.GetValue(module).GetType().GetField(member).GetType().GetProperties();
+            
+            foreach (var pi in ffi)
+            {
+                if (GetPropertyDisplayName(pi) == displayName)
+                {
+                    return pi.GetValue(parameter, null).ToString();
+                }
 
+            }
+            
+            return null;
+        }
         public string GetValueByDisplayName(IParamedModule module, string displayName,string parName)
         {
             FieldInfo fi = module.GetType().GetField(parName);
@@ -407,21 +422,15 @@ namespace ParamedModule
                 }
                 
             }
-            foreach (var sub in this.SubParamedModules)
-            {
-                string tmp = sub.GetValueByDisplayName(sub,displayName, parName);
-                if(tmp != null)
-                {
-                    return tmp;
-                }
-            }
+            
             return null;
         }
 
         private string GetPropertyDisplayName(PropertyInfo pi)
         {
             FieldInfo  fi = parameter.GetType().GetField(pi.ToString());
-            DisplayNameAttribute[] attributes = (DisplayNameAttribute[])fi.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            return fi.Name;
+            /*DisplayNameAttribute[] attributes = (DisplayNameAttribute[])fi.GetCustomAttributes(typeof(DisplayNameAttribute), false);
             if (attributes != null && attributes.Length>0)
             {
                 return attributes[0].DisplayName;
@@ -429,7 +438,12 @@ namespace ParamedModule
             else
             {
                 return pi.ToString();
-            }
+            }*/
+        }
+
+        public string GetPicByOrient(IParamedModule module, string orient)
+        {
+            return module.FullPath + orient + ".bmp";
         }
 
 

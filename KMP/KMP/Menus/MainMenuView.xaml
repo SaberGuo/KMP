@@ -14,11 +14,9 @@
     <Menu Grid.Row="0">
         <MenuItem Header="文件">
             <MenuItem Header="新建..." InputGestureText="Ctrl+N" Command="{x:Static cmd:FileCommands.NewFileCommand }">
-         
             </MenuItem>
-          
-            <MenuItem x:Name="Open" Header="打开..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
 
+            <MenuItem x:Name="Open" Header="打开..." InputGestureText="Ctrl+O" Command="{x:Static cmd:FileCommands.OpenFileCommand}">
             </MenuItem>
             
             <MenuItem Header="保存" IsEnabled="{Binding HasProject}"  InputGestureText="Ctrl+S" Command="{x:Static cmd:ModelCommands.SaveCommand}">
@@ -43,7 +41,7 @@
 
         <MenuItem Header="分析">
             <MenuItem Header="计算..." Command="{x:Static cmd:SystemCommands.AnlysisCommand}" IsEnabled="{Binding HasProject}"/>
-            <MenuItem Header="报告"/>
+            <MenuItem Header="报告" Command="{x:Static cmd:SystemCommands.ReportCommand}"  IsEnabled="{Binding HasProject}"/>
         </MenuItem>
         <MenuItem Header="工具">
             <MenuItem Header="模型库">

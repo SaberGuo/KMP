@@ -44,7 +44,7 @@ namespace KMP.Menus
         private void CommandInit()
         {
             _dbCommandProxy.BrowserCommand = new DelegateCommand(DBBrowserExecuted);
-            _systemCommandProxy.ReportCommand = new DelegateCommand(ReportBrowserExecuted);
+   
             _systemCommandProxy.ConfigCommand = new DelegateCommand(ConfigBrowserExecuted);
            
         }
@@ -55,12 +55,7 @@ namespace KMP.Menus
             t.ShowDialog();
         }
 
-        void ReportBrowserExecuted()
-        {
-            Window t = (Window)ServiceLocator.Current.GetInstance<IReportWindow>();
-            t.Owner = System.Windows.Application.Current.MainWindow;
-            t.ShowDialog();
-        }
+     
         void ConfigBrowserExecuted()
         {
 

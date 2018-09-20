@@ -8,5 +8,16 @@
         Closing="Window_Closing"
         mc:Ignorable="d"
         Title="报告生成">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="600"/>
+        </Grid.RowDefinitions>
+        <ToolBar Grid.Row="0">
+            <Button Command="{Binding DocGenerateCommand}">报告生成</Button>
+        </ToolBar>
+        <local:DefaultDocViewer x:Name="docviewer" Grid.Row="1" DocumentPath="{Binding DocPath}"/>
+
+    </Grid>
     
 </Window>

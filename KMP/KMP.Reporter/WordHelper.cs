@@ -59,7 +59,7 @@ namespace KMP.Reporter
             try
             {
                 wordDoc = OpenOneDocument(FileName, missing, IsReadOnly, missing, missing, missing, missing, missing, missing, missing, missing, IsVisibleWin, missing, missing, missing, missing);
-                wordDoc.Activate();
+                //wordDoc.Activate();
 
                 return true;
             }

@@ -74,6 +74,15 @@ namespace KMP.Parameterization
             TreeNodeCheckCommand = new DelegateCommand<IParamedModule>(TreeNodeCheckExecuted);
 
             _systemCommandProxy.AnlysisCommand = new DelegateCommand(AnlysisBrowserExecuted);
+            _systemCommandProxy.ReportCommand = new DelegateCommand(ReportBrowserExecuted);
+        }
+        private void ReportBrowserExecuted()
+        {
+            IReportWindow t = ServiceLocator.Current.GetInstance<IReportWindow>();
+            t.Path = this.Modules.ProjectPath + ".doc";
+            Window win = t as Window;
+            win.Owner = System.Windows.Application.Current.MainWindow;
+            win.ShowDialog();
         }
 
         private void SelectTreeNodeCommandExec(RoutedEventArgs e)
@@ -295,6 +304,7 @@ namespace KMP.Parameterization
                 this.Modules.ProjInfo.ProjType = module.ProjectType;
                 this.Modules.ProjInfo.CreatedAt = DateTime.Now;
                 this.Modules.ProjectPath = fdlg.FileName;
+ 
                 this.Modules.AddModule(module);
                 this.Modules.First().GeneratorChanged += OnGeneratorChanged;
                 this._eventAggregator.GetEvent<ProjectChangedEvent>().Publish(this.Modules.ProjectPath);
@@ -466,6 +476,7 @@ namespace KMP.Parameterization
                 this._eventAggregator.GetEvent<GeneratorEvent>().Publish("end_generator");
                 this._eventAggregator.GetEvent<InfoEvent>().Publish(new MyException("模型生成完成！", ExceptionType.INFO));
                 _invMonitorController.UpdateAll();
+
                 //this._childWindViewModel.GeneratorWinState = "Close";
                 //this.IsGenerating = false;
             });

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 namespace KMP.Reporter
 {
     [Export(typeof(IReportWindow))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     /// <summary>
     /// ReportWindow.xaml 的交互逻辑
     /// </summary>
@@ -24,6 +25,30 @@ namespace KMP.Reporter
         public ReportWindow()
         {
             InitializeComponent();
+        }
+        [Import]
+        ReportViewModel viewModel
+        {
+            set
+            {
+                this.DataContext = value;
+            }
+            get
+            {
+                return this.DataContext as ReportViewModel;
+            }
+        }
+        public string Path
+        {
+            get
+            {
+                return this.viewModel.GenPath;
+            }
+
+            set
+            {
+                this.viewModel.GenPath = value;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

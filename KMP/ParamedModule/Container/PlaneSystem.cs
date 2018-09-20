@@ -19,7 +19,7 @@ namespace ParamedModule.Container
         public PlaneTopPlate _plane;
         public PlaneSystem():base()
         {
-
+            this.ProjectType = "PLS";
         }
         public override void InitModule()
         {

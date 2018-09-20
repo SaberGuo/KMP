@@ -7,6 +7,8 @@ using Inventor;
 using System.ComponentModel.Composition;
 using KMP.Interface;
 using KMP.Interface.Model.NitrogenSystem;
+using KMP.Interface.ComParam;
+
 namespace ParamedModule.NitrogenSystem
 {
     /// <summary>
@@ -27,6 +29,15 @@ namespace ParamedModule.NitrogenSystem
             this.SubParamedModules.AddModule(tanks);
             this.SubParamedModules.AddModule(heatUps);
             this.SubParamedModules.AddModule(pumps);
+        }
+
+        private NitrogenParam _cPar = new NitrogenParam();
+        public NitrogenParam cPar
+        {
+            get
+            {
+                return this._cPar;
+            }
         }
         public override void InitModule()
         {

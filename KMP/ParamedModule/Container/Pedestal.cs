@@ -17,6 +17,7 @@ namespace ParamedModule.Container
         public ParPedestal par = new ParPedestal();
         public Pedestal() : base()
         {
+            this.ProjectType = "PED";
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "Pedestal.png");
         }
         public override void InitModule()

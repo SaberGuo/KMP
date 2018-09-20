@@ -17,10 +17,12 @@ namespace ParamedModule.Container
     public class Cylinder : PartModulebase
     {
         public ParCylinder par = new ParCylinder();
+
         Dictionary<double, WorkPlane> _cylinderHolePlanes = new Dictionary<double, WorkPlane>();
         Dictionary<double, WorkPlane> _capHolePlanes = new Dictionary<double, WorkPlane>();
         public Cylinder():base()
         {
+            this.ProjectType = "CY";
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
       

@@ -36,7 +36,7 @@ namespace ParamedModule.Container
             init();
             this.Name = "容器系统";
             this.Parameter = par;
-            this.ProjectType = "ContainerSystem";
+            this.ProjectType = "CS";
             _plane = new PlaneSystem(par.InRadius);
             _cylinder = new Cylinder(par.InRadius,par.Thickness);
             _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);

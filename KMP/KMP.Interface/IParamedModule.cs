@@ -29,7 +29,8 @@ namespace KMP.Interface
         void InitModule();
 
         string GetValueByDisplayName(IParamedModule module, string name, string par);
-
+        string GetValueByDisplayName(IParamedModule module, string name, string par, string member);
+        string GetPicByOrient(IParamedModule module, string orient);
 
 
 
