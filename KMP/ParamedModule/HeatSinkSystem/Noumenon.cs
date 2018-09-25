@@ -430,9 +430,14 @@ namespace ParamedModule.HeatSinkSystem
                 {
                     y = 1;
                 }
+                if(parHole.PositionAngle==0)
+                {
+                    x = 1;
+                    y = 1;
+                }
             }
-
-
+           
+           // PlanarSketch osketch=Definition.Sketches.AddWithOrientation()
             PlanarSketch osketch = Definition.Sketches.Add(plane);
             Edge edge = InventorTool.GetFirstFromIEnumerator<Edge>(DistanceFace.Edges.GetEnumerator());
             SketchLine line = (SketchLine)osketch.AddByProjectingEntity(edge);
@@ -451,7 +456,8 @@ namespace ParamedModule.HeatSinkSystem
             objc.Add(holeCenter);
             SketchHolePlacementDefinition HolePlace = Definition.Features.HoleFeatures.CreateSketchPlacementDefinition(objc);
               HoleFeature hole = Definition.Features.HoleFeatures.AddDrilledByDistanceExtent(HolePlace, UsMM(parHole.ParFlanch.D6), UsMM(par.InDiameter.Value/2 + par.Thickness.Value), PartFeatureExtentDirectionEnum.kPositiveExtentDirection);
-           // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.ParFlanch.D6,InFace,true);
+           // hole.Name = parHole.Name;
+            // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.ParFlanch.D6,InFace,true);
             // Definition.Features.HoleFeatures.AddDrilledByToFaceExtent(HolePlace, parHole.HoleRadius * 2, holeEndFace, true);
             #endregion
           

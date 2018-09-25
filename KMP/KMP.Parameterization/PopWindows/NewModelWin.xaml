@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KMP.Parameterization.PopWindows"
         mc:Ignorable="d"
         Closing="Window_Closing"
-        Title="NewModelWin" Height="180" Width="270">
+        Title="新建项目" Height="180" Width="270">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
