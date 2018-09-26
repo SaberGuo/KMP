@@ -15,7 +15,18 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ContainerSystem : AssembleModuleBase
     {
-        public ParContainerSystem par = new ParContainerSystem();
+        private ParContainerSystem _par = new ParContainerSystem();
+        public ParContainerSystem par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public Cylinder _cylinder;
         public CylinderDoor _cylinderDoor;
         public Pedestal _pedestal;
@@ -33,14 +44,19 @@ namespace ParamedModule.Container
         [ImportingConstructor]
         public ContainerSystem():base()
         {
-            init();
+
+            
+            //this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
+        }
+        public override void InitCreatedModule()
+        {
             this.Name = "容器系统";
             this.Parameter = par;
             this.ProjectType = "CS";
             _plane = new PlaneSystem(par.InRadius);
-            _cylinder = new Cylinder(par.InRadius,par.Thickness);
-            _cylinderDoor = new CylinderDoor(par.InRadius,par.Thickness);
-            _pedestal = new Pedestal(par.InRadius,par.Thickness);
+            _cylinder = new Cylinder(par.InRadius, par.Thickness);
+            _cylinderDoor = new CylinderDoor(par.InRadius, par.Thickness);
+            _pedestal = new Pedestal(par.InRadius, par.Thickness);
             _railSystem = new RailSystem(par.InRadius);
             SubParamedModules.AddModule(_cylinder);
             SubParamedModules.AddModule(_cylinderDoor);
@@ -48,16 +64,28 @@ namespace ParamedModule.Container
             SubParamedModules.AddModule(_railSystem);
             SubParamedModules.AddModule(_plane);
             init();
-            //this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
+            base.InitCreatedModule();
         }
         public override void InitModule()
         {
             this.Parameter = par;
+            _plane.par.CylinderInRadius = this.par.InRadius;
+            _cylinder.par.InRadius = this.par.InRadius;
+            _cylinder.par.Thickness = this.par.Thickness;
+            _cylinderDoor.par.InRadius = this.par.InRadius;
+            _cylinderDoor.par.Thickness = this.par.Thickness;
+            _pedestal.par.InRadius = this.par.InRadius;
+            _pedestal.par.Thickness = this.par.Thickness;
+            _railSystem.par.CylinderInRadius = this.par.InRadius;
             SubParamedModules.AddModule(_cylinder);
             SubParamedModules.AddModule(_cylinderDoor);
             SubParamedModules.AddModule(_pedestal);
             SubParamedModules.AddModule(_railSystem);
             SubParamedModules.AddModule(_plane);
+            foreach (var item in SubParamedModules)
+            {
+                item.InitModule();
+            }
             base.InitModule();
         }
         void init()
@@ -76,9 +104,17 @@ namespace ParamedModule.Container
         public override bool CheckParamete()
         {
             par.InRadius.Value = par.InDiameter.Value/2;
-            if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            /*if ((!_cylinder.CheckParamete()) || (!_cylinderDoor.CheckParamete()) || 
                 (!_pedestal.CheckParamete()) || (!_railSystem.CheckParamete()) || (!_plane.CheckParamete()))
                 return false;
+                */
             if (!CheckParZero()) return false;
             return true;
         }

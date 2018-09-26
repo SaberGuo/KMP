@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Commands;
+﻿using KMP.Interface;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,18 @@ namespace KMP.Reporter
             set
             {
                 this.genPath = value;
+            }
+        }
+
+        public IParamedModule Root
+        {
+            get
+            {
+                return this.reportGen.Root;
+            }
+            set
+            {
+                this.reportGen.Root = value;
             }
         }
         [ImportingConstructor]

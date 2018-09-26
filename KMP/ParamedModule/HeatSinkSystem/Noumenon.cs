@@ -15,7 +15,18 @@ namespace ParamedModule.HeatSinkSystem
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Noumenon : PartModulebase
     {
-        public ParNoumenon par = new ParNoumenon();
+        ParNoumenon _par = new ParNoumenon();
+        public ParNoumenon par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         Dictionary<double, WorkPlane> _HolePlanes = new Dictionary<double, WorkPlane>();
         public Noumenon():base()
         {
@@ -23,6 +34,7 @@ namespace ParamedModule.HeatSinkSystem
         }
         public override void InitModule()
         {
+            this.ProjectType = "NOU";
             this.Parameter = par;
             base.InitModule();
         }

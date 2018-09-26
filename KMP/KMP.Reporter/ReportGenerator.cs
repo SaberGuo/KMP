@@ -56,14 +56,16 @@ namespace KMP.Reporter
 
         public string Generate()
         {
-            if(!wdHelp.OpenAndActive(this.docPath, false, false))
+            wdHelp.wordApp = new Microsoft.Office.Interop.Word.ApplicationClass();
+            System.IO.File.Copy(this.docPath, this.path,true);
+            if(!wdHelp.OpenAndActive(this.path, false, false))
             {
                 //error
                 return null;
             }
-            //addPars();
+            addPars();
             //addPics();
-            wdHelp.SaveAs(Path);
+            wdHelp.SaveAs(path);
             wdHelp.Close();
 
             // wdHelp.WordDocument.Bookmarks
@@ -81,15 +83,21 @@ namespace KMP.Reporter
                     if (pars.Length >= 4)//"value_[moduleType]_[parName]_[displayName]"
                     {
                         IParamedModule module = Root.FindModule(pars[1]);
-                        if(pars[2] == "cpar")
+                        if(pars[2] == "cPar")
                         {
-                            string value = module.GetValueByDisplayName(module, pars[3], pars[2]);
-                            bk.Range.InsertAfter(value);
+                            string value = module.GetValueByDisplayName(module, pars[4], pars[2], pars[3]);
+                            //wdHelp.GoToBookMark(bk.Name);
+                            //wdHelp.InsertText(value);
+                            //bk.Range.InsertAfter(value);
+                            wdHelp.WordDocument.Bookmarks[bk.Name].Range.InsertAfter(value);
                         }
                         if(pars[2] == "par")
                         {
                             string value = module.GetValueByDisplayName(module, pars[3], pars[2]);
-                            bk.Range.InsertAfter(value);
+                            //wdHelp.GoToBookMark(bk.Name);
+                            //wdHelp.InsertText(value);
+                            //bk.Range.InsertAfter(value);
+                            wdHelp.WordDocument.Bookmarks[bk.Name].Range.InsertAfter(value);
                         }
                         
                     }
@@ -104,7 +112,7 @@ namespace KMP.Reporter
                 if (Regex.IsMatch(bk.Name, pattern_pic))
                 {
                     string[] pars = bk.Name.Split('_');
-                    if (pars.Length == 3)//"pic_[moduleType]_[orientType]"
+                    if (pars.Length >= 3)//"pic_[moduleType]_[orientType]"
                     {
                         IParamedModule module = Root.FindModule(pars[1]);
                         string picPath = module.GetPicByOrient(module, pars[2]);

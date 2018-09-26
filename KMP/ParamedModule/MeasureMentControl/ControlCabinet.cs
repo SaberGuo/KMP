@@ -15,7 +15,18 @@ namespace ParamedModule.MeasureMentControl
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ControlCabinet : PartModulebase
     {
-      public  ParControlCabinet par = new ParControlCabinet();
+       ParControlCabinet _par = new ParControlCabinet();
+        public ParControlCabinet par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public ControlCabinet():base()
         {
             this.Parameter = par;

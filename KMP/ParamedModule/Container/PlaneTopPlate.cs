@@ -16,7 +16,19 @@ namespace ParamedModule.Container
 
   public  class PlaneTopPlate : PartModulebase
     {
-        public ParPlaneTopPlate par = new ParPlaneTopPlate();
+        private ParPlaneTopPlate _par = new ParPlaneTopPlate();
+        public ParPlaneTopPlate par
+        {
+            get
+            {
+                return _par;
+
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public PlaneTopPlate():base()
         {
             this.Parameter = par;

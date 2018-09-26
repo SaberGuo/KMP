@@ -13,8 +13,15 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSystem : AssembleModuleBase
     {
-        public ParPlaneSystem par = new ParPlaneSystem();
-
+        ParPlaneSystem _par = new ParPlaneSystem();
+        public ParPlaneSystem par
+        {
+            get { return _par; }
+            set
+            {
+                this._par = value;
+            }
+        }
         public PlaneSupport _planeSup;
         public PlaneTopPlate _plane;
         public PlaneSystem():base()
@@ -24,8 +31,13 @@ namespace ParamedModule.Container
         public override void InitModule()
         {
             this.Parameter = par;
+            _planeSup.par.InRadius = this.par.CylinderInRadius;
             this.SubParamedModules.AddModule(_plane);
             this.SubParamedModules.AddModule(_planeSup);
+            foreach (var item in SubParamedModules)
+            {
+                item.InitModule();
+            }
             base.InitModule();
         }
         public PlaneSystem(PassedParameter InRadius) :base()
@@ -54,8 +66,14 @@ namespace ParamedModule.Container
 
         public override bool CheckParamete()
         {
-
-            if ((!_plane.CheckParamete()) || (!_planeSup.CheckParamete())) return false;
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            //if ((!_plane.CheckParamete()) || (!_planeSup.CheckParamete())) return false;
             ///平板总高度是平板组件高度之和
             ///平板偏移高度是平板偏移位置的高度/2-平板组件高度
             // par.TotalHeight=  _plane.par.Thickness + _planeSup.par.BrachHeight1 + _planeSup.par.BrachHeight2 + _planeSup.par.TopBoardThickness;

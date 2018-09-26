@@ -16,7 +16,18 @@ namespace ParamedModule.Container
  
    public class RailSupport : AssembleModuleBase
     {
-        public ParRailSupport par = new ParRailSupport();
+        private ParRailSupport _par = new ParRailSupport();
+        public ParRailSupport par
+        {
+            get
+            {
+                return _par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public RailSupportTopBoard topBoard;
         public RailSupportSidePlate sidePlate;
         public RailSupportCenterBoard centerBoard;

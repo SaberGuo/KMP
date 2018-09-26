@@ -18,7 +18,18 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class RailSupportTopBoard : PartModulebase
     {
-        public ParRailSupportTopBoard par = new ParRailSupportTopBoard();
+        ParRailSupportTopBoard _par = new ParRailSupportTopBoard();
+        public ParRailSupportTopBoard par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public RailSupportTopBoard():base()
         {
             this.Parameter = par;

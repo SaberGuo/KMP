@@ -17,7 +17,18 @@ namespace ParamedModule.MeasureMentControl
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cabinets : AssembleModuleBase
     {
-     public   ParCabinets par = new ParCabinets();
+        ParCabinets _par = new ParCabinets();
+        public ParCabinets par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         ControlCabinet _cabinet = new ControlCabinet();
         public Cabinets():base()
         {

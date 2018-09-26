@@ -13,7 +13,18 @@ namespace ParamedModule.Container
     public class CylinderDoor : PartModulebase
     {
 
-        public ParCylinderDoor par = new ParCylinderDoor();
+        private ParCylinderDoor _par = new ParCylinderDoor();
+        public ParCylinderDoor par
+        {
+            get
+            {
+                return _par;
+            }
+            set
+            {
+                _par = value;
+            }
+        }
         Dictionary<double, WorkPlane> _sidePlanes = new Dictionary<double, WorkPlane>();
        public CylinderDoor():base()
         {
@@ -35,6 +46,12 @@ namespace ParamedModule.Container
         {
             this.Parameter = par;
             base.InitModule();
+        }
+
+        public override void InitCreatedModule()
+        {
+            init();
+            base.InitCreatedModule();
         }
         private void init()
         {

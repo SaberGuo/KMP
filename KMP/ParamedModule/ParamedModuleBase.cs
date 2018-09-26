@@ -35,6 +35,14 @@ namespace ParamedModule
                 item.InitModule();
             }
         }
+        public virtual void InitCreatedModule()
+        {
+            foreach (var item in SubParamedModules)
+            {
+                item.InitCreatedModule();
+                item.ModelPath = this.ModelPath;
+            }
+        }
         public IParamedModule FindModule(string projType)
         {
             IParamedModule res = null;
@@ -47,9 +55,9 @@ namespace ParamedModule
                 }
                 else
                 {
-                    pt = subModule.GetType().ToString();
+                    pt = subModule.GetType().ToString().Split('.').Last();
                 }
-                if(pt == projectType)
+                if(pt == projType)
                 {
                     return subModule;
                 }
@@ -395,35 +403,37 @@ namespace ParamedModule
 
         public string GetValueByDisplayName(IParamedModule module, string displayName, string parName, string member)
         {
-            FieldInfo fi = module.GetType().GetField(parName);
-            PropertyInfo[] ffi = fi.GetValue(module).GetType().GetField(member).GetType().GetProperties();
-            
-            foreach (var pi in ffi)
+            try
             {
-                if (GetPropertyDisplayName(pi) == displayName)
-                {
-                    return pi.GetValue(parameter, null).ToString();
-                }
+                PropertyInfo fi = module.GetType().GetProperty(parName);
+                object v = fi.GetValue(module, null);
+                v = v.GetType().GetProperty(member).GetValue(v, null);
+                v = v.GetType().GetProperty(displayName).GetValue(v, null);
+                return v.ToString();
+            }
+            catch (Exception)
+            {
 
+                return null;
             }
             
-            return null;
+            
+            
         }
         public string GetValueByDisplayName(IParamedModule module, string displayName,string parName)
         {
-            FieldInfo fi = module.GetType().GetField(parName);
-            Type type = fi.GetValue(this).GetType();
-            PropertyInfo[] propertyInfos = type.GetProperties();
-            foreach (var pi in propertyInfos)
+            try
             {
-                if(GetPropertyDisplayName(pi) == displayName)
-                {
-                    return pi.GetValue(parameter, null).ToString();
-                }
-                
+                PropertyInfo fi = module.GetType().GetProperty(parName);
+                object v = fi.GetValue(module, null);
+                v = v.GetType().GetProperty(displayName).GetValue(v, null);
+                return v.ToString();
             }
-            
-            return null;
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
         private string GetPropertyDisplayName(PropertyInfo pi)

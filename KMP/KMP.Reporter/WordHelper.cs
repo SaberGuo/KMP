@@ -74,7 +74,7 @@ namespace KMP.Reporter
             if (wordDoc != null)
             {
                 wordDoc.Close(ref missing, ref missing, ref missing);
-                wordApp.Application.Quit(ref missing, ref missing, ref missing);//_wordApplication
+                //wordApp.Application.Quit(ref missing, ref missing, ref missing);//_wordApplication
             }
         }
 
@@ -118,7 +118,7 @@ namespace KMP.Reporter
                    ref PasswordDocument, ref PasswordTemplate, ref Revert, ref WritePasswordDocument, ref WritePasswordTemplate,
                    ref Format, ref Encoding, ref Visible, ref OpenAndRepair, ref DocumentDirection, ref NoEncodingDialog, ref XMLTransform);
             }
-            catch
+            catch(Exception e)
             {
                 return null;
             }

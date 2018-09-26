@@ -15,7 +15,18 @@ namespace ParamedModule.HeatSinkSystem
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cap : PartModulebase
     {
-        public ParCap par = new ParCap();
+        ParCap _par = new ParCap();
+        public ParCap par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public Cap():base()
         {
 

@@ -14,7 +14,18 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class Pedestal : PartModulebase
     {
-        public ParPedestal par = new ParPedestal();
+        private ParPedestal _par = new ParPedestal();
+        public ParPedestal par
+        {
+            get
+            {
+                return _par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public Pedestal() : base()
         {
             this.ProjectType = "PED";

@@ -23,6 +23,18 @@ namespace ParamedModule
         public HeatSink _heatSink;
         public WareHouseEnvironment():base()
         {
+            
+        }
+
+        public override void InitModule()
+        {
+            this.Parameter = par;
+            SubParamedModules.Add(_container);
+            SubParamedModules.Add(_heatSink);
+            base.InitModule();
+        }
+        public override void InitCreatedModule()
+        {
             this.Parameter = par;
             this.Name = "容器及热沉系统";
             this.ProjectType = "WareHouseEnvironment";
@@ -30,11 +42,10 @@ namespace ParamedModule
             _heatSink = new HeatSink();
             SubParamedModules.Add(_container);
             SubParamedModules.Add(_heatSink);
-           
+
             par.OffSet = 0;
+            base.InitCreatedModule();
         }
-
-
         public override bool CheckParamete()
         {
             if (!_container.CheckParamete() ||(! _heatSink.CheckParamete()))

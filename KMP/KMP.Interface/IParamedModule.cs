@@ -27,6 +27,7 @@ namespace KMP.Interface
         void CreateModule();
         bool CheckParamete();
         void InitModule();
+        void InitCreatedModule();
 
         string GetValueByDisplayName(IParamedModule module, string name, string par);
         string GetValueByDisplayName(IParamedModule module, string name, string par, string member);

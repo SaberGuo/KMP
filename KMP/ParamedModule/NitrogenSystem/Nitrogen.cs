@@ -18,19 +18,34 @@ namespace ParamedModule.NitrogenSystem
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Nitrogen :ParamedModuleBase
     {
-        ParNitrogen par = new ParNitrogen();
+        ParNitrogen _par = new ParNitrogen();
+        public ParNitrogen par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         CryoLiquidTanks tanks = new CryoLiquidTanks();
         HeatUpArea heatUps = new HeatUpArea();
         PumpArea pumps = new PumpArea();
         public Nitrogen():base()
+        {
+            
+        }
+        public override void InitCreatedModule()
         {
             this.Name = "低温系统";
             this.Parameter = par;
             this.SubParamedModules.AddModule(tanks);
             this.SubParamedModules.AddModule(heatUps);
             this.SubParamedModules.AddModule(pumps);
+            base.InitCreatedModule();
         }
-
         private NitrogenParam _cPar = new NitrogenParam();
         public NitrogenParam cPar
         {
@@ -49,14 +64,22 @@ namespace ParamedModule.NitrogenSystem
         }
         public override bool CheckParamete()
         {
-            if(tanks.CheckParamete()&&heatUps.CheckParamete()&&pumps.CheckParamete())
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+            /*if(tanks.CheckParamete()&&heatUps.CheckParamete()&&pumps.CheckParamete())
             {
                 return true;
             }
             else
             {
                 return false;
-            }
+            }*/
         }
         public override void CreateModule()
         {

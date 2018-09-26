@@ -44,18 +44,16 @@ namespace KMP.Reporter
             Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
             try
             {
-                if (!File.Exists(xpsDocName))
-                {
-                    wordApplication.Documents.Add(wordDocName);
-                    Document doc = wordApplication.ActiveDocument;
-                    doc.ExportAsFixedFormat(xpsDocName, WdExportFormat.wdExportFormatXPS, false, WdExportOptimizeFor.wdExportOptimizeForPrint, WdExportRange.wdExportAllDocument, 0, 0, WdExportItem.wdExportDocumentContent, true, true, WdExportCreateBookmarks.wdExportCreateHeadingBookmarks, true, true, false, Type.Missing);
-                    result = new XpsDocument(xpsDocName, System.IO.FileAccess.Read);
-                }
-
+           
                 if (File.Exists(xpsDocName))
                 {
-                    result = new XpsDocument(xpsDocName, FileAccess.Read);
+                    System.IO.File.Delete(xpsDocName);
+                    //result = new XpsDocument(xpsDocName, FileAccess.Read);
                 }
+                wordApplication.Documents.Add(wordDocName);
+                Document doc = wordApplication.ActiveDocument;
+                doc.ExportAsFixedFormat(xpsDocName, WdExportFormat.wdExportFormatXPS, false, WdExportOptimizeFor.wdExportOptimizeForPrint, WdExportRange.wdExportAllDocument, 0, 0, WdExportItem.wdExportDocumentContent, true, true, WdExportCreateBookmarks.wdExportCreateHeadingBookmarks, true, true, false, Type.Missing);
+                result = new XpsDocument(xpsDocName, System.IO.FileAccess.Read);
 
             }
             catch (Exception ex)

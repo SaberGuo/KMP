@@ -12,7 +12,18 @@ namespace ParamedModule.Container
  
     public class RailSystem : AssembleModuleBase
     {
-        public ParRailSystem par = new ParRailSystem();
+        ParRailSystem _par = new ParRailSystem();
+        public ParRailSystem par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public Rail rail = new Rail();
         public RailSupport support;
         public RailSystem():base()
@@ -24,6 +35,10 @@ namespace ParamedModule.Container
             this.Parameter = par;
             SubParamedModules.AddModule(rail);
             SubParamedModules.AddModule(support);
+            foreach (var item in SubParamedModules)
+            {
+                item.InitModule();
+            }
             base.InitModule();
         }
         public RailSystem(PassedParameter InRadius) :base()
@@ -63,7 +78,14 @@ namespace ParamedModule.Container
             double offHeight = Math.Pow(Math.Pow(par.CylinderInRadius.Value, 2) - Math.Pow(offset, 2), 0.5);//侧边与大圆交点到大圆中心的垂直距离
             par.RailTotalHeight = offHeight - par.RailToCenterDistance; //加上侧板 导轨系统总高度
             if (!CheckParZero()) return false;
-            if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            //if ((!support.CheckParamete())||(!rail.CheckParamete())) return false;
             if (par.Offset >= par.CylinderInRadius.Value)
             {
                 ParErrorChanged(this, "罐体中心偏移量大于罐体半径");

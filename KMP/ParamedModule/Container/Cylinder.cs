@@ -16,13 +16,25 @@ namespace ParamedModule.Container
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Cylinder : PartModulebase
     {
-        public ParCylinder par = new ParCylinder();
+        private ParCylinder _par = new ParCylinder();
+
+        public ParCylinder par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
 
         Dictionary<double, WorkPlane> _cylinderHolePlanes = new Dictionary<double, WorkPlane>();
         Dictionary<double, WorkPlane> _capHolePlanes = new Dictionary<double, WorkPlane>();
         public Cylinder():base()
         {
-            this.ProjectType = "CY";
+            this.ProjectType = "Cylinder";
             this.PreviewImagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preview", "ParContainerSystem.png");
         }
       
@@ -45,6 +57,12 @@ namespace ParamedModule.Container
             this.Parameter = par;
             base.InitModule();
         }
+
+        public override void InitCreatedModule()
+        {
+            init();
+            base.InitCreatedModule();
+        }
         private void init()
         {
             this.Name = "容器筒体";
@@ -65,16 +83,16 @@ namespace ParamedModule.Container
             par.FlanchThinckness = 60;
             par.CapLineLength = 40;
             #region 罐体孔
-          //  ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
-            //ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
+            ParFlanch parflanch1 = new ParFlanch() { H = 2, D1 = 500, D2 = 450, C = 12,D6=200, D0 = 480, N = 6 };
+            ParCylinderHole hole = new ParCylinderHole() { HoleOffset = 300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300,  PipeThickness = 2 };
             //ParCylinderHole hole1 = new ParCylinderHole() { HoleOffset = -300, PositionAngle = 90, PositionDistance = 500, PipeLenght = 300, PipeThickness = 2 };
             //ParCylinderHole hole2 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 1000, PipeLenght = 300, PipeThickness = 2 };
             //ParCylinderHole hole3 = new ParCylinderHole() { HoleOffset = 0, PositionAngle = 90, PositionDistance = 2000, PipeLenght = 300,  PipeThickness = 2 };
-            //hole.ParFlanch = parflanch1;
+            hole.ParFlanch = parflanch1;
             //hole1.ParFlanch = parflanch1;
             //hole2.ParFlanch = parflanch1;
             //hole3.ParFlanch = parflanch1;
-            //par.ParHoles.Add(hole);
+            par.ParHoles.Add(hole);
             //par.ParHoles.Add(hole1);
             //par.ParHoles.Add(hole2);
             //par.ParHoles.Add(hole3);

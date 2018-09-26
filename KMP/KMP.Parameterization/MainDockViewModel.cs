@@ -80,6 +80,7 @@ namespace KMP.Parameterization
         {
             IReportWindow t = ServiceLocator.Current.GetInstance<IReportWindow>();
             t.Path = this.Modules.ProjectPath + ".doc";
+            t.Root = this.Modules.First();
             Window win = t as Window;
             win.Owner = System.Windows.Application.Current.MainWindow;
             win.ShowDialog();
@@ -338,9 +339,10 @@ namespace KMP.Parameterization
 
             //create model
             ProjectSystem module = _moduleService.CreateProject("ProjectSystem", System.IO.Path.Combine(e.ProjectDir, e.ProjectName)) as ProjectSystem;
-            module.InitProject(e.ProjectTypes);
             
-           
+            module.InitProject(e.ProjectTypes);
+            module.InitCreatedModule();
+
             module.Name = e.ProjectName;
             string projDir = System.IO.Path.Combine(e.ProjectDir, e.ProjectName);
             //check curent project exit?
@@ -352,6 +354,7 @@ namespace KMP.Parameterization
                 }
                 this.Modules.RemoveAt(0);
             }
+            
             this.Modules.ProjectPath = System.IO.Path.Combine(projDir, e.ProjectName + ".kmp");
             this.Modules.ProjInfo.IsEditing = true;
             this.Modules.ProjInfo.Path = this.Modules.ProjectPath;

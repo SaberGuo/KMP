@@ -64,14 +64,18 @@ namespace KMP.Parameterization.InventorMonitor
         Inventor.Color buttom = InventorTool.Inventor.TransientObjects.CreateColor(255, 255, 255);
         private void captureSingleViewImage(Inventor.Document doc, Inventor.ViewOrientationTypeEnum vot)
         {
-            Inventor.View v = doc.Views[1];
-            v.DisplayMode = Inventor.DisplayModeEnum.kShadedWithEdgesRendering;
-            Inventor.Camera c = v.Camera;
-            c.ViewOrientationType = vot;
-            c.Fit();
-            c.Apply();
-            v.Update();
-            c.SaveAsBitmap(doc.FullFileName + vot.ToString()+ ".bmp", 640, 480, top, buttom);
+            if(doc.Views!=null && doc.Views.Count > 1)
+            {
+                Inventor.View v = doc.Views[1];
+                v.DisplayMode = Inventor.DisplayModeEnum.kShadedWithEdgesRendering;
+                Inventor.Camera c = v.Camera;
+                c.ViewOrientationType = vot;
+                c.Fit();
+                c.Apply();
+                v.Update();
+                c.SaveAsBitmap(doc.FullFileName + vot.ToString() + ".bmp", 640, 480, top, buttom);
+            }
+            
         }
         public void captureImages()
         {

@@ -16,7 +16,18 @@ namespace ParamedModule.Container
 
   public  class RailSupportSidePlate : PartModulebase
     {
-        public ParRailSupportSidePlate par = new ParRailSupportSidePlate();
+        ParRailSupportSidePlate _par = new ParRailSupportSidePlate();
+        public ParRailSupportSidePlate par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public RailSupportSidePlate():base()
         {
             this.Parameter = par;

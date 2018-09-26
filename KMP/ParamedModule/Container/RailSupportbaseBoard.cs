@@ -17,7 +17,18 @@ namespace ParamedModule.Container
 
  public  class RailSupportbaseBoard : PartModulebase
     {
-        public ParRailSupportbaseBoard par = new ParRailSupportbaseBoard();
+        private ParRailSupportbaseBoard _par = new ParRailSupportbaseBoard();
+        public ParRailSupportbaseBoard par
+        {
+            get
+            {
+                return _par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         [ImportingConstructor]
         public RailSupportbaseBoard():base()
         {

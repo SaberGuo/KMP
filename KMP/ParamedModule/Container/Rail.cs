@@ -13,7 +13,18 @@ namespace ParamedModule.Container
    
     public  class Rail: PartModulebase
     {
-        public ParRail par = new ParRail();
+        ParRail _par = new ParRail();
+        public ParRail par
+        {
+            get
+            {
+                return _par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         [ImportingConstructor]
         public Rail():base()
         {

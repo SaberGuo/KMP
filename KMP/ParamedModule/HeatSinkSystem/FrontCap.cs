@@ -15,7 +15,18 @@ namespace ParamedModule.HeatSinkSystem
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class FrontCap : PartModulebase
     {
-        public ParFrontCap par = new ParFrontCap();
+        ParFrontCap _par = new ParFrontCap();
+        public ParFrontCap par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public FrontCap():base()
         {
 

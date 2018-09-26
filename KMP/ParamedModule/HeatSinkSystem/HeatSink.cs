@@ -16,8 +16,20 @@ namespace ParamedModule.HeatSinkSystem
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HeatSink : AssembleModuleBase
     {
-        [XmlElement]
-        public  ParHeatSink par = new ParHeatSink();
+
+        ParHeatSink _par = new ParHeatSink();
+
+        public ParHeatSink par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         public Cap _cap;
         public Cap _frontCap;
         public Noumenon _nomenon;
@@ -34,29 +46,53 @@ namespace ParamedModule.HeatSinkSystem
         [ImportingConstructor]
         public HeatSink():base()
         {
+            
+        }
+
+        public override void InitCreatedModule()
+        {
             this.Parameter = par;
             this.Name = "热沉系统";
-            this.ProjectType = "HeaterSystem";
-            _cap = new Cap(par.InDiameter,par.Thickness);
+            this.ProjectType = "HS";
+            _cap = new Cap(par.InDiameter, par.Thickness);
             _frontCap = new Cap(par.InDiameter, par.Thickness);
             _frontCap.Name = "端部热沉";
             _nomenon = new Noumenon(par.InDiameter, par.Thickness);
             SubParamedModules.AddModule(_cap);
             SubParamedModules.AddModule(_frontCap);
             SubParamedModules.AddModule(_nomenon);
+            base.InitCreatedModule();
         }
         public override void InitModule()
         {
             this.Parameter = par;
+            _cap.par.InDiameter = this.par.InDiameter;
+            _cap.par.Thickness = this.par.Thickness;
+            _frontCap.par.InDiameter = this.par.InDiameter;
+            _frontCap.par.Thickness = this.par.Thickness;
+            _nomenon.par.InDiameter = this.par.InDiameter;
+            _nomenon.par.Thickness = this.par.Thickness;
+
             SubParamedModules.AddModule(_cap);
             SubParamedModules.AddModule(_frontCap);
             SubParamedModules.AddModule(_nomenon);
+            foreach (var item in SubParamedModules)
+            {
+                item.InitModule();
+            }
             base.InitModule();
         }
         public override bool CheckParamete()
         {
-            if (!_cap.CheckParamete()||(!_frontCap.CheckParamete()) || (!_nomenon.CheckParamete()))
-                return false;
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            //if (!_cap.CheckParamete()||(!_frontCap.CheckParamete()) || (!_nomenon.CheckParamete()))
+            //    return false;
             return true;
         }
 

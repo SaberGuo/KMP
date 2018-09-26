@@ -51,6 +51,19 @@ namespace KMP.Reporter
             }
         }
 
+        public IParamedModule Root
+        {
+            get
+            {
+                return this.viewModel.Root;
+            }
+
+            set
+            {
+                this.viewModel.Root = value;
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;

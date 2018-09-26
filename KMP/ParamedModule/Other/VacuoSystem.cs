@@ -17,7 +17,18 @@ namespace ParamedModule.Other
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class VacuoSystem: ParamedModuleBase
     {
-        ParVocuoSystem par = new ParVocuoSystem();
+        ParVocuoSystem _par = new ParVocuoSystem();
+        public ParVocuoSystem par
+        {
+            get
+            {
+                return this._par;
+            }
+            set
+            {
+                this._par = value;
+            }
+        }
         CoolVAC _Cool= new CoolVAC();
         CoolVAC1 _Cool1 = new CoolVAC1();
         DRYVAC _Dry = new DRYVAC();
@@ -29,8 +40,13 @@ namespace ParamedModule.Other
         {
             this.Name = "真空系统";
 
-            InitModule();
+            
          
+        }
+        public override void InitCreatedModule()
+        {
+            InitModule();
+            base.InitCreatedModule();
         }
         private VacuoParam _cPar = new VacuoParam();
         public VacuoParam cPar
@@ -57,7 +73,15 @@ namespace ParamedModule.Other
 
         public override bool CheckParamete()
         {
-            if(_Cool.CheckParamete()&&_Dry.CheckParamete()&&_Molecular.CheckParamete()&&_screwLine.CheckParamete()&&_valve.CheckParamete())
+            foreach (var item in SubParamedModules)
+            {
+                if(item.CheckParamete() == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+            /*if(_Cool.CheckParamete()&&_Dry.CheckParamete()&&_Molecular.CheckParamete()&&_screwLine.CheckParamete()&&_valve.CheckParamete())
             {
 
                 return true;
@@ -65,7 +89,7 @@ namespace ParamedModule.Other
             else
             {
                 return false;
-            }
+            }*/
         }
 
         public override void CreateModule()

@@ -13,7 +13,15 @@ namespace ParamedModule.Container
     //[PartCreationPolicy(CreationPolicy.NonShared)]
     public class PlaneSupport : PartModulebase
     {
-        public ParPlaneSupport par = new ParPlaneSupport();
+        private ParPlaneSupport _par = new ParPlaneSupport();
+        public ParPlaneSupport par
+        {
+            get { return _par; }
+            set
+            {
+                this._par = value;
+            }
+        }
         public PlaneSupport():base()
         {
             this.ProjectType = "PS";
