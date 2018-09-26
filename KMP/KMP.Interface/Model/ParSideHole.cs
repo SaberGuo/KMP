@@ -15,7 +15,9 @@ namespace KMP.Interface.Model
         public ParSideHole():base()
         {
             ServiceLocator.Current.GetAllInstances<ParFlanchDictProxy>();
-            this.FlanchDN = 10;
+            this.FlanchDN = 160;
+            this.PipeLenght = 150;
+            this.pipeThickness = 10;
         }
 
         public override string ToString()

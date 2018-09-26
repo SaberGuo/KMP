@@ -73,7 +73,7 @@ namespace ParamedModule
         public override void CreateSub()
         {
           //  InventorTool.Inventor.Documents.CloseAll();
-            CreateDoc();
+           // CreateDoc();
             _container.CreateModule();
             _heatSink.CreateModule();
             ComponentOccurrence COcontainer = LoadOccurrence((ComponentDefinition)_container.Doc.ComponentDefinition);
